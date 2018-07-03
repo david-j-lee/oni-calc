@@ -1,5 +1,8 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
+# css since scss gets compiled to css
+*.css
+
 # dependencies
 /node_modules
 
