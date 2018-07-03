@@ -112,7 +112,8 @@ export class Navbar extends React.Component {
             <div className={classes.rightNav}>
               <Route exact path="/" render={() => (
                 <Tooltip title="Clear all quantities">
-                  <IconButton onClick={this.clearBuildingQuantities}>
+                  <IconButton onClick={this.clearBuildingQuantities} 
+                    color="inherit">
                     <ClearIcon />
                   </IconButton>
                 </Tooltip>
