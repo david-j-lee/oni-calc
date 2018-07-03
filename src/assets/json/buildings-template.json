@@ -1,0 +1,17 @@
+{
+  "category": "category",
+  "name": "name",
+  "capacity": { 
+    "power": { "value": 0, "unit": "unit" }, 
+    "resources": { "value": 0, "unit": "unit" } 
+  },
+  "power": { "usage": 0, "generation": 0, "unit": "unit", "rate": "rate" },
+  "inputs": [
+    { "name": "name", "value": 0, "unit": "unit", "rate": "per second" },
+    { "name": "name", "value": 0, "unit": "unit", "rate": "per second" }
+  ],
+  "outputs": [
+    { "name": "name", "value": 0, "unit": "unit", "rate": "rate" },
+    { "name": "name", "value": 0, "unit": "unit", "rate": "rate" }
+  ]
+}
