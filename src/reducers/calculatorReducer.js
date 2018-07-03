@@ -152,7 +152,7 @@ function getBuildingsIO(buildings, resource, type) {
       const standardIO = getStandardIO(io);
       io.building = building;
       if (building.quantity) {
-        io.valueExtended = building.quantity * standardIO.value;
+        io.valueExtended = parseFloat(building.quantity) * standardIO.value;
       } else {
         io.valueExtended = 0;
       }
@@ -218,7 +218,7 @@ function getStandardIO(io) {
       value = value * 1000.0;
       break;
     default:
-      value = 0;
+      value = 0.0;
       break;
   }
   let rate = io.rate;
@@ -229,6 +229,5 @@ function getStandardIO(io) {
       io.rate = 'unknown';
       break;
   }
-  value = Math.round(value, 0);
   return { value, rate };
 }

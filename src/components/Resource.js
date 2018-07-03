@@ -40,9 +40,9 @@ export class Resource extends React.Component {
             {name}{unitOfMeasure ? ' (' + unitOfMeasure + ')' : ''}
           </div>
         </TableCell>
-        <TableCell numeric className={classes.tableCell}>{totalInput}</TableCell>
-        <TableCell numeric className={classes.tableCell}>{totalOutput}</TableCell>
-        <TableCell numeric className={classes.tableCell}>{totalIO}</TableCell>
+        <TableCell numeric className={classes.tableCell}>{Math.round(totalInput, 1)}</TableCell>
+        <TableCell numeric className={classes.tableCell}>{Math.round(totalOutput, 1)}</TableCell>
+        <TableCell numeric className={classes.tableCell}>{Math.round(totalIO)}</TableCell>
       </TableRow>
     )
   }
