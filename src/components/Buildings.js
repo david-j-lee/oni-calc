@@ -28,6 +28,9 @@ const styles = theme => ({
     paddingLeft: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
     paddingBottom: theme.spacing.unit,
+    [theme.breakpoints.down("sm")]: {
+      width: '100%',
+    },
   },
   buildingName: {
     display: 'flex',
