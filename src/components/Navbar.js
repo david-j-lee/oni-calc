@@ -12,6 +12,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogActions from '@material-ui/core/DialogActions';
 
 // icons 
 import HomeIcon from '@material-ui/icons/Home';
@@ -64,22 +70,20 @@ const styles = theme => ({
 export class Navbar extends React.Component {
   state = {
     anchorEl: null,
+    dialogOpen: false,
   };
 
-  handleChange = (event, checked) => {
-    this.setState({ auth: checked });
-  };
-
-  handleMenu = event => {
-    this.setState({ anchorEl: event.currentTarget });
+  handleClickOpen = () => {
+    this.setState({ dialogOpen: true });
   };
 
   handleClose = () => {
-    this.setState({ anchorEl: null });
+    this.setState({ dialogOpen: false });
   };
 
   clearBuildingQuantities = () => {
     this.props.clearBuildingQuantities();
+    this.setState({ dialogOpen: false });
   };
 
   render() {
@@ -111,12 +115,33 @@ export class Navbar extends React.Component {
             </div>
             <div className={classes.rightNav}>
               <Route exact path="/" render={() => (
-                <Tooltip title="Clear all quantities">
-                  <IconButton onClick={this.clearBuildingQuantities} 
-                    color="inherit">
-                    <ClearIcon />
-                  </IconButton>
-                </Tooltip>
+                <div>
+                  <Dialog open={this.state.dialogOpen}
+                    onClose={this.handleClose}>
+                    <DialogContent>
+                      <DialogContentText>
+                        Are you sure you want to delete all
+                        your inputted quantities?
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={this.handleClose} color="primary">
+                        Cancel
+                      </Button>
+                      <Button variant="contained"
+                        onClick={this.clearBuildingQuantities}
+                        color="primary" autoFocus>
+                        Confirm
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                  <Tooltip title="Clear all quantities">
+                    <IconButton onClick={this.handleClickOpen}
+                      color="inherit">
+                      <ClearIcon />
+                    </IconButton>
+                  </Tooltip>
+                </div>
               )} />
               <ThemePicker />
               {/* <Tooltip title="sample action icon">
