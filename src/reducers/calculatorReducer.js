@@ -158,6 +158,7 @@ function getClearedResources(resources) {
 
 function getBuildingsIO(buildings, resource, type) {
   return buildings
+    .filter(building => building.quantity > 0)
     .map(building => building[type].map(io => {
       const standardIO = getStandardIO(io);
       io.building = building;

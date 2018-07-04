@@ -25,6 +25,7 @@ import MoreVert from '@material-ui/icons/MoreVert';
 
 // component
 import ResourceChips from './ResourceChips';
+import Number from './Number';
 
 const styles = theme => ({
   root: {
@@ -177,11 +178,10 @@ export class Building extends React.Component {
             </div>
             <DialogContent>
               <Typography variant="body1" className={classes.dialogTitle}>
-                <small>Power </small><br />
-                {(power.generation || 0) - (power.usage || 0)}{" "}
-                {power.unit || ''} {" "}
-                (+{power.generation || 0}/-{power.usage || 0})
+                <small>Power </small>
               </Typography>
+              <Number value={(power.generation || 0) - (power.usage || 0)}
+                suffix={`${power.unit || ''} (+${power.generation || 0}/-${power.usage || 0})`} />
               {capacity.power.unit === undefined ? '' :
                 <Typography variant="body1" className={classes.dialogTitle}>
                   <small>Power Capacity </small><br />

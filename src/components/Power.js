@@ -12,6 +12,8 @@ import Typography from '@material-ui/core/Typography';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+import Number from "./Number";
+
 const styles = theme => ({
   power: {
     display: 'flex',
@@ -49,14 +51,10 @@ export class Power extends React.Component {
         <ExpansionPanelDetails>
           <div className={classes.power}>
             <div className={classes.powerText}>
-              <Typography>
-                <span style={{ color: this.state.netColor }}>
-                  {this.props.powerGeneration - this.props.powerUsage}
-                </span> W
-              </Typography>
+              <Number suffix=" W"
+                value={this.props.powerGeneration - this.props.powerUsage} />
               <Typography>Net</Typography>
             </div>
-            {/* <Typography>(</Typography> */}
             <div className={classes.powerText}>
               <Typography>{this.props.powerUsage} W</Typography>
               <Typography>Used</Typography>
@@ -66,7 +64,6 @@ export class Power extends React.Component {
               <Typography>{this.props.powerGeneration} W</Typography>
               <Typography>Generated</Typography>
             </div>
-            {/* <Typography>)</Typography> */}
           </div>
         </ExpansionPanelDetails>
       </ExpansionPanel>
