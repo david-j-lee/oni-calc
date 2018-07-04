@@ -83,7 +83,6 @@ export class Resource extends React.Component {
             {Math.round(totalInput)}
           </div>
           <Popover
-            name="inputsAnchorEl"
             className={classes.popover}
             classes={{ paper: classes.paper, }}
             open={inputsOpen}
@@ -97,13 +96,11 @@ export class Resource extends React.Component {
         </TableCell>
         <TableCell numeric className={classes.tableCell}>
           <div className={classes.io}
-            name="outputsAnchorEl"
             onMouseOver={(e) => this.handlePopoverOpen(e, "outputsAnchorEl")}
             onMouseOut={(e) => this.handlePopoverClose(e, "outputsAnchorEl")}>
             {Math.round(totalOutput)}
           </div>
           <Popover
-            name="outputsAnchorEl"
             className={classes.popover}
             classes={{ paper: classes.paper }}
             open={outputsOpen}
