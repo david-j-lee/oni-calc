@@ -13,9 +13,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CardMedia from '@material-ui/core/CardMedia';
 import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
+import Popover from '@material-ui/core/Popover';
 // import Tooltip from '@material-ui/core/Tooltip';
 
 // icons
@@ -24,8 +24,7 @@ import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
 import MoreVert from '@material-ui/icons/MoreVert';
 
 // component
-import ResourceChips from './ResourceChips';
-import Number from './Number';
+import BuildingDetails from './BuildingDetails';
 
 const styles = theme => ({
   root: {
@@ -53,6 +52,7 @@ const styles = theme => ({
     width: 60,
     backgroundSize: 'contain',
     backgroundColor: '#3E4357',
+    cursor: 'pointer',
   },
   quantity: {
     flexGrow: 1,
@@ -73,25 +73,8 @@ const styles = theme => ({
   dialog: {
     maxWidth: 500,
   },
-  dialogImage: {
-    width: 160,
-    height: 160,
-  },
-  dialogHeading: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  dialogHeadingContent: {
-    paddingTop: theme.spacing.unit * 3,
-    paddingRight: theme.spacing.unit * 3,
-    paddingLeft: theme.spacing.unit * 3,
-    paddingBottom: 0,
-    width: 500 - 160,
-    flexGrow: 1,
-  },
-  dialogTitle: {
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit,
+  popover: {
+    pointerEvents: 'none',
   },
 });
 
@@ -100,7 +83,9 @@ export class Building extends React.Component {
 
   state = {
     quantity: this.props.building.quantity,
-    open: false,
+    dialogOpen: false,
+    popoverOpen: false,
+    anchorEl: null,
   }
 
   componentWillReceiveProps(nextProps) {
@@ -109,12 +94,20 @@ export class Building extends React.Component {
     }
   }
 
+  handlePopoverOpen = event => {
+    this.setState({ anchorEl: event.target });
+  };
+
+  handlePopoverClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
   handleClickOpen = () => {
-    this.setState({ open: true });
+    this.setState({ dialogOpen: true });
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({ dialogOpen: false });
   };
 
   increment = () => {
@@ -142,71 +135,30 @@ export class Building extends React.Component {
 
   render() {
     const { classes, fullScreen } = this.props;
-    const { name, category, power, capacity, inputs, outputs } = this.props.building;
-    const { quantity } = this.state;
+    const { name } = this.props.building;
+    const { quantity, anchorEl } = this.state;
+
     const imgUrl = '/images/buildings/' +
       name.toLowerCase().split(' ').join('-') + '.png';
-    const categoryImgUrl = '/images/building-categories/' +
-      category.toLowerCase().split(' ').join('-') + '.png';
     const wikLink = 'https://oxygennotincluded.gamepedia.com/' +
       name.split('-').join('_'); // may need to hard code as json
+
+    const popoverOpen = !!anchorEl;
 
     return (
       <div className={classes.root}>
         <Dialog
           fullScreen={fullScreen}
-          open={this.state.open}
+          open={this.state.dialogOpen}
           onClose={this.handleClose}
           aria-labelledby="responsive-dialog-title"
         >
           <div className={classes.dialog}>
-            <div className={classes.dialogHeading}>
-              <div
-                className={classes.dialogImage}
-                style={{ backgroundImage: `url(${imgUrl})` }} />
-              <div className={classes.dialogHeadingContent}>
-                <Typography variant="display1" id="responsive-dialog-title">
-                  {name}
-                </Typography>
-                <Typography className={classes.category}>
-                  <span
-                    className={classes.categoryImage}
-                    style={{ backgroundImage: `url(${categoryImgUrl})` }} />
-                  {category}
-                </Typography>
-              </div>
-            </div>
-            <DialogContent>
-              <Typography variant="body1" className={classes.dialogTitle}>
-                <small>Power </small>
-              </Typography>
-              <Number value={(power.generation || 0) - (power.usage || 0)}
-                suffix={`${power.unit || ''} (+${power.generation || 0}/-${power.usage || 0})`} />
-              {capacity.power.unit === undefined ? '' :
-                <Typography variant="body1" className={classes.dialogTitle}>
-                  <small>Power Capacity </small><br />
-                  {capacity.power.value + ' ' + capacity.power.unit}
-                </Typography>
-              }
-              {capacity.resources.unit === undefined ? '' :
-                <Typography variant="body1" className={classes.dialogTitle}>
-                  <small>Resource Capacity </small><br />
-                  {capacity.resources.value + ' ' + capacity.resources.unit}
-                </Typography>
-              }
-              <Typography variant="subheading" className={classes.dialogTitle}>
-                Inputs
-              </Typography>
-              <ResourceChips ios={inputs} type="Inputs" />
-              <Typography variant="subheading" className={classes.dialogTitle}>
-                Outputs
-            </Typography>
-              <ResourceChips ios={outputs} type="Outputs" />
-            </DialogContent>
+            <BuildingDetails building={this.props.building} />
             <DialogActions>
               <Button target="_blank" href={wikLink} color="primary">
                 WIKI
-            </Button>
+              </Button>
               <Button
                 variant="contained"
                 onClick={this.handleClose}
@@ -217,11 +169,25 @@ export class Building extends React.Component {
             </DialogActions>
           </div>
         </Dialog>
+        <Popover
+          className={classes.popover}
+          classes={{ paper: classes.paper, }}
+          open={popoverOpen}
+          anchorEl={anchorEl}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }}
+          transformOrigin={{ vertical: 'top', horizontal: 'left', }}
+          onClose={this.handlePopoverClose}
+          disableRestoreFocus>
+          <BuildingDetails building={this.props.building} />
+        </Popover>
         <Card className={classes.card}>
           <CardMedia
             className={classes.cover}
             image={imgUrl}
-            title={name} />
+            title={name}
+            onMouseOver={this.handlePopoverOpen}
+            onMouseOut={this.handlePopoverClose}
+          />
           <div className={classes.details}>
             <CardContent className={classes.cardContent}>
               <Typography variant="title" className={classes.cardContentTitle}>
