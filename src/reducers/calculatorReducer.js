@@ -61,6 +61,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         buildings: clearBuildingQuantities(state.buildings),
+        resources: getClearedResources(state.resources),
         powerGeneration: 0,
         powerUsage: 0,
         resourcesCapacity: 0,
@@ -144,6 +145,15 @@ function updateResourceUsage(resources, buildings) {
     // resource.totalInput = inputs ? inputs.reduce((a, b) => { a.value + b.value }, 0) : 0;
     return resource;
   })
+}
+
+function getClearedResources(resources) {
+  return resources.map(resource => {
+    resource.totalInput = 0;
+    resource.totalOutput = 0;
+    resource.totalIO = 0;
+    return resource;
+  });
 }
 
 function getBuildingsIO(buildings, resource, type) {
