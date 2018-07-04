@@ -12,28 +12,12 @@ import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import IconButton from '@material-ui/core/IconButton';
-
-import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
-import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
-import MoreHoriz from '@material-ui/icons/MoreHoriz';
 
 // component
 import BuildingsTableRow from './BuildingsTableRow';
 // import Building from './Building';
 
 const styles = theme => ({
-  image: {
-    width: 15,
-    height: 15,
-    backgroundSize: 'cover',
-    marginRight: theme.spacing.unit,
-  },
-  buildingName: {
-    display: 'flex',
-    flexWrap: 'nowrap',
-    alignItems: 'center',
-  },
 });
 
 export class BuildingsTable extends React.Component {
@@ -43,7 +27,6 @@ export class BuildingsTable extends React.Component {
   }
 
   getTableHeaders() {
-    const { classes } = this.props;
     const tableHeaders = [
       { id: 'category', label: 'Category', numeric: false },
       { id: 'name', label: 'Building', numeric: false },
@@ -52,12 +35,11 @@ export class BuildingsTable extends React.Component {
     ];
     return (
       <TableHead>
-        <TableRow className={classes.tableRow}>
+        <TableRow>
           {tableHeaders.map(header => {
             return (
               <TableCell
                 key={header.id}
-                className={classes.tableCell}
                 numeric={header.numeric}>
                 <TableSortLabel
                   active={this.props.buildingsOrderBy === header.id}
@@ -74,7 +56,7 @@ export class BuildingsTable extends React.Component {
   }
 
   render() {
-    const { classes, buildings } = this.props;
+    const { buildings } = this.props;
 
     return (
       <Table>
