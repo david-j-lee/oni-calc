@@ -3,7 +3,7 @@ import { withRouter, Link, Route } from 'react-router-dom';
 
 // redux
 import { connect } from 'react-redux';
-import { clearBuildingQuantities } from '../actions/calculatorActions';
+import { clearBuildingQuantities, setBuildingsLayout } from '../actions/calculatorActions';
 
 // material
 import { withStyles } from '@material-ui/core';
@@ -23,6 +23,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import HomeIcon from '@material-ui/icons/Home';
 import HelpIcon from '@material-ui/icons/Help';
 import ClearIcon from '@material-ui/icons/Clear';
+import ViewList from '@material-ui/icons/ViewList';
+import ViewModule from '@material-ui/icons/ViewModule';
 
 // components
 import ThemePicker from './ThemePicker';
@@ -81,13 +83,17 @@ export class Navbar extends React.Component {
     this.setState({ dialogOpen: false });
   };
 
+  setBuildingsLayout = () => {
+    this.props.setBuildingsLayout();
+  }
+
   clearBuildingQuantities = () => {
     this.props.clearBuildingQuantities();
     this.setState({ dialogOpen: false });
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, buildingsLayout } = this.props;
     // const { anchorEl } = this.state;
     // const open = Boolean(anchorEl);
 
@@ -141,6 +147,14 @@ export class Navbar extends React.Component {
                       <ClearIcon />
                     </IconButton>
                   </Tooltip>
+                  <Tooltip title={
+                    'Set to ' + (buildingsLayout === "grid" ? "table" : "grid") + ' layout'
+                  }>
+                    <IconButton onClick={this.setBuildingsLayout}>
+                      {buildingsLayout === "grid" && <ViewList />}
+                      {buildingsLayout === "table" && <ViewModule />}
+                    </IconButton>
+                  </Tooltip>
                 </div>
               )} />
               <ThemePicker />
@@ -184,8 +198,15 @@ export class Navbar extends React.Component {
   }
 }
 
-const mapDispatchToProps = {
-  clearBuildingQuantities,
+const mapStateToProps = state => {
+  return {
+    buildingsLayout: state.calculator.buildingsLayout,
+  }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(withStyles(styles)(Navbar)));
+const mapDispatchToProps = {
+  clearBuildingQuantities,
+  setBuildingsLayout,
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Navbar)));

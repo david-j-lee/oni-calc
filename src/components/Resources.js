@@ -32,16 +32,17 @@ const styles = theme => ({
 })
 
 export class Resources extends React.Component {
+
+  handleRequestSort = id => {
+    this.props.sortResourceUsage(id);
+  }
+
   mapResourceToElement = (resources) => {
     return resources.map((resource, index) => {
       return (
         <Resource key={index} resource={resource} />
       )
     })
-  }
-
-  handleRequestSort = id => {
-    this.props.sortResourceUsage(id);
   }
 
   getTableHeaders() {

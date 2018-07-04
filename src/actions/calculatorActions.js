@@ -5,6 +5,8 @@ import {
   GET_THEME,
   SET_THEME,
   CLEAR_BUILDING_QUANTITIES,
+  SORT_BUILDINGS,
+  SET_BUILDINGS_LAYOUT,
 } from "../constants/actionConstants";
 
 // json data
@@ -26,15 +28,25 @@ export const sortResourceUsage = id => dispatch => {
 // buildings
 export const getData = () => dispatch => {
   let quantities = localStorage.getItem("quantities");
+  let layout = localStorage.getItem("layout");
   try {
     quantities = JSON.parse(quantities);
   } catch (e) {
     localStorage.removeItem("quantities");
     throw e;
   }
+  if (layout === null) {
+    layout = 'grid';
+  }
   dispatch({
     type: GET_DATA,
-    payload: { buildings, resources, quantities }
+    payload: { buildings, resources, quantities, layout }
+  });
+}
+
+export const setBuildingsLayout = () => dispatch => {
+  dispatch({
+    type: SET_BUILDINGS_LAYOUT,
   });
 }
 
@@ -42,6 +54,13 @@ export const setBuildingQuantity = (building, quantity) => dispatch => {
   dispatch({
     type: SET_BUILDING_QUANTITY,
     payload: { ...building, quantity },
+  });
+}
+
+export const sortBuildings = id => dispatch => {
+  dispatch({
+    type: SORT_BUILDINGS,
+    payload: id,
   });
 }
 

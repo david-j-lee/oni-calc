@@ -1,14 +1,19 @@
 import {
   GET_DATA,
+  SORT_BUILDINGS,
   SET_BUILDING_QUANTITY,
   SORT_RESOURCE_USAGE,
   GET_THEME,
   SET_THEME,
   CLEAR_BUILDING_QUANTITIES,
+  SET_BUILDINGS_LAYOUT,
 } from "../constants/actionConstants";
 
 const initialState = {
   buildings: [],
+  buildingsLayout: 'grid',
+  buildingsOrderBy: '',
+  buildingOrder: 'desc',
   resources: [],
   resourcesOrderBy: 'name',
   resourcesOrder: 'asc',
@@ -28,6 +33,7 @@ export default function (state = initialState, action) {
         action.payload.resources, getBuildings);
       return {
         ...state,
+        buildingsLayout: action.payload.layout,
         buildings: getBuildings,
         resources: getResources,
         powerGeneration: getBuildingsPowerGeneration(getBuildings),
@@ -36,14 +42,29 @@ export default function (state = initialState, action) {
         resourcesCapacity: getResourcesCapacity(getBuildings),
       }
     case SORT_RESOURCE_USAGE:
-      const order = state.resourcesOrderBy === action.payload
+      const resourceOrder = state.resourcesOrderBy === action.payload
         && state.resourcesOrder === 'desc' ? 'asc' : 'desc';
       return {
         ...state,
         resourcesOrderBy: action.payload,
-        resourcesOrder: order,
-        resources: getSortedResources(
-          action.payload, order, state.resources)
+        resourcesOrder: resourceOrder,
+        resources: getSortedResources(action.payload, resourceOrder, state.resources)
+      }
+    case SET_BUILDINGS_LAYOUT:
+      const newLayout = state.buildingsLayout === "grid" ? "table" : "grid";
+      localStorage.setItem("layout", newLayout);
+      return {
+        ...state,
+        buildingsLayout: newLayout,
+      }
+    case SORT_BUILDINGS:
+      const buildingOrder = state.buildingsOrderBy === action.payload
+        && state.buildingsOrder === 'desc' ? 'asc' : 'desc';
+      return {
+        ...state,
+        buildingsOrderBy: action.payload,
+        buildingsOrder: buildingOrder,
+        buildings: sortBuildings(action.payload, buildingOrder, state.buildings),
       }
     case SET_BUILDING_QUANTITY:
       const setBuildings = setBuildingsQuantity(state.buildings, action.payload);
@@ -112,6 +133,12 @@ function getSortedResources(orderBy, order, resources) {
   return order === 'desc'
     ? [...resources].sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
     : [...resources].sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
+}
+
+function sortBuildings(orderBy, order, buildings) {
+  return order === 'desc'
+    ? [...buildings].sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
+    : [...buildings].sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
 }
 
 function setBuildingsQuantity(buildings, newBuilding) {

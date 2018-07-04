@@ -78,7 +78,7 @@ const styles = theme => ({
   },
 });
 
-export class Building extends React.Component {
+export class BuildingsGridCard extends React.Component {
   timer = 0;
 
   state = {
@@ -239,4 +239,4 @@ const mapDispatchToProps = {
   setBuildingQuantity,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Building));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BuildingsGridCard));
