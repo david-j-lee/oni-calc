@@ -150,7 +150,7 @@ export class Navbar extends React.Component {
                   <Tooltip title={
                     'Set to ' + (buildingsLayout === "grid" ? "table" : "grid") + ' layout'
                   }>
-                    <IconButton onClick={this.setBuildingsLayout}>
+                    <IconButton onClick={this.setBuildingsLayout} color="inherit">
                       {buildingsLayout === "grid" && <ViewList />}
                       {buildingsLayout === "table" && <ViewModule />}
                     </IconButton>
