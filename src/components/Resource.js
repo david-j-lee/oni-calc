@@ -6,7 +6,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Popover from '@material-ui/core/Popover';
 
-import ResourceIO from './ResourceIO';
+import ResourceIOs from './ResourceIOs';
 import Number from './Number';
 
 const styles = theme => ({
@@ -92,7 +92,7 @@ export class Resource extends React.Component {
             transformOrigin={{ vertical: 'top', horizontal: 'left', }}
             onClose={(e) => this.handlePopoverClose(e, "inputsAnchorEl")}
             disableRestoreFocus>
-            <ResourceIO title="Inputs" ios={inputs} />
+            <ResourceIOs title="Inputs" ios={inputs} />
           </Popover>
         </TableCell>
         <TableCell numeric className={classes.tableCell}>
@@ -112,7 +112,7 @@ export class Resource extends React.Component {
             transformOrigin={{ vertical: 'top', horizontal: 'left', }}
             onClose={(e) => this.handlePopoverClose(e, "outputsAnchorEl")}
             disableRestoreFocus>
-            <ResourceIO title="Outputs" ios={outputs} />
+            <ResourceIOs title="Outputs" ios={outputs} />
           </Popover>
         </TableCell>
         <TableCell numeric className={classes.tableCell}>
@@ -130,7 +130,7 @@ export class Resource extends React.Component {
             transformOrigin={{ vertical: 'top', horizontal: 'left', }}
             onClose={(e) => this.handlePopoverClose(e, "netsAnchorEl")}
             disableRestoreFocus>
-            <ResourceIO title="Inputs or Outputs"
+            <ResourceIOs title="Inputs or Outputs"
               ios={inputs.map(output => {
                 return { ...output, valueExtended: (output.valueExtended = output.valueExtended * -1) }
               }).concat(outputs)} />

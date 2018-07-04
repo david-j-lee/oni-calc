@@ -22,7 +22,7 @@ const styles = theme => ({
   },
 });
 
-export class ResourceIO extends React.Component {
+export class ResourceIOs extends React.Component {
   render() {
     const { classes, ios, title } = this.props;
 
@@ -64,4 +64,4 @@ export class ResourceIO extends React.Component {
   }
 }
 
-export default withStyles(styles)(ResourceIO);
+export default withStyles(styles)(ResourceIOs);
