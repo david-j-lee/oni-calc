@@ -157,21 +157,22 @@ function getClearedResources(resources) {
 }
 
 function getBuildingsIO(buildings, resource, type) {
-  return buildings
-    .filter(building => building.quantity > 0)
-    .map(building => building[type].map(io => {
-      const standardIO = getStandardIO(io);
-      io.building = building;
-      if (building.quantity) {
-        io.valueExtended = parseFloat(building.quantity) * standardIO.value;
-      } else {
-        io.valueExtended = 0;
-      }
-      io.rate = standardIO.rate;
-      return io;
-    }))
-    .reduce((a, b) => a.concat(b))
-    .filter(output => output.name === resource.name);
+  const filteredBuildings = buildings.filter(building => building.quantity > 0);
+  return filteredBuildings.length === 0 ? [] :
+    filteredBuildings
+      .map(building => building[type].map(io => {
+        const standardIO = getStandardIO(io);
+        io.building = building;
+        if (building.quantity) {
+          io.valueExtended = parseFloat(building.quantity) * standardIO.value;
+        } else {
+          io.valueExtended = 0;
+        }
+        io.rate = standardIO.rate;
+        return io;
+      }))
+      .reduce((a, b) => a.concat(b))
+      .filter(output => output.name === resource.name);
 }
 
 function getBuildingsPowerUsage(buildings) {
