@@ -39,6 +39,9 @@
     "name": "Petroleum"
   },
   {
+    "name": "Polluted Dirt"
+  },
+  {
     "name": "Polluted Oxygen"
   },
   {
@@ -46,6 +49,9 @@
   },
   {
     "name": "Sand"
+  },
+  {
+    "name": "Slime"
   },
   {
     "name": "Steam"

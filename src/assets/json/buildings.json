@@ -73,7 +73,7 @@
       { "name": "Carbon Dioxide", "value": 300, "unit": "g", "rate": "per second" }
     ],
     "outputs": [
-      { "name": "Polluted Oxygen", "value": 1, "unit": "kg", "rate": "per second" }
+      { "name": "Polluted Water", "value": 1, "unit": "kg", "rate": "per second" }
     ]
   },
   {
