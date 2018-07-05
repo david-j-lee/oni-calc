@@ -9,10 +9,14 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
+import Popover from '@material-ui/core/Popover';
 
+// icons
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+// components
 import Number from "./Number";
+import PowerBuildings from "./PowerBuildings";
 
 const styles = theme => ({
   power: {
@@ -26,45 +30,107 @@ const styles = theme => ({
     alignItems: 'center',
     flexGrow: 1,
   },
+  popover: {
+    pointerEvents: 'none',
+  },
+  pointer: {
+    cursor: 'pointer',
+  },
 });
 
 export class Power extends React.Component {
   state = {
     netColor: 'inherit',
+    dialogContent: '',
+    dialogTitle: '',
+    dialogArray: [],
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.powerUsage > nextProps.powerGeneration) {
+    if (nextProps.powerUsage.value > nextProps.powerGeneration.value) {
       this.setState({ netColor: 'red' });
     } else {
       this.setState({ netColor: 'green' });
     }
   }
 
+  handlePopoverOpen = (event, title, array) => {
+    this.setState({
+      anchorEl: event.target,
+      dialogTitle: title,
+      dialogArray: array,
+    });
+  };
+
+  handlePopoverClose = () => {
+    this.setState({
+      anchorEl: null,
+      dialogTitle: '',
+      dialogArray: [],
+    });
+  };
+
   render() {
-    const { classes } = this.props;
+    const { classes, powerUsage, powerGeneration } = this.props;
+
+    const { anchorEl, dialogTitle, dialogArray } = this.state;
+    const dialogOpen = !!anchorEl;
+
     return (
       <ExpansionPanel defaultExpanded>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>Power</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
+
+          <Popover
+            className={classes.popover}
+            classes={{ paper: classes.paper, }}
+            open={dialogOpen}
+            anchorEl={anchorEl}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }}
+            transformOrigin={{ vertical: 'top', horizontal: 'left', }}
+            onClose={this.handlePopoverClose}
+            disableRestoreFocus>
+            <PowerBuildings title={dialogTitle} buildings={dialogArray} />
+          </Popover>
+
           <div className={classes.power}>
+
             <div className={classes.powerText}>
-              <Number suffix=" W"
-                value={this.props.powerGeneration - this.props.powerUsage} />
+              <span className={classes.pointer}
+                onMouseOut={this.handlePopoverClose}
+                onMouseOver={(e) => this.handlePopoverOpen(e, "Net",
+                  powerUsage.buildings.concat(powerGeneration.buildings)
+                )}>
+                <Number suffix=" W"
+                  value={powerGeneration.value - powerUsage.value} />
+              </span>
               <Typography>Net</Typography>
             </div>
+
             <div className={classes.powerText}>
-              <Typography>{this.props.powerUsage} W</Typography>
+              <Typography className={classes.pointer}
+                onMouseOut={this.handlePopoverClose}
+                onMouseOver={(e) => this.handlePopoverOpen(e, "Usage", powerUsage.buildings)}>
+                {powerUsage.value} W
+              </Typography>
               <Typography>Used</Typography>
             </div>
+
             <Typography>/</Typography>
+
             <div className={classes.powerText}>
-              <Typography>{this.props.powerGeneration} W</Typography>
+              <Typography className={classes.pointer}
+                onMouseOut={this.handlePopoverClose}
+                onMouseOver={(e) => this.handlePopoverOpen(e, "Generation", powerGeneration.buildings)}>
+                {powerGeneration.value} W
+              </Typography>
               <Typography>Generated</Typography>
             </div>
+
           </div>
+
         </ExpansionPanelDetails>
       </ExpansionPanel>
     )

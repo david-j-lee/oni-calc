@@ -11,7 +11,7 @@ import TableCell from '@material-ui/core/TableCell';
 import Number from './Number';
 
 const styles = theme => ({
-  noIOs: {
+  noBuildings: {
     padding: theme.spacing.unit,
   },
   positive: {
@@ -22,15 +22,15 @@ const styles = theme => ({
   },
 });
 
-export class ResourceIOs extends React.Component {
+export class PowerBuildings extends React.Component {
   render() {
-    const { classes, ios, title } = this.props;
+    const { classes, buildings, title } = this.props;
 
     return (
       <div>
-        {ios.length <= 0
+        {buildings.length <= 0
           ?
-          <Typography className={classes.noIOs}>
+          <Typography className={classes.noBuildings}>
             No {title.toLowerCase()} found
           </Typography>
           :
@@ -43,15 +43,18 @@ export class ResourceIOs extends React.Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.props.ios.map((io, index) => {
+              {buildings.map((building, index) => {
+                const value = Math.round(building.quantity * (building.power.generation - building.power.usage) * 100) / 100;
+                const unit = building.power.unit;
+
                 return (
                   <TableRow key={index}>
-                    <TableCell padding="dense">{io.building.name}</TableCell>
+                    <TableCell padding="dense">{building.name}</TableCell>
                     <TableCell numeric padding="dense">
-                      {io.building.quantity}
+                      {building.quantity}
                     </TableCell>
                     <TableCell numeric padding="dense">
-                      <Number value={Math.round(io.valueExtended * 100) / 100} />
+                      <Number value={value} suffix={" " + unit} />
                     </TableCell>
                   </TableRow>
                 );
@@ -64,4 +67,4 @@ export class ResourceIOs extends React.Component {
   }
 }
 
-export default withStyles(styles)(ResourceIOs);
+export default withStyles(styles)(PowerBuildings);

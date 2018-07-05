@@ -37,17 +37,26 @@ const styles = theme => ({
 
 export class Resource extends React.Component {
   state = {
-    inputsAnchorEl: null,
-    outputsAnchorEl: null,
-    netsAnchorEl: null,
+    anchorEl: null,
+    dialogContent: '',
+    dialogTitle: '',
+    dialogArray: [],
   };
 
-  handlePopoverOpen = (event, prop) => {
-    this.setState({ [prop]: event.target });
+  handlePopoverOpen = (event, title, array) => {
+    this.setState({
+      anchorEl: event.target,
+      dialogTitle: title,
+      dialogArray: array,
+    });
   };
 
-  handlePopoverClose = (event, prop) => {
-    this.setState({ [prop]: null });
+  handlePopoverClose = () => {
+    this.setState({
+      anchorEl: null,
+      dialogTitle: '',
+      dialogArray: [],
+    });
   };
 
   render() {
@@ -61,78 +70,63 @@ export class Resource extends React.Component {
     const imageUrl = '/images/resources/' +
       name.toLowerCase().split(' ').join('-') + '.png';
 
-    const { inputsAnchorEl, outputsAnchorEl, netsAnchorEl } = this.state;
-    const inputsOpen = !!inputsAnchorEl;
-    const outputsOpen = !!outputsAnchorEl;
-    const netsOpen = !!netsAnchorEl;
+    const { anchorEl, dialogTitle, dialogArray } = this.state;
+    const dialogOpen = !!anchorEl;
 
     return (
       <TableRow className={classes.tableRow}>
+
+        <Popover
+          className={classes.popover}
+          classes={{ paper: classes.paper, }}
+          open={dialogOpen}
+          anchorEl={anchorEl}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }}
+          transformOrigin={{ vertical: 'top', horizontal: 'left', }}
+          onClose={this.handlePopoverClose}
+          disableRestoreFocus>
+          <ResourceIOs title={dialogTitle} ios={dialogArray} />
+        </Popover>
+
         <TableCell className={classes.tableCell}>
           <div className={classes.resourceName}>
-            <div
-              className={classes.image}
+            <div className={classes.image}
               style={{ backgroundImage: `url(${imageUrl})` }} />
             {name}{unitOfMeasure ? ' (' + unitOfMeasure + ')' : ''}
           </div>
         </TableCell>
+
         <TableCell numeric className={classes.tableCell}>
           <div className={classes.io}
-            onMouseOver={(e) => this.handlePopoverOpen(e, "inputsAnchorEl")}
-            onMouseOut={(e) => this.handlePopoverClose(e, "inputsAnchorEl")}>
+            onMouseOver={(e) => this.handlePopoverOpen(e, "Inputs", inputs)}
+            onMouseOut={this.handlePopoverClose}>
             {Math.round(totalInput)}
           </div>
-          <Popover
-            className={classes.popover}
-            classes={{ paper: classes.paper, }}
-            open={inputsOpen}
-            anchorEl={inputsAnchorEl}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }}
-            transformOrigin={{ vertical: 'top', horizontal: 'left', }}
-            onClose={(e) => this.handlePopoverClose(e, "inputsAnchorEl")}
-            disableRestoreFocus>
-            <ResourceIOs title="Inputs" ios={inputs} />
-          </Popover>
         </TableCell>
+
         <TableCell numeric className={classes.tableCell}>
           <div className={classes.io}
-            onMouseOver={(e) => this.handlePopoverOpen(e, "outputsAnchorEl")}
-            onMouseOut={(e) => this.handlePopoverClose(e, "outputsAnchorEl")}>
+            onMouseOver={(e) => this.handlePopoverOpen(e, "Outputs", outputs)}
+            onMouseOut={this.handlePopoverClose}>
             {Math.round(totalOutput)}
           </div>
-          <Popover
-            className={classes.popover}
-            classes={{ paper: classes.paper }}
-            open={outputsOpen}
-            anchorEl={outputsAnchorEl}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }}
-            transformOrigin={{ vertical: 'top', horizontal: 'left', }}
-            onClose={(e) => this.handlePopoverClose(e, "outputsAnchorEl")}
-            disableRestoreFocus>
-            <ResourceIOs title="Outputs" ios={outputs} />
-          </Popover>
         </TableCell>
+
         <TableCell numeric className={classes.tableCell}>
           <div className={classes.io}
-            onMouseOver={(e) => this.handlePopoverOpen(e, "netsAnchorEl")}
-            onMouseOut={(e) => this.handlePopoverClose(e, "netsAnchorEl")}>
+            onMouseOver={(e) => this.handlePopoverOpen(e, "Inputs or Outputs",
+              inputs.map(output => {
+                return {
+                  ...output,
+                  valueExtended:
+                    (output.valueExtended = output.valueExtended * -1)
+                }
+              }).concat(outputs))}
+            onMouseOut={this.handlePopoverClose}>
             <Number value={Math.round(totalIO)} />
           </div>
-          <Popover
-            className={classes.popover}
-            classes={{ paper: classes.paper }}
-            open={netsOpen}
-            anchorEl={netsAnchorEl}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }}
-            transformOrigin={{ vertical: 'top', horizontal: 'left', }}
-            onClose={(e) => this.handlePopoverClose(e, "netsAnchorEl")}
-            disableRestoreFocus>
-            <ResourceIOs title="Inputs or Outputs"
-              ios={inputs.map(output => {
-                return { ...output, valueExtended: (output.valueExtended = output.valueExtended * -1) }
-              }).concat(outputs)} />
-          </Popover>
         </TableCell>
+
       </TableRow>
     )
   }

@@ -18,10 +18,10 @@ const initialState = {
   resourcesOrderBy: 'name',
   resourcesOrder: 'asc',
   theme: {},
-  powerUsage: 0,
-  powerGeneration: 0,
-  powerCapacity: 0,
-  resourcesCapacity: 0,
+  powerUsage: {},
+  powerGeneration: {},
+  powerCapacity: {},
+  resourcesCapacity: {},
 };
 
 export default function (state = initialState, action) {
@@ -83,10 +83,10 @@ export default function (state = initialState, action) {
         ...state,
         buildings: clearBuildingQuantities(state.buildings),
         resources: getClearedResources(state.resources),
-        powerGeneration: 0,
-        powerUsage: 0,
-        resourcesCapacity: 0,
-        powerCapacity: 0,
+        powerGeneration: { value: 0, buildings: [] },
+        powerUsage: { value: 0, buildings: [] },
+        resourcesCapacity: { value: 0, buildings: [] },
+        powerCapacity: { value: 0, buildings: [] },
       }
     case GET_THEME:
       return {
@@ -203,35 +203,64 @@ function getBuildingsIO(buildings, resource, type) {
 }
 
 function getBuildingsPowerUsage(buildings) {
-  return buildings
-    .map(building =>
-      (building.power.usage !== undefined ? building.power.usage : 0) *
+  const b = buildings.filter(building => { 
+    return building.power.usage > 0
+      && building.quantity > 0; 
+  });
+  if (b.length > 0) {
+    const v = b.map(building =>
+      building.power.usage *
       (building.quantity !== undefined ? building.quantity : 0))
-    .reduce((a, b) => a + b);
+      .reduce((a, b) => a + b);
+    return { value: v, buildings: b };
+  }
+  return { value: 0, buildings: [] };
 }
 
 function getBuildingsPowerGeneration(buildings) {
-  return buildings
-    .map(building =>
-      (building.power.generation !== undefined ? building.power.generation : 0) *
+  const b = buildings.filter(building => { 
+    return building.power.generation > 0
+      && building.quantity > 0; 
+  });
+  if (b.length > 0) {
+    const v = b.map(building =>
+      building.power.generation *
       (building.quantity !== undefined ? building.quantity : 0))
-    .reduce((a, b) => a + b);
+      .reduce((a, b) => a + b);
+    return { value: v, buildings: b };
+  }
+  return { value: 0, buildings: [] };
 }
 
 function getResourcesCapacity(buildings) {
-  return buildings
-    .map(building =>
-      (building.capacity.resources.value !== undefined ? building.capacity.resources.value : 0) *
+  const b = buildings.filter(building => {
+    return building.capacity.resources.value > 0
+      && building.quantity > 0;
+  })
+  if (b.length > 0) {
+    const v = b.map(building =>
+      building.capacity.resources.value *
       (building.quantity !== undefined ? building.quantity : 0))
-    .reduce((a, b) => a + b);
+      .reduce((a, b) => a + b);
+    return { value: v, buildings: b };
+  } else {
+    return { value: 0, buildings: [] };
+  }
 }
 
 function getPowerCapacity(buildings) {
-  return buildings
-    .map(building =>
-      (building.capacity.power.value !== undefined ? building.capacity.power.value : 0) *
+  const b = buildings.filter(building => {
+    return building.capacity.power.value > 0
+      && building.quantity > 0;
+  })
+  if (b.length > 0) {
+    const v = b.map(building =>
+      building.capacity.power.value *
       (building.quantity !== undefined ? building.quantity : 0))
-    .reduce((a, b) => a + b);
+      .reduce((a, b) => a + b);
+    return { value: v, buildings: b };
+  }
+  return { value: 0, buildings: [] };
 }
 
 function getIOTotal(ios) {
