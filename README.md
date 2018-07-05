@@ -41,9 +41,11 @@ Manage your power and resource consumption by specifying the amount of assets av
 * Natural Gas
 * Oxygen
 * Petroleum
+* Polluted Dirt
 * Polluted Oxygen
 * Polluted Water
 * Sand
+* Slime
 * Steam
 * Water
 
