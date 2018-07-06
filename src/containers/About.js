@@ -10,8 +10,8 @@ import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
   root: {
+    padding: theme.spacing.unit,
     paddingTop: theme.spacing.unit * 10,
-    paddingBottom: theme.spacing.unit * 2,
     maxWidth: 750,
     margin: 'auto',
     height: '100vh',
