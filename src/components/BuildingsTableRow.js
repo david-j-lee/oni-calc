@@ -2,7 +2,7 @@ import React from 'react';
 
 // redux
 import { connect } from 'react-redux';
-import { setBuildingQuantity } from '../actions/calculatorActions';
+import { setBuildingQuantity, setBuildingUtilization } from '../actions/calculatorActions';
 
 // material
 import { withStyles } from '@material-ui/core';
@@ -13,6 +13,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Popover from '@material-ui/core/Popover';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Slider from '@material-ui/lab/Slider';
 
 // icons
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
@@ -24,29 +26,54 @@ import BuildingDetails from './BuildingDetails';
 
 const styles = theme => ({
   image: {
-    width: 45,
-    height: 45,
+    width: 40,
+    height: 40,
     backgroundSize: 'cover',
     marginRight: theme.spacing.unit,
   },
-  buildingImg: {
-    width: 45,
-    height: 45,
+  categoryImg: {
+    width: 25,
+    height: 25,
     backgroundSize: 'cover',
     marginRight: theme.spacing.unit,
     cursor: 'pointer',
   },
-  title: {
+  category: {
     display: 'flex',
     flexWrap: 'nowrap',
     alignItems: 'center',
-    fontSize: '14pt',
+    fontSize: '9pt',
+  },
+  buildingImg: {
+    width: 40,
+    height: 40,
+    backgroundSize: 'cover',
+    marginRight: theme.spacing.unit,
+    cursor: 'pointer',
+  },
+  building: {
+    display: 'flex',
+    flexWrap: 'nowrap',
+    alignItems: 'center',
+    fontSize: '12pt',
   },
   quantity: {
-    fontSize: '14pt',
+    fontSize: '12pt',
   },
   actions: {
     whiteSpace: 'nowrap',
+  },
+  slider: {
+    width: 150,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    whiteSpace: 'nowrap',
+  },
+  sliderLabel: {
+    paddingLeft: theme.spacing.unit * 2,
+    textAlign: 'right',
+    width: 75,
   },
   popover: {
     pointerEvents: 'none',
@@ -55,9 +82,11 @@ const styles = theme => ({
 
 export class BuildingsTable extends React.Component {
   timer = 0;
+  utilizationTimer = 0;
 
   state = {
     quantity: this.props.building.quantity,
+    utilization: this.props.building.power.utilization === undefined ? 0 : this.props.building.power.utilization,
     dialogOpen: false,
     popoverOpen: false,
     anchorEl: null,
@@ -69,6 +98,7 @@ export class BuildingsTable extends React.Component {
     }
   }
 
+  // on hover
   handlePopoverOpen = event => {
     this.setState({ anchorEl: event.target });
   };
@@ -77,6 +107,7 @@ export class BuildingsTable extends React.Component {
     this.setState({ anchorEl: null });
   };
 
+  // more info
   handleClickOpen = () => {
     this.setState({ dialogOpen: true });
   };
@@ -85,6 +116,18 @@ export class BuildingsTable extends React.Component {
     this.setState({ dialogOpen: false });
   };
 
+  // utilization
+  handleSliderChange = (event, value) => {
+    this.setState({ utilization: value });
+    if (this.utilizationTimer) {
+      clearTimeout(this.utilizationTimer);
+    }
+    this.utilizationTimer = setTimeout(() => {
+      this.props.setBuildingUtilization(this.props.building.name, Math.round(this.state.utilization));
+    }, 500);
+  }
+
+  // quantities
   increment = () => {
     this.setState({ quantity: this.state.quantity + 1 });
     if (this.timer) {
@@ -110,7 +153,7 @@ export class BuildingsTable extends React.Component {
 
   render() {
     const { classes, building, fullScreen } = this.props;
-    const { quantity, anchorEl } = this.state;
+    const { quantity, utilization, anchorEl } = this.state;
 
     const buildingImg = '/images/buildings/' +
       building.name.toLowerCase().split(' ').join('-') + '.png';
@@ -158,16 +201,16 @@ export class BuildingsTable extends React.Component {
           </div>
         </Dialog>
 
-        <TableCell>
-          <div className={classes.title}>
-            <div className={classes.image}
+        <TableCell padding="dense">
+          <div className={classes.category}>
+            <div className={classes.categoryImg}
               style={{ backgroundImage: `url(${groupImg})` }} />
             {building.category}
           </div>
         </TableCell>
 
-        <TableCell>
-          <div className={classes.title}>
+        <TableCell padding="dense">
+          <div className={classes.building}>
             <div className={classes.buildingImg}
               onMouseOver={this.handlePopoverOpen}
               onMouseOut={this.handlePopoverClose}
@@ -176,11 +219,22 @@ export class BuildingsTable extends React.Component {
           </div>
         </TableCell>
 
-        <TableCell numeric className={classes.quantity}>
+        <TableCell padding="dense">
+          {(building.power.unit !== undefined && building.quantity > 0) &&
+            <span className={classes.slider}>
+              <Slider value={utilization} onChange={this.handleSliderChange} />
+              <Typography className={classes.sliderLabel}>
+                {utilization.toFixed(0) + "%"}
+              </Typography>
+            </span>
+          }
+        </TableCell>
+
+        <TableCell numeric className={classes.quantity} padding="dense">
           {quantity}
         </TableCell>
 
-        <TableCell>
+        <TableCell padding="dense">
           <div className={classes.actions}>
             <IconButton
               color="secondary"
@@ -213,6 +267,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   setBuildingQuantity,
+  setBuildingUtilization
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BuildingsTable));

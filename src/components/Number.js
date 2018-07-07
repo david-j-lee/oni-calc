@@ -22,10 +22,11 @@ export class Number extends React.Component {
       <Typography className={classes.root}
         variant={this.props.variant}
         color={this.props.color}>
-        <span className={value >= 0 ? classes.positive : classes.negative}>
-          {value >= 0 ? "+" : "-"}
+        <span className={value === 0 ? '' :
+          value >= 0 ? classes.positive : classes.negative}>
+          {value === 0 ? '' : value >= 0 ? "+" : "-"}
         </span>{" "}
-        {Math.abs(value)}{" "}
+        {Math.round(Math.abs(value))}{" "}
         {suffix !== undefined ? suffix : ''}
       </Typography>
     );

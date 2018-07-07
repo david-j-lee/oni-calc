@@ -113,7 +113,7 @@ export class Power extends React.Component {
               <Typography className={classes.pointer}
                 onMouseOut={this.handlePopoverClose}
                 onMouseOver={(e) => this.handlePopoverOpen(e, "Usage", powerUsage.buildings)}>
-                {powerUsage.value} W
+                {Math.round(powerUsage.value)} W
               </Typography>
               <Typography>Used</Typography>
             </div>
@@ -124,7 +124,7 @@ export class Power extends React.Component {
               <Typography className={classes.pointer}
                 onMouseOut={this.handlePopoverClose}
                 onMouseOver={(e) => this.handlePopoverOpen(e, "Generation", powerGeneration.buildings)}>
-                {powerGeneration.value} W
+                {Math.round(powerGeneration.value)} W
               </Typography>
               <Typography>Generated</Typography>
             </div>

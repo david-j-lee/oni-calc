@@ -7,6 +7,7 @@ import {
   CLEAR_BUILDING_QUANTITIES,
   SORT_BUILDINGS,
   SET_BUILDINGS_LAYOUT,
+  SET_BUILDING_UTILIZATION,
 } from "../constants/actionConstants";
 
 // json data
@@ -27,12 +28,16 @@ export const sortResourceUsage = id => dispatch => {
 
 // buildings
 export const getData = () => dispatch => {
-  let quantities = localStorage.getItem("quantities");
+  let inputs = localStorage.getItem("inputs");
   let layout = localStorage.getItem("layout");
+
+  // remove old settings
+  localStorage.removeItem("quantities");
+
   try {
-    quantities = JSON.parse(quantities);
+    inputs = JSON.parse(inputs);
   } catch (e) {
-    localStorage.removeItem("quantities");
+    localStorage.removeItem("inputs");
     throw e;
   }
   if (layout === null) {
@@ -40,7 +45,7 @@ export const getData = () => dispatch => {
   }
   dispatch({
     type: GET_DATA,
-    payload: { buildings, resources, quantities, layout }
+    payload: { buildings, resources, inputs, layout }
   });
 }
 
@@ -55,6 +60,13 @@ export const setBuildingQuantity = (building, quantity) => dispatch => {
     type: SET_BUILDING_QUANTITY,
     payload: { ...building, quantity },
   });
+}
+
+export const setBuildingUtilization = (name, utilization) => dispatch => {
+  dispatch({
+    type: SET_BUILDING_UTILIZATION,
+    payload: { name, utilization },
+  })
 }
 
 export const sortBuildings = id => dispatch => {

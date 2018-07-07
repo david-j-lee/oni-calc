@@ -2,7 +2,7 @@ import React from 'react';
 
 // redux
 import { connect } from 'react-redux';
-import { setBuildingQuantity } from '../actions/calculatorActions';
+import { setBuildingQuantity, setBuildingUtilization } from '../actions/calculatorActions';
 
 // material
 import { withStyles } from '@material-ui/core';
@@ -16,6 +16,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
+import Slider from '@material-ui/lab/Slider';
 // import Tooltip from '@material-ui/core/Tooltip';
 
 // icons
@@ -70,6 +71,18 @@ const styles = theme => ({
     backgroundSize: 'cover',
     marginRight: theme.spacing.unit,
   },
+  slider: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2,
+  },
+  sliderLabel: {
+    paddingLeft: theme.spacing.unit * 2,
+    textAlign: 'right',
+    width: 75,
+  },
   dialog: {
     maxWidth: 500,
   },
@@ -80,9 +93,11 @@ const styles = theme => ({
 
 export class BuildingsGridCard extends React.Component {
   timer = 0;
+  utilizationTimer = 0;
 
   state = {
     quantity: this.props.building.quantity,
+    utilization: this.props.building.power.utilization === undefined ? 0 : this.props.building.power.utilization,
     dialogOpen: false,
     popoverOpen: false,
     anchorEl: null,
@@ -94,6 +109,7 @@ export class BuildingsGridCard extends React.Component {
     }
   }
 
+  // on hover
   handlePopoverOpen = event => {
     this.setState({ anchorEl: event.target });
   };
@@ -102,6 +118,7 @@ export class BuildingsGridCard extends React.Component {
     this.setState({ anchorEl: null });
   };
 
+  // open dialog
   handleClickOpen = () => {
     this.setState({ dialogOpen: true });
   };
@@ -110,6 +127,18 @@ export class BuildingsGridCard extends React.Component {
     this.setState({ dialogOpen: false });
   };
 
+  // utilization
+  handleSliderChange = (event, value) => {
+    this.setState({ utilization: value });
+    if (this.utilizationTimer) {
+      clearTimeout(this.utilizationTimer);
+    }
+    this.utilizationTimer = setTimeout(() => {
+      this.props.setBuildingUtilization(this.props.building.name, Math.round(this.state.utilization));
+    }, 500);
+  }
+
+  // change quantities
   increment = () => {
     this.setState({ quantity: this.state.quantity + 1 });
     if (this.timer) {
@@ -135,8 +164,8 @@ export class BuildingsGridCard extends React.Component {
 
   render() {
     const { classes, fullScreen } = this.props;
-    const { name } = this.props.building;
-    const { quantity, anchorEl } = this.state;
+    const { name, power } = this.props.building;
+    const { quantity, utilization, anchorEl } = this.state;
 
     const imgUrl = '/images/buildings/' +
       name.toLowerCase().split(' ').join('-') + '.png';
@@ -199,6 +228,14 @@ export class BuildingsGridCard extends React.Component {
               </IconButton>
               {/* </Tooltip> */}
             </CardContent>
+            {(power.unit !== undefined && quantity > 0) &&
+              <div className={classes.slider}>
+                <Slider value={utilization} onChange={this.handleSliderChange} />
+                <Typography className={classes.sliderLabel}>
+                  {utilization.toFixed(0) + "%"}
+                </Typography>
+              </div>
+            }
             <CardActions>
               {/* <Tooltip title="Decrease"> */}
               <IconButton
@@ -237,6 +274,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   setBuildingQuantity,
+  setBuildingUtilization,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BuildingsGridCard));

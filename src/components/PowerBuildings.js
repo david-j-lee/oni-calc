@@ -39,12 +39,16 @@ export class PowerBuildings extends React.Component {
               <TableRow>
                 <TableCell padding="dense">Building</TableCell>
                 <TableCell numeric padding="dense">Quantity</TableCell>
+                <TableCell numeric padding="dense">Utilization</TableCell>
                 <TableCell numeric padding="dense">Total {title}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {buildings.map((building, index) => {
-                const value = Math.round(building.quantity * (building.power.generation - building.power.usage) * 100) / 100;
+                const value = Math.round(building.quantity *
+                  building.power.utilization / 100.0 *
+                  (building.power.generation - building.power.usage) *
+                  100.0) / 100.0;
                 const unit = building.power.unit;
 
                 return (
@@ -52,6 +56,9 @@ export class PowerBuildings extends React.Component {
                     <TableCell padding="dense">{building.name}</TableCell>
                     <TableCell numeric padding="dense">
                       {building.quantity}
+                    </TableCell>
+                    <TableCell numeric padding="dense">
+                      {building.power.utilization}%
                     </TableCell>
                     <TableCell numeric padding="dense">
                       <Number value={value} suffix={" " + unit} />
