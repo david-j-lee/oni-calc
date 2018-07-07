@@ -97,10 +97,20 @@ function getBuildingsWithInputs(buildings, inputs) {
         return newBuilding;
       }
 
-      return { ...building, quantity: 0 };
+      return {
+        ...building,
+        quantity: 0,
+        power: { ...building.power, utilization: 100 },
+      };
     });
   } else {
-    return buildings.map(building => { return { ...building, quantity: 0 } });
+    return buildings.map(building => {
+      return {
+        ...building,
+        quantity: 0,
+        power: { ...building.power, utilization: 100 },
+      }
+    });
   }
 }
 
