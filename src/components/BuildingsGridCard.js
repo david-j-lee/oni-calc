@@ -2,7 +2,10 @@ import React from 'react';
 
 // redux
 import { connect } from 'react-redux';
-import { setBuildingQuantity, setBuildingUtilization } from '../actions/calculatorActions';
+import {
+  setBuildingQuantity,
+  setBuildingUtilization
+} from '../actions/calculatorActions';
 
 // material
 import { withStyles } from '@material-ui/core';
@@ -97,7 +100,8 @@ export class BuildingsGridCard extends React.Component {
 
   state = {
     quantity: this.props.building.quantity,
-    utilization: this.props.building.power.utilization === undefined ? 0 : this.props.building.power.utilization,
+    utilization: this.props.building.utilization === undefined
+      ? 0 : this.props.building.utilization,
     dialogOpen: false,
     popoverOpen: false,
     anchorEl: null,
@@ -134,7 +138,8 @@ export class BuildingsGridCard extends React.Component {
       clearTimeout(this.utilizationTimer);
     }
     this.utilizationTimer = setTimeout(() => {
-      this.props.setBuildingUtilization(this.props.building.name, Math.round(this.state.utilization));
+      this.props.setBuildingUtilization(
+        this.props.building.name, Math.round(this.state.utilization));
     }, 500);
   }
 
@@ -164,7 +169,7 @@ export class BuildingsGridCard extends React.Component {
 
   render() {
     const { classes, fullScreen } = this.props;
-    const { name, power } = this.props.building;
+    const { name, hasConsistentIO } = this.props.building;
     const { quantity, utilization, anchorEl } = this.state;
 
     const imgUrl = '/images/buildings/' +
@@ -228,9 +233,10 @@ export class BuildingsGridCard extends React.Component {
               </IconButton>
               {/* </Tooltip> */}
             </CardContent>
-            {(power.unit !== undefined && quantity > 0) &&
+            {(!hasConsistentIO && quantity > 0) &&
               <div className={classes.slider}>
-                <Slider value={utilization} onChange={this.handleSliderChange} />
+                <Slider value={utilization}
+                  onChange={this.handleSliderChange} />
                 <Typography className={classes.sliderLabel}>
                   {utilization.toFixed(0) + "%"}
                 </Typography>

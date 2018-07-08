@@ -85,6 +85,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         ...setBuildingUtilization(
+          state.resources,
           state.buildings,
           action.payload.name,
           action.payload.utilization,

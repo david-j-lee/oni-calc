@@ -43,10 +43,9 @@ export const sortBuildings = (buildings, currentOrderBy, orderBy, order) => {
 
 export const setBuildingQuantity = (resources, buildings, name, quantity) => {
   const _buildings = updateBuildingQuantity(buildings, name, quantity);
-  const _resources = updateResourceUsage(resources, _buildings);
   return {
     buildings: _buildings,
-    resources: _resources,
+    resources: updateResourceUsage(resources, _buildings),
     powerGeneration: getBuildingsPowerGeneration(_buildings),
     powerUsage: getBuildingsPowerUsage(_buildings),
     powerCapacity: getPowerCapacity(_buildings),
@@ -54,10 +53,12 @@ export const setBuildingQuantity = (resources, buildings, name, quantity) => {
   }
 }
 
-export const setBuildingUtilization = (buildings, name, utilization) => {
+export const setBuildingUtilization = (resources, buildings, name, utilization) => {
   const _buildings = updateBuildingUtilization(buildings, name, utilization);
+  const _resource = updateResourceUsage(resources, _buildings);
   return {
     buildings: _buildings,
+    resources: _resource,
     powerGeneration: getBuildingsPowerGeneration(_buildings),
     powerUsage: getBuildingsPowerUsage(_buildings),
   }
@@ -87,11 +88,10 @@ function getBuildingsWithInputs(buildings, inputs) {
         const quantity = input.quantity !== undefined ? input.quantity : 0;
         const newBuilding = { ...building, quantity };
 
-        if (newBuilding.power.unit !== undefined &&
-          inputs.utilization !== undefined) {
-          newBuilding.power.utilization = 100;
+        if (newBuilding.hasConsistentIO || input.utilization === undefined) {
+          newBuilding.utilization = 100;
         } else {
-          newBuilding.power.utilization = input.utilization;
+          newBuilding.utilization = input.utilization;
         }
 
         return newBuilding;
@@ -100,7 +100,7 @@ function getBuildingsWithInputs(buildings, inputs) {
       return {
         ...building,
         quantity: 0,
-        power: { ...building.power, utilization: 100 },
+        utilization: 100,
       };
     });
   } else {
@@ -108,7 +108,7 @@ function getBuildingsWithInputs(buildings, inputs) {
       return {
         ...building,
         quantity: 0,
-        power: { ...building.power, utilization: 100 },
+        utilization: 100,
       }
     });
   }
@@ -123,7 +123,7 @@ function updateResourceUsage(resources, buildings) {
     resource.totalIO = resource.totalOutput - resource.totalInput;
     resource.unitOfMeasure = 'g/s';
     return resource;
-  })
+  });
 }
 
 function getBuildingsIO(buildings, resource, type) {
@@ -136,7 +136,8 @@ function getBuildingsIO(buildings, resource, type) {
         io.building = building;
 
         if (building.quantity) {
-          io.valueExtended = parseFloat(building.quantity) * standardIO.value;
+          io.valueExtended = building.quantity * standardIO.value *
+            building.utilization / 100;
         } else {
           io.valueExtended = 0;
         }
@@ -193,8 +194,8 @@ function getSortedArray(array, orderBy, order) {
 function getClearedBuildings(buildings) {
   const clearedBuildings = [...buildings.map(building => {
     const clearedBuilding = { ...building, quantity: 0 };
-    if (clearedBuilding.power.unit) {
-      clearedBuilding.power.utilization = 100;
+    if (clearedBuilding.hasConsistentIO) {
+      clearedBuilding.utilization = 100;
     }
     return clearedBuilding;
   })];
@@ -227,7 +228,7 @@ function updateBuildingQuantity(buildings, name, quantity) {
 function updateBuildingUtilization(buildings, name, utilization) {
   const _buildings = [...buildings.map(building => {
     if (building.name === name) {
-      return { ...building, power: { ...building.power, utilization } };
+      return { ...building, utilization };
     } else {
       return building;
     }
@@ -244,7 +245,7 @@ function getBuildingsPowerUsage(buildings) {
   if (_buildings.length > 0) {
     const value = _buildings.map(building => {
       const qty = building.quantity !== undefined ? building.quantity : 0;
-      return building.power.usage * building.power.utilization / 100.0 * qty;
+      return building.power.usage * building.utilization / 100.0 * qty;
     }).reduce((a, b) => a + b);
     return { value: value, buildings: _buildings };
   }
@@ -256,9 +257,9 @@ function getBuildingsPowerGeneration(buildings) {
     return building.power.generation > 0 && building.quantity > 0;
   });
   if (_buildings.length > 0) {
-    const value = _buildings.map(b => {
-      const qty = b.quantity !== undefined ? b.quantity : 0;
-      return b.power.generation * b.power.utilization / 100.0 * qty;
+    const value = _buildings.map(building => {
+      const qty = building.quantity !== undefined ? building.quantity : 0;
+      return building.power.generation * building.utilization / 100.0 * qty;
     }).reduce((a, b) => a + b);
     return { value: value, buildings: _buildings };
   }
@@ -300,11 +301,11 @@ function saveData(buildings) {
   localStorage.setItem(
     "inputs",
     JSON.stringify(
-      buildings.map(b => {
+      buildings.map(building => {
         return {
-          name: b.name,
-          quantity: b.quantity ? b.quantity : 0,
-          utilization: b.power.utilization ? b.power.utilization : 100,
+          name: building.name,
+          quantity: building.quantity ? building.quantity : 0,
+          utilization: building.utilization ? building.utilization : 100,
         }
       })
     )

@@ -86,7 +86,8 @@ export class BuildingsTable extends React.Component {
 
   state = {
     quantity: this.props.building.quantity,
-    utilization: this.props.building.power.utilization === undefined ? 0 : this.props.building.power.utilization,
+    utilization: this.props.building.utilization === undefined
+      ? 0 : this.props.building.utilization,
     dialogOpen: false,
     popoverOpen: false,
     anchorEl: null,
@@ -123,7 +124,8 @@ export class BuildingsTable extends React.Component {
       clearTimeout(this.utilizationTimer);
     }
     this.utilizationTimer = setTimeout(() => {
-      this.props.setBuildingUtilization(this.props.building.name, Math.round(this.state.utilization));
+      this.props.setBuildingUtilization(
+        this.props.building.name, Math.round(this.state.utilization));
     }, 500);
   }
 
@@ -220,7 +222,7 @@ export class BuildingsTable extends React.Component {
         </TableCell>
 
         <TableCell padding="dense">
-          {(building.power.unit !== undefined && building.quantity > 0) &&
+          {(!building.hasConsistentIO && building.quantity > 0) &&
             <span className={classes.slider}>
               <Slider value={utilization} onChange={this.handleSliderChange} />
               <Typography className={classes.sliderLabel}>

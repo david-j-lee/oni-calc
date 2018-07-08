@@ -39,6 +39,7 @@ export class ResourceIOs extends React.Component {
               <TableRow>
                 <TableCell padding="dense">Building</TableCell>
                 <TableCell numeric padding="dense">Quantity</TableCell>
+                <TableCell numeric padding="dense">Utilization</TableCell>
                 <TableCell numeric padding="dense">Total {title}</TableCell>
               </TableRow>
             </TableHead>
@@ -49,6 +50,9 @@ export class ResourceIOs extends React.Component {
                     <TableCell padding="dense">{io.building.name}</TableCell>
                     <TableCell numeric padding="dense">
                       {io.building.quantity}
+                    </TableCell>
+                    <TableCell numeric padding="dense">
+                      {io.building.utilization}%
                     </TableCell>
                     <TableCell numeric padding="dense">
                       <Number value={Math.round(io.valueExtended * 100) / 100} />
