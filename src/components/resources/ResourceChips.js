@@ -9,9 +9,8 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
   },
   avatar: {
-    height: '100%',
-    width: '100%',
-    backgroundSize: 'contain',
+    height: '75%',
+    width: '75%',
   },
 });
 
@@ -29,13 +28,10 @@ export class ResourceChips extends React.Component {
           io.rate = io.rate.replace('per ', '/').replace('second', 's');
         }
 
-        const imageUrl =
-          '/images/resources/' +
-          io.name
-            .toLowerCase()
-            .split(' ')
-            .join('-') +
-          '.png';
+        const imageUrl = `/images/resources/${io.name
+          .toLowerCase()
+          .split(' ')
+          .join('-')}.png`;
 
         return (
           <Chip
@@ -45,7 +41,10 @@ export class ResourceChips extends React.Component {
               <Avatar>
                 <div
                   className={classes.avatar}
-                  style={{ backgroundImage: `url(${imageUrl})` }}
+                  style={{
+                    background: `url(${imageUrl}) no-repeat center center`,
+                    backgroundSize: 'contain',
+                  }}
                 />
               </Avatar>
             }

@@ -3,10 +3,6 @@ import { withRouter, Link, Route } from 'react-router-dom';
 
 // redux
 import { connect } from 'react-redux';
-import {
-  clearBuildingQuantities,
-  setBuildingsLayout,
-} from '../../actions/buildingActions';
 
 // material
 import { withStyles } from '@material-ui/core';
@@ -15,22 +11,17 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
-
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogActions from '@material-ui/core/DialogActions';
 
 // icons
 import HomeIcon from '@material-ui/icons/Home';
 import HelpIcon from '@material-ui/icons/Help';
-import ClearIcon from '@material-ui/icons/Clear';
-import ViewList from '@material-ui/icons/ViewList';
-import ViewModule from '@material-ui/icons/ViewModule';
 
 // components
 import ThemePicker from './ThemePicker';
+import NavbarDupes from './NavbarDupes';
+import NavbarBuildings from './NavbarBuildings';
+import NavbarFood from './NavbarFood';
+import NavbarGeysers from './NavbarGeysers';
 
 const styles = theme => ({
   root: {
@@ -60,29 +51,8 @@ const styles = theme => ({
 });
 
 export class Navbar extends React.Component {
-  state = {
-    dialogOpen: false,
-  };
-
-  handleClickOpen = () => {
-    this.setState({ dialogOpen: true });
-  };
-
-  handleClose = () => {
-    this.setState({ dialogOpen: false });
-  };
-
-  setBuildingsLayout = () => {
-    this.props.setBuildingsLayout();
-  };
-
-  clearBuildingQuantities = () => {
-    this.props.clearBuildingQuantities();
-    this.setState({ dialogOpen: false });
-  };
-
   render() {
-    const { classes, tabIndex, buildingsLayout } = this.props;
+    const { classes, tabIndex } = this.props;
 
     return (
       <div className={classes.root}>
@@ -122,62 +92,17 @@ export class Navbar extends React.Component {
               </Tooltip>
             </div>
             <div className={classes.rightNav}>
+              {tabIndex === 0 && (
+                <Route exact path="/" render={() => <NavbarDupes />} />
+              )}
               {tabIndex === 1 && (
-                <Route
-                  exact
-                  path="/"
-                  render={() => (
-                    <div>
-                      <Dialog
-                        open={this.state.dialogOpen}
-                        onClose={this.handleClose}
-                      >
-                        <DialogContent>
-                          <DialogContentText>
-                            Are you sure you want to delete all your inputted
-                            quantities?
-                          </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                          <Button onClick={this.handleClose} color="primary">
-                            Cancel
-                          </Button>
-                          <Button
-                            variant="contained"
-                            onClick={this.clearBuildingQuantities}
-                            color="primary"
-                            autoFocus
-                          >
-                            Confirm
-                          </Button>
-                        </DialogActions>
-                      </Dialog>
-                      <Tooltip title="Clear all quantities">
-                        <IconButton
-                          onClick={this.handleClickOpen}
-                          color="inherit"
-                        >
-                          <ClearIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip
-                        title={
-                          'Set to ' +
-                          (buildingsLayout === 'grid' ? 'table' : 'grid') +
-                          ' layout'
-                        }
-                      >
-                        <IconButton
-                          onClick={this.setBuildingsLayout}
-                          color="inherit"
-                        >
-                          {buildingsLayout === 'grid' && <ViewList />}
-                          {buildingsLayout === 'table' && <ViewModule />}
-                        </IconButton>
-                      </Tooltip>
-                    </div>
-                  )}
-                />
+                <Route exact path="/" render={() => <NavbarBuildings />} />
+              )}
+              {tabIndex === 2 && (
+                <Route exact path="/" render={() => <NavbarFood />} />
+              )}
+              {tabIndex === 3 && (
+                <Route exact path="/" render={() => <NavbarGeysers />} />
               )}
               <ThemePicker />
             </div>
@@ -191,14 +116,10 @@ export class Navbar extends React.Component {
 const mapStateToProps = state => {
   return {
     tabIndex: state.calculator.tabIndex,
-    buildingsLayout: state.calculator.buildingsLayout,
   };
 };
 
-const mapDispatchToProps = {
-  clearBuildingQuantities,
-  setBuildingsLayout,
-};
+const mapDispatchToProps = {};
 
 export default withRouter(
   connect(

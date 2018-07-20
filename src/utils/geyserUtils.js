@@ -2,7 +2,7 @@ export function getGeysers(geysers, inputs) {
   if (inputs) {
     return updateGeysersWithInputs(geysers, inputs);
   } else {
-    return { listing: geysers, inputted: [] };
+    return getGeysersWithDefaultInputs(geysers);
   }
 }
 
@@ -17,6 +17,14 @@ function updateGeysersWithInputs(geysers, inputs) {
       };
     }),
   };
+}
+
+function getGeysersWithDefaultInputs(geysers) {
+  return { listing: geysers, inputted: [] };
+}
+
+export function getGeysersWithClearedInputs(geysers) {
+  return getGeysersWithDefaultInputs(geysers.listing);
 }
 
 export function addGeyserToGeysers(geysers, geyser) {
@@ -61,8 +69,7 @@ function getExtendedValue(geyser) {
   return (
     (geyser.amount * geyser.eruptionEvery * geyser.activeEvery) /
     geyser.activeDuration /
-    geyser.eruptionDuration /
-    1000
+    geyser.eruptionDuration
   );
 }
 

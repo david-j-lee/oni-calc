@@ -31,7 +31,9 @@ import MoreVert from '@material-ui/icons/MoreVert';
 import BuildingDetails from './BuildingDetails';
 
 const styles = theme => ({
-  root: {},
+  root: {
+    height: '100%',
+  },
   card: {
     display: 'flex',
     width: '100%',
@@ -217,7 +219,7 @@ export class BuildingsGridCard extends React.Component {
           classes={{ paper: classes.paper }}
           open={popoverOpen}
           anchorEl={anchorEl}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
           transformOrigin={{ vertical: 'top', horizontal: 'left' }}
           onClose={this.handlePopoverClose}
           disableRestoreFocus

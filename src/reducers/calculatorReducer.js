@@ -2,10 +2,10 @@ import {
   GET_DATA,
   SORT_BUILDINGS,
   SET_BUILDING_QUANTITY,
-  SORT_RESOURCE_USAGE,
+  SORT_RESOURCES,
   GET_THEME,
   SET_THEME,
-  CLEAR_BUILDING_QUANTITIES,
+  CLEAR_BUILDING_INPUTS,
   SET_BUILDINGS_LAYOUT,
   SET_BUILDING_UTILIZATION,
   SET_DUPES_TOTAL_QUANTITY,
@@ -15,6 +15,9 @@ import {
   SET_FOOD_QUANTITY,
   ADD_GEYSER,
   DELETE_GEYSER,
+  CLEAR_FOOD_INPUTS,
+  CLEAR_GEYSER_INPUTS,
+  CLEAR_DUPE_INPUTS,
 } from '../constants/actionConstants';
 
 import {
@@ -24,13 +27,16 @@ import {
   setBuildingsLayout,
   setBuildingQuantity,
   setBuildingUtilization,
-  clearBuildingQuantities,
+  clearBuildingInputs,
   setDupesQuantity,
   setDupeTraitQuantity,
   setDupeWaste,
   setFoodQuantity,
   addGeyser,
   deleteGeyser,
+  clearFoodInputs,
+  clearGeyserInputs,
+  clearDupeInputs,
 } from '../utils/reducerUtils';
 
 const initialState = {
@@ -94,7 +100,7 @@ export default function(state = initialState, action) {
         ...setBuildingsLayout(state.buildingsLayout),
       };
     // resources
-    case SORT_RESOURCE_USAGE:
+    case SORT_RESOURCES:
       return {
         ...state,
         ...sortResources(
@@ -130,6 +136,11 @@ export default function(state = initialState, action) {
           action.payload.value,
         ),
       };
+    case CLEAR_DUPE_INPUTS:
+      return {
+        ...state,
+        ...clearDupeInputs(state.resources, state.dupes),
+      };
     // buildings
     case SORT_BUILDINGS:
       return {
@@ -160,10 +171,10 @@ export default function(state = initialState, action) {
           action.payload.utilization,
         ),
       };
-    case CLEAR_BUILDING_QUANTITIES:
+    case CLEAR_BUILDING_INPUTS:
       return {
         ...state,
-        ...clearBuildingQuantities(state.resources, state.buildings),
+        ...clearBuildingInputs(state.resources, state.buildings),
       };
     // food
     case SET_FOOD_QUANTITY:
@@ -177,6 +188,11 @@ export default function(state = initialState, action) {
           action.payload.quantity,
         ),
       };
+    case CLEAR_FOOD_INPUTS:
+      return {
+        ...state,
+        ...clearFoodInputs(state.resources, state.plants, state.food),
+      };
     // geysers
     case ADD_GEYSER:
       return {
@@ -187,6 +203,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         ...deleteGeyser(state.resources, state.geysers, action.payload),
+      };
+    case CLEAR_GEYSER_INPUTS:
+      return {
+        ...state,
+        ...clearGeyserInputs(state.resources, state.geysers),
       };
     default:
       return state;

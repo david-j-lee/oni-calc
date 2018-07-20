@@ -1,11 +1,11 @@
 import {
-  SORT_RESOURCE_USAGE,
+  SORT_RESOURCES,
 } from '../constants/actionConstants';
 
 // resources
-export const sortResourceUsage = id => dispatch => {
+export const sortResources = id => dispatch => {
   dispatch({
-    type: SORT_RESOURCE_USAGE,
+    type: SORT_RESOURCES,
     payload: id,
   });
 };

@@ -2,6 +2,7 @@ import {
   SET_DUPES_TOTAL_QUANTITY,
   SET_DUPE_TRAIT_QUANTITY,
   SET_DUPE_WASTE,
+  CLEAR_DUPE_INPUTS,
 } from '../constants/actionConstants';
 
 export const setDupesTotalQuantity = quantity => dispatch => {
@@ -22,5 +23,11 @@ export const setDupeWaste = (prop, value) => dispatch => {
   dispatch({
     type: SET_DUPE_WASTE,
     payload: { prop, value },
+  });
+};
+
+export const clearDupeInputs = () => dispatch => {
+  dispatch({
+    type: CLEAR_DUPE_INPUTS,
   });
 };

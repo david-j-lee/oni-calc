@@ -1,6 +1,6 @@
 import {
   SET_BUILDING_QUANTITY,
-  CLEAR_BUILDING_QUANTITIES,
+  CLEAR_BUILDING_INPUTS,
   SORT_BUILDINGS,
   SET_BUILDINGS_LAYOUT,
   SET_BUILDING_UTILIZATION,
@@ -33,8 +33,8 @@ export const sortBuildings = id => dispatch => {
   });
 };
 
-export const clearBuildingQuantities = () => dispatch => {
+export const clearBuildingInputs = () => dispatch => {
   dispatch({
-    type: CLEAR_BUILDING_QUANTITIES,
+    type: CLEAR_BUILDING_INPUTS,
   });
 };

@@ -193,7 +193,7 @@ export class BuildingsTable extends React.Component {
           classes={{ paper: classes.paper }}
           open={popoverOpen}
           anchorEl={anchorEl}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
           transformOrigin={{ vertical: 'top', horizontal: 'left' }}
           onClose={this.handlePopoverClose}
           disableRestoreFocus

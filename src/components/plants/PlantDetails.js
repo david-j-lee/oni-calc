@@ -3,21 +3,13 @@ import React from 'react';
 // material
 import { withStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
-import Avatar from '@material-ui/core/Avatar';
 
 // components
 import ResourceChips from '../resources/ResourceChips';
 
 const styles = theme => ({
-  root: {
-    minWidth: 400,
-  },
-  image: {
-    width: 160,
-    height: 160,
-  },
+  root: {},
   heading: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -46,11 +38,11 @@ const styles = theme => ({
   },
 });
 
-export class FoodItemDetail extends React.Component {
+export class PlantDetails extends React.Component {
   render() {
-    const { classes, item } = this.props;
+    const { classes, plant } = this.props;
 
-    const imgUrl = `/images/resources/${item.name
+    const imgUrl = `/images/resources/${plant.name
       .toLowerCase()
       .split(' ')
       .join('-')}.png`;
@@ -66,20 +58,20 @@ export class FoodItemDetail extends React.Component {
             }}
           />
           <div className={classes.headingContent}>
-            <Typography variant="title">{item.name}</Typography>
+            <Typography variant="title">{plant.name}</Typography>
             <Grid container>
               <Grid item xs={6}>
                 <Typography variant="body1" className={classes.title}>
-                  <small>Calories</small>
+                  <small>Growth Rate</small>
                   <br />
-                  {item.calories}
+                  {plant.growthRate.value} {plant.growthRate.rate}
                 </Typography>
               </Grid>
               <Grid item xs={6}>
                 <Typography variant="body1" className={classes.title}>
-                  <small>Quality</small>
+                  <small>Yield</small>
                   <br />
-                  {item.quality}
+                  {plant.yield}
                 </Typography>
               </Grid>
             </Grid>
@@ -87,42 +79,13 @@ export class FoodItemDetail extends React.Component {
         </div>
         <div className={classes.content}>
           <Typography variant="subheading" className={classes.title}>
-            Requirements
-          </Typography>
-          {item.requirements.length === 0 ? (
-            <Typography>No requirements found</Typography>
-          ) : (
-            item.requirements.map((requirement, i) => {
-              const reqImgUrl = `/images/bio/${requirement.name
-                .toLowerCase()
-                .split(' ')
-                .join('-')}.png`;
-
-              return (
-                <Chip
-                  key={i}
-                  className={classes.chip}
-                  label={requirement.name}
-                  avatar={
-                    <Avatar>
-                      <div
-                        className={classes.avatar}
-                        style={{ backgroundImage: `url(${reqImgUrl})` }}
-                      />
-                    </Avatar>
-                  }
-                />
-              );
-            })
-          )}
-          <Typography variant="subheading" className={classes.title}>
             Inputs
           </Typography>
-          <ResourceChips ios={item.inputs} type="Inputs" />
+          <ResourceChips ios={plant.inputs} type="Inputs" />
         </div>
       </div>
     );
   }
 }
 
-export default withStyles(styles)(FoodItemDetail);
+export default withStyles(styles)(PlantDetails);

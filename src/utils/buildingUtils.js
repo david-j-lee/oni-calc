@@ -31,7 +31,7 @@ function updateBuildingsWithInputs(buildings, inputs) {
   });
 }
 
-export function getClearedBuildings(buildings) {
+export function getBuildingsWithClearedInputs(buildings) {
   const newBuildings = getBuildingsWithDefaultInputs(buildings);
   saveToLocalStorage(newBuildings);
   return newBuildings;
@@ -49,8 +49,10 @@ function getBuildingsIOsForResource(buildings, type, resourceName) {
   if (type !== 'inputs' && type !== 'outputs')
     throw new Error('Type must be inputs or outputs');
 
-  return buildings
-    .filter(building => building.quantity > 0)
+  const newBuildings = buildings.filter(building => building.quantity > 0);
+  if (newBuildings.length === 0) return [];
+
+  return newBuildings
     .map(building =>
       building[type].filter(io => io.name === resourceName).map(io => {
         const standardIO = getStandardIO(io);

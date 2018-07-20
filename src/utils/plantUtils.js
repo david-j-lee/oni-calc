@@ -9,6 +9,10 @@ export function updatePlants(plants, food) {
 
     return plants.map(plant => ({
       ...plant,
+      rawFood: rawFoodRequirements.filter(food => food.name === plant.name),
+      preparedFood: preparedFoodRequirements.filter(
+        food => food.name === plant.name,
+      ),
       quantity: getNumberOfPlants(
         getRequirement(
           plant.name,
@@ -30,6 +34,7 @@ function getRawFoodRequirements(food) {
     .map(item =>
       item.requirements.map(requirement => ({
         ...requirement,
+        food: item,
         quantity: item.quantity,
       })),
     )
@@ -80,6 +85,7 @@ function getPreparedFoodInputsFromRawFoodInputs(inputs) {
     .map(input =>
       input.requirements.map(requirement => ({
         ...requirement,
+        food: input,
         quantity: input.quantity,
       })),
     )

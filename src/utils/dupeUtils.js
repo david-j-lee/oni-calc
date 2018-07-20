@@ -7,7 +7,7 @@ export function getDupesWithInputs(dupes, inputs) {
 }
 
 function getDupesWithDefaultInputs(dupes) {
-  return dupes.map(dupe => ({
+  return {
     ...dupes,
     quantity: 0,
     waterValue: 0,
@@ -20,7 +20,7 @@ function getDupesWithDefaultInputs(dupes) {
         quantity: 0,
       };
     }),
-  }));
+  };
 }
 
 function updateDupesWithInputs(dupes, inputs) {
@@ -37,6 +37,12 @@ function updateDupesWithInputs(dupes, inputs) {
     }),
   };
   newDupes.caloriesRequired = getCaloriesRequired(newDupes);
+  return newDupes;
+}
+
+export function getDupesWithClearedInputs(dupes) {
+  const newDupes = getDupesWithDefaultInputs(dupes);
+  saveToLocalStorage(newDupes);
   return newDupes;
 }
 
@@ -58,7 +64,7 @@ function getBaseIOForResource(dupes, type, resourceName) {
   return dupes[type].filter(io => io.name === resourceName).map(io => ({
     ...io,
     valueExtended: io.value * dupes.quantity,
-    dupe: { reference: 'Base', quantity: dupes.quantity },
+    dupe: { reference: 'Base Dupe', quantity: dupes.quantity },
   }));
 }
 
@@ -124,7 +130,7 @@ export function updateDupeQuantity(dupes, quantity) {
 
   newDupes.caloriesRequired = getCaloriesRequired(newDupes);
 
-  saveDupes(newDupes);
+  saveToLocalStorage(newDupes);
   return newDupes;
 }
 
@@ -144,14 +150,14 @@ export function updateDupeTraitQuantity(dupes, name, quantity) {
 
   newDupes.caloriesRequired = getCaloriesRequired(newDupes);
 
-  saveDupes(newDupes);
+  saveToLocalStorage(newDupes);
   return newDupes;
 }
 
 export function getDupeWaste(dupes, prop, value) {
   const newDupes = { ...dupes };
   newDupes[prop] = value;
-  saveDupes(newDupes);
+  saveToLocalStorage(newDupes);
   return newDupes;
 }
 
@@ -179,7 +185,7 @@ function getTraitCaloriesRequired(traits) {
     .reduce((a, b) => a + b);
 }
 
-function saveDupes(dupes) {
+function saveToLocalStorage(dupes) {
   localStorage.setItem(
     'dupes',
     JSON.stringify({

@@ -2,7 +2,6 @@ import {
   updateResources,
   updateResourcesWithDupes,
   updateResourcesWithBuildings,
-  getClearedResources,
   updateResourcesWithFoodAndPlants,
   updateResourcesWithGeysers,
 } from './resourceUtils';
@@ -14,21 +13,27 @@ import {
   updateDupeQuantity,
   updateDupeTraitQuantity,
   getDupeWaste,
+  getDupesWithClearedInputs,
 } from './dupeUtils';
 
 import {
   getBuildings,
-  getClearedBuildings,
+  getBuildingsWithClearedInputs,
   updateBuildingQuantity,
   updateBuildingUtilization,
 } from './buildingUtils';
 
-import { getFood, updateFoodQuantity } from './foodUtils';
+import {
+  getFood,
+  updateFoodQuantity,
+  getFoodWithClearedInputs,
+} from './foodUtils';
 
 import {
   getGeysers,
   addGeyserToGeysers,
   deleteGeyserFromGeysers,
+  getGeysersWithClearedInputs,
 } from './geyserUtils';
 
 import {
@@ -127,6 +132,14 @@ export const setDupeWaste = (resources, dupes, prop, value) => {
   };
 };
 
+export const clearDupeInputs = (resources, dupes) => {
+  const newDupes = getDupesWithClearedInputs(dupes);
+  return {
+    resources: updateResourcesWithDupes(resources, newDupes),
+    dupes: newDupes,
+  };
+};
+
 // buildings
 export const sortBuildings = (buildings, currentOrderBy, orderBy, order) => {
   const newOrder =
@@ -166,10 +179,11 @@ export const setBuildingUtilization = (
   };
 };
 
-export const clearBuildingQuantities = (resources, buildings) => {
+export const clearBuildingInputs = (resources, buildings) => {
+  const newBuildings = getBuildingsWithClearedInputs(buildings);
   return {
-    resources: getClearedResources(resources),
-    buildings: getClearedBuildings(buildings),
+    resources: updateResourcesWithBuildings(resources, newBuildings),
+    buildings: newBuildings,
     powerGeneration: { value: 0, buildings: [] },
     powerUsage: { value: 0, buildings: [] },
     resourcesCapacity: { value: 0, buildings: [] },
@@ -193,6 +207,16 @@ export const setFoodQuantity = (resources, plants, food, name, quantity) => {
   };
 };
 
+export const clearFoodInputs = (resources, plants, food) => {
+  const newFood = getFoodWithClearedInputs(food);
+  const newPlants = updatePlants(plants, newFood);
+  return {
+    resources: updateResourcesWithFoodAndPlants(resources, newPlants, newFood),
+    food: newFood,
+    plants: newPlants,
+  };
+};
+
 // geysers
 export const addGeyser = (resources, geysers, geyser) => {
   const newGeysers = addGeyserToGeysers(geysers, geyser);
@@ -208,6 +232,14 @@ export const deleteGeyser = (resources, geysers, geyser) => {
   const newResources = updateResourcesWithGeysers(resources, newGeysers);
   return {
     resources: newResources,
+    geysers: newGeysers,
+  };
+};
+
+export const clearGeyserInputs = (resources, geysers) => {
+  const newGeysers = getGeysersWithClearedInputs(geysers);
+  return {
+    resources: updateResourcesWithGeysers(resources, newGeysers),
     geysers: newGeysers,
   };
 };

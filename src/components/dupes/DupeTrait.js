@@ -24,7 +24,9 @@ import MoreVert from '@material-ui/icons/MoreVert';
 import DupeTraitDetails from './DupeTraitDetails';
 
 const styles = theme => ({
-  root: {},
+  root: {
+    height: '100%',
+  },
   cardContent: {
     flex: '1 0 auto',
     display: 'flex',
@@ -97,7 +99,7 @@ export class DupeTrait extends React.Component {
     const { quantity, dialogOpen } = this.state;
 
     return (
-      <div>
+      <div className={classes.root}>
         <Dialog
           fullScreen={fullScreen}
           open={dialogOpen}

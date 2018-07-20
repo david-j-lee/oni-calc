@@ -50,6 +50,12 @@ export class DupeQuantity extends React.Component {
     dialogOpen: false,
   };
 
+  componentWillReceiveProps(nextProp) {
+    if (nextProp.dupes.quantity !== this.state.quantity) {
+      this.setState({ quantity: nextProp.dupes.quantity });
+    }
+  }
+
   // open dialog
   handleClickOpen = () => {
     this.setState({ dialogOpen: true });

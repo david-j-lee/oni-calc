@@ -26,7 +26,9 @@ import MoreVert from '@material-ui/icons/MoreVert';
 import FoodItemDetails from './FoodItemDetails';
 
 const styles = theme => ({
-  root: {},
+  root: {
+    height: '100%',
+  },
   card: {
     margin: theme.spacing.unit,
     display: 'flex',
@@ -70,6 +72,12 @@ export class FoodItem extends React.Component {
     quantity: this.props.item.quantity,
     dialogOpen: false,
   };
+
+  componentWillReceiveProps(nextProp) {
+    if (nextProp.item.quantity !== this.state.quantity) {
+      this.setState({ quantity: nextProp.item.quantity });
+    }
+  }
 
   // on hover
   handlePopoverOpen = event => {
@@ -155,7 +163,7 @@ export class FoodItem extends React.Component {
           classes={{ paper: classes.paper }}
           open={popoverOpen}
           anchorEl={anchorEl}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
           transformOrigin={{ vertical: 'top', horizontal: 'left' }}
           onClose={this.handlePopoverClose}
           disableRestoreFocus

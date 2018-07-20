@@ -2,7 +2,7 @@ import React from 'react';
 
 // redux
 import { connect } from 'react-redux';
-import { sortResourceUsage } from '../../actions/resourceActions';
+import { sortResources } from '../../actions/resourceActions';
 
 // material
 import { withStyles } from '@material-ui/core';
@@ -34,7 +34,7 @@ const styles = theme => ({
 export class Resources extends React.Component {
 
   handleRequestSort = id => {
-    this.props.sortResourceUsage(id);
+    this.props.sortResources(id);
   }
 
   mapResourceToElement = (resources) => {
@@ -107,7 +107,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  sortResourceUsage
+  sortResources
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Resources))

@@ -82,7 +82,7 @@ export class Capacity extends React.Component {
             classes={{ paper: classes.paper, }}
             open={dialogOpen}
             anchorEl={anchorEl}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right', }}
             transformOrigin={{ vertical: 'top', horizontal: 'left', }}
             onClose={this.handlePopoverClose}
             disableRestoreFocus>

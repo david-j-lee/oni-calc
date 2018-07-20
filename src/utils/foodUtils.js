@@ -2,7 +2,7 @@ export function getFood(food, inputs) {
   if (inputs) {
     return updateFoodWithInputs(food, inputs);
   } else {
-    return food.map(item => ({ ...item, quantity: 0 }));
+    return getFoodWithDefaultInputs(food);
   }
 }
 
@@ -14,6 +14,16 @@ function updateFoodWithInputs(food, inputs) {
       quantity: input ? input.quantity : 0,
     };
   });
+}
+
+function getFoodWithDefaultInputs(food) {
+  return food.map(item => ({ ...item, quantity: 0 }));
+}
+
+export function getFoodWithClearedInputs(food) {
+  const newFood = getFoodWithDefaultInputs(food);
+  saveToLocalStorage(newFood);
+  return newFood;
 }
 
 export function updateFoodQuantity(food, name, quantity) {

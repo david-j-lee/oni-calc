@@ -32,7 +32,7 @@ const styles = theme => ({
 
 export class Plants extends React.Component {
   handleRequestSort = id => {
-    this.props.sortResourceUsage(id);
+    this.props.sortResources(id);
   };
 
   mapPlantsToElement = plants => {
