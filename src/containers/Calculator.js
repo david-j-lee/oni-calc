@@ -3,6 +3,7 @@ import React from 'react';
 // redux
 import { connect } from 'react-redux';
 import { getData } from '../actions/calculatorActions';
+import { setTabIndex } from '../actions/uiActions';
 
 // material
 import { withStyles } from '@material-ui/core';
@@ -11,13 +12,15 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
 // components
-import Capacity from '../components/Capacity';
-import Power from '../components/Power';
-import Resources from '../components/Resources';
-import Buildings from '../components/Buildings';
-import Dupes from '../components/Dupes';
-import Plants from '../components/Plants';
-import Critters from '../components/Critters';
+import Power from '../components/power/Power';
+import Resources from '../components/resources/Resources';
+import Plants from '../components/plants/Plants';
+import Capacity from '../components/capacity/Capacity';
+
+import Dupes from '../components/dupes/Dupes';
+import Buildings from '../components/buildings/Buildings';
+import Food from '../components/food/Food';
+import Geysers from '../components/geysers/Geysers';
 
 const styles = theme => ({
   root: {
@@ -42,49 +45,71 @@ const styles = theme => ({
 });
 
 export class Calculator extends React.Component {
-  state = {
-    value: 0,
-  }
-
   componentWillMount() {
     this.props.getData();
   }
 
   handleChange = (event, value) => {
-    this.setState({ value });
+    this.props.setTabIndex(value);
   };
 
   render() {
-    const { classes } = this.props;
-    const { value } = this.state;
+    const { classes, tabIndex } = this.props;
 
     return (
       <Grid container className={classes.root}>
-        <Grid item sm={6} md={5} lg={4} className={['left-section', classes.leftSection].join(' ')}>
+        <Grid
+          item
+          sm={6}
+          md={5}
+          lg={4}
+          className={['left-section', classes.leftSection].join(' ')}
+        >
           <Power />
           <Resources />
+          <Plants />
           <Capacity />
         </Grid>
-        <Grid item sm={6} md={7} lg={8} className={['right-section', classes.rightSection].join(' ')}>
-          <Tabs value={value} onChange={this.handleChange}
-            indicatorColor="primary" textColor="primary">
-            <Tab label="Buildings" />
+        <Grid
+          item
+          sm={6}
+          md={7}
+          lg={8}
+          className={['right-section', classes.rightSection].join(' ')}
+        >
+          <Tabs
+            value={tabIndex}
+            onChange={this.handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+          >
             <Tab label="Dupes" />
-            <Tab label="Plants" />
-            <Tab label="Critters" />
+            <Tab label="Buildings" />
+            <Tab label="Food" />
+            <Tab label="Geysers" />
           </Tabs>
-          {value === 0 && <Buildings />}
-          {value === 1 && <Dupes />}
-          {value === 2 && <Plants />}
-          {value === 3 && <Critters />}
+          {tabIndex === 0 && <Dupes />}
+          {tabIndex === 1 && <Buildings />}
+          {tabIndex === 2 && <Food />}
+          {tabIndex === 3 && <Geysers />}
         </Grid>
       </Grid>
-    )
+    );
   }
 }
 
-const mapDispatchToProps = {
-  getData
-}
+const mapStateToProps = state => {
+  return {
+    tabIndex: state.calculator.tabIndex,
+  };
+};
 
-export default connect(null, mapDispatchToProps)(withStyles(styles)(Calculator));
+const mapDispatchToProps = {
+  getData,
+  setTabIndex,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withStyles(styles)(Calculator));

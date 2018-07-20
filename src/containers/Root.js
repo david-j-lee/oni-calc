@@ -3,7 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 // react-redux
 import { connect } from 'react-redux';
-import { getTheme } from '../actions/calculatorActions';
+import { getTheme } from '../actions/uiActions';
 
 // material
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
@@ -13,7 +13,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 // components
 import About from './About';
 import Calculator from './Calculator';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/ui/Navbar';
 
 const styles = theme => ({
   root: {

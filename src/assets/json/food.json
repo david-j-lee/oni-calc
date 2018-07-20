@@ -1,0 +1,178 @@
+[
+  {
+    "name": "Pincha Peppernut",
+    "isRaw": true,
+    "calories": 0,
+    "quality": 0,
+    "requirements": [
+      {"type": "Plant", "name": "Pincha Pepper"}
+    ],
+    "inputs": []
+  },
+  {
+    "name": "Mush Bar",
+    "isRaw": false,
+    "calories": 800,
+    "quality": -1,
+    "requirements": [],
+    "inputs": [
+      { "name": "Water", "value": 93.8, "unit": "g", "rate": "per item" },
+      { "name": "Dirt", "value": 93.8, "unit": "g", "rate": "per item" }
+    ]
+  },
+  {
+    "name": "Pickled Meal",
+    "isRaw": false,
+    "calories": 1800,
+    "quality": -1,
+    "requirements": [],
+    "inputs": [
+      { "name": "Meal Lice", "value": 1, "rate": "per item" }
+    ]
+  },
+  {
+    "name": "Meal Lice",
+    "isRaw": true,
+    "calories": 1000,
+    "quality": -1,
+    "requirements": [
+      {"type": "Plant", "name": "Mealwood"}
+    ],
+    "inputs": []
+  },
+  {
+    "name": "Meat",
+    "isRaw": true,
+    "calories": 1000,
+    "quality": -1,
+    "requirements": [
+      { "type": "Critter", "name": "Adult Hatch" }
+    ],
+    "inputs": []
+  },
+  {
+    "name": "Mush Fry",
+    "isRaw": false,
+    "calories": 1050,
+    "quality": 0,
+    "requirements": [],
+    "inputs": [
+      { "name": "Mush Bar", "value": 1, "rate": "per item" }
+    ]
+  },
+  {
+    "name": "Liceloaf",
+    "isRaw": false,
+    "calories": 1700,
+    "quality": 0,
+    "requirements": [],
+    "inputs": [
+      { "name": "Meal Lice", "value": 1, "unit": "each", "rate": "per item" },
+      { "name": "Water", "value": 50, "unit": "kg", "rate": "per item" }
+    ]
+  },
+  {
+    "name": "Bristle Berry",
+    "isRaw": true,
+    "calories": 1000,
+    "quality": 0,
+    "requirements": [
+      { "type": "Plant", "name": "Bristle Blossom" }
+    ],
+    "inputs": []
+  },
+  {
+    "name": "Mushroom",
+    "isRaw": true,
+    "calories": 2400,
+    "quality": 0,
+    "requirements": [
+      { "type": "Plant", "name": "Dusk Cap" }
+    ],
+    "inputs": []
+  },
+  {
+    "name": "Fried Mushroom",
+    "isRaw": false,
+    "calories": 2400,
+    "quality": 0,
+    "requirements": [],
+    "inputs": [
+      { "name": "Mushroom", "value": 1, "unit": "each", "rate": "per item" }
+    ]
+  },
+  {
+    "name": "Gristle Berry",
+    "isRaw": false,
+    "calories": 2050,
+    "quality": 1,
+    "requirements": [],
+    "inputs": [
+      { "name": "Bristle Berry", "value": 1, "unit": "each", "rate": "per item" }
+    ]
+  },
+  {
+    "name": "Omelette",
+    "isRaw": false,
+    "calories": 2800,
+    "quality": 2,
+    "requirements": [],
+    "inputs": [
+      { "name": "Raw Egg", "value": 1, "unit": "each", "rate": "per item" }
+    ]
+  },
+  {
+    "name": "Frost Bun",
+    "isRaw": false,
+    "calories": 1200,
+    "quality": 2,
+    "requirements": [],
+    "inputs": [
+      { "name": "Sleet Wheat Grain", "value": 3, "unit": "each", "rate": "per item" }
+    ]
+  },
+  {
+    "name": "Berry Sludge",
+    "isRaw": false,
+    "calories": 4000,
+    "quality": 3,
+    "requirements": [],
+    "inputs": [
+      { "name": "Bristle Berry", "value": 1, "unit": "each", "rate": "per item" },
+      { "name": "Sleet Wheat Grain", "value": 5, "unit": "each", "rate": "per item" }
+    ]
+  },
+  {
+    "name": "Stuffed Berry",
+    "isRaw": false,
+    "calories": 4000,
+    "quality": 4,
+    "requirements": [],
+    "inputs": [
+      { "name": "Pincha Peppernut", "value": 2, "unit": "each", "rate": "per item" },
+      { "name": "Bristle Berry", "value": 2, "unit": "each", "rate": "per item" }
+    ]
+  },
+  {
+    "name": "BBQ",
+    "isRaw": false,
+    "calories": 4000,
+    "quality": 5,
+    "requirements": [],
+    "inputs": [
+      { "name": "Pincha Peppernut", "value": 1, "unit": "each", "rate": "per item" },
+      { "name": "Meat", "value": 1, "unit": "each", "rate": "per item" }
+    ]
+  },
+  {
+    "name": "Pepper Bread",
+    "isRaw": false,
+    "calories": 4000,
+    "quality": 5,
+    "requirements": [],
+    "inputs": [
+      { "name": "Pincha Peppernut", "value": 1, "unit": "each", "rate": "per item" },
+      { "name": "Sleet Wheat Grain", "value": 10, "unit": "each", "rate": "per item" }
+    ]
+  }
+]
