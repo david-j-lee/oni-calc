@@ -174,21 +174,18 @@ export class BuildingsGridCard extends React.Component {
   };
 
   render() {
-    const { classes, fullScreen } = this.props;
-    const { name, hasConsistentIO } = this.props.building;
+    const { classes, fullScreen, building } = this.props;
     const { quantity, utilization, dialogOpen, anchorEl } = this.state;
     const popoverOpen = !!anchorEl;
 
-    const imgUrl =
-      '/images/buildings/' +
-      name
-        .toLowerCase()
-        .split(' ')
-        .join('-') +
-      '.png';
+    const imgUrl = `/images/buildings/${building.name
+      .toLowerCase()
+      .split(' ')
+      .join('-')}.png`;
 
-    const wikLink =
-      'https://oxygennotincluded.gamepedia.com/' + name.split('-').join('_'); // may need to hard code as json
+    const wikLink = `https://oxygennotincluded.gamepedia.com/${building.name
+      .split('-')
+      .join('_')}`; // may need to hard code as json
 
     return (
       <div className={classes.root}>
@@ -231,7 +228,7 @@ export class BuildingsGridCard extends React.Component {
           <CardMedia
             className={classes.cover}
             image={imgUrl}
-            title={name}
+            title={building.name}
             onMouseOver={this.handlePopoverOpen}
             onMouseOut={this.handlePopoverClose}
           />
@@ -241,7 +238,7 @@ export class BuildingsGridCard extends React.Component {
                 variant="subheading"
                 className={classes.cardContentTitle}
               >
-                {name}
+                {building.name}
               </Typography>
               {/* <Tooltip title="More"> */}
               <IconButton onClick={this.handleClickOpen}>
@@ -249,7 +246,7 @@ export class BuildingsGridCard extends React.Component {
               </IconButton>
               {/* </Tooltip> */}
             </CardContent>
-            {!hasConsistentIO &&
+            {!building.hasConsistentIO &&
               quantity > 0 && (
                 <div className={classes.slider}>
                   <Slider
