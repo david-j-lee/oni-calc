@@ -51,16 +51,6 @@ export class BuildingsGrid extends React.Component {
     expansionPanelStates: {},
   };
 
-  groupedToValues = this.props.buildings.reduce((a, b) => {
-    a[b.category] = a[b.category] || [];
-    a[b.category].push(b);
-    return a;
-  }, []);
-
-  groupedBuildings = Object.keys(this.groupedToValues).map(group => {
-    return { name: group, buildings: this.groupedToValues[group] };
-  });
-
   componentWillMount() {
     this.setExpansionPanelStates(!this.props.collapseBuildingPanels);
   }
@@ -71,18 +61,10 @@ export class BuildingsGrid extends React.Component {
     }
   }
 
-  handleChange = panel => (event, expanded) => {
-    this.setState({
-      expansionPanelStates: {
-        ...this.state.expansionPanelStates,
-        [panel]: !this.state.expansionPanelStates[panel],
-      },
-    });
-  };
-
   setExpansionPanelStates = state => {
     let states = { ...this.state.expansionPanelStates };
-    this.groupedBuildings.forEach(group => {
+
+    this.getGroupedBuildings().forEach(group => {
       const normalizedName = group.name
         .toLowerCase()
         .split(' ')
@@ -97,13 +79,33 @@ export class BuildingsGrid extends React.Component {
     });
   };
 
+  getGroupedBuildings = () => {
+    const groupedValues = this.props.buildings.reduce((a, b) => {
+      a[b.category] = a[b.category] || [];
+      a[b.category].push(b);
+      return a;
+    }, []);
+    return Object.keys(groupedValues).map(group => {
+      return { name: group, buildings: groupedValues[group] };
+    });
+  };
+
+  handleChange = panel => (event, expanded) => {
+    this.setState({
+      expansionPanelStates: {
+        ...this.state.expansionPanelStates,
+        [panel]: !this.state.expansionPanelStates[panel],
+      },
+    });
+  };
+
   render() {
     const { classes, collapseBuildingPanels } = this.props;
     const { expansionPanelStates } = this.state;
 
     return (
       <div className={classes.root}>
-        {this.groupedBuildings.map((group, index) => {
+        {this.getGroupedBuildings().map((group, index) => {
           const normalizedName = group.name
             .toLowerCase()
             .split(' ')
