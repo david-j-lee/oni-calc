@@ -10,6 +10,15 @@
       gtag('config', 'UA-60339937-4');
     </script>
 
+    <!-- sentry.io -->
+    <script src=https://cdn.ravenjs.com/3.24.0/raven.min.js crossorigin=anonymous></script>
+    <script>
+      Raven.config('https://64a876e4c16946e9ab5b268e13d887cd@sentry.io/1247817', {
+        release: '0-0-0',
+        environment: 'development-test',
+      }).install()
+     </script>
+
     <meta charset="utf-8">
     <meta name="description" content="Oxygen not Included calculator. Plan out your base and monitor power and resource levels.">
     <meta name="keywords" content="Oxygen not Included,ONI,Power Generation,Power Usage,Resource,Forecast,Plan">
