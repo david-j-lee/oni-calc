@@ -56,7 +56,10 @@ export class BuildingsGrid extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.collapseBuildingPanelsTrigger !== undefined) {
+    if (
+      nextProps.collapseBuildingPanelsTrigger !==
+      this.props.collapseBuildingPanelsTrigger
+    ) {
       this.setExpansionPanelStates(!nextProps.collapseBuildingPanels);
     }
   }
