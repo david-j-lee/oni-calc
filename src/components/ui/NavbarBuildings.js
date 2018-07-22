@@ -92,16 +92,20 @@ export class NavbarBuildings extends React.Component {
             <ClearIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Expand all panels">
-          <IconButton onClick={this.expandBuildingPanels} color="inherit">
-            <VerticalAlignBottomIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Collapse all panels">
-          <IconButton onClick={this.collapseBuildingPanels} color="inherit">
-            <VerticalAlignTopIcon />
-          </IconButton>
-        </Tooltip>
+        {buildingsLayout === 'grid' && (
+          <Tooltip title="Expand all panels">
+            <IconButton onClick={this.expandBuildingPanels} color="inherit">
+              <VerticalAlignBottomIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+        {buildingsLayout === 'grid' && (
+          <Tooltip title="Collapse all panels">
+            <IconButton onClick={this.collapseBuildingPanels} color="inherit">
+              <VerticalAlignTopIcon />
+            </IconButton>
+          </Tooltip>
+        )}
         <Tooltip title={buildingLayoutTooltipTitle}>
           <IconButton onClick={this.setBuildingsLayout} color="inherit">
             {buildingsLayout === 'grid' && <ViewList />}
