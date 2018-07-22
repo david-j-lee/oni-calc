@@ -28,7 +28,7 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
   },
   io: {
-    cursor: 'pointer',
+    cursor: 'default',
   },
   popover: {
     pointerEvents: 'none',

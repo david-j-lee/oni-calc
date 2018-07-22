@@ -52,7 +52,7 @@ const styles = theme => ({
     width: 60,
     backgroundSize: 'contain',
     backgroundColor: '#3E4357',
-    cursor: 'pointer',
+    cursor: 'default',
   },
   quantity: {
     flexGrow: 1,

@@ -21,6 +21,7 @@ const styles = theme => ({
     display: 'flex',
     flexWrap: 'nowrap',
     alignItems: 'center',
+    cursor: 'default',
   },
   image: {
     height: 20,
@@ -30,7 +31,7 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
   },
   quantity: {
-    cursor: 'pointer',
+    cursor: 'default',
   },
   popover: {
     pointerEvents: 'none',

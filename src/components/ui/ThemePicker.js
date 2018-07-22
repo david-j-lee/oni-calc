@@ -145,7 +145,7 @@ export class ThemePicker extends React.Component {
     this.setState({ dialogOpen: true });
   };
 
-  handleCancel = () => {
+  handleClose = () => {
     this.setState({ color1: "", color2: "", dialogOpen: false });
   };
 
@@ -154,11 +154,11 @@ export class ThemePicker extends React.Component {
     this.setState({ color1: "", color2: "", dialogOpen: false });
   };
 
-  handleColor1Click = () => {
+  handleColorOneClick = () => {
     this.setState({ color1: "" });
   };
 
-  handleColor2Click = () => {
+  handleColorTwoClick = () => {
     this.setState({ color2: "" });
   };
 
@@ -178,7 +178,7 @@ export class ThemePicker extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, fullScreen } = this.props;
     const colors = [
       red,
       pink,
@@ -241,12 +241,12 @@ export class ThemePicker extends React.Component {
         <div>
           <div>
             <ButtonBase
-              onClick={this.handleColor1Click}
+              onClick={this.handleColorOneClick}
               className={classes.colorPreviewCircleLeft}
               style={{ backgroundColor: this.state.color1[500] }}
             />
             <ButtonBase
-              onClick={this.handleColor2Click}
+              onClick={this.handleColorTwoClick}
               className={classes.colorPreviewCircleRight}
               style={{ backgroundColor: this.state.color2[500] }}
             />
@@ -269,9 +269,9 @@ export class ThemePicker extends React.Component {
           </IconButton>
         </Tooltip>
         <Dialog
-          disableBackdropClick
-          disableEscapeKeyDown
+          fullScreen={fullScreen}
           open={this.state.dialogOpen}
+          onClose={this.handleClose}
           classes={{ paper: "colors-dialog" }}
         >
           <DialogTitle id="simple-dialog-title">
@@ -286,7 +286,7 @@ export class ThemePicker extends React.Component {
             </div>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleCancel} color="secondary">
+            <Button onClick={this.handleClose} color="secondary">
               Cancel
             </Button>
             <Button

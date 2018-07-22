@@ -29,6 +29,7 @@ const styles = theme => ({
   category: {
     display: 'flex',
     alignItems: 'center',
+    paddingTop: theme.spacing.unit * .75,
   },
   categoryImage: {
     width: 25,

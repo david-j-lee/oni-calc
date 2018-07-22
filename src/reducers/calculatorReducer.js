@@ -18,6 +18,8 @@ import {
   CLEAR_FOOD_INPUTS,
   CLEAR_GEYSER_INPUTS,
   CLEAR_DUPE_INPUTS,
+  COLLAPSE_ALL_BUILDINGS,
+  EXPAND_ALL_BUILDINGS,
 } from '../constants/actionConstants';
 
 import {
@@ -41,6 +43,8 @@ import {
 
 const initialState = {
   tabIndex: 0,
+  collapseBuildingPanels: false,
+  collapseBuildingPanelsTrigger: false,
   buildings: [],
   buildingsLayout: 'grid',
   buildingsOrderBy: '',
@@ -98,6 +102,18 @@ export default function(state = initialState, action) {
       return {
         ...state,
         ...setBuildingsLayout(state.buildingsLayout),
+      };
+    case COLLAPSE_ALL_BUILDINGS:
+      return {
+        ...state,
+        collapseBuildingPanels: true,
+        collapseBuildingPanelsTrigger: state.collapseBuildingPanelsTrigger + 1,
+      };
+    case EXPAND_ALL_BUILDINGS:
+      return {
+        ...state,
+        collapseBuildingPanels: false,
+        collapseBuildingPanelsTrigger: state.collapseBuildingPanelsTrigger - 1,
       };
     // resources
     case SORT_RESOURCES:

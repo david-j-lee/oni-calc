@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import {
   clearBuildingInputs,
   setBuildingsLayout,
+  collapseBuildingPanels,
+  expandBuildingPanels,
 } from '../../actions/buildingActions';
 
 // material
@@ -21,6 +23,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import ClearIcon from '@material-ui/icons/Clear';
 import ViewList from '@material-ui/icons/ViewList';
 import ViewModule from '@material-ui/icons/ViewModule';
+import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
+import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
 
 const styles = theme => ({
   root: {},
@@ -37,6 +41,14 @@ export class NavbarBuildings extends React.Component {
 
   handleClose = () => {
     this.setState({ dialogOpen: false });
+  };
+
+  expandBuildingPanels = () => {
+    this.props.expandBuildingPanels();
+  };
+
+  collapseBuildingPanels = () => {
+    this.props.collapseBuildingPanels();
   };
 
   setBuildingsLayout = () => {
@@ -80,6 +92,16 @@ export class NavbarBuildings extends React.Component {
             <ClearIcon />
           </IconButton>
         </Tooltip>
+        <Tooltip title="Expand all panels">
+          <IconButton onClick={this.expandBuildingPanels} color="inherit">
+            <VerticalAlignBottomIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Collapse all panels">
+          <IconButton onClick={this.collapseBuildingPanels} color="inherit">
+            <VerticalAlignTopIcon />
+          </IconButton>
+        </Tooltip>
         <Tooltip title={buildingLayoutTooltipTitle}>
           <IconButton onClick={this.setBuildingsLayout} color="inherit">
             {buildingsLayout === 'grid' && <ViewList />}
@@ -98,6 +120,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   clearBuildingInputs,
   setBuildingsLayout,
+  collapseBuildingPanels,
+  expandBuildingPanels,
 };
 
 export default connect(

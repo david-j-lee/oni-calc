@@ -29,7 +29,7 @@ const styles = theme => ({
     paddingLeft: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
     paddingBottom: theme.spacing.unit,
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('sm')]: {
       width: '100%',
     },
   },
@@ -47,64 +47,111 @@ const styles = theme => ({
 });
 
 export class BuildingsGrid extends React.Component {
+  state = {
+    expansionPanelStates: {},
+  };
+
+  groupedToValues = this.props.buildings.reduce((a, b) => {
+    a[b.category] = a[b.category] || [];
+    a[b.category].push(b);
+    return a;
+  }, []);
+
+  groupedBuildings = Object.keys(this.groupedToValues).map(group => {
+    return { name: group, buildings: this.groupedToValues[group] };
+  });
+
+  componentWillMount() {
+    this.setExpansionPanelStates(!this.props.collapseBuildingPanels);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.collapseBuildingPanelsTrigger !== undefined) {
+      this.setExpansionPanelStates(!nextProps.collapseBuildingPanels);
+    }
+  }
+
+  handleChange = panel => (event, expanded) => {
+    this.setState({
+      expansionPanelStates: {
+        ...this.state.expansionPanelStates,
+        [panel]: !this.state.expansionPanelStates[panel],
+      },
+    });
+  };
+
+  setExpansionPanelStates = state => {
+    let states = { ...this.state.expansionPanelStates };
+    this.groupedBuildings.forEach(group => {
+      const normalizedName = group.name
+        .toLowerCase()
+        .split(' ')
+        .join('-');
+      states = {
+        ...states,
+        [normalizedName]: state,
+      };
+    });
+    this.setState({
+      expansionPanelStates: states,
+    });
+  };
+
   render() {
-    const { classes } = this.props;
-
-    const groupedToValues = this.props.buildings.reduce((a, b) => {
-      a[b.category] = a[b.category] || [];
-      a[b.category].push(b);
-      return a;
-    }, []);
-
-    const groupedBuildings = Object.keys(groupedToValues).map(group => {
-      return { name: group, buildings: groupedToValues[group] };
-    });
-
-    const buildings = groupedBuildings.map((group, index) => {
-      const image = '/images/building-categories/' +
-        group.name.toLowerCase().split(' ').join('-') + '.png';
-      return (
-        <ExpansionPanel
-          key={index}
-          defaultExpanded
-          className={classes.expansionPanel}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <div className={classes.buildingName}>
-              <div
-                className={classes.image}
-                style={{ backgroundImage: `url(${image})` }} />
-              <Typography>
-                {group.name}
-              </Typography>
-            </div>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Grid container>
-              {group.buildings
-                .sort((a, b) => (a.name < b.name ? -1 : 1))
-                .map((building, index) => {
-                  return (
-                    <Grid
-                      item
-                      key={index}
-                      className={classes.building}
-                      sm={12}
-                      md={6}
-                      lg={4}
-                      xl={3}>
-                      <BuildingsGridCard building={building} />
-                    </Grid>
-                  )
-                })}
-            </Grid>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      )
-    });
+    const { classes, collapseBuildingPanels } = this.props;
+    const { expansionPanelStates } = this.state;
 
     return (
       <div className={classes.root}>
-        {buildings}
+        {this.groupedBuildings.map((group, index) => {
+          const normalizedName = group.name
+            .toLowerCase()
+            .split(' ')
+            .join('-');
+
+          const image = `/images/building-categories/${normalizedName}.png`;
+
+          return (
+            <ExpansionPanel
+              key={index}
+              expanded={expansionPanelStates[normalizedName]}
+              defaultExpanded={!collapseBuildingPanels}
+              className={classes.expansionPanel}
+              onChange={this.handleChange(normalizedName)}
+            >
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <div className={classes.buildingName}>
+                  <div
+                    className={classes.image}
+                    style={{ backgroundImage: `url(${image})` }}
+                  />
+                  <Typography>{group.name}</Typography>
+                </div>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <Grid container>
+                  {group.buildings
+                    .sort((a, b) => (a.name < b.name ? -1 : 1))
+                    .map((building, index) => {
+                      return (
+                        <Grid
+                          item
+                          key={index}
+                          className={classes.building}
+                          sm={12}
+                          md={6}
+                          lg={4}
+                          xl={3}
+                        >
+                          <BuildingsGridCard building={building} />
+                        </Grid>
+                      );
+                    })}
+                </Grid>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          );
+        })}
       </div>
     );
   }
@@ -112,8 +159,14 @@ export class BuildingsGrid extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    buildings: state.calculator.buildings
-  }
-}
+    buildings: state.calculator.buildings,
+    collapseBuildingPanels: state.calculator.collapseBuildingPanels,
+    collapseBuildingPanelsTrigger:
+      state.calculator.collapseBuildingPanelsTrigger,
+  };
+};
 
-export default connect(mapStateToProps, null)(withStyles(styles)(BuildingsGrid))
+export default connect(
+  mapStateToProps,
+  null,
+)(withStyles(styles)(BuildingsGrid));

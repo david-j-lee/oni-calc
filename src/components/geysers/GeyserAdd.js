@@ -34,8 +34,8 @@ const styles = theme => ({
     justifyContent: 'flex-end',
   },
   avatar: {
-    height: '100%',
-    width: '100%',
+    height: '75%',
+    width: '75%',
     backgroundSize: 'contain',
   },
   geyserSelect: {

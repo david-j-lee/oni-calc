@@ -56,7 +56,7 @@ const styles = theme => ({
     width: 60,
     backgroundSize: 'contain',
     backgroundColor: '#3E4357',
-    cursor: 'pointer',
+    cursor: 'default',
   },
   quantity: {
     flexGrow: 1,
@@ -186,6 +186,7 @@ export class BuildingsGridCard extends React.Component {
         .split(' ')
         .join('-') +
       '.png';
+
     const wikLink =
       'https://oxygennotincluded.gamepedia.com/' + name.split('-').join('_'); // may need to hard code as json
 

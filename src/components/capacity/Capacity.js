@@ -36,7 +36,7 @@ const styles = theme => ({
     pointerEvents: 'none',
   },
   pointer: {
-    cursor: 'pointer',
+    cursor: 'default',
   },
 });
 

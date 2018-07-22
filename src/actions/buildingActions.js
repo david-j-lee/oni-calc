@@ -4,11 +4,25 @@ import {
   SORT_BUILDINGS,
   SET_BUILDINGS_LAYOUT,
   SET_BUILDING_UTILIZATION,
+  COLLAPSE_ALL_BUILDINGS,
+  EXPAND_ALL_BUILDINGS,
 } from '../constants/actionConstants';
 
 export const setBuildingsLayout = () => dispatch => {
   dispatch({
     type: SET_BUILDINGS_LAYOUT,
+  });
+};
+
+export const collapseBuildingPanels = () => dispatch => {
+  dispatch({
+    type: COLLAPSE_ALL_BUILDINGS,
+  });
+};
+
+export const expandBuildingPanels = () => dispatch => {
+  dispatch({
+    type: EXPAND_ALL_BUILDINGS,
   });
 };
 

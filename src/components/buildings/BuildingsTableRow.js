@@ -39,7 +39,7 @@ const styles = theme => ({
     height: 25,
     backgroundSize: 'cover',
     marginRight: theme.spacing.unit,
-    cursor: 'pointer',
+    cursor: 'default',
   },
   category: {
     display: 'flex',
@@ -52,7 +52,7 @@ const styles = theme => ({
     height: 40,
     backgroundSize: 'cover',
     marginRight: theme.spacing.unit,
-    cursor: 'pointer',
+    cursor: 'default',
   },
   building: {
     display: 'flex',

@@ -22,6 +22,10 @@ const styles = theme => ({
     width: 500 - 160,
     flexGrow: 1,
   },
+  image: {
+    width: 120,
+    height: 120,
+  },
   title: {
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit,
@@ -42,7 +46,7 @@ export class PlantDetails extends React.Component {
   render() {
     const { classes, plant } = this.props;
 
-    const imgUrl = `/images/resources/${plant.name
+    const imgUrl = `/images/bio/${plant.name
       .toLowerCase()
       .split(' ')
       .join('-')}.png`;
