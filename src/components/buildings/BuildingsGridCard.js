@@ -40,7 +40,7 @@ const styles = theme => ({
     height: '100%',
   },
   cardContent: {
-    flex: '1 0 auto',
+    // flex: '1 0 auto',
     display: 'flex',
     paddingRight: theme.spacing.unit * 2,
   },
@@ -80,6 +80,7 @@ const styles = theme => ({
     justifyContent: 'center',
     marginLeft: theme.spacing.unit * 2,
     marginRight: theme.spacing.unit * 2,
+    marginBottom: theme.spacing.unit * 2,
   },
   sliderLabel: {
     paddingLeft: theme.spacing.unit * 2,
@@ -100,7 +101,7 @@ export class BuildingsGridCard extends React.Component {
 
   state = {
     quantity: this.props.building.quantity,
-    utilization: this.props.building.utilization || 0,
+    utilization: this.props.building.utilization,
     dialogOpen: false,
     popoverOpen: false,
     anchorEl: null,
@@ -109,6 +110,9 @@ export class BuildingsGridCard extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.state.quantity !== nextProps.building.quantity) {
       this.setState({ quantity: nextProps.building.quantity });
+    }
+    if (this.state.utilization !== nextProps.building.utilization) {
+      this.setState({ utilization: nextProps.building.utilization });
     }
   }
 
@@ -240,12 +244,31 @@ export class BuildingsGridCard extends React.Component {
               >
                 {building.name}
               </Typography>
-              {/* <Tooltip title="More"> */}
               <IconButton onClick={this.handleClickOpen}>
                 <MoreVert />
               </IconButton>
-              {/* </Tooltip> */}
             </CardContent>
+            <CardActions>
+              <IconButton
+                color="secondary"
+                className={classes.button}
+                aria-label="Decrement"
+                onClick={this.decrement}
+              >
+                <ArrowDropDown />
+              </IconButton>
+              <Typography variant="title" className={classes.quantity}>
+                {quantity}
+              </Typography>
+              <IconButton
+                color="primary"
+                className={classes.button}
+                aria-label="Increment"
+                onClick={this.increment}
+              >
+                <ArrowDropUp />
+              </IconButton>
+            </CardActions>
             {!building.hasConsistentIO &&
               quantity > 0 && (
                 <div className={classes.slider}>
@@ -258,31 +281,6 @@ export class BuildingsGridCard extends React.Component {
                   </Typography>
                 </div>
               )}
-            <CardActions>
-              {/* <Tooltip title="Decrease"> */}
-              <IconButton
-                color="secondary"
-                className={classes.button}
-                aria-label="Decrement"
-                onClick={this.decrement}
-              >
-                <ArrowDropDown />
-              </IconButton>
-              {/* </Tooltip> */}
-              <Typography variant="title" className={classes.quantity}>
-                {quantity}
-              </Typography>
-              {/* <Tooltip title="Increase"> */}
-              <IconButton
-                color="primary"
-                className={classes.button}
-                aria-label="Increment"
-                onClick={this.increment}
-              >
-                <ArrowDropUp />
-              </IconButton>
-              {/* </Tooltip> */}
-            </CardActions>
           </div>
         </Card>
       </div>
