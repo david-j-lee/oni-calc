@@ -21,8 +21,8 @@ function updateBuildingsWithInputs(buildings, inputs) {
     const input = inputs.find(input => input.name === building.name);
     return {
       ...building,
-      quantity: input ? input.quantity : 0,
-      utilization: input
+      quantity: input.quantity || 0,
+      utilization: input.utilization
         ? input.utilization
         : building.hasConsistentIO
           ? 100
@@ -53,22 +53,29 @@ function getBuildingsIOsForResource(buildings, type, resourceName) {
   if (newBuildings.length === 0) return [];
 
   return newBuildings
-    .map(building =>
-      building[type].filter(io => io.name === resourceName).map(io => {
-        const standardIO = getStandardIO(io);
-        return {
-          ...io,
-          building: building,
-          valueExtended: getExtendedValue(
-            building.quantity,
-            building.utilization,
-            standardIO.value,
-          ),
-          rate: standardIO.rate,
-        };
-      }),
-    )
+    .map(building => getBuildingIOs(building, type, resourceName))
     .reduce((a, b) => a.concat(b));
+}
+
+function getBuildingIOs(building, type, resourceName) {
+  if (building[type] === undefined) return [];
+
+  const ios = building[type].filter(io => io.name === resourceName);
+  if (ios.length === 0) return [];
+
+  return ios.map(io => {
+    const standardIO = getStandardIO(io);
+    return {
+      ...io,
+      building: building,
+      valueExtended: getExtendedValue(
+        building.quantity,
+        building.utilization,
+        standardIO.value,
+      ),
+      rate: standardIO.rate,
+    };
+  });
 }
 
 function getExtendedValue(quantity, utilization, value) {
