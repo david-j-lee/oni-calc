@@ -12,7 +12,7 @@ function getBuildingsWithDefaultInputs(buildings) {
   return buildings.map(building => ({
     ...building,
     quantity: 0,
-    utilization: building.hasConsistentIO ? 100 : 0,
+    utilization: building.hasConsistentIO ? 0 : 100,
   }));
 }
 
@@ -25,8 +25,8 @@ function updateBuildingsWithInputs(buildings, inputs) {
       utilization: input.utilization
         ? input.utilization
         : building.hasConsistentIO
-          ? 100
-          : 0,
+          ? 0
+          : 100,
     };
   });
 }
@@ -86,6 +86,12 @@ export function updateBuildingQuantity(buildings, name, quantity) {
   const newBuildings = buildings.map(building => ({
     ...building,
     quantity: building.name === name ? quantity : building.quantity,
+    utilization:
+      building.name === name
+        ? building.hasConsistentIO
+          ? 0
+          : 100
+        : building.utilization,
   }));
   saveToLocalStorage(newBuildings);
   return newBuildings;
