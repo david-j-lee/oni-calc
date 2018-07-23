@@ -35,9 +35,11 @@ export class FoodDupes extends React.Component {
       .reduce((a, b) => a + b);
 
     const caloriesClass =
-      totalCalories >= dupes.caloriesRequired
-        ? classes.surplus
-        : classes.deficit;
+      totalCalories === 0 || !dupes.caloriesRequired
+        ? ''
+        : totalCalories >= dupes.caloriesRequired
+          ? classes.surplus
+          : classes.deficit;
 
     return (
       <Grid container>
@@ -49,7 +51,7 @@ export class FoodDupes extends React.Component {
               </Typography>
               <Typography>
                 <span className={caloriesClass}>{totalCalories}</span> of{' '}
-                {dupes.caloriesRequired} kcal/cycle
+                {dupes.caloriesRequired || 0} kcal/cycle
               </Typography>
             </CardContent>
           </Card>
