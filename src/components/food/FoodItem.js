@@ -30,7 +30,6 @@ const styles = theme => ({
     height: '100%',
   },
   card: {
-    margin: theme.spacing.unit,
     display: 'flex',
     width: '100%',
     height: '100%',
