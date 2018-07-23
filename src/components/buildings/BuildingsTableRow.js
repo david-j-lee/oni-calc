@@ -18,6 +18,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/lab/Slider';
+import TextField from '@material-ui/core/TextField';
 
 // icons
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
@@ -89,6 +90,7 @@ export class BuildingsTable extends React.Component {
 
   state = {
     quantity: this.props.building.quantity,
+    focused: false,
     utilization: this.props.building.utilization || 0,
     dialogOpen: false,
     popoverOpen: false,
@@ -160,6 +162,28 @@ export class BuildingsTable extends React.Component {
         );
       }, 500);
     }
+  };
+
+  handleChange = event => {
+    let value = event.target.value;
+    value = Number(value);
+    if (value < 0) value = 0;
+
+    this.setState({ quantity: value });
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+    this.timer = setTimeout(() => {
+      this.props.setBuildingQuantity(this.props.building.name, value);
+    }, 500);
+  };
+
+  onBlur = () => {
+    this.setState({ focused: false });
+  };
+
+  onFocus = () => {
+    this.setState({ focused: true });
   };
 
   render() {
@@ -263,7 +287,24 @@ export class BuildingsTable extends React.Component {
         </TableCell>
 
         <TableCell numeric className={classes.quantity} padding="dense">
-          {quantity}
+          <TextField
+            type="number"
+            value={quantity}
+            onChange={this.handleChange}
+            className={classes.quantity}
+            onFocus={this.onFocus}
+            onBlur={this.onBlur}
+            InputProps={{ disableUnderline: !this.state.focused }}
+            inputProps={{
+              style: {
+                textAlign: 'right',
+                maxWidth: '100px',
+                fontSize: '1.25rem',
+              },
+            }}
+          >
+            {quantity}
+          </TextField>
         </TableCell>
 
         <TableCell padding="dense">

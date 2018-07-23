@@ -14,6 +14,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
+import TextField from '@material-ui/core/TextField';
 
 // icons
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
@@ -45,6 +46,7 @@ const styles = theme => ({
 export class DupeTrait extends React.Component {
   state = {
     quantity: this.props.trait.quantity,
+    focused: false,
     dialogOpen: false,
   };
 
@@ -94,6 +96,28 @@ export class DupeTrait extends React.Component {
     }
   };
 
+  handleChange = event => {
+    let value = event.target.value;
+    value = Number(value);
+    if (value < 0) value = 0;
+
+    this.setState({ quantity: value });
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+    this.timer = setTimeout(() => {
+      this.props.setDupeTraitQuantity(this.props.trait.name, value);
+    }, 500);
+  };
+
+  onBlur = () => {
+    this.setState({ focused: false });
+  };
+
+  onFocus = () => {
+    this.setState({ focused: true });
+  };
+
   render() {
     const { classes, fullScreen, trait } = this.props;
     const { quantity, dialogOpen } = this.state;
@@ -138,7 +162,6 @@ export class DupeTrait extends React.Component {
             </IconButton>
           </CardContent>
           <CardActions>
-            {/* <Tooltip title="Decrease"> */}
             <IconButton
               color="secondary"
               className={classes.button}
@@ -147,11 +170,20 @@ export class DupeTrait extends React.Component {
             >
               <ArrowDropDown />
             </IconButton>
-            {/* </Tooltip> */}
-            <Typography variant="title" className={classes.quantity}>
+            <TextField
+              type="number"
+              value={quantity}
+              onChange={this.handleChange}
+              className={classes.quantity}
+              onFocus={this.onFocus}
+              onBlur={this.onBlur}
+              InputProps={{ disableUnderline: !this.state.focused }}
+              inputProps={{
+                style: { textAlign: 'right', fontSize: '1.25rem' },
+              }}
+            >
               {quantity}
-            </Typography>
-            {/* <Tooltip title="Increase"> */}
+            </TextField>
             <IconButton
               color="primary"
               className={classes.button}
@@ -160,7 +192,6 @@ export class DupeTrait extends React.Component {
             >
               <ArrowDropUp />
             </IconButton>
-            {/* </Tooltip> */}
           </CardActions>
         </Card>
       </div>

@@ -16,6 +16,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
+import TextField from '@material-ui/core/TextField';
 
 // icons
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
@@ -69,6 +70,7 @@ const styles = theme => ({
 export class FoodItem extends React.Component {
   state = {
     quantity: this.props.item.quantity,
+    focused: false,
     dialogOpen: false,
   };
 
@@ -117,6 +119,28 @@ export class FoodItem extends React.Component {
         this.props.setFoodQuantity(this.props.item.name, this.state.quantity);
       }, 500);
     }
+  };
+
+  handleChange = event => {
+    let value = event.target.value;
+    value = Number(value);
+    if (value < 0) value = 0;
+
+    this.setState({ quantity: value });
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+    this.timer = setTimeout(() => {
+      this.props.setFoodQuantity(this.props.item.name, value);
+    }, 500);
+  };
+
+  onBlur = () => {
+    this.setState({ focused: false });
+  };
+
+  onFocus = () => {
+    this.setState({ focused: true });
   };
 
   render() {
@@ -198,9 +222,24 @@ export class FoodItem extends React.Component {
               >
                 <ArrowDropDown />
               </IconButton>
-              <Typography variant="title" className={classes.quantity}>
+              <TextField
+                type="number"
+                value={quantity}
+                onChange={this.handleChange}
+                className={classes.quantity}
+                onFocus={this.onFocus}
+                onBlur={this.onBlur}
+                InputProps={{ disableUnderline: !this.state.focused }}
+                inputProps={{
+                  style: {
+                    textAlign: 'right',
+                    fontSize: '1.25rem',
+                    width: '25px',
+                  },
+                }}
+              >
                 {quantity}
-              </Typography>
+              </TextField>
               <IconButton
                 color="primary"
                 className={classes.button}

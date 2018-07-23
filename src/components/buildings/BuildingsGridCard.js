@@ -20,6 +20,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
 import Slider from '@material-ui/lab/Slider';
+import TextField from '@material-ui/core/TextField';
 // import Tooltip from '@material-ui/core/Tooltip';
 
 // icons
@@ -100,6 +101,7 @@ export class BuildingsGridCard extends React.Component {
 
   state = {
     quantity: this.props.building.quantity,
+    focused: false,
     utilization: this.props.building.utilization,
     dialogOpen: false,
     popoverOpen: false,
@@ -182,6 +184,28 @@ export class BuildingsGridCard extends React.Component {
     }
   };
 
+  handleChange = event => {
+    let value = event.target.value;
+    value = Number(value);
+    if (value < 0) value = 0;
+
+    this.setState({ quantity: value });
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+    this.timer = setTimeout(() => {
+      this.props.setBuildingQuantity(this.props.building.name, value);
+    }, 500);
+  };
+
+  onBlur = () => {
+    this.setState({ focused: false });
+  };
+
+  onFocus = () => {
+    this.setState({ focused: true });
+  };
+
   render() {
     const { classes, fullScreen, building } = this.props;
     const { quantity, utilization, dialogOpen, anchorEl } = this.state;
@@ -262,9 +286,24 @@ export class BuildingsGridCard extends React.Component {
               >
                 <ArrowDropDown />
               </IconButton>
-              <Typography variant="title" className={classes.quantity}>
+              <TextField
+                type="number"
+                value={quantity}
+                onChange={this.handleChange}
+                className={classes.quantity}
+                onFocus={this.onFocus}
+                onBlur={this.onBlur}
+                InputProps={{ disableUnderline: !this.state.focused }}
+                inputProps={{
+                  style: {
+                    textAlign: 'right',
+                    fontSize: '1.25rem',
+                    width: '25px',
+                  },
+                }}
+              >
                 {quantity}
-              </Typography>
+              </TextField>
               <IconButton
                 color="primary"
                 className={classes.button}
