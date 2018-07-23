@@ -121,9 +121,9 @@ export default function(state = initialState, action) {
         ...state,
         ...sortResources(
           state.resources,
-          state.resourcesOrder,
           state.resourcesOrderBy,
-          action.payload.orderBy,
+          action.payload,
+          state.resourcesOrder,
         ),
       };
     // dupes
@@ -163,8 +163,9 @@ export default function(state = initialState, action) {
         ...state,
         ...sortBuildings(
           state.buildings,
-          state.buildingsOrder,
           state.buildingsOrderBy,
+          action.payload,
+          state.buildingsOrder,
         ),
       };
     case SET_BUILDING_QUANTITY:
