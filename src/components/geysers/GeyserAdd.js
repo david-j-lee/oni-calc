@@ -216,6 +216,7 @@ export class GeyserAdd extends React.Component {
                     <TextField
                       value={geyser.amount}
                       className={classes.textField}
+                      margin="dense"
                       onChange={e => this.handleTextFieldChange(e, 'amount')}
                       label="Amount per eruption"
                       helperText="g/s"
@@ -227,6 +228,7 @@ export class GeyserAdd extends React.Component {
                     <TextField
                       value={geyser.eruptionDuration}
                       className={classes.textField}
+                      margin="dense"
                       onChange={e =>
                         this.handleTextFieldChange(e, 'eruptionDuration')
                       }
@@ -238,6 +240,7 @@ export class GeyserAdd extends React.Component {
                     <TextField
                       value={geyser.eruptionEvery}
                       className={classes.textField}
+                      margin="dense"
                       onChange={e =>
                         this.handleTextFieldChange(e, 'eruptionEvery')
                       }
@@ -251,6 +254,7 @@ export class GeyserAdd extends React.Component {
                     <TextField
                       value={geyser.activeDuration}
                       className={classes.textField}
+                      margin="dense"
                       onChange={e =>
                         this.handleTextFieldChange(e, 'activeDuration')
                       }
