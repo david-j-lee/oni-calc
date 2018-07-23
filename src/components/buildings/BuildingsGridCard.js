@@ -40,7 +40,6 @@ const styles = theme => ({
     height: '100%',
   },
   cardContent: {
-    // flex: '1 0 auto',
     display: 'flex',
     paddingRight: theme.spacing.unit * 2,
   },
@@ -106,6 +105,12 @@ export class BuildingsGridCard extends React.Component {
     popoverOpen: false,
     anchorEl: null,
   };
+
+  constructor(props) {
+    super(props);
+
+    this.rootRef = React.createRef();
+  }
 
   componentWillReceiveProps(nextProps) {
     if (this.state.quantity !== nextProps.building.quantity) {
@@ -192,7 +197,7 @@ export class BuildingsGridCard extends React.Component {
       .join('_')}`; // may need to hard code as json
 
     return (
-      <div className={classes.root}>
+      <div className={classes.root} ref={this.rootRef}>
         <Dialog
           fullScreen={fullScreen}
           open={dialogOpen}

@@ -105,7 +105,7 @@ export class BuildingsGrid extends React.Component {
   render() {
     const { classes, collapseBuildingPanels } = this.props;
     const { expansionPanelStates } = this.state;
-
+    
     return (
       <div className={classes.root}>
         {this.getGroupedBuildings().map((group, index) => {

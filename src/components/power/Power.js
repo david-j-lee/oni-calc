@@ -15,8 +15,8 @@ import Popover from '@material-ui/core/Popover';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 // components
-import Number from "../common/Number";
-import PowerBuildings from "./PowerBuildings";
+import Number from '../common/Number';
+import PowerBuildings from './PowerBuildings';
 
 const styles = theme => ({
   power: {
@@ -44,7 +44,7 @@ export class Power extends React.Component {
     dialogContent: '',
     dialogTitle: '',
     dialogArray: [],
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.powerUsage.value > nextProps.powerGeneration.value) {
@@ -82,37 +82,48 @@ export class Power extends React.Component {
           <Typography>Power</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-
           <Popover
             className={classes.popover}
-            classes={{ paper: classes.paper, }}
+            classes={{ paper: classes.paper }}
             open={dialogOpen}
             anchorEl={anchorEl}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right', }}
-            transformOrigin={{ vertical: 'top', horizontal: 'left', }}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'left' }}
             onClose={this.handlePopoverClose}
-            disableRestoreFocus>
+            disableRestoreFocus
+          >
             <PowerBuildings title={dialogTitle} buildings={dialogArray} />
           </Popover>
 
           <div className={classes.power}>
-
             <div className={classes.powerText}>
-              <span className={classes.pointer}
+              <div
+                className={classes.pointer}
                 onMouseOut={this.handlePopoverClose}
-                onMouseOver={(e) => this.handlePopoverOpen(e, "Net",
-                  powerUsage.buildings.concat(powerGeneration.buildings)
-                )}>
-                <Number suffix=" W"
-                  value={powerGeneration.value - powerUsage.value} />
-              </span>
+                onMouseOver={e =>
+                  this.handlePopoverOpen(
+                    e,
+                    'Net',
+                    powerUsage.buildings.concat(powerGeneration.buildings),
+                  )
+                }
+              >
+                <Number
+                  suffix=" W"
+                  value={powerGeneration.value - powerUsage.value}
+                />
+              </div>
               <Typography>Net</Typography>
             </div>
 
             <div className={classes.powerText}>
-              <Typography className={classes.pointer}
+              <Typography
+                className={classes.pointer}
                 onMouseOut={this.handlePopoverClose}
-                onMouseOver={(e) => this.handlePopoverOpen(e, "Usage", powerUsage.buildings)}>
+                onMouseOver={e =>
+                  this.handlePopoverOpen(e, 'Usage', powerUsage.buildings)
+                }
+              >
                 {Math.round(powerUsage.value)} W
               </Typography>
               <Typography>Used</Typography>
@@ -121,19 +132,25 @@ export class Power extends React.Component {
             <Typography>/</Typography>
 
             <div className={classes.powerText}>
-              <Typography className={classes.pointer}
+              <Typography
+                className={classes.pointer}
                 onMouseOut={this.handlePopoverClose}
-                onMouseOver={(e) => this.handlePopoverOpen(e, "Generation", powerGeneration.buildings)}>
+                onMouseOver={e =>
+                  this.handlePopoverOpen(
+                    e,
+                    'Generation',
+                    powerGeneration.buildings,
+                  )
+                }
+              >
                 {Math.round(powerGeneration.value)} W
               </Typography>
               <Typography>Generated</Typography>
             </div>
-
           </div>
-
         </ExpansionPanelDetails>
       </ExpansionPanel>
-    )
+    );
   }
 }
 
@@ -141,7 +158,10 @@ const mapStateToProps = state => {
   return {
     powerGeneration: state.calculator.powerGeneration,
     powerUsage: state.calculator.powerUsage,
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps, null)(withStyles(styles)(Power));
+export default connect(
+  mapStateToProps,
+  null,
+)(withStyles(styles)(Power));
