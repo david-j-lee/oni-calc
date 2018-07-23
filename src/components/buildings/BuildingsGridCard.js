@@ -293,12 +293,14 @@ export class BuildingsGridCard extends React.Component {
                 className={classes.quantity}
                 onFocus={this.onFocus}
                 onBlur={this.onBlur}
-                InputProps={{ disableUnderline: !this.state.focused }}
-                inputProps={{
-                  style: {
-                    textAlign: 'right',
-                    fontSize: '1.25rem',
-                    width: '25px',
+                InputProps={{
+                  disableUnderline: !this.state.focused,
+                  inputProps: {
+                    style: {
+                      textAlign: 'right',
+                      fontSize: '1.25rem',
+                      width: '25px',
+                    },
                   },
                 }}
               >

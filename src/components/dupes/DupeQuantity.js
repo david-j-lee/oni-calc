@@ -168,9 +168,11 @@ export class DupeQuantity extends React.Component {
                 className={classes.quantity}
                 onFocus={this.onFocus}
                 onBlur={this.onBlur}
-                InputProps={{ disableUnderline: !this.state.focused }}
-                inputProps={{
-                  style: { textAlign: 'right', fontSize: '1.25rem' },
+                InputProps={{
+                  disableUnderline: !this.state.focused,
+                  inputProps: {
+                    style: { textAlign: 'right', fontSize: '1.25rem' },
+                  },
                 }}
               >
                 {quantity}
