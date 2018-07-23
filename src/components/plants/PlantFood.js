@@ -20,35 +20,38 @@ export class PlantFood extends React.Component {
     const { classes, plant } = this.props;
     return (
       <div>
-        {plant.rawFood.length === 0 &&
+        {plant.rawFood &&
+          plant.rawFood.length === 0 &&
+          plant.preparedFood &&
           plant.preparedFood.length === 0 && (
             <Typography className={classes.notFound}>No food found</Typography>
           )}
-        {plant.rawFood.length > 0 && (
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Raw Food</TableCell>
-                <TableCell>Quantity</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {plant.rawFood.map((requirement, i) => {
-                return (
-                  <TableRow key={i}>
-                    <TableCell padding="dense">
-                      {requirement.food.name}
-                    </TableCell>
-                    <TableCell numeric padding="dense">
-                      {requirement.quantity}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        )}
-        {plant.preparedFood.length > 0 && (
+        {plant.rawFood &&
+          plant.rawFood.length > 0 && (
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Raw Food</TableCell>
+                  <TableCell>Quantity</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {plant.rawFood.map((requirement, i) => {
+                  return (
+                    <TableRow key={i}>
+                      <TableCell padding="dense">
+                        {requirement.food.name}
+                      </TableCell>
+                      <TableCell numeric padding="dense">
+                        {requirement.quantity}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          )}
+        {(plant.preparedFood && plant.preparedFood.length) > 0 && (
           <Table>
             <TableHead>
               <TableRow>

@@ -31,9 +31,9 @@ const styles = theme => ({
 });
 
 export class Plants extends React.Component {
-  handleRequestSort = id => {
-    this.props.sortResources(id);
-  };
+  // handleRequestSort = id => {
+  //   this.props.sortResources(id);
+  // };
 
   mapPlantsToElement = plants => {
     return plants.map((plant, i) => {
@@ -58,9 +58,9 @@ export class Plants extends React.Component {
                 numeric={header.numeric}
               >
                 <TableSortLabel
-                  active={this.props.resourcesOrderBy === header.id}
-                  direction={this.props.resourcesOrder}
-                  onClick={() => this.handleRequestSort(header.id)}
+                  // active={this.props.resourcesOrderBy === header.id}
+                  // direction={this.props.resourcesOrder}
+                  // onClick={() => this.handleRequestSort(header.id)}
                 >
                   {header.label}
                 </TableSortLabel>

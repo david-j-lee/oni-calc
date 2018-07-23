@@ -32,8 +32,14 @@ function updateDupesWithInputs(dupes, inputs) {
     pollutedDirtValue: inputs.pollutedDirtValue,
     quantity: inputs.total || 0,
     traits: dupes.traits.map(trait => {
-      const inputTrait = inputs.traits.find(input => input.name === trait.name);
-      return { ...trait, quantity: inputTrait.quantity || 0 };
+      if (inputs.traits) {
+        const inputTrait = inputs.traits.find(
+          input => input.name === trait.name,
+        );
+        return { ...trait, quantity: inputTrait.quantity || 0 };
+      } else {
+        return {};
+      }
     }),
   };
   newDupes.caloriesRequired = getCaloriesRequired(newDupes);
