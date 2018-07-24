@@ -19,7 +19,9 @@
       "inputs": [
         { "name": "Oxygen", "value": -25, "unit": "g", "rate": "per second" }
       ],
-      "outputs": []
+      "outputs": [
+        { "name": "Carbon Dioxide", "value": -5, "unit": "g", "rate": "per second" }
+      ]
     },
     {
       "name": "Flatulence",
@@ -31,9 +33,11 @@
     {
       "name": "Mouth Breather",
       "inputs": [
-        { "name": "Oxygen", "value": 50, "unit": "g", "rate": "per second" }
+        { "name": "Oxygen", "value": 100, "unit": "g", "rate": "per second" }
       ],
-      "outputs": []
+      "outputs": [
+        { "name": "Carbon Dioxide", "value": 20, "unit": "g", "rate": "per second" }
+      ]
     }
   ]
 }
