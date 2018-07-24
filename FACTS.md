@@ -1,5 +1,7 @@
 # Facts
 
+Compiling a list of information for dupes that may be useful during development of this project.
+
 ## Cycles
 
 600 seconds in 1 cycle
@@ -10,9 +12,14 @@
 
 ### Oxygen
 
-- How much oxygen do dupes consume per cycle?
-- How much carbon dioxide does a dupe produce per cycle?
-- How does the Mouth Breather trait affect this?
+- Consumes 100 g/s of oxygen
+- Produces 20 g/s of carbon dioxide
+- Mouth breather (100%)
+  - Consumes +100 g/s of oxygen
+  - Produces +20 g/s of carbon dioxide.
+- Diver Lungs
+  - Consumes -25 g/s of oxygen
+  - Produces -5 g/s of oxygen
 
 ### Food
 
