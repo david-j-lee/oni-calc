@@ -86,12 +86,6 @@ export function updateBuildingQuantity(buildings, name, quantity) {
   const newBuildings = buildings.map(building => ({
     ...building,
     quantity: building.name === name ? quantity : building.quantity,
-    utilization:
-      building.name === name
-        ? building.hasConsistentIO
-          ? 0
-          : 100
-        : building.utilization,
   }));
   saveToLocalStorage(newBuildings);
   return newBuildings;

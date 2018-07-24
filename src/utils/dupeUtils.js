@@ -1,5 +1,5 @@
-export function getDupesWithInputs(dupes, inputs) {
-  if (inputs) {
+export function getDupes(dupes, inputs) {
+  if (inputs && inputs.length > 0) {
     return updateDupesWithInputs(dupes, inputs);
   } else {
     return getDupesWithDefaultInputs(dupes);
@@ -14,12 +14,15 @@ function getDupesWithDefaultInputs(dupes) {
     pollutedWaterValue: 0,
     dirtValue: 0,
     pollutedDirtValue: 0,
-    traits: dupes.traits.map(trait => {
-      return {
-        ...trait,
-        quantity: 0,
-      };
-    }),
+    traits:
+      dupes.traits && dupes.traits.length > 0
+        ? dupes.traits.map(trait => {
+            return {
+              ...trait,
+              quantity: 0,
+            };
+          })
+        : [],
   };
 }
 

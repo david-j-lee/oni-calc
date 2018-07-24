@@ -72,21 +72,23 @@ export class GeyserAdd extends React.Component {
   };
 
   handleSelectChange = event => {
-    const geyser = this.props.geysers.listing.find(
-      geyser => geyser.name === event.target.value,
-    );
-    if (geyser) {
-      this.setState({
-        geyser: {
-          ...geyser,
-          amount: 0,
-          eruptionDuration: 0,
-          eruptionEvery: 0,
-          activeDuration: 0,
-          activeEvery: 0,
-        },
-        [event.target.name]: event.target.value,
-      });
+    if (this.props.geysers && this.props.geysers.listing) {
+      const geyser = this.props.geysers.listing.find(
+        geyser => geyser.name === event.target.value,
+      );
+      if (geyser) {
+        this.setState({
+          geyser: {
+            ...geyser,
+            amount: 0,
+            eruptionDuration: 0,
+            eruptionEvery: 0,
+            activeDuration: 0,
+            activeEvery: 0,
+          },
+          [event.target.name]: event.target.value,
+        });
+      }
     }
   };
 

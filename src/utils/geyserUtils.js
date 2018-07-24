@@ -1,5 +1,5 @@
 export function getGeysers(geysers, inputs) {
-  if (inputs) {
+  if (inputs && inputs.length > 0) {
     return updateGeysersWithInputs(geysers, inputs);
   } else {
     return getGeysersWithDefaultInputs(geysers);

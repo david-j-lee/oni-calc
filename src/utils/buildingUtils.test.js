@@ -1,7 +1,7 @@
 const buildingUtils = require('./buildingUtils');
 
 // getBuildings
-describe('getBuildingsWithInputs', () => {
+describe('getBuildings', () => {
   describe('when given empty arrays for buildings and inputs', () => {
     it('should return an empty array', () => {
       const buildings = [];
@@ -22,9 +22,31 @@ describe('getBuildingsWithInputs', () => {
 
   describe('when given buildings with quantity inputs', () => {
     it('should update building with quantity', () => {
-      const buildings = [{ name: 'Testing' }];
-      const inputs = [{ name: 'Testing', quantity: 50 }];
-      const result = [{ name: 'Testing', quantity: 50, utilization: 0 }];
+      const buildings = [
+        { name: 'Testing1' },
+        { name: 'Testing2', hasConsistentIO: true },
+        { name: 'Testing3', hasConsistentIO: false },
+      ];
+      const inputs = [
+        { name: 'Testing1', quantity: 10, utilization: 75 },
+        { name: 'Testing2', quantity: 20 },
+        { name: 'Testing3', quantity: 30, utilization: 50 },
+      ];
+      const result = [
+        { name: 'Testing1', quantity: 10, utilization: 75 },
+        {
+          name: 'Testing2',
+          hasConsistentIO: true,
+          quantity: 20,
+          utilization: 0,
+        },
+        {
+          name: 'Testing3',
+          hasConsistentIO: false,
+          quantity: 30,
+          utilization: 50,
+        },
+      ];
       expect(buildingUtils.getBuildings(buildings, inputs)).toEqual(result);
     });
   });
@@ -53,7 +75,7 @@ describe('getBuildingsWithInputs', () => {
     it('should return an empty array', () => {
       const buildings = [{ name: 'Testing' }];
       const inputs = [{ name: 'Testing' }];
-      const result = [{ name: 'Testing', quantity: 0, utilization: 0 }];
+      const result = [{ name: 'Testing', quantity: 0, utilization: 100 }];
       expect(buildingUtils.getBuildings(buildings, inputs)).toEqual(result);
     });
   });
@@ -71,9 +93,37 @@ describe('getBuildingsWithClearedInputs', () => {
   });
 
   describe('when given buildings with values', () => {
-    it('should zero out quantity and utilization', () => {
-      const buildings = [{ name: 'Testing', quantity: 25, utilization: 50 }];
-      const result = [{ name: 'Testing', quantity: 0, utilization: 0 }];
+    it('should set default values for quantity and utilization', () => {
+      const buildings = [
+        { name: 'Testing1', quantity: 25, utilization: 50 },
+        {
+          name: 'Testing2',
+          quantity: 25,
+          utilization: 50,
+          hasConsistentIO: false,
+        },
+        {
+          name: 'Testing3',
+          quantity: 25,
+          utilization: 50,
+          hasConsistentIO: true,
+        },
+      ];
+      const result = [
+        { name: 'Testing1', quantity: 0, utilization: 100 },
+        {
+          name: 'Testing2',
+          quantity: 0,
+          utilization: 100,
+          hasConsistentIO: false,
+        },
+        {
+          name: 'Testing3',
+          quantity: 0,
+          utilization: 0,
+          hasConsistentIO: true,
+        },
+      ];
       expect(buildingUtils.getBuildingsWithClearedInputs(buildings)).toEqual(
         result,
       );

@@ -9,7 +9,7 @@ import {
 import { updatePlants } from './plantUtils';
 
 import {
-  getDupesWithInputs,
+  getDupes,
   updateDupeQuantity,
   updateDupeTraitQuantity,
   getDupeWaste,
@@ -57,7 +57,7 @@ export const getData = ({
   geysers,
   geyserInputs,
 }) => {
-  const newDupes = getDupesWithInputs(dupes, dupeInputs);
+  const newDupes = getDupes(dupes, dupeInputs);
   const newBuildings = getBuildings(buildings, buildingInputs);
   const newFood = getFood(food, foodInputs);
   const newGeysers = getGeysers(geysers, geyserInputs);
