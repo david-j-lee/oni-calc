@@ -111,7 +111,7 @@ function getWasteIOForResource(dupes, type, resourceName) {
 
     if (isValid) {
       const value =
-        type === 'inputs' ? dupes[prop.name] * -1 : dupes[prop.name] / 600;
+        type === 'inputs' ? -dupes[prop.name] / 600 : dupes[prop.name] / 600;
 
       arr.push({
         name: prop.title,
