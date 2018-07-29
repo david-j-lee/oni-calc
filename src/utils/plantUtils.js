@@ -69,7 +69,11 @@ function getRawFoodInputsForPreparedFood(preparedFoods, rawFoods) {
       item.inputs.map(input => {
         const rawFood = rawFoods.find(rawFood => rawFood.name === input.name);
         if (rawFood) {
-          return { ...rawFood, quantity: item.quantity * input.value };
+          return {
+            ...rawFood,
+            name: item.name,
+            quantity: item.quantity * input.value,
+          };
         } else {
           return null;
         }
@@ -98,20 +102,26 @@ function getRequirement(
   rawFoodRequirements,
   preparedFoodRequirements,
 ) {
+  console.log(plantName);
+  console.log(rawFoodRequirements);
+  console.log(preparedFoodRequirements);
+
   let requirement = 0;
 
   // raw foods
-  const rawFoodReq = rawFoodRequirements.find(req => req.name === plantName);
-  if (rawFoodReq) {
-    requirement += rawFoodReq.quantity;
+  const rawFoodReq = rawFoodRequirements.filter(req => req.name === plantName);
+  if (rawFoodReq && rawFoodReq.length > 0) {
+    requirement += rawFoodReq.map(req => req.quantity).reduce((a, b) => a + b);
   }
 
   // prepared foods
-  const preparedFoodReq = preparedFoodRequirements.find(
+  const preparedFoodReq = preparedFoodRequirements.filter(
     req => req.name === plantName,
   );
-  if (preparedFoodReq) {
-    requirement += preparedFoodReq.quantity;
+  if (preparedFoodReq && preparedFoodReq.length > 0) {
+    requirement += preparedFoodReq
+      .map(req => req.quantity)
+      .reduce((a, b) => a + b);
   }
 
   return requirement;

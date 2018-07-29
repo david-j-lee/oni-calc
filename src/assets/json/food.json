@@ -10,6 +10,16 @@
     "inputs": []
   },
   {
+    "name": "Sleet Wheat Grain",
+    "isRaw": true,
+    "calories": 0,
+    "quality": 0,
+    "requirements": [
+      {"type": "Plant", "name": "Sleet Wheat"}
+    ],
+    "inputs": []
+  },
+  {
     "name": "Mush Bar",
     "isRaw": false,
     "calories": 800,
