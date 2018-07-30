@@ -102,10 +102,6 @@ function getRequirement(
   rawFoodRequirements,
   preparedFoodRequirements,
 ) {
-  console.log(plantName);
-  console.log(rawFoodRequirements);
-  console.log(preparedFoodRequirements);
-
   let requirement = 0;
 
   // raw foods
