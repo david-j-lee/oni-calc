@@ -11,7 +11,7 @@ function updateFoodWithInputs(food, inputs) {
     const input = inputs.find(input => input.name === item.name);
     return {
       ...item,
-      quantity: input ? input.quantity : 0,
+      quantity: input && input.quantity ? input.quantity : 0,
     };
   });
 }

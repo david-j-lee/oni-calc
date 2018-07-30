@@ -1,6 +1,10 @@
 export function getResourcesCapacity(buildings) {
   const newBuildings = buildings.filter(
-    building => building.capacity.resources.value > 0 && building.quantity > 0,
+    building =>
+      building.capacity &&
+      building.capacity.resources &&
+      building.capacity.resources.value > 0 &&
+      building.quantity > 0,
   );
   return {
     value: getCapacityValue(newBuildings, 'resources'),
@@ -10,7 +14,11 @@ export function getResourcesCapacity(buildings) {
 
 export function getPowerCapacity(buildings) {
   const newBuildings = buildings.filter(
-    building => building.capacity.power.value > 0 && building.quantity > 0,
+    building =>
+      building.capacity &&
+      building.capacity.power &&
+      building.capacity.power.value > 0 &&
+      building.quantity > 0,
   );
   return {
     value: getCapacityValue(newBuildings, 'power'),

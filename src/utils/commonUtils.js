@@ -1,10 +1,13 @@
 export function getIOTotal(ios) {
   if (ios.length === 0) return 0;
 
-  return ios.map(io => io.valueExtended).reduce((a, b) => a + b);
+  return ios.map(io => io.valueExtended || 0).reduce((a, b) => a + b);
 }
 
 export function getStandardIO(io) {
+  const standardUnit = 'g';
+  const standardRate = 'per second';
+
   let value = io.value;
   switch (io.unit) {
     case 'g':
@@ -19,7 +22,7 @@ export function getStandardIO(io) {
       value = 0.0;
       break;
   }
-  let rate = io.rate;
+
   switch (io.rate) {
     case 'per second':
       break;
@@ -27,10 +30,10 @@ export function getStandardIO(io) {
       value = value / 600;
       break;
     default:
-      io.rate = 'unknown';
+      value = 0.0;
       break;
   }
-  return { value, rate };
+  return { value, unit: standardUnit, rate: standardRate };
 }
 
 export function getSortedArray(array, orderBy, order) {
