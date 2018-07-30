@@ -1,5 +1,5 @@
 export function getDupes(dupes, inputs) {
-  if (inputs && inputs.length > 0) {
+  if (inputs && inputs.traits) {
     return updateDupesWithInputs(dupes, inputs);
   } else {
     return getDupesWithDefaultInputs(dupes);
@@ -29,10 +29,10 @@ function getDupesWithDefaultInputs(dupes) {
 function updateDupesWithInputs(dupes, inputs) {
   const newDupes = {
     ...dupes,
-    waterValue: inputs.waterValue,
-    pollutedWaterValue: inputs.pollutedWaterValue,
-    dirtValue: inputs.dirtValue,
-    pollutedDirtValue: inputs.pollutedDirtValue,
+    waterValue: inputs.waterValue || 0,
+    pollutedWaterValue: inputs.pollutedWaterValue || 0,
+    dirtValue: inputs.dirtValue || 0,
+    pollutedDirtValue: inputs.pollutedDirtValue || 0,
     quantity: inputs.total || 0,
     traits: dupes.traits.map(trait => {
       if (inputs.traits) {
@@ -177,19 +177,26 @@ function getCaloriesRequired(dupes) {
 }
 
 function getBaseCaloriesRequired(dupes) {
-  return dupes.inputs
-    .filter(input => input.name === 'Food')
+  if (!dupes.inputs) return 0;
+  const inputs = dupes.inputs.filter(input => input.name === 'Food');
+  if (inputs.length === 0) return 0;
+
+  return inputs
     .map(input => input.value * dupes.quantity)
     .reduce((a, b) => a + b);
 }
 
 function getTraitCaloriesRequired(traits) {
-  return traits
+  if (!traits.inputs) return 0;
+  const inputs = traits
     .map(trait =>
       trait.inputs.map(input => ({ ...input, quantity: trait.quantity })),
     )
     .reduce((a, b) => a.concat(b))
-    .filter(input => input.name === 'Food')
+    .filter(input => input.name === 'Food');
+  if (inputs.length === 0) return 0;
+
+  return inputs
     .map(input => input.value * input.quantity)
     .reduce((a, b) => a + b);
 }
