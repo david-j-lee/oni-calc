@@ -35,8 +35,6 @@ export const getTheme = () => dispatch => {
     };
     localStorage.setItem('theme', JSON.stringify(theme));
   }
-  if (!theme || theme.palette === undefined) {
-  }
   dispatch({
     type: GET_THEME,
     payload: theme,

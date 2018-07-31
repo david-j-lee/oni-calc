@@ -8,7 +8,7 @@ export function getFood(food, inputs) {
 
 function updateFoodWithInputs(food, inputs) {
   return food.map(item => {
-    const input = inputs.find(input => input.name === item.name);
+    const input = inputs.find(i => i.name === item.name);
     return {
       ...item,
       quantity: input && input.quantity ? input.quantity : 0,
@@ -44,8 +44,9 @@ export function getFoodOutputsForResource(food, resourceName) {
 }
 
 function getFoodIOsForResource(food, type, resourceName) {
-  if (type !== 'inputs' && type !== 'outputs')
+  if (type !== 'inputs' && type !== 'outputs') {
     throw new Error('Type must be inputs or outputs');
+  }
 
   const newFood = food.filter(item => item.quantity > 0);
   if (newFood.length === 0) return [];

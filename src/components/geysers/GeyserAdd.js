@@ -74,7 +74,7 @@ export class GeyserAdd extends React.Component {
   handleSelectChange = event => {
     if (this.props.geysers && this.props.geysers.listing) {
       const geyser = this.props.geysers.listing.find(
-        geyser => geyser.name === event.target.value,
+        g => g.name === event.target.value,
       );
       if (geyser) {
         this.setState({
@@ -158,10 +158,10 @@ export class GeyserAdd extends React.Component {
                     id: 'geyserName',
                   }}
                 >
-                  {geysers.listing.map((geyser, i) => {
+                  {geysers.listing.map((g, i) => {
                     return (
-                      <MenuItem key={i} value={geyser.name}>
-                        {geyser.name}
+                      <MenuItem key={i} value={g.name}>
+                        {g.name}
                       </MenuItem>
                     );
                   })}

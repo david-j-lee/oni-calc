@@ -165,7 +165,11 @@ export function updateDupeTraitQuantity(dupes, name, quantity) {
 
 export function getDupeWaste(dupes, prop, value) {
   const newDupes = { ...dupes };
+
+  if (prop === '') return newDupes;
+
   newDupes[prop] = value;
+
   saveToLocalStorage(newDupes);
   return newDupes;
 }

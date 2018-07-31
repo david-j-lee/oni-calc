@@ -44,3 +44,88 @@ describe('getGeysersWithClearedInputs', () => {
     });
   });
 });
+
+describe('addGeyserToGeysers', () => {
+  describe('when given empty geysers with geyser', () => {
+    it('should add empty object to inputted property', () => {
+      const geysers = { inputted: [] };
+      const geyser = { name: 'Testing' };
+      const result = { inputted: [{ name: 'Testing' }] };
+      expect(geyserUtils.addGeyserToGeysers(geysers, geyser)).toEqual(result);
+    });
+  });
+});
+
+describe('deleteGeyserFromGeysers', () => {
+  describe('when given empty geysers with geyser', () => {
+    it('should return an empty array', () => {
+      const geysers = { inputted: [] };
+      const geyser = {};
+      const result = { inputted: [] };
+      expect(geyserUtils.deleteGeyserFromGeysers(geysers, geyser)).toEqual(
+        result,
+      );
+    });
+  });
+
+  describe('when given geysers with geyser', () => {
+    it('should return geyser without geyser', () => {
+      const geysers = {
+        inputted: [{ name: 'Testing1' }, { name: 'Testing2' }],
+      };
+      const geyser = geysers.inputted[0];
+      const result = { inputted: [{ name: 'Testing2' }] };
+      expect(geyserUtils.deleteGeyserFromGeysers(geysers, geyser)).toEqual(
+        result,
+      );
+    });
+  });
+});
+
+describe('getGeyserOutputs', () => {
+  describe('when given empty geyser inputted', () => {
+    it('should return an empty array', () => {
+      const geysers = { inputted: [] };
+      const resourceName = '';
+      const result = [];
+      expect(geyserUtils.getGeyserOutputs(geysers, resourceName)).toEqual(
+        result,
+      );
+    });
+  });
+
+  describe('when given geysers with resource name', () => {
+    it('should return outputs for the geysers', () => {
+      const geysers = {
+        listing: [
+          {
+            name: 'Testing1',
+            outputs: [{ name: 'Water' }],
+          },
+        ],
+        inputted: [
+          {
+            name: 'Testing1',
+            amount: 1,
+            eruptionEvery: 1,
+            activeEvery: 1,
+            activeDuration: 1,
+            eruptionDuration: 1,
+          },
+        ],
+      };
+      const resourceName = 'Water';
+      const result = [
+        {
+          geyser: geysers.inputted[0],
+          name: 'Water',
+          value: 1,
+          valueExtended: 1,
+        },
+      ];
+      expect(geyserUtils.getGeyserOutputs(geysers, resourceName)).toEqual(
+        result,
+      );
+    });
+  });
+});

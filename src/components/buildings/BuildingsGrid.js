@@ -137,11 +137,11 @@ export class BuildingsGrid extends React.Component {
                 <Grid container>
                   {group.buildings
                     .sort((a, b) => (a.name < b.name ? -1 : 1))
-                    .map((building, index) => {
+                    .map((building, buildingIndex) => {
                       return (
                         <Grid
                           item
-                          key={index}
+                          key={buildingIndex}
                           className={classes.building}
                           sm={12}
                           md={6}

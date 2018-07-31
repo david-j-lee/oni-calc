@@ -10,7 +10,7 @@ function updateGeysersWithInputs(geysers, inputs) {
   return {
     listing: geysers,
     inputted: inputs.map(input => {
-      const geyser = geysers.find(geyser => geyser.name === input.name);
+      const geyser = geysers.find(g => g.name === input.name);
       return {
         ...input,
         outputs: geyser.outputs,
@@ -28,9 +28,13 @@ export function getGeysersWithClearedInputs(geysers) {
 }
 
 export function addGeyserToGeysers(geysers, geyser) {
+  if (!geysers.inputted || !geyser) return geysers;
+
   const inputted = [...geysers.inputted];
   inputted.push({ ...geyser });
+
   const newGeysers = { ...geysers, inputted };
+
   saveToLocalStorage(newGeysers);
   return newGeysers;
 }

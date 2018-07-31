@@ -46,16 +46,16 @@ import { getSortedArray } from './commonUtils';
 
 // calculator
 export const getData = ({
-  resources,
-  plants,
-  dupes,
-  dupeInputs,
-  buildings,
   buildingInputs,
+  buildings,
+  dupeInputs,
+  dupes,
   food,
   foodInputs,
-  geysers,
   geyserInputs,
+  geysers,
+  plants,
+  resources,
 }) => {
   const newDupes = getDupes(dupes, dupeInputs);
   const newBuildings = getBuildings(buildings, buildingInputs);

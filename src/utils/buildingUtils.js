@@ -18,7 +18,7 @@ function getBuildingsWithDefaultInputs(buildings) {
 
 function updateBuildingsWithInputs(buildings, inputs) {
   return buildings.map(building => {
-    const input = inputs.find(input => input.name === building.name);
+    const input = inputs.find(i => i.name === building.name);
     return {
       ...building,
       quantity: input.quantity || 0,
@@ -46,8 +46,9 @@ export function getBuildingsOutputsForResource(buildings, resourceName) {
 }
 
 function getBuildingsIOsForResource(buildings, type, resourceName) {
-  if (type !== 'inputs' && type !== 'outputs')
+  if (type !== 'inputs' && type !== 'outputs') {
     throw new Error('Type must be inputs or outputs');
+  }
 
   const newBuildings = buildings.filter(building => building.quantity > 0);
   if (newBuildings.length === 0) return [];
