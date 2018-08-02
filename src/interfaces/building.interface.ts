@@ -1,15 +1,15 @@
-import { Capacity } from './capacity.interface';
-import { IO } from './io.interface';
-import { Power } from './power.interface';
+import { ICapacity } from './capacity.interface';
+import { IIO } from './io.interface';
+import { IPower } from './power.interface';
 
-export interface Building {
+export interface IBuilding {
   category: string;
   name: string;
-  capacity: Capacity;
+  capacity: ICapacity;
   hasConsistentIO: boolean;
-  power: Power;
-  inputs: Array<IO>;
-  outputs: Array<IO>;
+  power: IPower;
+  inputs: IIO[];
+  outputs: IIO[];
   quantity: number;
   utilization: number;
 }

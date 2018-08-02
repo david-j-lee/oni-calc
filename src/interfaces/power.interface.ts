@@ -1,4 +1,4 @@
-export interface Power {
+export interface IPower {
   usage: number;
   generation: number;
   unit: string;

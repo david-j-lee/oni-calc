@@ -1,13 +1,13 @@
-import { IO } from './../interfaces/io.interface';
-import { Building } from '../interfaces/building.interface';
-import { BuildingInput } from './../interfaces/building-input.interface';
+import { IBuilding } from '../interfaces/building.interface';
+import { IBuildingInput } from './../interfaces/building-input.interface';
+import { IIO } from './../interfaces/io.interface';
 
 import { getStandardIO } from './commonUtils';
 
 export function getBuildings(
-  buildings: Array<Building>,
-  inputs: Array<BuildingInput>,
-): Array<Building> {
+  buildings: IBuilding[],
+  inputs: IBuildingInput[],
+): IBuilding[] {
   if (inputs) {
     return updateBuildingsWithInputs(buildings, inputs);
   } else {
@@ -16,8 +16,8 @@ export function getBuildings(
 }
 
 function getBuildingsWithDefaultInputs(
-  buildings: Array<Building>,
-): Array<Building> {
+  buildings: IBuilding[],
+): IBuilding[] {
   return buildings.map(building => ({
     ...building,
     quantity: 0,
@@ -26,11 +26,11 @@ function getBuildingsWithDefaultInputs(
 }
 
 function updateBuildingsWithInputs(
-  buildings: Array<Building>,
-  inputs: Array<BuildingInput>,
-): Array<Building> {
+  buildings: IBuilding[],
+  inputs: IBuildingInput[],
+): IBuilding[] {
   return buildings.map(building => {
-    const input: BuildingInput | undefined = inputs.find(
+    const input: IBuildingInput | undefined = inputs.find(
       i => i.name === building.name,
     );
     if (input === undefined) {
@@ -50,29 +50,29 @@ function updateBuildingsWithInputs(
 }
 
 export function getBuildingsWithClearedInputs(
-  buildings: Array<Building>,
-): Array<Building> {
+  buildings: IBuilding[],
+): IBuilding[] {
   const newBuildings = getBuildingsWithDefaultInputs(buildings);
   saveToLocalStorage(newBuildings);
   return newBuildings;
 }
 
 export function getBuildingsInputsForResource(
-  buildings: Array<Building>,
+  buildings: IBuilding[],
   resourceName: string,
 ) {
   return getBuildingsIOsForResource(buildings, 'inputs', resourceName);
 }
 
 export function getBuildingsOutputsForResource(
-  buildings: Array<Building>,
+  buildings: IBuilding[],
   resourceName: string,
 ) {
   return getBuildingsIOsForResource(buildings, 'outputs', resourceName);
 }
 
 function getBuildingsIOsForResource(
-  buildings: Array<Building>,
+  buildings: IBuilding[],
   type: string,
   resourceName: string,
 ) {
@@ -89,20 +89,20 @@ function getBuildingsIOsForResource(
 }
 
 function getBuildingIOs(
-  building: Building,
+  building: IBuilding,
   type: string,
   resourceName: string,
 ) {
   if (building[type] === undefined) return [];
 
-  const ios = building[type].filter((io: IO) => io.name === resourceName);
+  const ios = building[type].filter((io: IIO) => io.name === resourceName);
   if (ios.length === 0) return [];
 
-  return ios.map((io: IO) => {
+  return ios.map((io: IIO) => {
     const standardIO = getStandardIO(io);
     return {
       ...io,
-      building: building,
+      building,
       valueExtended: getExtendedValue(
         building.quantity,
         building.utilization,
@@ -122,7 +122,7 @@ function getExtendedValue(
 }
 
 export function updateBuildingQuantity(
-  buildings: Array<Building>,
+  buildings: IBuilding[],
   name: string,
   quantity: number,
 ) {
@@ -135,7 +135,7 @@ export function updateBuildingQuantity(
 }
 
 export function updateBuildingUtilization(
-  buildings: Array<Building>,
+  buildings: IBuilding[],
   name: string,
   utilization: number,
 ) {
@@ -147,7 +147,7 @@ export function updateBuildingUtilization(
   return newBuildings;
 }
 
-function saveToLocalStorage(buildings: Array<Building>) {
+function saveToLocalStorage(buildings: IBuilding[]) {
   localStorage.setItem(
     'buildings',
     JSON.stringify(

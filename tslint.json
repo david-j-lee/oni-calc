@@ -1,7 +1,12 @@
 {
   "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "linterOptions": {
-    "exclude": ["config/**/*.js", "node_modules/**/*.ts"]
+    "exclude": [
+      "config/**/*.js",
+      "node_modules/**/*.ts",
+      "build/**/*.js",
+      "coverage/**/*.js"
+    ]
   },
   "rules": {
     "curly": [true, "ignore-same-line"],

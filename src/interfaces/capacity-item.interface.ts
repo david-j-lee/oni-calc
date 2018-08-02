@@ -1,4 +1,4 @@
-export interface CapacityItem {
+export interface ICapacityItem {
   value: number;
   unit: string;
 }

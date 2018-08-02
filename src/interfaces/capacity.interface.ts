@@ -1,6 +1,6 @@
-import { CapacityItem } from './capacity-item.interface';
+import { ICapacityItem } from './capacity-item.interface';
 
-export interface Capacity {
-  power: CapacityItem;
-  resources: CapacityItem;
+export interface ICapacity {
+  power: ICapacityItem;
+  resources: ICapacityItem;
 }

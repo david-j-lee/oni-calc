@@ -1,9 +1,9 @@
-import { Building } from '../interfaces/building.interface';
-import { BuildingInput } from './../interfaces/building-input.interface';
+import { IBuilding } from '../interfaces/building.interface';
+import { IBuildingInput } from './../interfaces/building-input.interface';
 
 import * as buildingUtils from './buildingUtils';
 
-const baseBuilding: Building = {
+const baseBuilding: IBuilding = {
   category: 'Base',
   name: 'Base Building',
   capacity: {
@@ -18,7 +18,7 @@ const baseBuilding: Building = {
   utilization: 0,
 };
 
-const baseInput: BuildingInput = {
+const baseInput: IBuildingInput = {
   name: '',
   quantity: 0,
   utilization: 0,
@@ -28,32 +28,32 @@ const baseInput: BuildingInput = {
 describe('getBuildings', () => {
   describe('when given empty arrays for buildings and inputs', () => {
     it('should return an empty array', () => {
-      const buildings: Array<Building> = [];
-      const inputs: Array<BuildingInput> = [];
-      const result: Array<Building> = [];
+      const buildings: IBuilding[] = [];
+      const inputs: IBuildingInput[] = [];
+      const result: IBuilding[] = [];
       expect(buildingUtils.getBuildings(buildings, inputs)).toEqual(result);
     });
   });
 
   describe('when given empty building array', () => {
     it('should return return empty array', () => {
-      const buildings: Array<Building> = [];
-      const inputs: Array<BuildingInput> = [
+      const buildings: IBuilding[] = [];
+      const inputs: IBuildingInput[] = [
         { name: 'Testing', quantity: 0, utilization: 0 },
       ];
-      const result: Array<Building> = [];
+      const result: IBuilding[] = [];
       expect(buildingUtils.getBuildings(buildings, inputs)).toEqual(result);
     });
   });
 
   describe('when given buildings with quantity inputs', () => {
     it('should update building with quantity', () => {
-      const buildings: Array<Building> = [
+      const buildings: IBuilding[] = [
         { ...baseBuilding, name: 'Testing1' },
         { ...baseBuilding, name: 'Testing2', hasConsistentIO: true },
         { ...baseBuilding, name: 'Testing3', hasConsistentIO: false },
       ];
-      const inputs: Array<BuildingInput> = [
+      const inputs: IBuildingInput[] = [
         { name: 'Testing1', quantity: 10, utilization: 75 },
         { name: 'Testing2', quantity: 20, utilization: 0 },
         { name: 'Testing3', quantity: 30, utilization: 50 },
@@ -86,8 +86,8 @@ describe('getBuildings', () => {
 
   describe('when given buildings with utilization inputs', () => {
     it('should update building with utilization', () => {
-      const buildings: Array<Building> = [{ ...baseBuilding, name: 'Testing' }];
-      const inputs: Array<BuildingInput> = [
+      const buildings: IBuilding[] = [{ ...baseBuilding, name: 'Testing' }];
+      const inputs: IBuildingInput[] = [
         { ...baseInput, name: 'Testing', utilization: 50 },
       ];
       const result = [
@@ -99,8 +99,8 @@ describe('getBuildings', () => {
 
   describe('when given buildings with inputs', () => {
     it('should update building with inputs', () => {
-      const buildings: Array<Building> = [{ ...baseBuilding, name: 'Testing' }];
-      const inputs: Array<BuildingInput> = [
+      const buildings: IBuilding[] = [{ ...baseBuilding, name: 'Testing' }];
+      const inputs: IBuildingInput[] = [
         { name: 'Testing', quantity: 25, utilization: 50 },
       ];
       const result = [
@@ -112,8 +112,8 @@ describe('getBuildings', () => {
 
   describe('when given building with no inputs property', () => {
     it('should return an empty array', () => {
-      const buildings: Array<Building> = [{ ...baseBuilding, name: 'Testing' }];
-      const inputs: Array<BuildingInput> = [{ ...baseInput, name: 'Testing' }];
+      const buildings: IBuilding[] = [{ ...baseBuilding, name: 'Testing' }];
+      const inputs: IBuildingInput[] = [{ ...baseInput, name: 'Testing' }];
       const result = [
         { ...baseBuilding, name: 'Testing', quantity: 0, utilization: 100 },
       ];
@@ -125,8 +125,8 @@ describe('getBuildings', () => {
 describe('getBuildingsWithClearedInputs', () => {
   describe('when given empty building array', () => {
     it('should handle empty buildings array', () => {
-      const buildings: Array<Building> = [];
-      const result: Array<Building> = [];
+      const buildings: IBuilding[] = [];
+      const result: IBuilding[] = [];
       expect(buildingUtils.getBuildingsWithClearedInputs(buildings)).toEqual(
         result,
       );
@@ -135,7 +135,7 @@ describe('getBuildingsWithClearedInputs', () => {
 
   describe('when given buildings with values', () => {
     it('should set default values for quantity and utilization', () => {
-      const buildings: Array<Building> = [
+      const buildings: IBuilding[] = [
         { ...baseBuilding, name: 'Testing1', quantity: 25, utilization: 50 },
         {
           ...baseBuilding,
@@ -184,7 +184,7 @@ describe('getBuildingsWithClearedInputs', () => {
 describe('getBuildingsInputsForResource', () => {
   describe('when given buildings with resourceName', () => {
     it('should return inputs that match the resourceName', () => {
-      const buildings: Array<Building> = [
+      const buildings: IBuilding[] = [
         {
           ...baseBuilding,
           name: 'Testing',
@@ -221,7 +221,7 @@ describe('getBuildingsInputsForResource', () => {
 
   describe('when given resourceName with no matching inputs', () => {
     it('should return an empty array', () => {
-      const buildings: Array<Building> = [
+      const buildings: IBuilding[] = [
         {
           ...baseBuilding,
           name: 'Testing',
@@ -232,7 +232,7 @@ describe('getBuildingsInputsForResource', () => {
         },
       ];
       const resourceName = 'fire';
-      const result: Array<Building> = [];
+      const result: IBuilding[] = [];
 
       expect(
         buildingUtils.getBuildingsInputsForResource(buildings, resourceName),
@@ -242,7 +242,7 @@ describe('getBuildingsInputsForResource', () => {
 
   describe('when given empty inputs array', () => {
     it('should return an empty array', () => {
-      const buildings: Array<Building> = [
+      const buildings: IBuilding[] = [
         {
           ...baseBuilding,
           name: 'Testing',
@@ -251,7 +251,7 @@ describe('getBuildingsInputsForResource', () => {
         },
       ];
       const resourceName = 'fire';
-      const result: Array<Building> = [];
+      const result: IBuilding[] = [];
       expect(
         buildingUtils.getBuildingsInputsForResource(buildings, resourceName),
       ).toEqual(result);
@@ -260,7 +260,7 @@ describe('getBuildingsInputsForResource', () => {
 
   describe('when a building does not have an input array', () => {
     it('should return an empty array', () => {
-      const buildings: Array<Building> = [
+      const buildings: IBuilding[] = [
         {
           ...baseBuilding,
           name: 'Testing',
@@ -269,7 +269,7 @@ describe('getBuildingsInputsForResource', () => {
         },
       ];
       const resourceName = 'fire';
-      const result: Array<Building> = [];
+      const result: IBuilding[] = [];
       expect(
         buildingUtils.getBuildingsInputsForResource(buildings, resourceName),
       ).toEqual(result);
