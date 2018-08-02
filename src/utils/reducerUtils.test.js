@@ -394,18 +394,143 @@ describe('sortBuildings', () => {
   });
 });
 
-describe('setBuildingQuantity', () => {});
+describe('setBuildingQuantity', () => {
+  describe('when given empty array of resources', () => {
+    it('should return empty array of resources', () => {
+      const resources = [];
+      const buildings = [];
+      const name = '';
+      const quantity = 0;
+      const result = {
+        resources: [],
+        buildings: [],
+        powerGeneration: { value: 0, buildings: [] },
+        powerUsage: { value: 0, buildings: [] },
+        powerCapacity: { value: 0, buildings: [] },
+        resourcesCapacity: { value: 0, buildings: [] },
+      };
+      expect(
+        reducerUtils.setBuildingQuantity(resources, buildings, name, quantity),
+      ).toEqual(result);
+    });
+  });
+});
 
-describe('setBuildingUtilization', () => {});
+describe('setBuildingUtilization', () => {
+  describe('when given empty array of resources', () => {
+    it('should return empty array of resources', () => {
+      const resources = [];
+      const buildings = [];
+      const name = '';
+      const utilization = 0;
+      const result = {
+        resources: [],
+        buildings: [],
+        powerGeneration: { value: 0, buildings: [] },
+        powerUsage: { value: 0, buildings: [] },
+      };
+      expect(
+        reducerUtils.setBuildingUtilization(
+          resources,
+          buildings,
+          name,
+          utilization,
+        ),
+      ).toEqual(result);
+    });
+  });
+});
 
-describe('clearBuildingInputs', () => {});
+describe('clearBuildingInputs', () => {
+  describe('when given an empty array of resources', () => {
+    it('should return empty array of resources', () => {
+      const resources = [];
+      const buildings = [];
+      const result = {
+        resources: [],
+        buildings: [],
+        powerGeneration: { value: 0, buildings: [] },
+        powerUsage: { value: 0, buildings: [] },
+        powerCapacity: { value: 0, buildings: [] },
+        resourcesCapacity: { value: 0, buildings: [] },
+      };
+      expect(reducerUtils.clearBuildingInputs(resources, buildings)).toEqual(
+        result,
+      );
+    });
+  });
+});
 
-describe('setFoodQuantity', () => {});
+describe('setFoodQuantity', () => {
+  describe('when given an empty array of resources', () => {
+    it('should return empty array of resources', () => {
+      const resources = [];
+      const plants = [];
+      const food = [];
+      const name = '';
+      const quantity = 0;
+      const result = { resources: [], food: [], plants: [] };
+      expect(
+        reducerUtils.setFoodQuantity(resources, plants, food, name, quantity),
+      ).toEqual(result);
+    });
+  });
+});
 
-describe('clearFoodInputs', () => {});
+describe('clearFoodInputs', () => {
+  describe('when given an empty array of resources', () => {
+    it('should return an empty array of resources', () => {
+      const resources = [];
+      const plants = [];
+      const food = [];
+      const result = { resources: [], plants: [], food: [] };
+      expect(reducerUtils.clearFoodInputs(resources, plants, food)).toEqual(
+        result,
+      );
+    });
+  });
+});
 
-describe('addGeyser', () => {});
+describe('addGeyser', () => {
+  describe('when given an empty array of resources', () => {
+    it('should return an empty array of resources', () => {
+      const resources = [];
+      const geysers = { inputted: [], listing: [] };
+      const geyser = {};
+      const result = {
+        resources: [],
+        geysers: { inputted: [{}], listing: [] },
+      };
+      expect(reducerUtils.addGeyser(resources, geysers, geyser)).toEqual(
+        result,
+      );
+    });
+  });
+});
 
-describe('deleteGeyser', () => {});
+describe('deleteGeyser', () => {
+  describe('when given an empty array of resources', () => {
+    it('should return an empty array of resources', () => {
+      const resources = [];
+      const geysers = { inputted: [], listing: [] };
+      const geyser = {};
+      const result = { resources: [], geysers: { inputted: [], listing: [] } };
+      expect(reducerUtils.deleteGeyser(resources, geysers, geyser)).toEqual(
+        result,
+      );
+    });
+  });
+});
 
-describe('clearGeyserInputs', () => {});
+describe('clearGeyserInputs', () => {
+  describe('when given empty array of resources', () => {
+    it('should return an empty array of resources', () => {
+      const resources = [];
+      const geysers = { inputted: [], listing: [] };
+      const result = { resources: [], geysers: { inputted: [], listing: [] } };
+      expect(reducerUtils.clearGeyserInputs(resources, geysers)).toEqual(
+        result,
+      );
+    });
+  });
+});
