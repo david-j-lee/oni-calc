@@ -92,6 +92,36 @@ describe('getGeyserOutputs', () => {
         result,
       );
     });
+    describe('when given a geyser', () => {
+      it('should return array of outputs', () => {
+        const geysers = {
+          listing: [{ name: 'Testing1', outputs: [{ name: 'Water' }] }],
+          inputted: [
+            {
+              name: 'Testing1',
+              amount: 400,
+              eruptionDuration: 1,
+              eruptionEvery: 2,
+              activeDuration: 1,
+              activeEvery: 2,
+            },
+          ],
+        };
+
+        const resourceName = 'Water';
+        const result = [
+          {
+            geyser: geysers.inputted[0],
+            name: 'Water',
+            value: 100,
+            valueExtended: 100,
+          },
+        ];
+        expect(geyserUtils.getGeyserOutputs(geysers, resourceName)).toEqual(
+          result,
+        );
+      });
+    });
   });
 
   describe('when given geysers with resource name', () => {

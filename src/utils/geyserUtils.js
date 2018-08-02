@@ -71,9 +71,9 @@ export function getGeyserOutputs(geysers, resourceName) {
 
 function getExtendedValue(geyser) {
   return (
-    (geyser.amount * geyser.eruptionEvery * geyser.activeEvery) /
-    geyser.activeDuration /
-    geyser.eruptionDuration
+    geyser.amount *
+    (geyser.eruptionDuration / geyser.eruptionEvery) *
+    (geyser.activeDuration / geyser.activeEvery)
   );
 }
 
