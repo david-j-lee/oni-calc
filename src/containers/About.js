@@ -79,7 +79,7 @@ export class About extends React.Component {
         </div>
         <div className={classes.footer}>
           <Typography variant="caption">
-            by <a target="_blank" href="https://davethedev.me" className={classes.link} rel="noopener noreferrer">David Lee</a>
+            by <a target="_blank" href="https://devdavidlee.com" className={classes.link} rel="noopener noreferrer">David Lee</a>
           </Typography>
         </div>
       </div>

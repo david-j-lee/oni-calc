@@ -35,7 +35,7 @@ function updateDupesWithInputs(dupes, inputs) {
     pollutedDirtValue: inputs.pollutedDirtValue || 0,
     quantity: inputs.total || 0,
     traits: dupes.traits.map(trait => {
-      if (inputs.traits) {
+      if (inputs.traits && inputs.traits.length > 0) {
         const inputTrait = inputs.traits.find(
           input => input.name === trait.name,
         );
