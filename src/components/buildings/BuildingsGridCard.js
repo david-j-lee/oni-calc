@@ -273,7 +273,7 @@ export class BuildingsGridCard extends React.Component {
               >
                 {building.name}
               </Typography>
-              <IconButton onClick={this.handleClickOpen}>
+              <IconButton onClick={this.handleClickOpen} aria-label="More">
                 <MoreVert />
               </IconButton>
             </CardContent>
@@ -301,6 +301,7 @@ export class BuildingsGridCard extends React.Component {
                       fontSize: '1.25rem',
                       width: '25px',
                     },
+                    'aria-label': 'Building Quantity',
                   },
                 }}
               >

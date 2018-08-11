@@ -225,7 +225,10 @@ export class GeyserAdd extends React.Component {
                       label="Amount per eruption"
                       helperText="g/s"
                       type="number"
-                      inputProps={{ style: { textAlign: 'right' } }}
+                      inputProps={{
+                        style: { textAlign: 'right' },
+                        'aria-label': 'Geyser Amount Per Eruption',
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -239,7 +242,10 @@ export class GeyserAdd extends React.Component {
                       label="Eruption duration"
                       helperText="seconds"
                       type="number"
-                      inputProps={{ style: { textAlign: 'right' } }}
+                      inputProps={{
+                        style: { textAlign: 'right' },
+                        'aria-label': 'Geyser Eruption Duration',
+                      }}
                     />
                     <TextField
                       value={geyser.eruptionEvery}
@@ -251,7 +257,10 @@ export class GeyserAdd extends React.Component {
                       label="Eruption every"
                       helperText="seconds"
                       type="number"
-                      inputProps={{ style: { textAlign: 'right' } }}
+                      inputProps={{
+                        style: { textAlign: 'right' },
+                        'aria-label': 'Geyser Eruption Every',
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -265,7 +274,10 @@ export class GeyserAdd extends React.Component {
                       label="Active duration"
                       helperText="cycles"
                       type="number"
-                      inputProps={{ style: { textAlign: 'right' } }}
+                      inputProps={{
+                        style: { textAlign: 'right' },
+                        'aria-label': 'Geyser Active Duration',
+                      }}
                     />
                     <TextField
                       value={geyser.activeEvery}
@@ -276,7 +288,10 @@ export class GeyserAdd extends React.Component {
                       label="Active every"
                       helperText="cycles"
                       type="number"
-                      inputProps={{ style: { textAlign: 'right' } }}
+                      inputProps={{
+                        style: { textAlign: 'right' },
+                        'aria-label': 'Geyser Active Every',
+                      }}
                     />
                   </Grid>
                 </Grid>

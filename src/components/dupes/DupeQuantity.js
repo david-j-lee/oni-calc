@@ -148,7 +148,7 @@ export class DupeQuantity extends React.Component {
               <Typography variant="title" className={classes.cardContentTitle}>
                 Total Dupes
               </Typography>
-              <IconButton onClick={this.handleClickOpen}>
+              <IconButton onClick={this.handleClickOpen} aria-label="More">
                 <MoreVert />
               </IconButton>
             </CardContent>
@@ -172,6 +172,7 @@ export class DupeQuantity extends React.Component {
                   disableUnderline: !this.state.focused,
                   inputProps: {
                     style: { textAlign: 'right', fontSize: '1.25rem' },
+                    'aria-label': 'Dupe Quantity',
                   },
                 }}
               >

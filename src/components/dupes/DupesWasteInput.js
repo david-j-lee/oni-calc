@@ -74,7 +74,10 @@ export class DupesWasteInput extends React.Component {
             <TextField
               type="number"
               label={prop.title}
-              inputProps={{ style: { textAlign: 'right' } }}
+              inputProps={{
+                style: { textAlign: 'right' },
+                'aria-label': 'Dupe Waste Value',
+              }}
               value={value}
               onChange={this.handleChange}
               helperText="g/cycle/dupe"

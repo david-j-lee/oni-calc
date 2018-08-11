@@ -65,7 +65,11 @@ export class NavbarFood extends React.Component {
           </DialogActions>
         </Dialog>
         <Tooltip title="Clear all food inputs">
-          <IconButton onClick={this.handleClickOpen} color="inherit">
+          <IconButton
+            onClick={this.handleClickOpen}
+            color="inherit"
+            aria-label="Clear All Food"
+          >
             <ClearIcon />
           </IconButton>
         </Tooltip>

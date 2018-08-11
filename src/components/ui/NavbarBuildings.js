@@ -88,26 +88,42 @@ export class NavbarBuildings extends React.Component {
           </DialogActions>
         </Dialog>
         <Tooltip title="Clear all building inputs">
-          <IconButton onClick={this.handleClickOpen} color="inherit">
+          <IconButton
+            onClick={this.handleClickOpen}
+            color="inherit"
+            aria-label="Clear"
+          >
             <ClearIcon />
           </IconButton>
         </Tooltip>
         {buildingsLayout === 'grid' && (
           <Tooltip title="Expand all panels">
-            <IconButton onClick={this.expandBuildingPanels} color="inherit">
+            <IconButton
+              onClick={this.expandBuildingPanels}
+              color="inherit"
+              aria-label="Expand All"
+            >
               <VerticalAlignBottomIcon />
             </IconButton>
           </Tooltip>
         )}
         {buildingsLayout === 'grid' && (
           <Tooltip title="Collapse all panels">
-            <IconButton onClick={this.collapseBuildingPanels} color="inherit">
+            <IconButton
+              onClick={this.collapseBuildingPanels}
+              color="inherit"
+              aria-label="Collapse All"
+            >
               <VerticalAlignTopIcon />
             </IconButton>
           </Tooltip>
         )}
         <Tooltip title={buildingLayoutTooltipTitle}>
-          <IconButton onClick={this.setBuildingsLayout} color="inherit">
+          <IconButton
+            onClick={this.setBuildingsLayout}
+            color="inherit"
+            aria-label="Change Layout"
+          >
             {buildingsLayout === 'grid' && <ViewList />}
             {buildingsLayout === 'table' && <ViewModule />}
           </IconButton>

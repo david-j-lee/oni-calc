@@ -63,11 +63,8 @@ export class Navbar extends React.Component {
               variant="title"
               color="inherit"
             >
-              O<span className={classes.oniColor}>N</span>I<span
-                className={classes.onicColor}
-              >
-                C
-              </span>
+              O<span className={classes.oniColor}>N</span>I
+              <span className={classes.onicColor}>C</span>
             </Typography>
             <div className={classes.flex}>
               <Tooltip title="Home">
@@ -76,6 +73,7 @@ export class Navbar extends React.Component {
                   to="/"
                   color="inherit"
                   size="small"
+                  aria-label="Home"
                 >
                   <HomeIcon />
                 </IconButton>
@@ -86,6 +84,7 @@ export class Navbar extends React.Component {
                   to="/about"
                   color="inherit"
                   size="small"
+                  aria-label="Help"
                 >
                   <HelpIcon />
                 </IconButton>

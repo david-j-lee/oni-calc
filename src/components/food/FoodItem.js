@@ -209,7 +209,7 @@ export class FoodItem extends React.Component {
               >
                 {item.name}
               </Typography>
-              <IconButton onClick={this.handleClickOpen}>
+              <IconButton onClick={this.handleClickOpen} aria-label="More">
                 <MoreVert />
               </IconButton>
             </CardContent>
@@ -238,6 +238,7 @@ export class FoodItem extends React.Component {
                       width: '25px',
                     },
                   },
+                  'aria-label': 'Food Quantity',
                 }}
               >
                 {quantity}

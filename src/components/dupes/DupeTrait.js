@@ -157,7 +157,7 @@ export class DupeTrait extends React.Component {
             >
               {trait.name}
             </Typography>
-            <IconButton onClick={this.handleClickOpen}>
+            <IconButton onClick={this.handleClickOpen} aria-label="More">
               <MoreVert />
             </IconButton>
           </CardContent>
@@ -181,6 +181,7 @@ export class DupeTrait extends React.Component {
                 disableUnderline: !this.state.focused,
                 inputProps: {
                   style: { textAlign: 'right', fontSize: '1.25rem' },
+                  'aria-label': 'Dupe Trait Quantity',
                 },
               }}
             >

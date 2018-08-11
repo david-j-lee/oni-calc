@@ -302,6 +302,7 @@ export class BuildingsTable extends React.Component {
                   maxWidth: '100px',
                   fontSize: '1.25rem',
                 },
+                'aria-label': 'Building Quantity',
               },
             }}
           >
@@ -327,7 +328,7 @@ export class BuildingsTable extends React.Component {
             >
               <ArrowDropUp />
             </IconButton>
-            <IconButton onClick={this.handleClickOpen}>
+            <IconButton onClick={this.handleClickOpen} aria-label="More">
               <MoreHoriz />
             </IconButton>
           </div>

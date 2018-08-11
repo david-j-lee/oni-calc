@@ -1,47 +1,47 @@
-import React from "react";
+import React from 'react';
 
 // redux
-import { connect } from "react-redux";
-import { getTheme, setTheme } from "../../actions/uiActions";
+import { connect } from 'react-redux';
+import { getTheme, setTheme } from '../../actions/uiActions';
 
 // material
 import { withStyles, ButtonBase } from '@material-ui/core';
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
-import Dialog from "@material-ui/core/Dialog";
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import Dialog from '@material-ui/core/Dialog';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import Brightness2 from "@material-ui/icons/Brightness2";
-import BrightnessHigh from "@material-ui/icons/BrightnessHigh";
+import Brightness2 from '@material-ui/icons/Brightness2';
+import BrightnessHigh from '@material-ui/icons/BrightnessHigh';
 
 // material icons
-import ChevronRight from "@material-ui/icons/ChevronRight";
+import ChevronRight from '@material-ui/icons/ChevronRight';
 import ColorLens from '@material-ui/icons/ColorLens';
 
 // material colors
-import red from "@material-ui/core/colors/red";
-import pink from "@material-ui/core/colors/pink";
-import purple from "@material-ui/core/colors/purple";
-import deepPurple from "@material-ui/core/colors/deepPurple";
-import indigo from "@material-ui/core/colors/indigo";
-import blue from "@material-ui/core/colors/blue";
-import lightBlue from "@material-ui/core/colors/lightBlue";
-import cyan from "@material-ui/core/colors/cyan";
-import teal from "@material-ui/core/colors/teal";
-import green from "@material-ui/core/colors/green";
-import lightGreen from "@material-ui/core/colors/lightGreen";
-import lime from "@material-ui/core/colors/lime";
-import yellow from "@material-ui/core/colors/yellow";
-import amber from "@material-ui/core/colors/amber";
-import orange from "@material-ui/core/colors/orange";
-import deepOrange from "@material-ui/core/colors/deepOrange";
-import brown from "@material-ui/core/colors/brown";
-import grey from "@material-ui/core/colors/grey";
-import blueGrey from "@material-ui/core/colors/blueGrey";
+import red from '@material-ui/core/colors/red';
+import pink from '@material-ui/core/colors/pink';
+import purple from '@material-ui/core/colors/purple';
+import deepPurple from '@material-ui/core/colors/deepPurple';
+import indigo from '@material-ui/core/colors/indigo';
+import blue from '@material-ui/core/colors/blue';
+import lightBlue from '@material-ui/core/colors/lightBlue';
+import cyan from '@material-ui/core/colors/cyan';
+import teal from '@material-ui/core/colors/teal';
+import green from '@material-ui/core/colors/green';
+import lightGreen from '@material-ui/core/colors/lightGreen';
+import lime from '@material-ui/core/colors/lime';
+import yellow from '@material-ui/core/colors/yellow';
+import amber from '@material-ui/core/colors/amber';
+import orange from '@material-ui/core/colors/orange';
+import deepOrange from '@material-ui/core/colors/deepOrange';
+import brown from '@material-ui/core/colors/brown';
+import grey from '@material-ui/core/colors/grey';
+import blueGrey from '@material-ui/core/colors/blueGrey';
 
 const styles = theme => ({
   colorsDialog: {
@@ -100,12 +100,12 @@ export class ThemePicker extends React.Component {
     super(props);
 
     this.state = {
-      icon: "",
+      icon: '',
       theme: {},
       type: '',
       dialogOpen: false,
-      color1: "",
-      color2: ""
+      color1: '',
+      color2: '',
     };
   }
 
@@ -122,14 +122,14 @@ export class ThemePicker extends React.Component {
 
   changeType = () => {
     let newTheme = { ...this.state.theme };
-    const newType = newTheme.palette.type === "light" ? "dark" : "light";
+    const newType = newTheme.palette.type === 'light' ? 'dark' : 'light';
 
     // set theme
     newTheme.palette.type = newType;
     this.props.setTheme(newTheme);
 
     this.updateButton(newType);
-  }
+  };
 
   changeColors = (primary, secondary) => {
     let newTheme = { ...this.state.theme };
@@ -139,40 +139,40 @@ export class ThemePicker extends React.Component {
     newTheme.palette.secondary = secondary;
 
     this.props.setTheme(newTheme);
-  }
+  };
 
   handleDialogOpen = () => {
     this.setState({ dialogOpen: true });
   };
 
   handleClose = () => {
-    this.setState({ color1: "", color2: "", dialogOpen: false });
+    this.setState({ color1: '', color2: '', dialogOpen: false });
   };
 
   handleOk = () => {
     this.changeColors(this.state.color1, this.state.color2);
-    this.setState({ color1: "", color2: "", dialogOpen: false });
+    this.setState({ color1: '', color2: '', dialogOpen: false });
   };
 
   handleColorOneClick = () => {
-    this.setState({ color1: "" });
+    this.setState({ color1: '' });
   };
 
   handleColorTwoClick = () => {
-    this.setState({ color2: "" });
+    this.setState({ color2: '' });
   };
 
   updateButton(type) {
     // update button
     this.setState({
-      icon: type === "light" ? <Brightness2 /> : <BrightnessHigh />
+      icon: type === 'light' ? <Brightness2 /> : <BrightnessHigh />,
     });
   }
 
   selectColor = color => {
-    if (this.state.color1 === "") {
+    if (this.state.color1 === '') {
       this.setState({ color1: color });
-    } else if (this.state.color2 === "") {
+    } else if (this.state.color2 === '') {
       this.setState({ color2: color });
     }
   };
@@ -198,7 +198,7 @@ export class ThemePicker extends React.Component {
       deepOrange,
       brown,
       grey,
-      blueGrey
+      blueGrey,
     ];
 
     const colorPreviews = (
@@ -228,7 +228,7 @@ export class ThemePicker extends React.Component {
             <div
               className={classes.colorPreviewCircleRight}
               style={{
-                backgroundColor: this.props.theme.palette.secondary[500]
+                backgroundColor: this.props.theme.palette.secondary[500],
               }}
             />
           </div>
@@ -258,13 +258,21 @@ export class ThemePicker extends React.Component {
 
     return (
       <div>
-        <Tooltip title={"Change theme type"}>
-          <IconButton onClick={this.changeType} color="inherit">
+        <Tooltip title={'Change theme type'}>
+          <IconButton
+            onClick={this.changeType}
+            color="inherit"
+            aria-label="Change Theme Type"
+          >
             {this.state.icon}
           </IconButton>
         </Tooltip>
         <Tooltip title="Change theme colors">
-          <IconButton onClick={this.handleDialogOpen} color="inherit">
+          <IconButton
+            onClick={this.handleDialogOpen}
+            color="inherit"
+            aria-label="Change Theme Colors"
+          >
             <ColorLens />
           </IconButton>
         </Tooltip>
@@ -272,12 +280,12 @@ export class ThemePicker extends React.Component {
           fullScreen={fullScreen}
           open={this.state.dialogOpen}
           onClose={this.handleClose}
-          classes={{ paper: "colors-dialog" }}
+          classes={{ paper: 'colors-dialog' }}
         >
           <DialogTitle id="simple-dialog-title">
             {!this.state.color1
-              ? "Select Primary Color Scheme"
-              : "Select Secondary Color Scheme"}
+              ? 'Select Primary Color Scheme'
+              : 'Select Secondary Color Scheme'}
           </DialogTitle>
           <DialogContent>
             <div className={classes.colorsDialogContent}>
@@ -290,7 +298,7 @@ export class ThemePicker extends React.Component {
               Cancel
             </Button>
             <Button
-              disabled={this.state.color1 === "" || this.state.color2 === ""}
+              disabled={this.state.color1 === '' || this.state.color2 === ''}
               variant="raised"
               onClick={this.handleOk}
               color="primary"
@@ -306,13 +314,16 @@ export class ThemePicker extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    theme: state.calculator.theme
+    theme: state.calculator.theme,
   };
 };
 
 const mapDispatchToProps = {
   getTheme,
-  setTheme
+  setTheme,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ThemePicker));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withStyles(styles)(ThemePicker));

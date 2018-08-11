@@ -65,7 +65,11 @@ export class NavbarDupes extends React.Component {
           </DialogActions>
         </Dialog>
         <Tooltip title="Clear all dupe inputs">
-          <IconButton onClick={this.handleClickOpen} color="inherit">
+          <IconButton
+            onClick={this.handleClickOpen}
+            color="inherit"
+            aria-label="Clear All Dupes"
+          >
             <ClearIcon />
           </IconButton>
         </Tooltip>
