@@ -27,14 +27,18 @@ export function parseBuildings(rawBuildings: any): IBuilding[] {
 }
 
 export function parseBuildingInputs(rawInputs: any): IBuildingInput[] {
-  try {
-    rawInputs = JSON.parse(rawInputs);
-  } catch (e) {
-    localStorage.removeItem('buildings');
-    throw e;
-  }
+  if (rawInputs) {
+    try {
+      rawInputs = JSON.parse(rawInputs);
+    } catch (e) {
+      localStorage.removeItem('buildings');
+      throw e;
+    }
 
-  return rawInputs.map((input: any) => parseBuildingInput(input));
+    return rawInputs.map((input: any) => parseBuildingInput(input));
+  } else {
+    return [];
+  }
 }
 
 export function parseDupes(rawDupes: any) {
