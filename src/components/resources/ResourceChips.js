@@ -23,9 +23,9 @@ export class ResourceChips extends React.Component {
         return a.name > b.name;
       })
       .map((io, index) => {
-        const rate = io.rate;
+        let rate = io.rate;
         if (io.unit) {
-          io.rate = io.rate.replace('per ', '/').replace('second', 's');
+          rate = io.rate.replace('per ', '/').replace('second', 's');
         }
 
         const imageUrl = `/images/resources/${io.name

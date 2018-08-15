@@ -15,9 +15,7 @@ export function getBuildings(
   }
 }
 
-function getBuildingsWithDefaultInputs(
-  buildings: IBuilding[],
-): IBuilding[] {
+function getBuildingsWithDefaultInputs(buildings: IBuilding[]): IBuilding[] {
   return buildings.map(building => ({
     ...building,
     quantity: 0,
@@ -34,7 +32,11 @@ function updateBuildingsWithInputs(
       i => i.name === building.name,
     );
     if (input === undefined) {
-      return { ...building, quantity: 0, utilization: 0 };
+      return {
+        ...building,
+        quantity: 0,
+        utilization: building.hasConsistentIO ? 0 : 100,
+      };
     } else {
       return {
         ...building,
