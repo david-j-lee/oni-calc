@@ -191,13 +191,13 @@ function getBaseCaloriesRequired(dupes) {
 }
 
 function getTraitCaloriesRequired(traits) {
-  if (!traits.inputs) return 0;
   const inputs = traits
     .map(trait =>
       trait.inputs.map(input => ({ ...input, quantity: trait.quantity })),
     )
     .reduce((a, b) => a.concat(b))
     .filter(input => input.name === 'Food');
+
   if (inputs.length === 0) return 0;
 
   return inputs
