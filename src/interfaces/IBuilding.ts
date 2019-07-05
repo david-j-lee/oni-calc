@@ -1,8 +1,8 @@
-import { ICapacity } from './capacity.interface';
-import { IIO } from './io.interface';
-import { IPower } from './power.interface';
+import ICapacity from './ICapacity';
+import IIO from './IIO';
+import IPower from './IPower';
 
-export interface IBuilding {
+export default interface IBuilding {
   category: string;
   name: string;
   capacity: ICapacity;

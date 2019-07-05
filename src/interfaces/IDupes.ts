@@ -1,5 +1,5 @@
-import { IDupeTrait } from './dupe-trait.interface';
-import { IIO } from './io.interface';
+import IDupeTrait from './IDupeTrait';
+import IIO from './IIO';
 
 export interface IDupes {
   inputs: IIO[];

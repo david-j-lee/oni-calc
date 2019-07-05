@@ -1,4 +1,4 @@
-export interface IPower {
+export default interface IPower {
   usage: number;
   generation: number;
   unit: string;

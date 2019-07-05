@@ -44,8 +44,8 @@ function updateBuildingsWithInputs(
         utilization: input.utilization
           ? input.utilization
           : building.hasConsistentIO
-            ? 0
-            : 100,
+          ? 0
+          : 100,
       };
     }
   });
@@ -92,12 +92,14 @@ function getBuildingsIOsForResource(
 
 function getBuildingIOs(
   building: IBuilding,
-  type: string,
+  type: keyof IBuilding,
   resourceName: string,
 ) {
   if (building[type] === undefined) return [];
 
-  const ios = building[type].filter((io: IIO) => io.name === resourceName);
+  const ios = (building[type] as IIO[]).filter(
+    (io: IIO) => io.name === resourceName,
+  );
   if (ios.length === 0) return [];
 
   return ios.map((io: IIO) => {

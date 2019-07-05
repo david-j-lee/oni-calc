@@ -1,4 +1,4 @@
-export interface IGeyserInput {
+export default interface IGeyserInput {
   name: string;
   amount: number;
   activeDuration: number;

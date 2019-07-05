@@ -1,4 +1,4 @@
-export interface IIO {
+export default interface IIO {
   name: string;
   value: number;
   unit: string;

@@ -1,4 +1,4 @@
-export interface IGeyser {
+export default interface IGeyser {
   name: string;
   temp: IGeyserTemp;
   maxPressure: IGeyserMaxPressure;
