@@ -30,17 +30,17 @@ const styles = theme => ({
   leftSection: {
     flexGrow: 1,
     overflowY: 'auto',
-    marginTop: theme.spacing.unit * 10,
-    paddingLeft: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit * 2,
+    marginTop: theme.spacing(10),
+    paddingLeft: theme.spacing(),
+    paddingRight: theme.spacing(),
+    paddingBottom: theme.spacing(2),
   },
   rightSection: {
     flexGrow: 1,
     overflowY: 'auto',
-    marginTop: theme.spacing.unit * 10,
-    paddingLeft: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
+    marginTop: theme.spacing(10),
+    paddingLeft: theme.spacing(),
+    paddingRight: theme.spacing(),
   },
 });
 

@@ -21,7 +21,7 @@ const styles = theme => ({
     height: 20,
     width: 20,
     backgroundSize: 'cover',
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(),
     marginTop: 5,
   },
 });

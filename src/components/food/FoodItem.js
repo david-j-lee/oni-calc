@@ -38,7 +38,7 @@ const styles = theme => ({
   cardContent: {
     flex: '1 0 auto',
     display: 'flex',
-    paddingRight: theme.spacing.unit * 2,
+    paddingRight: theme.spacing(2),
   },
   cardContentTitle: {
     flexGrow: 1,
@@ -56,7 +56,7 @@ const styles = theme => ({
   },
   quantity: {
     flexGrow: 1,
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(),
     textAlign: 'right',
   },
   dialog: {

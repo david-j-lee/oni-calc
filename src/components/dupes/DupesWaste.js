@@ -17,11 +17,11 @@ import DupesWasteInput from './DupesWasteInput';
 const styles = theme => ({
   root: {},
   title: {
-    padding: theme.spacing.unit,
-    paddingTop: theme.spacing.unit * 2,
+    padding: theme.spacing(),
+    paddingTop: theme.spacing(2),
   },
   card: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(),
   },
 });
 

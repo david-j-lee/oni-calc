@@ -65,7 +65,7 @@ export const getData = ({
   const newPlants = updatePlants(plants, newFood);
 
   const newResources = updateResources({
-    resources: resources,
+    resources,
     plants: newPlants,
     dupes: newDupes,
     buildings: newBuildings,

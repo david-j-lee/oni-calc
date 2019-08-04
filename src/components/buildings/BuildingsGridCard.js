@@ -1,14 +1,7 @@
 import React from 'react';
-
-// redux
-import { connect } from 'react-redux';
-import {
-  setBuildingQuantity,
-  setBuildingUtilization,
-} from '../../actions/buildingActions';
+import { useContext } from '../../context';
 
 // material
-import { withStyles } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
@@ -21,7 +14,7 @@ import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
 import Slider from '@material-ui/lab/Slider';
 import TextField from '@material-ui/core/TextField';
-// import Tooltip from '@material-ui/core/Tooltip';
+import { makeStyles } from '@material-ui/styles';
 
 // icons
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
@@ -31,71 +24,22 @@ import MoreVert from '@material-ui/icons/MoreVert';
 // component
 import BuildingDetails from './BuildingDetails';
 
-const styles = theme => ({
-  root: {
-    height: '100%',
-  },
-  card: {
-    display: 'flex',
-    width: '100%',
-    height: '100%',
-  },
-  cardContent: {
-    display: 'flex',
-    paddingRight: theme.spacing.unit * 2,
-  },
-  cardContentTitle: {
-    flexGrow: 1,
-  },
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-  },
-  cover: {
-    width: 60,
-    backgroundSize: 'contain',
-    backgroundColor: '#3E4357',
-    cursor: 'default',
-  },
-  quantity: {
-    flexGrow: 1,
-    marginRight: theme.spacing.unit,
-    textAlign: 'right',
-  },
-  category: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  categoryImage: {
-    display: 'inline-block',
-    width: 15,
-    height: 15,
-    backgroundSize: 'cover',
-    marginRight: theme.spacing.unit,
-  },
-  slider: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2,
-    marginBottom: theme.spacing.unit * 2,
-  },
-  sliderLabel: {
-    paddingLeft: theme.spacing.unit * 2,
-    textAlign: 'right',
-    width: 75,
-  },
-  dialog: {
-    maxWidth: 500,
-  },
-  popover: {
-    pointerEvents: 'none',
-  },
-});
+export default function BuildingsGridCard() {
+  // const mapStateToProps = state => {
+  //   return {
+  //   };
+  // };
 
-export class BuildingsGridCard extends React.Component {
+  // const mapDispatchToProps = {
+  //   setBuildingQuantity,
+  //   setBuildingUtilization,
+  // };
+
+  // export default connect(
+  //   mapStateToProps,
+  //   mapDispatchToProps,
+  // )(withStyles(styles)(BuildingsGridCard));
+
   timer = 0;
   utilizationTimer = 0;
 
@@ -316,18 +260,17 @@ export class BuildingsGridCard extends React.Component {
                 <ArrowDropUp />
               </IconButton>
             </CardActions>
-            {!building.hasConsistentIO &&
-              quantity > 0 && (
-                <div className={classes.slider}>
-                  <Slider
-                    value={utilization}
-                    onChange={this.handleSliderChange}
-                  />
-                  <Typography className={classes.sliderLabel}>
-                    {utilization.toFixed(0) + '%'}
-                  </Typography>
-                </div>
-              )}
+            {!building.hasConsistentIO && quantity > 0 && (
+              <div className={classes.slider}>
+                <Slider
+                  value={utilization}
+                  onChange={this.handleSliderChange}
+                />
+                <Typography className={classes.sliderLabel}>
+                  {utilization.toFixed(0) + '%'}
+                </Typography>
+              </div>
+            )}
           </div>
         </Card>
       </div>
@@ -335,18 +278,66 @@ export class BuildingsGridCard extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    // updateBuildings: state.calculator.updateBuildings,
-  };
-};
-
-const mapDispatchToProps = {
-  setBuildingQuantity,
-  setBuildingUtilization,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withStyles(styles)(BuildingsGridCard));
+const useStyles = makeStyles(theme => ({
+  root: {
+    height: '100%',
+  },
+  card: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+  },
+  cardContent: {
+    display: 'flex',
+    paddingRight: theme.spacing(2),
+  },
+  cardContentTitle: {
+    flexGrow: 1,
+  },
+  details: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+  },
+  cover: {
+    width: 60,
+    backgroundSize: 'contain',
+    backgroundColor: '#3E4357',
+    cursor: 'default',
+  },
+  quantity: {
+    flexGrow: 1,
+    marginRight: theme.spacing(),
+    textAlign: 'right',
+  },
+  category: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  categoryImage: {
+    display: 'inline-block',
+    width: 15,
+    height: 15,
+    backgroundSize: 'cover',
+    marginRight: theme.spacing(),
+  },
+  slider: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  },
+  sliderLabel: {
+    paddingLeft: theme.spacing(2),
+    textAlign: 'right',
+    width: 75,
+  },
+  dialog: {
+    maxWidth: 500,
+  },
+  popover: {
+    pointerEvents: 'none',
+  },
+}));

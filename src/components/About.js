@@ -10,8 +10,8 @@ import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
   root: {
-    padding: theme.spacing.unit,
-    paddingTop: theme.spacing.unit * 10,
+    padding: theme.spacing(),
+    paddingTop: theme.spacing(10),
     maxWidth: 750,
     margin: 'auto',
     height: '100vh',
@@ -19,11 +19,11 @@ const styles = theme => ({
     flexDirection: 'column',
   },
   actions: {
-    paddingTop: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
   },
   section: {
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
   },
   content: {
     flexGrow: 1,

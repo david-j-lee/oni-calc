@@ -24,7 +24,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 const styles = theme => ({
   root: {},
   card: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(),
   },
   cardContent: {
     flex: '1 0 auto',
@@ -42,15 +42,15 @@ const styles = theme => ({
     minWidth: 250,
   },
   geyserInfo: {
-    paddingTop: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
+    paddingTop: theme.spacing(),
+    paddingBottom: theme.spacing(),
   },
   title: {
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(),
   },
   textField: {
-    paddingRight: theme.spacing.unit,
+    paddingRight: theme.spacing(),
   },
 });
 

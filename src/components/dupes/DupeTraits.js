@@ -14,11 +14,11 @@ import DupeTrait from './DupeTrait';
 const styles = theme => ({
   root: {},
   title: {
-    padding: theme.spacing.unit,
-    paddingTop: theme.spacing.unit * 2,
+    padding: theme.spacing(),
+    paddingTop: theme.spacing(2),
   },
   dupe: {
-    padding: theme.spacing.unit,
+    padding: theme.spacing(),
   },
 });
 

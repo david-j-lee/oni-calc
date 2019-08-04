@@ -1,4 +1,6 @@
-export function getResourcesCapacity(buildings) {
+import IBuilding from '../interfaces/IBuilding';
+
+export function getResourcesCapacity(buildings: IBuilding[]) {
   const newBuildings = buildings.filter(
     building =>
       building.capacity &&
@@ -12,7 +14,7 @@ export function getResourcesCapacity(buildings) {
   };
 }
 
-export function getPowerCapacity(buildings) {
+export function getPowerCapacity(buildings: IBuilding[]) {
   const newBuildings = buildings.filter(
     building =>
       building.capacity &&
@@ -26,7 +28,7 @@ export function getPowerCapacity(buildings) {
   };
 }
 
-function getCapacityValue(buildings, prop) {
+function getCapacityValue(buildings: IBuilding[], prop: any) {
   if (buildings.length === 0) return 0;
 
   return buildings

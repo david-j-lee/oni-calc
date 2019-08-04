@@ -27,7 +27,7 @@ const styles = theme => ({
     height: 'inherit',
   },
   tableCell: {
-    padding: theme.spacing.unit,
+    padding: theme.spacing(),
   },
 })
 

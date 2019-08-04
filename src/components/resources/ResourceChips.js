@@ -6,7 +6,7 @@ import Avatar from '@material-ui/core/Avatar';
 
 const styles = theme => ({
   chip: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(),
   },
   avatar: {
     height: '75%',

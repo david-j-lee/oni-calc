@@ -12,8 +12,8 @@ import FoodItems from './FoodItems';
 
 const styles = theme => ({
   root: {
-    paddingTop: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
+    paddingTop: theme.spacing(),
+    paddingBottom: theme.spacing(),
   },
 });
 

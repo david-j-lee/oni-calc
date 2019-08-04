@@ -1,4 +1,4 @@
-import { IBuilding } from './building.interface';
+import IBuilding from './IBuilding';
 
 export default interface IState {
   tabIndex: number;

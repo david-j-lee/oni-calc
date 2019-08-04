@@ -1,10 +1,12 @@
-export function getIOTotal(ios) {
+import IIO from '../interfaces/IIO';
+
+export function getIOTotal(ios: IIO[]) {
   if (ios.length === 0) return 0;
 
   return ios.map(io => io.valueExtended || 0).reduce((a, b) => a + b);
 }
 
-export function getStandardIO(io) {
+export function getStandardIO(io: IIO) {
   const standardUnit = 'g';
   const standardRate = 'per second';
 
@@ -36,7 +38,7 @@ export function getStandardIO(io) {
   return { value, unit: standardUnit, rate: standardRate };
 }
 
-export function getSortedArray(array, orderBy, order) {
+export function getSortedArray(array: any[], orderBy: string, order: string) {
   return order === 'desc'
     ? [...array].sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
     : [...array].sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));

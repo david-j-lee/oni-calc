@@ -33,13 +33,13 @@ const styles = theme => ({
     width: 40,
     height: 40,
     backgroundSize: 'cover',
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(),
   },
   categoryImg: {
     width: 25,
     height: 25,
     backgroundSize: 'cover',
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(),
     cursor: 'default',
   },
   category: {
@@ -52,7 +52,7 @@ const styles = theme => ({
     width: 40,
     height: 40,
     backgroundSize: 'cover',
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(),
     cursor: 'default',
   },
   building: {
@@ -75,7 +75,7 @@ const styles = theme => ({
     whiteSpace: 'nowrap',
   },
   sliderLabel: {
-    paddingLeft: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing(2),
     textAlign: 'right',
     width: 75,
   },

@@ -121,19 +121,23 @@ function getRequirement(
   return requirement;
 }
 
-function getNumberOfPlants(requirement, growthRate, plantYield) {
+function getNumberOfPlants(
+  requirement: number,
+  growthRate: number,
+  plantYield: number,
+) {
   return requirement / (plantYield / growthRate);
 }
 
-export function getPlantsInputsForResource(plants, resourceName) {
+export function getPlantsInputsForResource(plants, resourceName: string) {
   return getIOForResource(plants, 'inputs', resourceName);
 }
 
-export function getPlantsOutputsForResource(plants, resourceName) {
+export function getPlantsOutputsForResource(plants, resourceName: string) {
   return getIOForResource(plants, 'outputs', resourceName);
 }
 
-function getIOForResource(plants, type, resourceName) {
+function getIOForResource(plants, type: string, resourceName: string) {
   const newPlants = plants.filter(plant => plant.quantity > 0);
   if (newPlants.length === 0) return [];
 
@@ -149,7 +153,7 @@ function getIOForResource(plants, type, resourceName) {
 function getExtendedValue(plant, io) {
   return {
     ...io,
-    plant: plant,
+    plant,
     valueExtended: plant.quantity * io.value,
   };
 }

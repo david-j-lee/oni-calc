@@ -1,9 +1,9 @@
-import { IBuildingInput } from '../interfaces/building-input.interface';
-import { IBuilding } from '../interfaces/building.interface';
-import { ICapacityItem } from '../interfaces/capacity-item.interface';
-import { ICapacity } from '../interfaces/capacity.interface';
-import { IIO } from '../interfaces/io.interface';
-import { IPower } from '../interfaces/power.interface';
+import IBuilding from '../interfaces/IBuilding';
+import IBuildingInput from '../interfaces/IBuildingInput';
+import ICapacity from '../interfaces/ICapacity';
+import ICapacityItem from '../interfaces/ICapacityItem';
+import IIO from '../interfaces/IIO';
+import IPower from '../interfaces/IPower';
 
 export function parseBuildings(rawBuildings: any): IBuilding[] {
   if (rawBuildings.constructor === Array) {
@@ -117,10 +117,17 @@ function parseIO(input: any): IIO {
     return {
       name: input.name || '',
       value: input.value || 0,
+      valueExtended: input.value || 0,
       unit: input.unit || '',
       rate: input.rate || '',
     };
   } else {
-    return { name: '', value: 0, unit: '', rate: '' };
+    return {
+      name: '',
+      value: 0,
+      valueExtended: 0,
+      unit: '',
+      rate: '',
+    };
   }
 }

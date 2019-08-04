@@ -1,4 +1,6 @@
-export function getGeysers(geysers, inputs) {
+import IGeyserInput from '../interfaces/IGeyserInput';
+
+export function getGeysers(geysers, inputs: IGeyserInput[]) {
   if (inputs && inputs.length > 0) {
     return updateGeysersWithInputs(geysers, inputs);
   } else {
@@ -6,7 +8,7 @@ export function getGeysers(geysers, inputs) {
   }
 }
 
-function updateGeysersWithInputs(geysers, inputs) {
+function updateGeysersWithInputs(geysers, inputs: IGeyserInput[]) {
   return {
     listing: geysers,
     inputted: inputs.map(input => {
@@ -46,7 +48,7 @@ export function deleteGeyserFromGeysers(geysers, geyser) {
   return newGeysers;
 }
 
-export function getGeyserOutputs(geysers, resourceName) {
+export function getGeyserOutputs(geysers, resourceName: string) {
   return geysers.inputted
     .map(geyser => {
       const geyserInfo = geysers.listing.find(g => g.name === geyser.name);

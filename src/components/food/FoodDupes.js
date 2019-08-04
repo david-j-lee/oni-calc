@@ -13,10 +13,10 @@ import CardContent from '@material-ui/core/CardContent';
 const styles = theme => ({
   root: {},
   title: {
-    paddingBottom: theme.spacing.unit,
+    paddingBottom: theme.spacing(),
   },
   card: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(),
   },
   surplus: {
     color: 'green',

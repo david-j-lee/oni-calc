@@ -11,7 +11,7 @@ import Number from '../common/Number';
 
 const styles = theme => ({
   noIOs: {
-    padding: theme.spacing.unit,
+    padding: theme.spacing(),
   },
   positive: {
     color: 'green',

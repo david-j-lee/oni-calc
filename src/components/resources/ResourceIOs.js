@@ -12,10 +12,10 @@ import ResourceIOsGeysers from './ResourceIOsGeysers';
 
 const styles = theme => ({
   section: {
-    // paddingBottom: theme.spacing.unit,
+    // paddingBottom: theme.spacing(),
   },
   noIOs: {
-    padding: theme.spacing.unit,
+    padding: theme.spacing(),
   },
 });
 

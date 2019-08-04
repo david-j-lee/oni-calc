@@ -15,7 +15,7 @@ const styles = theme => ({
     height: 'inherit',
   },
   tableCell: {
-    padding: theme.spacing.unit,
+    padding: theme.spacing(),
   },
   plantName: {
     display: 'flex',
@@ -28,7 +28,7 @@ const styles = theme => ({
     width: 20,
     backgroundSize: '200%',
     backgroundPosition: 'center',
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(),
   },
   quantity: {
     cursor: 'default',

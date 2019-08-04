@@ -14,13 +14,13 @@ import FoodItem from './FoodItem';
 const styles = theme => ({
   root: {},
   title: {
-    padding: theme.spacing.unit,
-    paddingTop: theme.spacing.unit * 2,
+    padding: theme.spacing(),
+    paddingTop: theme.spacing(2),
   },
   item: {
-    paddingLeft: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
+    paddingLeft: theme.spacing(),
+    paddingRight: theme.spacing(),
+    paddingBottom: theme.spacing(),
     [theme.breakpoints.down('sm')]: {
       width: '100%',
     },

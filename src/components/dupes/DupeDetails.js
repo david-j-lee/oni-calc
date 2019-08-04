@@ -9,12 +9,12 @@ import ResourceChips from '../resources/ResourceChips';
 
 const styles = theme => ({
   root: {
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing(3),
     minWidth: 400,
   },
   title: {
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(),
   },
 });
 

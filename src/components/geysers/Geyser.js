@@ -22,8 +22,8 @@ const styles = theme => ({
     justifyContent: 'flex-end',
   },
   chip: {
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginTop: theme.spacing(),
+    marginBottom: theme.spacing(),
   },
   avatar: {
     height: '75%',

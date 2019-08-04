@@ -15,9 +15,9 @@ const styles = theme => ({
     flexWrap: 'wrap',
   },
   headingContent: {
-    paddingTop: theme.spacing.unit * 3,
-    paddingRight: theme.spacing.unit * 3,
-    paddingLeft: theme.spacing.unit * 3,
+    paddingTop: theme.spacing(3),
+    paddingRight: theme.spacing(3),
+    paddingLeft: theme.spacing(3),
     paddingBottom: 0,
     width: 500 - 160,
     flexGrow: 1,
@@ -27,13 +27,13 @@ const styles = theme => ({
     height: 120,
   },
   title: {
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(),
   },
   content: {
-    paddingLeft: theme.spacing.unit * 3,
-    paddingRight: theme.spacing.unit * 3,
-    paddingBottom: theme.spacing.unit * 3,
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3),
+    paddingBottom: theme.spacing(3),
   },
   avatar: {
     height: '100%',

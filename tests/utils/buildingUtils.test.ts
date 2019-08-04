@@ -1,7 +1,7 @@
-import { IBuilding } from '../interfaces/building.interface';
-import { IBuildingInput } from './../interfaces/building-input.interface';
+import IBuilding from '../../src/interfaces/IBuilding';
+import IBuildingInput from '../../src/interfaces/IBuildingInput';
 
-import * as buildingUtils from './buildingUtils';
+import * as buildingUtils from '../../src/utils/buildingUtils';
 
 const baseBuilding: IBuilding = {
   category: 'Base',

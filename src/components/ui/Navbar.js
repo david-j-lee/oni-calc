@@ -28,7 +28,7 @@ const styles = theme => ({
     flexGrow: 1,
   },
   title: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(),
     fontWeight: 'bold',
   },
   flex: {

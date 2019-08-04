@@ -11,7 +11,7 @@ import TableCell from '@material-ui/core/TableCell';
 
 const styles = theme => ({
   notFound: {
-    padding: theme.spacing.unit,
+    padding: theme.spacing(),
   },
 });
 

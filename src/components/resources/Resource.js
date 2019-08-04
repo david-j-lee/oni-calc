@@ -14,7 +14,7 @@ const styles = theme => ({
     height: 'inherit',
   },
   tableCell: {
-    padding: theme.spacing.unit,
+    padding: theme.spacing(),
   },
   resourceName: {
     display: 'flex',
@@ -25,7 +25,7 @@ const styles = theme => ({
     height: 15,
     width: 15,
     backgroundSize: 'cover',
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(),
   },
   io: {
     cursor: 'default',

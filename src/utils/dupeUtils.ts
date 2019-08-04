@@ -1,3 +1,5 @@
+import IDupeInput from '../interfaces/IDupeInput';
+
 export function getDupes(dupes, inputs) {
   if (inputs && inputs.traits) {
     return updateDupesWithInputs(dupes, inputs);
@@ -55,29 +57,31 @@ export function getDupesWithClearedInputs(dupes) {
   return newDupes;
 }
 
-export function getDupesInputsForResource(dupes, resourceName) {
+export function getDupesInputsForResource(dupes, resourceName: string) {
   const base = getBaseIOForResource(dupes, 'inputs', resourceName);
   const traits = getTraitsIOForResource(dupes.traits, 'inputs', resourceName);
   const waste = getWasteIOForResource(dupes, 'inputs', resourceName);
   return base.concat(traits).concat(waste);
 }
 
-export function getDupesOutputsForResource(dupes, resourceName) {
+export function getDupesOutputsForResource(dupes, resourceName: string) {
   const base = getBaseIOForResource(dupes, 'outputs', resourceName);
   const traits = getTraitsIOForResource(dupes.traits, 'outputs', resourceName);
   const waste = getWasteIOForResource(dupes, 'outputs', resourceName);
   return base.concat(traits).concat(waste);
 }
 
-function getBaseIOForResource(dupes, type, resourceName) {
-  return dupes[type].filter(io => io.name === resourceName).map(io => ({
-    ...io,
-    valueExtended: io.value * dupes.quantity,
-    dupe: { reference: 'Base Dupe', quantity: dupes.quantity },
-  }));
+function getBaseIOForResource(dupes, type, resourceName: string) {
+  return dupes[type]
+    .filter(io => io.name === resourceName)
+    .map(io => ({
+      ...io,
+      valueExtended: io.value * dupes.quantity,
+      dupe: { reference: 'Base Dupe', quantity: dupes.quantity },
+    }));
 }
 
-function getTraitsIOForResource(traits, type, resourceName) {
+function getTraitsIOForResource(traits, type: string, resourceName: string) {
   const filteredTraits = traits.filter(trait => trait.quantity > 0);
   if (filteredTraits.length === 0) return [];
 
@@ -100,7 +104,7 @@ const WASTE_PROPERTIES = [
   { name: 'dirtValue', title: 'Dirt' },
 ];
 
-function getWasteIOForResource(dupes, type, resourceName) {
+function getWasteIOForResource(dupes, type: string, resourceName: string) {
   let arr = [];
 
   WASTE_PROPERTIES.forEach(prop => {
@@ -127,7 +131,7 @@ function getWasteIOForResource(dupes, type, resourceName) {
   return arr;
 }
 
-export function updateDupeQuantity(dupes, quantity) {
+export function updateDupeQuantity(dupes, quantity: number) {
   const newDupes = {
     ...dupes,
     quantity,
@@ -143,7 +147,7 @@ export function updateDupeQuantity(dupes, quantity) {
   return newDupes;
 }
 
-export function updateDupeTraitQuantity(dupes, name, quantity) {
+export function updateDupeTraitQuantity(dupes, name: string, quantity: number) {
   const newDupes = {
     ...dupes,
     traits: dupes.traits.map(trait => ({
@@ -163,7 +167,7 @@ export function updateDupeTraitQuantity(dupes, name, quantity) {
   return newDupes;
 }
 
-export function getDupeWaste(dupes, prop, value) {
+export function getDupeWaste(dupes, prop: string, value) {
   const newDupes = { ...dupes };
 
   if (prop === '') return newDupes;

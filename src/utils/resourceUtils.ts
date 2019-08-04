@@ -18,6 +18,8 @@ import { getFoodInputsForResource } from './foodUtils';
 import { getGeyserOutputs } from './geyserUtils';
 import { getIOTotal } from './commonUtils';
 
+import IBuilding from '../interfaces/IBuilding';
+
 export function getClearedResources(resources) {
   return resources.map(resource => {
     resource.totalInput = 0;
@@ -55,7 +57,10 @@ export function updateResources({
   });
 }
 
-export function updateResourcesWithBuildings(resources, buildings) {
+export function updateResourcesWithBuildings(
+  resources,
+  buildings: IBuilding[],
+) {
   return resources.map(resource => {
     const updatedResource = {
       ...resource,
@@ -135,7 +140,7 @@ function resourceDupes(resource, dupes) {
   };
 }
 
-function resourceBuildings(resource, buildings) {
+function resourceBuildings(resource, buildings: IBuilding[]) {
   const buildingInputs = getBuildingsInputsForResource(
     buildings,
     resource.name,

@@ -12,7 +12,7 @@ import Number from '../common/Number';
 
 const styles = theme => ({
   noBuildings: {
-    padding: theme.spacing.unit,
+    padding: theme.spacing(),
   },
   positive: {
     color: 'green',

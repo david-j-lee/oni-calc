@@ -1,4 +1,6 @@
-export function getFood(food, inputs) {
+import IFoodInput from './../interfaces/IFoodInput';
+
+export function getFood(food, inputs: IFoodInput[]) {
   if (inputs) {
     return updateFoodWithInputs(food, inputs);
   } else {
@@ -6,7 +8,7 @@ export function getFood(food, inputs) {
   }
 }
 
-function updateFoodWithInputs(food, inputs) {
+function updateFoodWithInputs(food, inputs: IFoodInput[]) {
   return food.map(item => {
     const input = inputs.find(i => i.name === item.name);
     return {
@@ -26,7 +28,7 @@ export function getFoodWithClearedInputs(food) {
   return newFood;
 }
 
-export function updateFoodQuantity(food, name, quantity) {
+export function updateFoodQuantity(food, name: string, quantity: number) {
   const newFood = food.map(item => ({
     ...item,
     quantity: item.name === name ? quantity : item.quantity,
@@ -35,15 +37,15 @@ export function updateFoodQuantity(food, name, quantity) {
   return newFood;
 }
 
-export function getFoodInputsForResource(food, resourceName) {
+export function getFoodInputsForResource(food, resourceName: string) {
   return getFoodIOsForResource(food, 'inputs', resourceName);
 }
 
-export function getFoodOutputsForResource(food, resourceName) {
+export function getFoodOutputsForResource(food, resourceName: string) {
   return getFoodIOsForResource(food, 'outputs', resourceName);
 }
 
-function getFoodIOsForResource(food, type, resourceName) {
+function getFoodIOsForResource(food, type: string, resourceName: string) {
   if (type !== 'inputs' && type !== 'outputs') {
     throw new Error('Type must be inputs or outputs');
   }
@@ -53,16 +55,18 @@ function getFoodIOsForResource(food, type, resourceName) {
 
   return newFood
     .map(item =>
-      item[type].filter(io => io.name === resourceName).map(io => ({
-        ...io,
-        food: item,
-        valueExtended: getExtendedValue(io.value, item.quantity),
-      })),
+      item[type]
+        .filter(io => io.name === resourceName)
+        .map(io => ({
+          ...io,
+          food: item,
+          valueExtended: getExtendedValue(io.value, item.quantity),
+        })),
     )
     .reduce((a, b) => a.concat(b));
 }
 
-function getExtendedValue(value, quantity) {
+function getExtendedValue(value: number, quantity: number) {
   const SECONDS_IN_A_CYCLE = 600;
   return (quantity * value) / SECONDS_IN_A_CYCLE;
 }
