@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useContext } from '../../context';
 
 // material
@@ -40,8 +40,15 @@ export default function BuildingsGridCard() {
   //   mapDispatchToProps,
   // )(withStyles(styles)(BuildingsGridCard));
 
-  timer = 0;
-  utilizationTimer = 0;
+  const [quantity, setQuantity] = useState();
+  const [focused, setFocused] = useState(false);
+  const [utilization, setUtilization] = useState();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [popoverOpen, setPopoverOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const timer = useRef();
+  const utilizationTimer = useRef();
 
   state = {
     quantity: this.props.building.quantity,
