@@ -17,11 +17,12 @@ import HomeIcon from '@material-ui/icons/Home';
 import HelpIcon from '@material-ui/icons/Help';
 
 // components
-import ThemePicker from './ThemePicker';
 import NavbarDupes from './NavbarDupes';
 import NavbarBuildings from './NavbarBuildings';
 import NavbarFood from './NavbarFood';
 import NavbarGeysers from './NavbarGeysers';
+import ThemePicker from './ThemePicker';
+import TopMessage from './TopMessage';
 
 const styles = theme => ({
   root: {
@@ -57,6 +58,7 @@ export class Navbar extends React.Component {
     return (
       <div className={classes.root}>
         <AppBar position="fixed" color="primary">
+          <TopMessage />
           <Toolbar className={classes.toolbar}>
             <Typography
               className={classes.title}
