@@ -106,18 +106,6 @@ export class About extends React.Component {
             {payPalLink}. This money will be used for hosting fees and coffee.
           </Typography>
         </div>
-        <div>
-          <h1>Supporters</h1>
-          <p>
-            These people have showed support in the application, thank you! You
-            make working on this project extra special.
-          </p>
-          <ul>
-            <li></li>
-            <li></li>
-            <li></li>
-          </ul>
-        </div>
         <div className={classes.footer}>
           <Typography variant="caption">
             by{' '}
