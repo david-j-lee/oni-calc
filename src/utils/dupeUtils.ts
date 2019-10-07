@@ -141,7 +141,7 @@ const WASTE_PROPERTIES = [
 ];
 
 function getWasteIOForResource(dupes, type: string, resourceName: string) {
-  let arr = [];
+  let arr: any = []; // TODO: Types
 
   WASTE_PROPERTIES.forEach(prop => {
     const isValid =

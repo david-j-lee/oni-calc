@@ -24,7 +24,7 @@ export default function Calculator() {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [getData]);
 
   const handleChange = (event, value) => {
     setTabIndex(value);

@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useContext } from '../../context';
 
 // material
 import Typography from '@material-ui/core/Typography';
@@ -41,21 +42,10 @@ import grey from '@material-ui/core/colors/grey';
 import blueGrey from '@material-ui/core/colors/blueGrey';
 
 export default function ThemePicker() {
-  // const mapStateToProps = state => {
-  //   return {
-  //     theme: state.calculator.theme,
-  //   };
-  // };
-
-  // const mapDispatchToProps = {
-  //   getTheme,
-  //   setTheme,
-  // };
   const classes = useStyles();
   const [{ theme }, { getTheme, setTheme }] = useContext();
 
   const [icon, setIcon] = useState('');
-  const [type, setType] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [color1, setColor1] = useState('');
   const [color2, setColor2] = useState('');
@@ -67,7 +57,7 @@ export default function ThemePicker() {
   useEffect(() => {
     setTheme(theme);
     updateButton(theme.palette.type);
-  }, [getTheme]);
+  }, [getTheme, setTheme, theme]);
 
   const changeType = () => {
     let newTheme = { ...theme };
@@ -81,7 +71,7 @@ export default function ThemePicker() {
   };
 
   const changeColors = (primary, secondary) => {
-    let newTheme = { ...this.state.theme };
+    let newTheme = { ...theme };
 
     // set new colors
     newTheme.palette.primary = primary;
@@ -123,7 +113,7 @@ export default function ThemePicker() {
   const selectColor = color => {
     if (color1 === '') {
       setColor1(color);
-    } else if (this.state.color2 === '') {
+    } else if (color2 === '') {
       setColor2(color);
     }
   };

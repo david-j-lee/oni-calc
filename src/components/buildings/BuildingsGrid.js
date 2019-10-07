@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import { makeStyles } from '@material-ui/style';
+import { makeStyles } from '@material-ui/styles';
 
 // icons
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -18,9 +18,7 @@ import BuildingsGridCard from './BuildingsGridCard';
 export default function BuildingsGrid() {
   const classes = useStyles();
 
-  const [
-    { buildings, collapseBuildingPanels, collapseBuildingPanelsTrigger },
-  ] = useContext();
+  const [{ buildings, collapseBuildingPanels }] = useContext();
 
   const [groupedBuildings, setGroupedBuildings] = useState();
   const [expansionPanelStates, setExpansionPanelStates] = useState();

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import { useContext } from '../../context';
+import { useContext } from '../context';
 
 // material
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
