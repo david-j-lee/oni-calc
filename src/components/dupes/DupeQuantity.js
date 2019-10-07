@@ -27,7 +27,7 @@ export default function DupeQuantity() {
 
   const [{ dupes }, { setDupesTotalQuantity }] = useContext();
 
-  const [quantity, setQuantity] = useState(this.props.dupes.quantity);
+  const [quantity, setQuantity] = useState(dupes.quantity);
   const [focused, setFocused] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -117,7 +117,7 @@ export default function DupeQuantity() {
         </Dialog>
         <Card className={classes.card}>
           <CardContent className={classes.cardContent}>
-            <Typography variant="title" className={classes.cardContentTitle}>
+            <Typography variant="h6" className={classes.cardContentTitle}>
               Total Dupes
             </Typography>
             <IconButton onClick={handleClickOpen} aria-label="More">

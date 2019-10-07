@@ -207,7 +207,7 @@ export default function BuildingsTable({ building }) {
         )}
       </TableCell>
 
-      <TableCell numeric className={classes.quantity} padding="dense">
+      <TableCell align="right" className={classes.quantity} padding="dense">
         <TextField
           type="number"
           value={quantity}

@@ -51,7 +51,7 @@ export default function Resources() {
               <TableCell
                 key={header.id}
                 className={classes.tableCell}
-                numeric={header.numeric}
+                align={header.numeric ? 'right' : 'left'}
               >
                 <TableSortLabel
                   active={resourcesOrderBy === header.id}

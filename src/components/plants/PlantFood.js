@@ -33,7 +33,7 @@ export default function PlantFood({ plant }) {
               return (
                 <TableRow key={i}>
                   <TableCell padding="dense">{requirement.food.name}</TableCell>
-                  <TableCell numeric padding="dense">
+                  <TableCell align="right" padding="dense">
                     {requirement.quantity}
                   </TableCell>
                 </TableRow>
@@ -55,7 +55,7 @@ export default function PlantFood({ plant }) {
               return (
                 <TableRow key={i}>
                   <TableCell padding="dense">{requirement.food.name}</TableCell>
-                  <TableCell numeric padding="dense">
+                  <TableCell align="right" padding="dense">
                     {requirement.quantity}
                   </TableCell>
                 </TableRow>

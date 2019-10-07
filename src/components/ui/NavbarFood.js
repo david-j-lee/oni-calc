@@ -15,7 +15,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 
 export default function NavbarFood() {
   const [, { clearFoodInputs }] = useContext();
-  const [dialogOpen, setDialogOpen] = useState();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleClickOpen = () => {
     setDialogOpen(true);

@@ -23,7 +23,7 @@ export default function Geyser({ geyser }) {
     <div className={classes.root}>
       <Card>
         <CardContent>
-          <Typography variant="subheading">{geyser.name}</Typography>
+          <Typography variant="subtitle1">{geyser.name}</Typography>
           {geyser.outputs.length > 0 &&
             geyser.outputs.map((output, i) => {
               const imageUrl = `/images/resources/${output.name

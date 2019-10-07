@@ -12,12 +12,12 @@ export default function DupeDetails({ details }) {
 
   return (
     <div className={classes.root}>
-      <Typography variant="title">Dupe Details</Typography>
-      <Typography variant="subheading" className={classes.title}>
+      <Typography variant="h6">Dupe Details</Typography>
+      <Typography variant="subtitle1" className={classes.title}>
         Inputs
       </Typography>
       <ResourceChips ios={details.inputs} type="Inputs" />
-      <Typography variant="subheading" className={classes.title}>
+      <Typography variant="subtitle1" className={classes.title}>
         Outputs
       </Typography>
       <ResourceChips ios={details.outputs} type="Outputs" />

@@ -29,7 +29,7 @@ export default function FoodDupes() {
       <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
         <Card className={classes.card}>
           <CardContent>
-            <Typography variant="title" className={classes.title}>
+            <Typography variant="h6" className={classes.title}>
               {dupes.quantity} Dupes
             </Typography>
             <Typography>

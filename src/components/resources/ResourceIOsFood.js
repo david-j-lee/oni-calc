@@ -47,10 +47,10 @@ export default function ResourceIOsFood({ resource, title, type }) {
           <TableHead>
             <TableRow>
               <TableCell padding="dense">Food</TableCell>
-              <TableCell numeric padding="dense">
+              <TableCell align="right" padding="dense">
                 Quantity
               </TableCell>
-              <TableCell numeric padding="dense">
+              <TableCell align="right" padding="dense">
                 Total {title}
               </TableCell>
             </TableRow>
@@ -60,10 +60,10 @@ export default function ResourceIOsFood({ resource, title, type }) {
               return (
                 <TableRow key={index}>
                   <TableCell padding="dense">{io.food.name}</TableCell>
-                  <TableCell numeric padding="dense">
+                  <TableCell align="right" padding="dense">
                     {io.food.quantity}
                   </TableCell>
-                  <TableCell numeric padding="dense">
+                  <TableCell align="right" padding="dense">
                     <Number value={io.valueExtended} />
                   </TableCell>
                 </TableRow>

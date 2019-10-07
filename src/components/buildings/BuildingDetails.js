@@ -46,7 +46,7 @@ export default function BuildingDetails({
           }}
         />
         <div className={classes.headingContent}>
-          <Typography variant="display1" id="responsive-dialog-title">
+          <Typography variant="h4" id="responsive-dialog-title">
             {name}
           </Typography>
           <div className={classes.category}>
@@ -80,11 +80,11 @@ export default function BuildingDetails({
             {capacity.resources.value + ' ' + capacity.resources.unit}
           </Typography>
         )}
-        <Typography variant="subheading" className={classes.title}>
+        <Typography variant="subtitle1" className={classes.title}>
           Inputs
         </Typography>
         <ResourceChips ios={inputs} type="Inputs" />
-        <Typography variant="subheading" className={classes.title}>
+        <Typography variant="subtitle1" className={classes.title}>
           Outputs
         </Typography>
         <ResourceChips ios={outputs} type="Outputs" />

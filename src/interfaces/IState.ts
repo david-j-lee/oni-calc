@@ -18,5 +18,6 @@ export default interface IState {
   resourcesCapacity: {};
   dupes: {};
   food: [];
+  plants: [];
   geysers: {};
 }

@@ -24,13 +24,13 @@ export default function PowerBuildings({ buildings, title }) {
           <TableHead>
             <TableRow>
               <TableCell padding="dense">Building</TableCell>
-              <TableCell numeric padding="dense">
+              <TableCell align="right" padding="dense">
                 Quantity
               </TableCell>
-              <TableCell numeric padding="dense">
+              <TableCell align="right" padding="dense">
                 Utilization
               </TableCell>
-              <TableCell numeric padding="dense">
+              <TableCell align="right" padding="dense">
                 Total {title}
               </TableCell>
             </TableRow>
@@ -48,13 +48,13 @@ export default function PowerBuildings({ buildings, title }) {
               return (
                 <TableRow key={index}>
                   <TableCell padding="dense">{building.name}</TableCell>
-                  <TableCell numeric padding="dense">
+                  <TableCell align="right" padding="dense">
                     {building.quantity}
                   </TableCell>
-                  <TableCell numeric padding="dense">
+                  <TableCell align="right" padding="dense">
                     {building.utilization}%
                   </TableCell>
-                  <TableCell numeric padding="dense">
+                  <TableCell align="right" padding="dense">
                     <Number value={value} suffix={' ' + unit} />
                   </TableCell>
                 </TableRow>

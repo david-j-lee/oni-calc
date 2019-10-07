@@ -79,7 +79,7 @@ export default function Plant({ plant }) {
           {plant.name}
         </div>
       </TableCell>
-      <TableCell numeric className={classes.tableCell}>
+      <TableCell align="right" className={classes.tableCell}>
         <div
           className={classes.quantity}
           onMouseOver={handleFoodPopoverOpen}

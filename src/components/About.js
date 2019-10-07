@@ -31,7 +31,7 @@ export default function About() {
   return (
     <div className={classes.root}>
       <div className={classes.content}>
-        <Typography variant="headline">
+        <Typography variant="h5">
           About O<span className={classes.oniColor}>N</span>I{' '}
           <span className={classes.onicColor}>C</span>
           alculator

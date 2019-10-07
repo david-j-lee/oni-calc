@@ -29,7 +29,7 @@ export default function FoodItemDetail({ item }) {
           }}
         />
         <div className={classes.headingContent}>
-          <Typography variant="title">{item.name}</Typography>
+          <Typography variant="h6">{item.name}</Typography>
           <Grid container>
             <Grid item xs={6}>
               <Typography variant="body1" className={classes.title}>
@@ -49,7 +49,7 @@ export default function FoodItemDetail({ item }) {
         </div>
       </div>
       <div className={classes.content}>
-        <Typography variant="subheading" className={classes.title}>
+        <Typography variant="subtitle1" className={classes.title}>
           Requirements
         </Typography>
         {item.requirements.length === 0 ? (
@@ -78,7 +78,7 @@ export default function FoodItemDetail({ item }) {
             );
           })
         )}
-        <Typography variant="subheading" className={classes.title}>
+        <Typography variant="subtitle1" className={classes.title}>
           Inputs
         </Typography>
         <ResourceChips ios={item.inputs} type="Inputs" />

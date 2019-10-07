@@ -51,7 +51,7 @@ export default function ResourceIOsGeysers({ resource, title, type }) {
           <TableHead>
             <TableRow>
               <TableCell padding="dense">Geysers</TableCell>
-              <TableCell numeric padding="dense">
+              <TableCell align="right" padding="dense">
                 Total {title}
               </TableCell>
             </TableRow>
@@ -61,7 +61,7 @@ export default function ResourceIOsGeysers({ resource, title, type }) {
               return (
                 <TableRow key={index}>
                   <TableCell padding="dense">{io.geyser.name}</TableCell>
-                  <TableCell numeric padding="dense">
+                  <TableCell align="right" padding="dense">
                     <Number value={io.valueExtended} />
                   </TableCell>
                 </TableRow>

@@ -21,16 +21,13 @@ import Plant from './Plant';
 
 export default function Plants() {
   const classes = useStyles();
-  const [{ plants }] = useContext();
+  const [
+    { plants, resourcesOrderBy, resourcesOrder },
+    { sortResources },
+  ] = useContext();
 
-  // handleRequestSort = id => {
-  //   this.props.sortResources(id);
-  // };
-
-  const mapPlantsToElement = plants => {
-    return plants.map((plant, i) => {
-      return <Plant key={i} plant={plant} />;
-    });
+  const handleRequestSort = id => {
+    sortResources(id);
   };
 
   const getTableHeaders = () => {
@@ -46,12 +43,12 @@ export default function Plants() {
               <TableCell
                 key={header.id}
                 className={classes.tableCell}
-                numeric={header.numeric}
+                align={header.numeric ? 'right' : 'left'}
               >
                 <TableSortLabel
-                // active={this.props.resourcesOrderBy === header.id}
-                // direction={this.props.resourcesOrder}
-                // onClick={() => this.handleRequestSort(header.id)}
+                  active={resourcesOrderBy === header.id}
+                  direction={resourcesOrder}
+                  onClick={() => handleRequestSort(header.id)}
                 >
                   {header.label}
                 </TableSortLabel>
@@ -71,7 +68,11 @@ export default function Plants() {
       <ExpansionPanelDetails>
         <Table>
           {getTableHeaders()}
-          <TableBody>{mapPlantsToElement(plants)}</TableBody>
+          <TableBody>
+            {plants.map((plant, i) => (
+              <Plant key={i} plant={plant} />
+            ))}
+          </TableBody>
         </Table>
       </ExpansionPanelDetails>
     </ExpansionPanel>

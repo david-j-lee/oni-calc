@@ -1,27 +1,24 @@
 // json data
-import * as buildings from '../assets/json/buildings.json';
-import * as dupes from '../assets/json/dupe.json';
-import * as food from '../assets/json/food.json';
-import * as geysers from '../assets/json/geysers.json';
-import * as plants from '../assets/json/plants.json';
-import * as resources from '../assets/json/resources.json';
+import { buildings } from '../assets/data/buildings';
+import { dupes } from '../assets/data/dupes';
+import { food } from '../assets/data/food';
+import { geysers } from '../assets/data/geysers';
+import { plants } from '../assets/data/plants';
+import { resources } from '../assets/data/resources';
 
 // utils
-import { getBuildings } from '../utils/buildingUtils.js';
-import {
-  getPowerCapacity,
-  getResourcesCapacity,
-} from '../utils/capacityUtils.js';
-import { getDupes } from '../utils/dupeUtils.js';
-import { getFood } from '../utils/foodUtils.js';
-import { getGeysers } from '../utils/geyserUtils.js';
+import { getBuildings } from '../utils/buildingUtils';
+import { getPowerCapacity, getResourcesCapacity } from '../utils/capacityUtils';
+import { getDupes } from '../utils/dupeUtils';
+import { getFood } from '../utils/foodUtils';
+import { getGeysers } from '../utils/geyserUtils';
 import { parseBuildingInputs, parseBuildings } from '../utils/parseUtils';
-import { updatePlants } from '../utils/plantUtils.js';
+import { updatePlants } from '../utils/plantUtils';
 import {
   getBuildingsPowerGeneration,
   getBuildingsPowerUsage,
-} from '../utils/powerUtils.js';
-import { updateResources } from '../utils/resourceUtils.js';
+} from '../utils/powerUtils';
+import { updateResources } from '../utils/resourceUtils';
 
 // TODO: Refactor
 export const calculatorActions = {

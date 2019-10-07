@@ -35,7 +35,10 @@ export default function BuildingsTable() {
         <TableRow>
           {tableHeaders.map(header => {
             return (
-              <TableCell key={header.id} numeric={header.numeric}>
+              <TableCell
+                key={header.id}
+                align={header.numeric ? 'right' : 'left'}
+              >
                 <TableSortLabel
                   active={buildingsOrderBy === header.id}
                   direction={buildingsOrder}

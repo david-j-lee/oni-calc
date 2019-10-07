@@ -29,7 +29,7 @@ export default function Navbar() {
     <div className={classes.root}>
       <AppBar position="fixed" color="primary">
         <Toolbar className={classes.toolbar}>
-          <Typography className={classes.title} variant="title" color="inherit">
+          <Typography className={classes.title} variant="h6" color="inherit">
             O<span className={classes.oniColor}>N</span>I
             <span className={classes.onicColor}>C</span>
           </Typography>

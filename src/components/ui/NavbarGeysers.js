@@ -15,7 +15,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 
 export default function NavbarGeysers() {
   const [, { clearGeyserInputs }] = useContext();
-  const [dialogOpen, setDialogOpen] = useState();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleClickOpen = () => {
     setDialogOpen(true);

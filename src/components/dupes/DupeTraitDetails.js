@@ -10,12 +10,12 @@ export default function DupeTraitDetails({ trait }) {
 
   return (
     <div className={classes.root}>
-      <Typography variant="title">{trait.name}</Typography>
-      <Typography variant="subheading" className={classes.title}>
+      <Typography variant="h6">{trait.name}</Typography>
+      <Typography variant="subtitle1" className={classes.title}>
         Inputs
       </Typography>
       <ResourceChips ios={trait.inputs} type="Inputs" />
-      <Typography variant="subheading" className={classes.title}>
+      <Typography variant="subtitle1" className={classes.title}>
         Outputs
       </Typography>
       <ResourceChips ios={trait.outputs} type="Outputs" />

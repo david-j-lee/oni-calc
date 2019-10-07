@@ -177,7 +177,7 @@ export default function BuildingsGridCard({ building }) {
         <div className={classes.details}>
           <CardContent className={classes.cardContent}>
             <Typography
-              variant="subheading"
+              variant="subtitle1"
               className={classes.cardContentTitle}
             >
               {building.name}

@@ -72,7 +72,7 @@ export default function Capacity() {
           <div className={classes.capacityText}>
             <Typography
               className={classes.pointer}
-              onMouseOut={this.handlePopoverClose}
+              onMouseOut={handlePopoverClose}
               onMouseOver={e =>
                 handlePopoverOpen(e, 'Resources', resourcesCapacity.buildings)
               }

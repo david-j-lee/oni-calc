@@ -55,8 +55,10 @@ export default function ThemePicker() {
   }, [getTheme]);
 
   useEffect(() => {
-    setTheme(theme);
-    updateButton(theme.palette.type);
+    if (theme) {
+      setTheme(theme);
+      updateButton(theme.palette.type);
+    }
   }, [getTheme, setTheme, theme]);
 
   const changeType = () => {
@@ -162,12 +164,12 @@ export default function ThemePicker() {
         <div className={classes.selectedColorInnerHalf}>
           <div
             className={classes.colorPreviewCircleLeft}
-            style={{ backgroundColor: theme.palette.primary[500] }}
+            style={{ backgroundColor: theme ? theme.palette.primary[500] : '' }}
           />
           <div
             className={classes.colorPreviewCircleRight}
             style={{
-              backgroundColor: theme.palette.secondary[500],
+              backgroundColor: theme ? theme.palette.secondary[500] : '',
             }}
           />
         </div>

@@ -27,7 +27,7 @@ export default function PlantDetails({ plant }) {
           }}
         />
         <div className={classes.headingContent}>
-          <Typography variant="title">{plant.name}</Typography>
+          <Typography variant="h6">{plant.name}</Typography>
           <Grid container>
             <Grid item xs={6}>
               <Typography variant="body1" className={classes.title}>
@@ -47,7 +47,7 @@ export default function PlantDetails({ plant }) {
         </div>
       </div>
       <div className={classes.content}>
-        <Typography variant="subheading" className={classes.title}>
+        <Typography variant="subtitle1" className={classes.title}>
           Inputs
         </Typography>
         <ResourceChips ios={plant.inputs} type="Inputs" />

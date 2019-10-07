@@ -65,7 +65,7 @@ export default function Resource({ resource }) {
         </div>
       </TableCell>
 
-      <TableCell numeric className={classes.tableCell}>
+      <TableCell align="right" className={classes.tableCell}>
         <div
           className={classes.io}
           onMouseOver={e => handlePopoverOpen(e, 'Inputs', 'inputs')}
@@ -75,7 +75,7 @@ export default function Resource({ resource }) {
         </div>
       </TableCell>
 
-      <TableCell numeric className={classes.tableCell}>
+      <TableCell align="right" className={classes.tableCell}>
         <div
           className={classes.io}
           onMouseOver={e => handlePopoverOpen(e, 'Outputs', 'outputs')}
@@ -85,7 +85,7 @@ export default function Resource({ resource }) {
         </div>
       </TableCell>
 
-      <TableCell numeric className={classes.tableCell}>
+      <TableCell align="right" className={classes.tableCell}>
         <div
           className={classes.io}
           onMouseOver={e => handlePopoverOpen(e, 'Inputs or Outputs', 'both')}

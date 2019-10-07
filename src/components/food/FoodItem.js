@@ -28,7 +28,7 @@ export default function FoodItem({ item }) {
 
   const [, { setFoodQuantity }] = useContext();
 
-  const [quantity, setQuantity] = useState(this.props.item.quantity);
+  const [quantity, setQuantity] = useState(item.quantity);
   const [focused, setFocused] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -156,7 +156,7 @@ export default function FoodItem({ item }) {
         <div className={classes.details}>
           <CardContent className={classes.cardContent}>
             <Typography
-              variant="subheading"
+              variant="subtitle1"
               className={classes.cardContentTitle}
             >
               {item.name}

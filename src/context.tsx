@@ -2,7 +2,14 @@ import React from 'react';
 import { useGovernor } from '@techempower/react-governor';
 
 import IState from './interfaces/IState';
-// import { tableActions, getTheme, getElements } from './actions/tableActions';
+
+import { buildingActions } from './actions/buildingActions';
+import { calculatorActions } from './actions/calculatorActions';
+import { dupeActions } from './actions/dupeActions';
+import { foodActions } from './actions/foodActions';
+import { geyserActions } from './actions/geyserActions';
+import { resourceActions } from './actions/resourceActions';
+import { uiActions } from './actions/uiActions';
 
 const INITIAL_STATE: IState = {
   tabIndex: 0,
@@ -15,18 +22,25 @@ const INITIAL_STATE: IState = {
   resources: [],
   resourcesOrderBy: 'name',
   resourcesOrder: 'asc',
-  theme: {},
+  theme: null,
   powerUsage: {},
   powerGeneration: {},
   powerCapacity: {},
   resourcesCapacity: {},
   dupes: {},
   food: [],
+  plants: [],
   geysers: {},
 };
 
 const contract = {
-  // ...tableActions,
+  ...buildingActions,
+  ...calculatorActions,
+  ...dupeActions,
+  ...foodActions,
+  ...geyserActions,
+  ...resourceActions,
+  ...uiActions,
 };
 
 const Context = React.createContext(INITIAL_STATE);

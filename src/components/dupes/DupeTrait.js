@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useContext } from '../../context';
 
 // material
@@ -23,27 +23,11 @@ import DupeTraitDetails from './DupeTraitDetails';
 
 export default function DupeTrait({ trait }) {
   const classes = useStyles();
-  // const mapStateToProps = state => {
-  //   return {
-  //     dupes: state.calculator.dupes,
-  //   };
-  // };
-
-  // const mapDispatchToProps = {
-  //   setDupeTraitQuantity,
-  // };
-
   const [{ dupes }, { setDupeTraitQuantity }] = useContext();
 
   const [quantity, setQuantity] = useState(trait ? trait.quantity : 0);
   const [focused, setFocused] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (this.state.quantity > nextProps.dupes.quantity) {
-  //     this.setState({ quantity: nextProps.trait.quantity });
-  //   }
-  // }
 
   const timer = useRef(null);
 
@@ -103,6 +87,10 @@ export default function DupeTrait({ trait }) {
     setFocused(true);
   };
 
+  useEffect(() => {
+    setQuantity(dupes.quantity);
+  }, [dupes]);
+
   return (
     <div className={classes.root}>
       <Dialog
@@ -132,7 +120,7 @@ export default function DupeTrait({ trait }) {
       </Dialog>
       <Card>
         <CardContent className={classes.cardContent}>
-          <Typography variant="subheading" className={classes.cardContentTitle}>
+          <Typography variant="subtitle1" className={classes.cardContentTitle}>
             {trait.name}
           </Typography>
           <IconButton onClick={handleClickOpen} aria-label="More">

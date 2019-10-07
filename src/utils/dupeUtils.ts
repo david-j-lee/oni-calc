@@ -1,5 +1,3 @@
-import IDupeInput from '../interfaces/IDupeInput';
-
 import { updateResourcesWithDupes } from './resourceUtils';
 
 export const setDupesQuantity = (resources, dupes, quantity) => {
