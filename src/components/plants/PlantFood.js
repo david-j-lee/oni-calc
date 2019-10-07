@@ -32,8 +32,8 @@ export default function PlantFood({ plant }) {
             {plant.rawFood.map((requirement, i) => {
               return (
                 <TableRow key={i}>
-                  <TableCell padding="dense">{requirement.food.name}</TableCell>
-                  <TableCell align="right" padding="dense">
+                  <TableCell size="small">{requirement.food.name}</TableCell>
+                  <TableCell align="right" size="small">
                     {requirement.quantity}
                   </TableCell>
                 </TableRow>
@@ -54,8 +54,8 @@ export default function PlantFood({ plant }) {
             {plant.preparedFood.map((requirement, i) => {
               return (
                 <TableRow key={i}>
-                  <TableCell padding="dense">{requirement.food.name}</TableCell>
-                  <TableCell align="right" padding="dense">
+                  <TableCell size="small">{requirement.food.name}</TableCell>
+                  <TableCell align="right" size="small">
                     {requirement.quantity}
                   </TableCell>
                 </TableRow>

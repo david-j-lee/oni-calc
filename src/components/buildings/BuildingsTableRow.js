@@ -174,7 +174,7 @@ export default function BuildingsTable({ building }) {
         </div>
       </Dialog>
 
-      <TableCell padding="dense">
+      <TableCell size="small">
         <div className={classes.category}>
           <div
             className={classes.categoryImg}
@@ -184,7 +184,7 @@ export default function BuildingsTable({ building }) {
         </div>
       </TableCell>
 
-      <TableCell padding="dense">
+      <TableCell size="small">
         <div className={classes.building}>
           <div
             className={classes.buildingImg}
@@ -196,7 +196,7 @@ export default function BuildingsTable({ building }) {
         </div>
       </TableCell>
 
-      <TableCell padding="dense">
+      <TableCell size="small">
         {!building.hasConsistentIO && building.quantity > 0 && (
           <span className={classes.slider}>
             <Slider value={utilization} onChange={handleSliderChange} />
@@ -207,7 +207,7 @@ export default function BuildingsTable({ building }) {
         )}
       </TableCell>
 
-      <TableCell align="right" className={classes.quantity} padding="dense">
+      <TableCell align="right" className={classes.quantity} size="small">
         <TextField
           type="number"
           value={quantity}
@@ -231,7 +231,7 @@ export default function BuildingsTable({ building }) {
         </TextField>
       </TableCell>
 
-      <TableCell padding="dense">
+      <TableCell size="small">
         <div className={classes.actions}>
           <IconButton
             color="secondary"

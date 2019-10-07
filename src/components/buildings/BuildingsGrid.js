@@ -20,7 +20,7 @@ export default function BuildingsGrid() {
 
   const [{ buildings, collapseBuildingPanels }] = useContext();
 
-  const [groupedBuildings, setGroupedBuildings] = useState();
+  const [groupedBuildings, setGroupedBuildings] = useState([]);
   const [expansionPanelStates, setExpansionPanelStates] = useState();
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function BuildingsGrid() {
     const updateExpansionPanelStates = state => {
       let states = { ...expansionPanelStates };
       const updatedGroupedBuildings = getGroupedBuildings();
-      updatedGroupedBuildings().forEach(group => {
+      updatedGroupedBuildings.forEach(group => {
         const normalizedName = group.name
           .toLowerCase()
           .split(' ')
@@ -63,7 +63,7 @@ export default function BuildingsGrid() {
 
   return (
     <div className={classes.root}>
-      {groupedBuildings().map((group, index) => {
+      {groupedBuildings.map((group, index) => {
         const normalizedName = group.name
           .toLowerCase()
           .split(' ')

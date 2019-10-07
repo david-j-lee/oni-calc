@@ -29,8 +29,8 @@ export default function BuildingsGridCard({ building }) {
 
   const [, { setBuildingQuantity, setBuildingUtilization }] = useContext();
 
-  const [quantity, setQuantity] = useState();
-  const [utilization, setUtilization] = useState();
+  const [quantity, setQuantity] = useState(0);
+  const [utilization, setUtilization] = useState(0);
   const [focused, setFocused] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -208,7 +208,6 @@ export default function BuildingsGridCard({ building }) {
                   style: {
                     textAlign: 'right',
                     fontSize: '1.25rem',
-                    width: '25px',
                   },
                   'aria-label': 'Building Quantity',
                 },

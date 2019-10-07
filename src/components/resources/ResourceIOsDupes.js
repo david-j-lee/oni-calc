@@ -50,11 +50,11 @@ export default function ResourceIOsDupes({ resource, title, type }) {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell padding="dense">Dupes</TableCell>
-              <TableCell align="right" padding="dense">
+              <TableCell size="small">Dupes</TableCell>
+              <TableCell align="right" size="small">
                 Quantity
               </TableCell>
-              <TableCell align="right" padding="dense">
+              <TableCell align="right" size="small">
                 Total {title}
               </TableCell>
             </TableRow>
@@ -63,11 +63,11 @@ export default function ResourceIOsDupes({ resource, title, type }) {
             {array.map((io, index) => {
               return (
                 <TableRow key={index}>
-                  <TableCell padding="dense">{io.dupe.reference}</TableCell>
-                  <TableCell align="right" padding="dense">
+                  <TableCell size="small">{io.dupe.reference}</TableCell>
+                  <TableCell align="right" size="small">
                     {io.dupe.quantity}
                   </TableCell>
-                  <TableCell align="right" padding="dense">
+                  <TableCell align="right" size="small">
                     <Number value={io.valueExtended} />
                   </TableCell>
                 </TableRow>

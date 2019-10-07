@@ -50,14 +50,14 @@ export default function ResourceIOsBuildings({ resource, title, type }) {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell padding="dense">Buildings</TableCell>
-              <TableCell align="right" padding="dense">
+              <TableCell size="small">Buildings</TableCell>
+              <TableCell align="right" size="small">
                 Quantity
               </TableCell>
-              <TableCell align="right" padding="dense">
+              <TableCell align="right" size="small">
                 Utilization
               </TableCell>
-              <TableCell align="right" padding="dense">
+              <TableCell align="right" size="small">
                 Total {title}
               </TableCell>
             </TableRow>
@@ -66,14 +66,14 @@ export default function ResourceIOsBuildings({ resource, title, type }) {
             {array.map((io, index) => {
               return (
                 <TableRow key={index}>
-                  <TableCell padding="dense">{io.building.name}</TableCell>
-                  <TableCell align="right" padding="dense">
+                  <TableCell size="small">{io.building.name}</TableCell>
+                  <TableCell align="right" size="small">
                     {io.building.quantity}
                   </TableCell>
-                  <TableCell align="right" padding="dense">
+                  <TableCell align="right" size="small">
                     {io.building.utilization}%
                   </TableCell>
-                  <TableCell align="right" padding="dense">
+                  <TableCell align="right" size="small">
                     <Number value={io.valueExtended} />
                   </TableCell>
                 </TableRow>

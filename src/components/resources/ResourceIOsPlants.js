@@ -50,11 +50,11 @@ export default function ResourceIOsPlants({ resource, title, type }) {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell padding="dense">Plants</TableCell>
-              <TableCell align="right" padding="dense">
+              <TableCell size="small">Plants</TableCell>
+              <TableCell align="right" size="small">
                 Quantity
               </TableCell>
-              <TableCell align="right" padding="dense">
+              <TableCell align="right" size="small">
                 Total {title}
               </TableCell>
             </TableRow>
@@ -63,11 +63,11 @@ export default function ResourceIOsPlants({ resource, title, type }) {
             {array.map((io, index) => {
               return (
                 <TableRow key={index}>
-                  <TableCell padding="dense">{io.plant.name}</TableCell>
-                  <TableCell align="right" padding="dense">
+                  <TableCell size="small">{io.plant.name}</TableCell>
+                  <TableCell align="right" size="small">
                     {io.plant.quantity}
                   </TableCell>
-                  <TableCell align="right" padding="dense">
+                  <TableCell align="right" size="small">
                     <Number value={io.valueExtended} />
                   </TableCell>
                 </TableRow>

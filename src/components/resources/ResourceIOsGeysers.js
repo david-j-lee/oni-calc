@@ -50,8 +50,8 @@ export default function ResourceIOsGeysers({ resource, title, type }) {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell padding="dense">Geysers</TableCell>
-              <TableCell align="right" padding="dense">
+              <TableCell size="small">Geysers</TableCell>
+              <TableCell align="right" size="small">
                 Total {title}
               </TableCell>
             </TableRow>
@@ -60,8 +60,8 @@ export default function ResourceIOsGeysers({ resource, title, type }) {
             {array.map((io, index) => {
               return (
                 <TableRow key={index}>
-                  <TableCell padding="dense">{io.geyser.name}</TableCell>
-                  <TableCell align="right" padding="dense">
+                  <TableCell size="small">{io.geyser.name}</TableCell>
+                  <TableCell align="right" size="small">
                     <Number value={io.valueExtended} />
                   </TableCell>
                 </TableRow>

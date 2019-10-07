@@ -187,7 +187,6 @@ export default function FoodItem({ item }) {
                   style: {
                     textAlign: 'right',
                     fontSize: '1.25rem',
-                    width: '25px',
                   },
                 },
                 'aria-label': 'Food Quantity',
