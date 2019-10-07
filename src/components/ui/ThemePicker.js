@@ -178,7 +178,7 @@ export class ThemePicker extends React.Component {
   };
 
   render() {
-    const { classes, fullScreen } = this.props;
+    const { classes } = this.props;
     const colors = [
       red,
       pink,
@@ -277,7 +277,7 @@ export class ThemePicker extends React.Component {
           </IconButton>
         </Tooltip>
         <Dialog
-          fullScreen={fullScreen}
+          fullScreen={false}
           open={this.state.dialogOpen}
           onClose={this.handleClose}
           classes={{ paper: 'colors-dialog' }}

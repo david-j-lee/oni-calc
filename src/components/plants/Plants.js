@@ -1,10 +1,7 @@
 import React from 'react';
-
-// redux
-import { connect } from 'react-redux';
+import { useContext } from '../../context';
 
 // material
-import { withStyles } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
@@ -15,34 +12,28 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/styles';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 // components
 import Plant from './Plant';
 
-const styles = theme => ({
-  tableRow: {
-    height: 'inherit',
-  },
-  tableCell: {
-    padding: theme.spacing(),
-  },
-});
+export default function Plants() {
+  const classes = useStyles();
+  const [{ plants }] = useContext();
 
-export class Plants extends React.Component {
   // handleRequestSort = id => {
   //   this.props.sortResources(id);
   // };
 
-  mapPlantsToElement = plants => {
+  const mapPlantsToElement = plants => {
     return plants.map((plant, i) => {
       return <Plant key={i} plant={plant} />;
     });
   };
 
-  getTableHeaders() {
-    const { classes } = this.props;
+  const getTableHeaders = () => {
     const tableHeaders = [
       { id: 'name', label: 'Resource', numeric: false },
       { id: 'quantity', label: 'Quantity', numeric: true },
@@ -58,9 +49,9 @@ export class Plants extends React.Component {
                 numeric={header.numeric}
               >
                 <TableSortLabel
-                  // active={this.props.resourcesOrderBy === header.id}
-                  // direction={this.props.resourcesOrder}
-                  // onClick={() => this.handleRequestSort(header.id)}
+                // active={this.props.resourcesOrderBy === header.id}
+                // direction={this.props.resourcesOrder}
+                // onClick={() => this.handleRequestSort(header.id)}
                 >
                   {header.label}
                 </TableSortLabel>
@@ -70,33 +61,28 @@ export class Plants extends React.Component {
         </TableRow>
       </TableHead>
     );
-  }
+  };
 
-  render() {
-    // const { classes } = this.props;
-    const plants = this.mapPlantsToElement(this.props.plants);
-
-    return (
-      <ExpansionPanel defaultExpanded>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>Plants</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <Table>
-            {this.getTableHeaders()}
-            <TableBody>{plants}</TableBody>
-          </Table>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-    );
-  }
+  return (
+    <ExpansionPanel defaultExpanded>
+      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography>Plants</Typography>
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails>
+        <Table>
+          {getTableHeaders()}
+          <TableBody>{mapPlantsToElement(plants)}</TableBody>
+        </Table>
+      </ExpansionPanelDetails>
+    </ExpansionPanel>
+  );
 }
 
-const mapStateToProps = state => ({
-  plants: state.calculator.plants,
-});
-
-export default connect(
-  mapStateToProps,
-  null,
-)(withStyles(styles)(Plants));
+const useStyles = makeStyles(theme => ({
+  tableRow: {
+    height: 'inherit',
+  },
+  tableCell: {
+    padding: theme.spacing(),
+  },
+}));

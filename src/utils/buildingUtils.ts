@@ -1,8 +1,74 @@
-import { IBuilding } from '../interfaces/building.interface';
-import { IBuildingInput } from './../interfaces/building-input.interface';
-import { IIO } from './../interfaces/io.interface';
+import IBuilding from '../interfaces/IBuilding';
+import IBuildingInput from './../interfaces/IBuildingInput';
+import IIO from './../interfaces/IIO';
 
-import { getStandardIO } from './commonUtils';
+import { getPowerCapacity, getResourcesCapacity } from './capacityUtils';
+import { getSortedArray, getStandardIO } from './commonUtils';
+import {
+  getBuildingsPowerGeneration,
+  getBuildingsPowerUsage,
+} from './powerUtils';
+import { updateResourcesWithBuildings } from './resourceUtils';
+
+export const setBuildingsLayout = layout => {
+  const newLayout = layout === 'grid' ? 'table' : 'grid';
+  localStorage.setItem('layout', newLayout);
+  return {
+    buildingsLayout: newLayout,
+  };
+};
+
+export const setBuildingQuantity = (resources, buildings, name, quantity) => {
+  const newBuildings = updateBuildingQuantity(buildings, name, quantity);
+  return {
+    buildings: newBuildings,
+    resources: updateResourcesWithBuildings(resources, newBuildings),
+    powerGeneration: getBuildingsPowerGeneration(newBuildings),
+    powerUsage: getBuildingsPowerUsage(newBuildings),
+    powerCapacity: getPowerCapacity(newBuildings),
+    resourcesCapacity: getResourcesCapacity(newBuildings),
+  };
+};
+
+export const setBuildingUtilization = (
+  resources,
+  buildings,
+  name,
+  utilization,
+) => {
+  const newBuildings = updateBuildingUtilization(buildings, name, utilization);
+  const newResources = updateResourcesWithBuildings(resources, newBuildings);
+  return {
+    buildings: newBuildings,
+    resources: newResources,
+    powerGeneration: getBuildingsPowerGeneration(newBuildings),
+    powerUsage: getBuildingsPowerUsage(newBuildings),
+  };
+};
+
+export const clearBuildingInputs = (resources, buildings) => {
+  const newBuildings = getBuildingsWithClearedInputs(buildings);
+  return {
+    resources: updateResourcesWithBuildings(resources, newBuildings),
+    buildings: newBuildings,
+    powerGeneration: { value: 0, buildings: [] },
+    powerUsage: { value: 0, buildings: [] },
+    resourcesCapacity: { value: 0, buildings: [] },
+    powerCapacity: { value: 0, buildings: [] },
+  };
+};
+
+export const sortBuildings = (buildings, currentOrderBy, orderBy, order) => {
+  const newOrder =
+    currentOrderBy === orderBy && order === 'desc' ? 'asc' : 'desc';
+  return {
+    buildings: getSortedArray(buildings, orderBy, newOrder),
+    buildingsOrderBy: orderBy,
+    buildingsOrder: newOrder,
+  };
+};
+
+// -------------------------------------------------------------------
 
 export function getBuildings(
   buildings: IBuilding[],

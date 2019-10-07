@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { withStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/styles';
 
 // components
 import ResourceIOsDupes from './ResourceIOsDupes';
@@ -10,30 +10,23 @@ import ResourceIOsFood from './ResourceIOsFood';
 import ResourceIOsPlants from './ResourceIOsPlants';
 import ResourceIOsGeysers from './ResourceIOsGeysers';
 
-const styles = theme => ({
-  section: {
-    // paddingBottom: theme.spacing(),
-  },
-  noIOs: {
-    padding: theme.spacing(),
-  },
-});
+export default function ResourceIOs({ title, resource, type }) {
+  const classes = useStyles();
 
-export class ResourceIOs extends React.Component {
-  showTables = (resource, type) => {
+  const showTables = (resource, type) => {
     switch (type) {
       case 'inputs':
-        return this.hasInputs(resource);
+        return hasInputs(resource);
       case 'outputs':
-        return this.hasOutputs(resource);
+        return hasOutputs(resource);
       case 'both':
-        return this.hasInputs(resource) || this.hasOutputs(resource);
+        return hasInputs(resource) || hasOutputs(resource);
       default:
         return false;
     }
   };
 
-  hasInputs = resource => {
+  const hasInputs = resource => {
     return (
       resource.buildingInputs.length > 0 ||
       resource.dupeInputs.length > 0 ||
@@ -43,7 +36,7 @@ export class ResourceIOs extends React.Component {
     );
   };
 
-  hasOutputs = resource => {
+  const hasOutputs = resource => {
     return (
       resource.buildingOutputs.length > 0 ||
       resource.dupeOutputs.length > 0 ||
@@ -53,35 +46,38 @@ export class ResourceIOs extends React.Component {
     );
   };
 
-  render() {
-    const { classes, title, resource, type } = this.props;
-
-    return (
-      <div>
-        {this.showTables(resource, type) ? (
-          <div>
-            <div className={classes.section}>
-              <ResourceIOsDupes resource={resource} type={type} />
-            </div>
-            <div className={classes.section}>
-              <ResourceIOsBuildings resource={resource} type={type} />
-            </div>
-            <div className={classes.section}>
-              <ResourceIOsFood resource={resource} type={type} />
-            </div>
-            <div className={classes.section}>
-              <ResourceIOsPlants resource={resource} type={type} />
-            </div>
-            <div className={classes.section}>
-              <ResourceIOsGeysers resource={resource} type={type} />
-            </div>
+  return (
+    <div>
+      {showTables(resource, type) ? (
+        <div>
+          <div className={classes.section}>
+            <ResourceIOsDupes resource={resource} type={type} />
           </div>
-        ) : (
-          <Typography className={classes.noIOs}>No {title}</Typography>
-        )}
-      </div>
-    );
-  }
+          <div className={classes.section}>
+            <ResourceIOsBuildings resource={resource} type={type} />
+          </div>
+          <div className={classes.section}>
+            <ResourceIOsFood resource={resource} type={type} />
+          </div>
+          <div className={classes.section}>
+            <ResourceIOsPlants resource={resource} type={type} />
+          </div>
+          <div className={classes.section}>
+            <ResourceIOsGeysers resource={resource} type={type} />
+          </div>
+        </div>
+      ) : (
+        <Typography className={classes.noIOs}>No {title}</Typography>
+      )}
+    </div>
+  );
 }
 
-export default withStyles(styles)(ResourceIOs);
+const useStyles = makeStyles(theme => ({
+  section: {
+    // paddingBottom: theme.spacing(),
+  },
+  noIOs: {
+    padding: theme.spacing(),
+  },
+}));

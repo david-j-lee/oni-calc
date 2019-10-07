@@ -41,9 +41,7 @@ export default function BuildingDetails({
         <div
           className={classes.image}
           style={{
-            background: `#3E4357 url(${
-              imgUrl.current
-            }) no-repeat center center`,
+            background: `#3E4357 url(${imgUrl.current}) no-repeat center center`,
             backgroundSize: 'contain',
           }}
         />
@@ -55,9 +53,7 @@ export default function BuildingDetails({
             <div
               className={classes.categoryImage}
               style={{
-                background: `url(${
-                  categoryImgUrl.current
-                }) no-repeat center center`,
+                background: `url(${categoryImgUrl.current}) no-repeat center center`,
                 backgroundSize: 'contain',
               }}
             />

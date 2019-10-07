@@ -1,25 +1,34 @@
 import {
-  ADD_GEYSER,
-  DELETE_GEYSER,
-  CLEAR_GEYSER_INPUTS,
-} from '../constants/actionConstants';
+  addGeyser,
+  clearGeyserInputs,
+  deleteGeyser,
+} from '../utils/geyserUtils';
 
-export const addGeyser = geyser => dispatch => {
-  dispatch({
-    type: ADD_GEYSER,
-    payload: geyser,
-  });
-};
-
-export const deleteGeyser = geyser => dispatch => {
-  dispatch({
-    type: DELETE_GEYSER,
-    payload: geyser,
-  });
-};
-
-export const clearGeyserInputs = () => dispatch => {
-  dispatch({
-    type: CLEAR_GEYSER_INPUTS,
-  });
+export const geyserActions = {
+  // TODO: Types
+  addGeyser(geyser: any) {
+    return state => {
+      return {
+        ...state,
+        ...addGeyser(state.resources, state.geysers, geyser),
+      };
+    };
+  },
+  // TODO: Types
+  deleteGeyser(geyser: any) {
+    return state => {
+      return {
+        ...state,
+        ...deleteGeyser(state.resources, state.geysers, geyser),
+      };
+    };
+  },
+  clearGeyserInputs() {
+    return state => {
+      return {
+        ...state,
+        ...clearGeyserInputs(state.resources, state.geysers),
+      };
+    };
+  },
 };

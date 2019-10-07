@@ -1,16 +1,14 @@
 import React from 'react';
-import { withRouter, Link, Route } from 'react-router-dom';
-
-// redux
-import { connect } from 'react-redux';
+import { Link, Route } from 'react-router-dom';
+import { useContext } from '../../context';
 
 // material
-import { withStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/styles';
 
 // icons
 import HomeIcon from '@material-ui/icons/Home';
@@ -23,7 +21,64 @@ import NavbarBuildings from './NavbarBuildings';
 import NavbarFood from './NavbarFood';
 import NavbarGeysers from './NavbarGeysers';
 
-const styles = theme => ({
+export default function Navbar() {
+  const classes = useStyles();
+  const [{ tabIndex }] = useContext();
+
+  return (
+    <div className={classes.root}>
+      <AppBar position="fixed" color="primary">
+        <Toolbar className={classes.toolbar}>
+          <Typography className={classes.title} variant="title" color="inherit">
+            O<span className={classes.oniColor}>N</span>I
+            <span className={classes.onicColor}>C</span>
+          </Typography>
+          <div className={classes.flex}>
+            <Tooltip title="Home">
+              <IconButton
+                component={Link}
+                to="/"
+                color="inherit"
+                size="small"
+                aria-label="Home"
+              >
+                <HomeIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="About">
+              <IconButton
+                component={Link}
+                to="/about"
+                color="inherit"
+                size="small"
+                aria-label="Help"
+              >
+                <HelpIcon />
+              </IconButton>
+            </Tooltip>
+          </div>
+          <div className={classes.rightNav}>
+            {tabIndex === 0 && (
+              <Route exact path="/" render={() => <NavbarDupes />} />
+            )}
+            {tabIndex === 1 && (
+              <Route exact path="/" render={() => <NavbarBuildings />} />
+            )}
+            {tabIndex === 2 && (
+              <Route exact path="/" render={() => <NavbarFood />} />
+            )}
+            {tabIndex === 3 && (
+              <Route exact path="/" render={() => <NavbarGeysers />} />
+            )}
+            <ThemePicker />
+          </div>
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
+}
+
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
@@ -48,81 +103,4 @@ const styles = theme => ({
   onicColor: {
     color: '#00E3E3',
   },
-});
-
-export class Navbar extends React.Component {
-  render() {
-    const { classes, tabIndex } = this.props;
-
-    return (
-      <div className={classes.root}>
-        <AppBar position="fixed" color="primary">
-          <Toolbar className={classes.toolbar}>
-            <Typography
-              className={classes.title}
-              variant="title"
-              color="inherit"
-            >
-              O<span className={classes.oniColor}>N</span>I
-              <span className={classes.onicColor}>C</span>
-            </Typography>
-            <div className={classes.flex}>
-              <Tooltip title="Home">
-                <IconButton
-                  component={Link}
-                  to="/"
-                  color="inherit"
-                  size="small"
-                  aria-label="Home"
-                >
-                  <HomeIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="About">
-                <IconButton
-                  component={Link}
-                  to="/about"
-                  color="inherit"
-                  size="small"
-                  aria-label="Help"
-                >
-                  <HelpIcon />
-                </IconButton>
-              </Tooltip>
-            </div>
-            <div className={classes.rightNav}>
-              {tabIndex === 0 && (
-                <Route exact path="/" render={() => <NavbarDupes />} />
-              )}
-              {tabIndex === 1 && (
-                <Route exact path="/" render={() => <NavbarBuildings />} />
-              )}
-              {tabIndex === 2 && (
-                <Route exact path="/" render={() => <NavbarFood />} />
-              )}
-              {tabIndex === 3 && (
-                <Route exact path="/" render={() => <NavbarGeysers />} />
-              )}
-              <ThemePicker />
-            </div>
-          </Toolbar>
-        </AppBar>
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    tabIndex: state.calculator.tabIndex,
-  };
-};
-
-const mapDispatchToProps = {};
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(withStyles(styles)(Navbar)),
-);
+}));

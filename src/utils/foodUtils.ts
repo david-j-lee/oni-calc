@@ -1,5 +1,35 @@
 import IFoodInput from './../interfaces/IFoodInput';
 
+import { updatePlants } from './plantUtils';
+import { updateResourcesWithFoodAndPlants } from './resourceUtils';
+
+export const setFoodQuantity = (resources, plants, food, name, quantity) => {
+  const newFood = updateFoodQuantity(food, name, quantity);
+  const newPlants = updatePlants(plants, newFood);
+  const newResources = updateResourcesWithFoodAndPlants(
+    resources,
+    newPlants,
+    newFood,
+  );
+  return {
+    food: newFood,
+    resources: newResources,
+    plants: newPlants,
+  };
+};
+
+export const clearFoodInputs = (resources, plants, food) => {
+  const newFood = getFoodWithClearedInputs(food);
+  const newPlants = updatePlants(plants, newFood);
+  return {
+    resources: updateResourcesWithFoodAndPlants(resources, newPlants, newFood),
+    food: newFood,
+    plants: newPlants,
+  };
+};
+
+// ------------------------------------------------------------
+
 export function getFood(food, inputs: IFoodInput[]) {
   if (inputs) {
     return updateFoodWithInputs(food, inputs);

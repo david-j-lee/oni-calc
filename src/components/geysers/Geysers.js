@@ -1,16 +1,37 @@
 import React from 'react';
-
-// redux
-import { connect } from 'react-redux';
+import { useContext } from '../../context';
 
 // material
-import { withStyles, Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/styles';
 
 // components
 import GeyserAdd from './GeyserAdd';
 import Geyser from './Geyser';
 
-const styles = theme => ({
+export default function Geysers() {
+  const classes = useStyles();
+  const [{ geysers }] = useContext();
+
+  return (
+    <div className={classes.root}>
+      <Grid container>
+        <Grid item xs={12}>
+          <GeyserAdd />
+        </Grid>
+        {geysers.inputted.map((geyser, i) => {
+          return (
+            <Grid key={i} item xs={12} lg={6} className={classes.geyser}>
+              <Geyser geyser={geyser} />
+            </Grid>
+          );
+        })}
+      </Grid>
+    </div>
+  );
+}
+
+const useStyles = makeStyles(theme => ({
   root: {
     paddingTop: theme.spacing(),
     paddingBottom: theme.spacing(),
@@ -18,36 +39,4 @@ const styles = theme => ({
   geyser: {
     padding: theme.spacing(),
   },
-});
-
-export class Geysers extends React.Component {
-  render() {
-    const { classes, geysers } = this.props;
-
-    return (
-      <div className={classes.root}>
-        <Grid container>
-          <Grid item xs={12}>
-            <GeyserAdd />
-          </Grid>
-          {geysers.inputted.map((geyser, i) => {
-            return (
-              <Grid key={i} item xs={12} lg={6} className={classes.geyser}>
-                <Geyser geyser={geyser} />
-              </Grid>
-            );
-          })}
-        </Grid>
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = state => ({
-  geysers: state.calculator.geysers,
-});
-
-export default connect(
-  mapStateToProps,
-  null,
-)(withStyles(styles)(Geysers));
+}));

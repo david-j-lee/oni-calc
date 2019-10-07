@@ -1,17 +1,26 @@
-import {
-  SET_FOOD_QUANTITY,
-  CLEAR_FOOD_INPUTS,
-} from '../constants/actionConstants';
+import { clearFoodInputs, setFoodQuantity } from '../utils/foodUtils';
 
-export const setFoodQuantity = (name, quantity) => dispatch => {
-  dispatch({
-    type: SET_FOOD_QUANTITY,
-    payload: { name, quantity },
-  });
-};
-
-export const clearFoodInputs = () => dispatch => {
-  dispatch({
-    type: CLEAR_FOOD_INPUTS,
-  });
+export const foodActions = {
+  setFoodQuantity(name: string, quantity: number) {
+    return state => {
+      return {
+        ...state,
+        ...setFoodQuantity(
+          state.resources,
+          state.plants,
+          state.food,
+          name,
+          quantity,
+        ),
+      };
+    };
+  },
+  clearFoodInputs() {
+    return state => {
+      return {
+        ...state,
+        ...clearFoodInputs(state.resources, state.plants, state.food),
+      };
+    };
+  },
 };

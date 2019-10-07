@@ -16,15 +16,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import BuildingsGridCard from './BuildingsGridCard';
 
 export default function BuildingsGrid() {
-  // const mapStateToProps = state => {
-  //   return {
-  //     buildings: state.calculator.buildings,
-  //     collapseBuildingPanels: state.calculator.collapseBuildingPanels,
-  //     collapseBuildingPanelsTrigger:
-  //       state.calculator.collapseBuildingPanelsTrigger,
-  //   };
-  // };
-
   const classes = useStyles();
 
   const [

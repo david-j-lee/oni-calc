@@ -1,44 +1,30 @@
 import React from 'react';
-
-// redux
-import { connect } from 'react-redux';
+import { useContext } from '../../context';
 
 // material
-import { withStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 
 // components
 import DupeQuantity from './DupeQuantity';
 import DupeTraits from './DupeTraits';
 import DupesWaste from './DupesWaste';
 
-const styles = theme => ({
+export default function Dupes() {
+  const classes = useStyles();
+  const [{ dupes }] = useContext();
+
+  return (
+    <div className={classes.root}>
+      <DupeQuantity />
+      {dupes.quantity > 0 && <DupeTraits />}
+      {dupes.quantity > 0 && <DupesWaste />}
+    </div>
+  );
+}
+
+const useStyles = makeStyles(theme => ({
   root: {
     paddingTop: theme.spacing(),
     paddingBottom: theme.spacing(),
   },
-});
-
-export class Dupes extends React.Component {
-  render() {
-    const { classes } = this.props;
-
-    return (
-      <div className={classes.root}>
-        <DupeQuantity />
-        {this.props.dupes.quantity > 0 && <DupeTraits />}
-        {this.props.dupes.quantity > 0 && <DupesWaste />}
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    dupes: state.calculator.dupes,
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  null,
-)(withStyles(styles)(Dupes));
+}));

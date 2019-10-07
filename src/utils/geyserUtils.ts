@@ -1,5 +1,35 @@
 import IGeyserInput from '../interfaces/IGeyserInput';
 
+import { updateResourcesWithGeysers } from './resourceUtils';
+
+export const addGeyser = (resources, geysers, geyser) => {
+  const newGeysers = addGeyserToGeysers(geysers, geyser);
+  const newResources = updateResourcesWithGeysers(resources, newGeysers);
+  return {
+    resources: newResources,
+    geysers: newGeysers,
+  };
+};
+
+export const deleteGeyser = (resources, geysers, geyser) => {
+  const newGeysers = deleteGeyserFromGeysers(geysers, geyser);
+  const newResources = updateResourcesWithGeysers(resources, newGeysers);
+  return {
+    resources: newResources,
+    geysers: newGeysers,
+  };
+};
+
+export const clearGeyserInputs = (resources, geysers) => {
+  const newGeysers = getGeysersWithClearedInputs(geysers);
+  return {
+    resources: updateResourcesWithGeysers(resources, newGeysers),
+    geysers: newGeysers,
+  };
+};
+
+// --------------------------------------------------------------
+
 export function getGeysers(geysers, inputs: IGeyserInput[]) {
   if (inputs && inputs.length > 0) {
     return updateGeysersWithInputs(geysers, inputs);

@@ -15,10 +15,22 @@ import {
 
 import { getFoodInputsForResource } from './foodUtils';
 
+import { getIOTotal, getSortedArray } from './commonUtils';
 import { getGeyserOutputs } from './geyserUtils';
-import { getIOTotal } from './commonUtils';
 
 import IBuilding from '../interfaces/IBuilding';
+
+export const sortResources = (resources, currentOrderBy, orderBy, order) => {
+  const newOrder =
+    currentOrderBy === orderBy && order === 'desc' ? 'asc' : 'desc';
+  return {
+    resources: getSortedArray(resources, orderBy, newOrder),
+    resourcesOrderBy: orderBy,
+    resourcesOrder: newOrder,
+  };
+};
+
+// -----------------------------------------------------------
 
 export function getClearedResources(resources) {
   return resources.map(resource => {

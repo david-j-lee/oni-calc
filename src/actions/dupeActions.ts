@@ -1,33 +1,41 @@
 import {
-  SET_DUPES_TOTAL_QUANTITY,
-  SET_DUPE_TRAIT_QUANTITY,
-  SET_DUPE_WASTE,
-  CLEAR_DUPE_INPUTS,
-} from '../constants/actionConstants';
+  clearDupeInputs,
+  setDupesQuantity,
+  setDupeTraitQuantity,
+  setDupeWaste,
+} from '../utils/dupeUtils';
 
-export const setDupesTotalQuantity = quantity => dispatch => {
-  dispatch({
-    type: SET_DUPES_TOTAL_QUANTITY,
-    payload: quantity,
-  });
-};
-
-export const setDupeTraitQuantity = (name, quantity) => dispatch => {
-  dispatch({
-    type: SET_DUPE_TRAIT_QUANTITY,
-    payload: { name, quantity },
-  });
-};
-
-export const setDupeWaste = (prop, value) => dispatch => {
-  dispatch({
-    type: SET_DUPE_WASTE,
-    payload: { prop, value },
-  });
-};
-
-export const clearDupeInputs = () => dispatch => {
-  dispatch({
-    type: CLEAR_DUPE_INPUTS,
-  });
+export const dupeActions = {
+  setDupesTotalQuantity(quantity: number) {
+    return state => {
+      return {
+        ...state,
+        ...setDupesQuantity(state.resources, state.dupes, quantity),
+      };
+    };
+  },
+  setDupesTraitQuantity(name: string, quantity: number) {
+    return state => {
+      return {
+        ...state,
+        ...setDupeTraitQuantity(state.resources, state.dupes, name, quantity),
+      };
+    };
+  },
+  setDupeWaste(prop: string, value: number) {
+    return state => {
+      return {
+        ...state,
+        ...setDupeWaste(state.resources, state.dupes, prop, value),
+      };
+    };
+  },
+  clearDupeInputs() {
+    return state => {
+      return {
+        ...state,
+        ...clearDupeInputs(state.resources, state.dupes),
+      };
+    };
+  },
 };

@@ -119,13 +119,13 @@ export class DupeTrait extends React.Component {
   };
 
   render() {
-    const { classes, fullScreen, trait } = this.props;
+    const { classes, trait } = this.props;
     const { quantity, dialogOpen } = this.state;
 
     return (
       <div className={classes.root}>
         <Dialog
-          fullScreen={fullScreen}
+          fullScreen={false}
           open={dialogOpen}
           onClose={this.handleClose}
           aria-labelledby="responsive-dialog-title"

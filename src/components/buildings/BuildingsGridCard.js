@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useContext } from '../../context';
 
 // material
@@ -24,265 +24,219 @@ import MoreVert from '@material-ui/icons/MoreVert';
 // component
 import BuildingDetails from './BuildingDetails';
 
-export default function BuildingsGridCard() {
-  // const mapStateToProps = state => {
-  //   return {
-  //   };
-  // };
+export default function BuildingsGridCard({ building }) {
+  const classes = useStyles();
 
-  // const mapDispatchToProps = {
-  //   setBuildingQuantity,
-  //   setBuildingUtilization,
-  // };
-
-  // export default connect(
-  //   mapStateToProps,
-  //   mapDispatchToProps,
-  // )(withStyles(styles)(BuildingsGridCard));
+  const [, { setBuildingQuantity, setBuildingUtilization }] = useContext();
 
   const [quantity, setQuantity] = useState();
-  const [focused, setFocused] = useState(false);
   const [utilization, setUtilization] = useState();
+  const [focused, setFocused] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [popoverOpen, setPopoverOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const timer = useRef();
-  const utilizationTimer = useRef();
-
-  state = {
-    quantity: this.props.building.quantity,
-    focused: false,
-    utilization: this.props.building.utilization,
-    dialogOpen: false,
-    popoverOpen: false,
-    anchorEl: null,
-  };
-
-  constructor(props) {
-    super(props);
-
-    this.rootRef = React.createRef();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.state.quantity !== nextProps.building.quantity) {
-      this.setState({ quantity: nextProps.building.quantity });
-    }
-    if (this.state.utilization !== nextProps.building.utilization) {
-      this.setState({ utilization: nextProps.building.utilization });
-    }
-  }
+  const timer = useRef(null);
+  const utilizationTimer = useRef(null);
+  const rootRef = useRef(null);
 
   // on hover
-  handlePopoverOpen = event => {
-    this.setState({ anchorEl: event.target });
+  const handlePopoverOpen = event => {
+    setAnchorEl(event.target);
   };
 
-  handlePopoverClose = () => {
-    this.setState({ anchorEl: null });
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
   };
 
   // open dialog
-  handleClickOpen = () => {
-    this.setState({ dialogOpen: true });
+  const handleClickOpen = () => {
+    setDialogOpen(true);
   };
 
-  handleClose = () => {
-    this.setState({ dialogOpen: false });
+  const handleClose = () => {
+    setDialogOpen(false);
   };
 
   // utilization
-  handleSliderChange = (event, value) => {
-    this.setState({ utilization: value });
-    if (this.utilizationTimer) {
-      clearTimeout(this.utilizationTimer);
+  const handleSliderChange = (event, value) => {
+    setUtilization(value);
+    if (utilizationTimer.current) {
+      clearTimeout(utilizationTimer.current);
     }
-    this.utilizationTimer = setTimeout(() => {
-      this.props.setBuildingUtilization(
-        this.props.building.name,
-        Math.round(this.state.utilization),
-      );
+    utilizationTimer.current = setTimeout(() => {
+      setBuildingUtilization(building.name, Math.round(utilization));
     }, 500);
   };
 
   // change quantities
-  increment = () => {
-    this.setState({ quantity: this.state.quantity + 1 });
-    if (this.timer) {
-      clearTimeout(this.timer);
+  const increment = () => {
+    setQuantity(quantity + 1);
+    if (timer.current) {
+      clearTimeout(timer.current);
     }
-    this.timer = setTimeout(() => {
-      this.props.setBuildingQuantity(
-        this.props.building.name,
-        this.state.quantity,
-      );
+    timer.current = setTimeout(() => {
+      setBuildingQuantity(building.name, quantity);
     }, 500);
   };
 
-  decrement = () => {
-    if (this.state.quantity > 0) {
-      this.setState({ quantity: this.state.quantity - 1 });
-      if (this.timer) {
-        clearTimeout(this.timer);
+  const decrement = () => {
+    if (quantity > 0) {
+      setQuantity(quantity - 1);
+      if (timer.current) {
+        clearTimeout(timer.current);
       }
-      this.timer = setTimeout(() => {
-        this.props.setBuildingQuantity(
-          this.props.building.name,
-          this.state.quantity,
-        );
+      timer.current = setTimeout(() => {
+        setBuildingQuantity(building.name, quantity);
       }, 500);
     }
   };
 
-  handleChange = event => {
+  const handleChange = event => {
     let value = event.target.value;
     value = Number(value);
     if (value < 0) value = 0;
 
-    this.setState({ quantity: value });
-    if (this.timer) {
-      clearTimeout(this.timer);
+    setQuantity(value);
+    if (timer.current) {
+      clearTimeout(timer.current);
     }
-    this.timer = setTimeout(() => {
-      this.props.setBuildingQuantity(this.props.building.name, value);
+    timer.current = setTimeout(() => {
+      setBuildingQuantity(building.name, value);
     }, 500);
   };
 
-  onBlur = () => {
-    this.setState({ focused: false });
+  const onBlur = () => {
+    setFocused(false);
   };
 
-  onFocus = () => {
-    this.setState({ focused: true });
+  const onFocus = () => {
+    setFocused(true);
   };
 
-  render() {
-    const { classes, fullScreen, building } = this.props;
-    const { quantity, utilization, dialogOpen, anchorEl } = this.state;
-    const popoverOpen = !!anchorEl;
+  useEffect(() => {
+    setQuantity(building.quantity);
+    setUtilization(building.utilization);
+  }, [building]);
 
-    const imgUrl = `/images/buildings/${building.name
-      .toLowerCase()
-      .split(' ')
-      .join('-')}.png`;
+  const imgUrl = `/images/buildings/${building.name
+    .toLowerCase()
+    .split(' ')
+    .join('-')}.png`;
 
-    const wikLink = `https://oxygennotincluded.gamepedia.com/${building.name
-      .split('-')
-      .join('_')}`; // may need to hard code as json
+  const wikLink = `https://oxygennotincluded.gamepedia.com/${building.name
+    .split('-')
+    .join('_')}`; // may need to hard code as json
 
-    return (
-      <div className={classes.root} ref={this.rootRef}>
-        <Dialog
-          fullScreen={fullScreen}
-          open={dialogOpen}
-          onClose={this.handleClose}
-          aria-labelledby="responsive-dialog-title"
-        >
-          <div className={classes.dialog}>
-            <BuildingDetails building={this.props.building} />
-            <DialogActions>
-              <Button target="_blank" href={wikLink} color="primary">
-                WIKI
-              </Button>
-              <Button
-                variant="contained"
-                onClick={this.handleClose}
-                color="primary"
-                autoFocus
-              >
-                CLOSE
-              </Button>
-            </DialogActions>
-          </div>
-        </Dialog>
-        <Popover
-          className={classes.popover}
-          classes={{ paper: classes.paper }}
-          open={popoverOpen}
-          anchorEl={anchorEl}
-          anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-          transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-          onClose={this.handlePopoverClose}
-          disableRestoreFocus
-        >
-          <BuildingDetails building={this.props.building} />
-        </Popover>
-        <Card className={classes.card}>
-          <CardMedia
-            className={classes.cover}
-            image={imgUrl}
-            title={building.name}
-            onMouseOver={this.handlePopoverOpen}
-            onMouseOut={this.handlePopoverClose}
-          />
-          <div className={classes.details}>
-            <CardContent className={classes.cardContent}>
-              <Typography
-                variant="subheading"
-                className={classes.cardContentTitle}
-              >
-                {building.name}
-              </Typography>
-              <IconButton onClick={this.handleClickOpen} aria-label="More">
-                <MoreVert />
-              </IconButton>
-            </CardContent>
-            <CardActions>
-              <IconButton
-                color="secondary"
-                className={classes.button}
-                aria-label="Decrement"
-                onClick={this.decrement}
-              >
-                <ArrowDropDown />
-              </IconButton>
-              <TextField
-                type="number"
-                value={quantity}
-                onChange={this.handleChange}
-                className={classes.quantity}
-                onFocus={this.onFocus}
-                onBlur={this.onBlur}
-                InputProps={{
-                  disableUnderline: !this.state.focused,
-                  inputProps: {
-                    style: {
-                      textAlign: 'right',
-                      fontSize: '1.25rem',
-                      width: '25px',
-                    },
-                    'aria-label': 'Building Quantity',
+  const popoverOpen = !!anchorEl;
+
+  return (
+    <div className={classes.root} ref={rootRef}>
+      <Dialog
+        fullScreen={false}
+        open={dialogOpen}
+        onClose={handleClose}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <div className={classes.dialog}>
+          <BuildingDetails building={building} />
+          <DialogActions>
+            <Button target="_blank" href={wikLink} color="primary">
+              WIKI
+            </Button>
+            <Button
+              variant="contained"
+              onClick={handleClose}
+              color="primary"
+              autoFocus
+            >
+              CLOSE
+            </Button>
+          </DialogActions>
+        </div>
+      </Dialog>
+      <Popover
+        className={classes.popover}
+        classes={{ paper: classes.paper }}
+        open={popoverOpen}
+        anchorEl={anchorEl}
+        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+        onClose={handlePopoverClose}
+        disableRestoreFocus
+      >
+        <BuildingDetails building={building} />
+      </Popover>
+      <Card className={classes.card}>
+        <CardMedia
+          className={classes.cover}
+          image={imgUrl}
+          title={building.name}
+          onMouseOver={handlePopoverOpen}
+          onMouseOut={handlePopoverClose}
+        />
+        <div className={classes.details}>
+          <CardContent className={classes.cardContent}>
+            <Typography
+              variant="subheading"
+              className={classes.cardContentTitle}
+            >
+              {building.name}
+            </Typography>
+            <IconButton onClick={handleClickOpen} aria-label="More">
+              <MoreVert />
+            </IconButton>
+          </CardContent>
+          <CardActions>
+            <IconButton
+              color="secondary"
+              className={classes.button}
+              aria-label="Decrement"
+              onClick={decrement}
+            >
+              <ArrowDropDown />
+            </IconButton>
+            <TextField
+              type="number"
+              value={quantity}
+              onChange={handleChange}
+              className={classes.quantity}
+              onFocus={onFocus}
+              onBlur={onBlur}
+              InputProps={{
+                disableUnderline: !focused,
+                inputProps: {
+                  style: {
+                    textAlign: 'right',
+                    fontSize: '1.25rem',
+                    width: '25px',
                   },
-                }}
-              >
-                {quantity}
-              </TextField>
-              <IconButton
-                color="primary"
-                className={classes.button}
-                aria-label="Increment"
-                onClick={this.increment}
-              >
-                <ArrowDropUp />
-              </IconButton>
-            </CardActions>
-            {!building.hasConsistentIO && quantity > 0 && (
-              <div className={classes.slider}>
-                <Slider
-                  value={utilization}
-                  onChange={this.handleSliderChange}
-                />
-                <Typography className={classes.sliderLabel}>
-                  {utilization.toFixed(0) + '%'}
-                </Typography>
-              </div>
-            )}
-          </div>
-        </Card>
-      </div>
-    );
-  }
+                  'aria-label': 'Building Quantity',
+                },
+              }}
+            >
+              {quantity}
+            </TextField>
+            <IconButton
+              color="primary"
+              className={classes.button}
+              aria-label="Increment"
+              onClick={increment}
+            >
+              <ArrowDropUp />
+            </IconButton>
+          </CardActions>
+          {!building.hasConsistentIO && quantity > 0 && (
+            <div className={classes.slider}>
+              <Slider value={utilization} onChange={handleSliderChange} />
+              <Typography className={classes.sliderLabel}>
+                {utilization.toFixed(0) + '%'}
+              </Typography>
+            </div>
+          )}
+        </div>
+      </Card>
+    </div>
+  );
 }
 
 const useStyles = makeStyles(theme => ({

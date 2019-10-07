@@ -1,11 +1,17 @@
-import {
-  SORT_RESOURCES,
-} from '../constants/actionConstants';
+import { sortResources } from '../utils/resourceUtils';
 
-// resources
-export const sortResources = id => dispatch => {
-  dispatch({
-    type: SORT_RESOURCES,
-    payload: id,
-  });
+export const resourceActions = {
+  sortResources(key: string) {
+    return state => {
+      return {
+        ...state,
+        ...sortResources(
+          state.resources,
+          state.resourcesOrderBy,
+          key,
+          state.resourcesOrder,
+        ),
+      };
+    };
+  },
 };

@@ -1,11 +1,7 @@
 import React from 'react';
-
-// redux
-import { connect } from 'react-redux';
-import { sortResources } from '../../actions/resourceActions';
+import { useContext } from '../../context';
 
 // material
-import { withStyles } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
@@ -16,37 +12,31 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/styles';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 // components
 import Resource from './Resource';
 
-const styles = theme => ({
-  tableRow: {
-    height: 'inherit',
-  },
-  tableCell: {
-    padding: theme.spacing(),
-  },
-})
+export default function Resources() {
+  const classes = useStyles();
+  const [
+    { resources, resourcesOrder, resourcesOrderBy },
+    { sortResources },
+  ] = useContext();
 
-export class Resources extends React.Component {
+  const handleRequestSort = id => {
+    sortResources(id);
+  };
 
-  handleRequestSort = id => {
-    this.props.sortResources(id);
-  }
-
-  mapResourceToElement = (resources) => {
+  const mapResourceToElement = resources => {
     return resources.map((resource, i) => {
-      return (
-        <Resource key={i} resource={resource} />
-      )
-    })
-  }
+      return <Resource key={i} resource={resource} />;
+    });
+  };
 
-  getTableHeaders() {
-    const { classes } = this.props;
+  const getTableHeaders = () => {
     const tableHeaders = [
       { id: 'name', label: 'Resource', numeric: false },
       { id: 'totalInput', label: 'Input', numeric: true },
@@ -61,53 +51,43 @@ export class Resources extends React.Component {
               <TableCell
                 key={header.id}
                 className={classes.tableCell}
-                numeric={header.numeric}>
+                numeric={header.numeric}
+              >
                 <TableSortLabel
-                  active={this.props.resourcesOrderBy === header.id}
-                  direction={this.props.resourcesOrder}
-                  onClick={() => this.handleRequestSort(header.id)}>
+                  active={resourcesOrderBy === header.id}
+                  direction={resourcesOrder}
+                  onClick={() => handleRequestSort(header.id)}
+                >
                   {header.label}
                 </TableSortLabel>
               </TableCell>
-            )
+            );
           })}
         </TableRow>
       </TableHead>
-    )
-  }
+    );
+  };
 
-  render() {
-    // const { classes } = this.props;
-    const resources = this.mapResourceToElement(this.props.resources);
-
-    return (
-      <ExpansionPanel defaultExpanded>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>Resources</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <Table>
-            {this.getTableHeaders()}
-            <TableBody>
-              {resources}
-            </TableBody>
-          </Table>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-    )
-  }
+  return (
+    <ExpansionPanel defaultExpanded>
+      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography>Resources</Typography>
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails>
+        <Table>
+          {getTableHeaders()}
+          <TableBody>{mapResourceToElement(resources)}</TableBody>
+        </Table>
+      </ExpansionPanelDetails>
+    </ExpansionPanel>
+  );
 }
 
-const mapStateToProps = state => {
-  return {
-    resources: state.calculator.resources,
-    resourcesOrder: state.calculator.resourcesOrder,
-    resourcesOrderBy: state.calculator.resourcesOrderBy,
-  }
-}
-
-const mapDispatchToProps = {
-  sortResources
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Resources))
+const useStyles = makeStyles(theme => ({
+  tableRow: {
+    height: 'inherit',
+  },
+  tableCell: {
+    padding: theme.spacing(),
+  },
+}));

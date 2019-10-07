@@ -1,5 +1,41 @@
 import IDupeInput from '../interfaces/IDupeInput';
 
+import { updateResourcesWithDupes } from './resourceUtils';
+
+export const setDupesQuantity = (resources, dupes, quantity) => {
+  const newDupes = updateDupeQuantity(dupes, quantity);
+  return {
+    resources: updateResourcesWithDupes(resources, newDupes),
+    dupes: newDupes,
+  };
+};
+
+export const setDupeTraitQuantity = (resources, dupes, name, quantity) => {
+  const newDupes = updateDupeTraitQuantity(dupes, name, quantity);
+  return {
+    resources: updateResourcesWithDupes(resources, newDupes),
+    dupes: newDupes,
+  };
+};
+
+export const setDupeWaste = (resources, dupes, prop, value) => {
+  const newDupes = getDupeWaste(dupes, prop, value);
+  return {
+    resources: updateResourcesWithDupes(resources, newDupes),
+    dupes: newDupes,
+  };
+};
+
+export const clearDupeInputs = (resources, dupes) => {
+  const newDupes = getDupesWithClearedInputs(dupes);
+  return {
+    resources: updateResourcesWithDupes(resources, newDupes),
+    dupes: newDupes,
+  };
+};
+
+// ----------------------------------------------
+
 export function getDupes(dupes, inputs) {
   if (inputs && inputs.traits) {
     return updateDupesWithInputs(dupes, inputs);
