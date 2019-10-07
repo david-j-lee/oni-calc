@@ -1,11 +1,7 @@
-import React from 'react';
-
-// redux
-import { connect } from 'react-redux';
-import { setDupeTraitQuantity } from '../../actions/dupeActions';
+import React, { useState, useRef } from 'react';
+import { useContext } from '../../context';
 
 // material
-import { withStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
@@ -15,6 +11,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import TextField from '@material-ui/core/TextField';
+import { makeStyles } from '@material-ui/styles';
 
 // icons
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
@@ -24,7 +21,165 @@ import MoreVert from '@material-ui/icons/MoreVert';
 // components
 import DupeTraitDetails from './DupeTraitDetails';
 
-const styles = theme => ({
+export default function DupeTrait({ trait }) {
+  const classes = useStyles();
+  // const mapStateToProps = state => {
+  //   return {
+  //     dupes: state.calculator.dupes,
+  //   };
+  // };
+
+  // const mapDispatchToProps = {
+  //   setDupeTraitQuantity,
+  // };
+
+  const [{ dupes }, { setDupeTraitQuantity }] = useContext();
+
+  const [quantity, setQuantity] = useState(trait ? trait.quantity : 0);
+  const [focused, setFocused] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  // componentWillReceiveProps(nextProps) {
+  //   if (this.state.quantity > nextProps.dupes.quantity) {
+  //     this.setState({ quantity: nextProps.trait.quantity });
+  //   }
+  // }
+
+  const timer = useRef(null);
+
+  // open dialog
+  const handleClickOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const handleClose = () => {
+    setDialogOpen(false);
+  };
+
+  // change quantities
+  const increment = () => {
+    if (quantity < dupes.quantity) {
+      setQuantity(quantity + 1);
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+      timer.current = setTimeout(() => {
+        setDupeTraitQuantity(trait.name, quantity);
+      }, 500);
+    }
+  };
+
+  const decrement = () => {
+    if (quantity > 0) {
+      setQuantity(quantity - 1);
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+      timer.current = setTimeout(() => {
+        setDupeTraitQuantity(trait.name, quantity);
+      }, 500);
+    }
+  };
+
+  const handleChange = event => {
+    let value = event.target.value;
+    value = Number(value);
+    if (value < 0) value = 0;
+
+    setQuantity(value);
+    if (timer.current) {
+      clearTimeout(timer.current);
+    }
+    timer.current = setTimeout(() => {
+      setDupeTraitQuantity(trait.name, value);
+    }, 500);
+  };
+
+  const onBlur = () => {
+    setFocused(false);
+  };
+
+  const onFocus = () => {
+    setFocused(true);
+  };
+
+  return (
+    <div className={classes.root}>
+      <Dialog
+        fullScreen={false}
+        open={dialogOpen}
+        onClose={handleClose}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DupeTraitDetails trait={trait} />
+        <DialogActions>
+          <Button
+            target="_blank"
+            href="https://oxygennotincluded.gamepedia.com/duplicant"
+            color="primary"
+          >
+            WIKI
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleClose}
+            color="primary"
+            autoFocus
+          >
+            CLOSE
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Card>
+        <CardContent className={classes.cardContent}>
+          <Typography variant="subheading" className={classes.cardContentTitle}>
+            {trait.name}
+          </Typography>
+          <IconButton onClick={handleClickOpen} aria-label="More">
+            <MoreVert />
+          </IconButton>
+        </CardContent>
+        <CardActions>
+          <IconButton
+            color="secondary"
+            className={classes.button}
+            aria-label="Decrement"
+            onClick={decrement}
+          >
+            <ArrowDropDown />
+          </IconButton>
+          <TextField
+            type="number"
+            value={quantity}
+            onChange={handleChange}
+            className={classes.quantity}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            InputProps={{
+              disableUnderline: !focused,
+              inputProps: {
+                style: { textAlign: 'right', fontSize: '1.25rem' },
+                'aria-label': 'Dupe Trait Quantity',
+              },
+            }}
+          >
+            {quantity}
+          </TextField>
+          <IconButton
+            color="primary"
+            className={classes.button}
+            aria-label="Increment"
+            onClick={increment}
+          >
+            <ArrowDropUp />
+          </IconButton>
+        </CardActions>
+      </Card>
+    </div>
+  );
+}
+
+const useStyles = makeStyles(theme => ({
   root: {
     height: '100%',
   },
@@ -41,178 +196,4 @@ const styles = theme => ({
     marginRight: theme.spacing(),
     textAlign: 'right',
   },
-});
-
-export class DupeTrait extends React.Component {
-  state = {
-    quantity: this.props.trait.quantity,
-    focused: false,
-    dialogOpen: false,
-  };
-
-  componentWillReceiveProps(nextProps) {
-    if (this.state.quantity > nextProps.dupes.quantity) {
-      this.setState({ quantity: nextProps.trait.quantity });
-    }
-  }
-
-  // open dialog
-  handleClickOpen = () => {
-    this.setState({ dialogOpen: true });
-  };
-
-  handleClose = () => {
-    this.setState({ dialogOpen: false });
-  };
-
-  // change quantities
-  increment = () => {
-    if (this.state.quantity < this.props.dupes.quantity) {
-      this.setState({ quantity: this.state.quantity + 1 });
-      if (this.timer) {
-        clearTimeout(this.timer);
-      }
-      this.timer = setTimeout(() => {
-        this.props.setDupeTraitQuantity(
-          this.props.trait.name,
-          this.state.quantity,
-        );
-      }, 500);
-    }
-  };
-
-  decrement = () => {
-    if (this.state.quantity > 0) {
-      this.setState({ quantity: this.state.quantity - 1 });
-      if (this.timer) {
-        clearTimeout(this.timer);
-      }
-      this.timer = setTimeout(() => {
-        this.props.setDupeTraitQuantity(
-          this.props.trait.name,
-          this.state.quantity,
-        );
-      }, 500);
-    }
-  };
-
-  handleChange = event => {
-    let value = event.target.value;
-    value = Number(value);
-    if (value < 0) value = 0;
-
-    this.setState({ quantity: value });
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
-    this.timer = setTimeout(() => {
-      this.props.setDupeTraitQuantity(this.props.trait.name, value);
-    }, 500);
-  };
-
-  onBlur = () => {
-    this.setState({ focused: false });
-  };
-
-  onFocus = () => {
-    this.setState({ focused: true });
-  };
-
-  render() {
-    const { classes, trait } = this.props;
-    const { quantity, dialogOpen } = this.state;
-
-    return (
-      <div className={classes.root}>
-        <Dialog
-          fullScreen={false}
-          open={dialogOpen}
-          onClose={this.handleClose}
-          aria-labelledby="responsive-dialog-title"
-        >
-          <DupeTraitDetails trait={trait} />
-          <DialogActions>
-            <Button
-              target="_blank"
-              href="https://oxygennotincluded.gamepedia.com/duplicant"
-              color="primary"
-            >
-              WIKI
-            </Button>
-            <Button
-              variant="contained"
-              onClick={this.handleClose}
-              color="primary"
-              autoFocus
-            >
-              CLOSE
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <Card>
-          <CardContent className={classes.cardContent}>
-            <Typography
-              variant="subheading"
-              className={classes.cardContentTitle}
-            >
-              {trait.name}
-            </Typography>
-            <IconButton onClick={this.handleClickOpen} aria-label="More">
-              <MoreVert />
-            </IconButton>
-          </CardContent>
-          <CardActions>
-            <IconButton
-              color="secondary"
-              className={classes.button}
-              aria-label="Decrement"
-              onClick={this.decrement}
-            >
-              <ArrowDropDown />
-            </IconButton>
-            <TextField
-              type="number"
-              value={quantity}
-              onChange={this.handleChange}
-              className={classes.quantity}
-              onFocus={this.onFocus}
-              onBlur={this.onBlur}
-              InputProps={{
-                disableUnderline: !this.state.focused,
-                inputProps: {
-                  style: { textAlign: 'right', fontSize: '1.25rem' },
-                  'aria-label': 'Dupe Trait Quantity',
-                },
-              }}
-            >
-              {quantity}
-            </TextField>
-            <IconButton
-              color="primary"
-              className={classes.button}
-              aria-label="Increment"
-              onClick={this.increment}
-            >
-              <ArrowDropUp />
-            </IconButton>
-          </CardActions>
-        </Card>
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    dupes: state.calculator.dupes,
-  };
-};
-
-const mapDispatchToProps = {
-  setDupeTraitQuantity,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withStyles(styles)(DupeTrait));
+}));
