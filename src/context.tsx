@@ -30,7 +30,10 @@ const INITIAL_STATE: IState = {
   dupes: {},
   food: [],
   plants: [],
-  geysers: {},
+  geysers: {
+    listing: [],
+    inputted: [],
+  },
 };
 
 const contract = {

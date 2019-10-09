@@ -17,9 +17,11 @@ export default function FoodDupes() {
   const [caloriesClassName, setCaloriesClassName] = useState('');
 
   useEffect(() => {
-    setTotalCalories(
-      food.map(item => item.calories * item.quantity).reduce((a, b) => a + b),
-    );
+    if (food.length > 0) {
+      setTotalCalories(
+        food.map(item => item.calories * item.quantity).reduce((a, b) => a + b),
+      );
+    }
   }, [food]);
 
   useEffect(() => {

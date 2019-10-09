@@ -77,8 +77,6 @@ export const calculatorActions = {
         geysers: newGeysers,
       });
 
-      console.log(buildings);
-
       return {
         ...state,
         buildingsLayout: layout,

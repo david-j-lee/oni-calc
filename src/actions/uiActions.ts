@@ -9,14 +9,6 @@ import indigo from '@material-ui/core/colors/indigo';
 import red from '@material-ui/core/colors/red';
 
 export const uiActions = {
-  setTabIndex(tabIndex: number) {
-    return state => {
-      return {
-        ...state,
-        tabIndex,
-      };
-    };
-  },
   getTheme() {
     return state => {
       const strTheme = localStorage.getItem('theme');

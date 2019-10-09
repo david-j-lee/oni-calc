@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useContext } from '../../context';
 
 // material
@@ -36,29 +36,6 @@ export default function BuildingsTable({ building }) {
   const timer = useRef();
   const utilizationTimer = useRef();
 
-  const buildingImg = useRef(
-    '/images/buildings/' +
-      building.name
-        .toLowerCase()
-        .split(' ')
-        .join('-') +
-      '.png',
-  );
-
-  const groupImg = useRef(
-    '/images/building-categories/' +
-      building.category
-        .toLowerCase()
-        .split(' ')
-        .join('-') +
-      '.png',
-  );
-
-  const wikLink = useRef(
-    'https://oxygennotincluded.gamepedia.com/' +
-      building.name.split('-').join('_'),
-  ); // may need to hard code as json
-
   // on hover
   const handlePopoverOpen = event => {
     setAnchorEl(event.target);
@@ -95,7 +72,7 @@ export default function BuildingsTable({ building }) {
       clearTimeout(timer.current);
     }
     timer.current = setTimeout(() => {
-      setBuildingQuantity(building.name, quantity);
+      setBuildingQuantity(building.name, quantity + 1);
     }, 500);
   };
 
@@ -106,7 +83,7 @@ export default function BuildingsTable({ building }) {
         clearTimeout(timer.current);
       }
       timer.current = setTimeout(() => {
-        setBuildingQuantity(building.name, quantity);
+        setBuildingQuantity(building.name, quantity - 1);
       }, 500);
     }
   };
@@ -159,7 +136,7 @@ export default function BuildingsTable({ building }) {
         <div className={classes.dialog}>
           <BuildingDetails building={building} />
           <DialogActions>
-            <Button target="_blank" href={wikLink.current} color="primary">
+            <Button target="_blank" href={building.wikLink} color="primary">
               WIKI
             </Button>
             <Button
@@ -178,7 +155,7 @@ export default function BuildingsTable({ building }) {
         <div className={classes.category}>
           <div
             className={classes.categoryImg}
-            style={{ backgroundImage: `url(${groupImg.current})` }}
+            style={{ backgroundImage: `url(${building.categoryImgUrl})` }}
           />
           {building.category}
         </div>
@@ -190,7 +167,7 @@ export default function BuildingsTable({ building }) {
             className={classes.buildingImg}
             onMouseOver={handlePopoverOpen}
             onMouseOut={handlePopoverClose}
-            style={{ backgroundImage: `url(${buildingImg.current})` }}
+            style={{ backgroundImage: `url(${building.imgUrl})` }}
           />
           {building.name}
         </div>

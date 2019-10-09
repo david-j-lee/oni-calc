@@ -74,7 +74,7 @@ export default function FoodItem({ item }) {
       clearTimeout(timer.current);
     }
     timer.current = setTimeout(() => {
-      setFoodQuantity(item.name, quantity);
+      setFoodQuantity(item.name, quantity + 1);
     }, 500);
   };
 
@@ -85,7 +85,7 @@ export default function FoodItem({ item }) {
         clearTimeout(timer.current);
       }
       timer.current = setTimeout(() => {
-        setFoodQuantity(item.name, quantity);
+        setFoodQuantity(item.name, quantity - 1);
       }, 500);
     }
   };

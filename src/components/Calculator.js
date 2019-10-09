@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Switch, Route, Link } from 'react-router-dom';
 import { useContext } from '../context';
 
 // material
@@ -18,9 +19,21 @@ import Buildings from '../components/buildings/Buildings';
 import Food from '../components/food/Food';
 import Geysers from '../components/geysers/Geysers';
 
-export default function Calculator() {
+export default function Calculator({ location }) {
   const classes = useStyles();
-  const [{ tabIndex }, { getData, setTabIndex }] = useContext();
+  const [, { getData }] = useContext();
+
+  const [tabIndex, setTabIndex] = useState(
+    location.pathname === '/dupes'
+      ? 0
+      : location.pathname === '/buildings'
+      ? 1
+      : location.pathname === '/food'
+      ? 2
+      : location.pathname === '/geysers'
+      ? 3
+      : 0,
+  );
 
   useEffect(() => {
     getData();
@@ -57,15 +70,17 @@ export default function Calculator() {
           indicatorColor="primary"
           textColor="primary"
         >
-          <Tab label="Dupes" />
-          <Tab label="Buildings" />
-          <Tab label="Food" />
-          <Tab label="Geysers" />
+          <Tab label="Dupes" component={Link} to="/dupes" />
+          <Tab label="Buildings" component={Link} to="/buildings" />
+          <Tab label="Food" component={Link} to="/food" />
+          <Tab label="Geysers" component={Link} to="/geysers" />
         </Tabs>
-        {tabIndex === 0 && <Dupes />}
-        {tabIndex === 1 && <Buildings />}
-        {tabIndex === 2 && <Food />}
-        {tabIndex === 3 && <Geysers />}
+        <Switch>
+          <Route path="/geysers" render={() => <Geysers />} />
+          <Route path="/food" render={() => <Food />} />
+          <Route path="/buildings" render={() => <Buildings />} />
+          <Route path="/" render={() => <Dupes />} />
+        </Switch>
       </Grid>
     </Grid>
   );
@@ -77,18 +92,26 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
   },
   leftSection: {
+    height: `calc(100% - ${theme.spacing(10)}px)`,
     flexGrow: 1,
     overflowY: 'auto',
     marginTop: theme.spacing(10),
     paddingLeft: theme.spacing(),
     paddingRight: theme.spacing(),
     paddingBottom: theme.spacing(2),
+    [theme.breakpoints.down('xs')]: {
+      height: 'auto',
+    },
   },
   rightSection: {
+    height: `calc(100% - ${theme.spacing(10)}px)`,
     flexGrow: 1,
     overflowY: 'auto',
     marginTop: theme.spacing(10),
     paddingLeft: theme.spacing(),
     paddingRight: theme.spacing(),
+    [theme.breakpoints.down('xs')]: {
+      height: 'auto',
+    },
   },
 }));

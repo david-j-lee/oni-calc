@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
@@ -6,15 +6,18 @@ import { makeStyles } from '@material-ui/styles';
 import ResourceChips from '../resources/ResourceChips';
 import Number from '../common/Number';
 
-export default function BuildingDetails({
-  category,
-  name,
-  power,
-  capacity,
-  inputs,
-  outputs,
-}) {
+export default function BuildingDetails({ building }) {
   const classes = useStyles();
+  const {
+    category,
+    categoryImgUrl,
+    name,
+    imgUrl,
+    power,
+    capacity,
+    inputs,
+    outputs,
+  } = building;
 
   const [netPower, setNetPower] = useState(0);
   const [powerSuffix, setPowerSuffix] = useState(null);
@@ -24,23 +27,7 @@ export default function BuildingDetails({
     setPowerSuffix(
       `${power.unit || ''} (+${power.generation || 0}/-${power.usage || 0})`,
     );
-  }, [power]);
-
-  console.log(name, category);
-
-  const imgUrl = useRef(
-    `/images/buildings/${name
-      .toLowerCase()
-      .split(' ')
-      .join('-')}.png`,
-  );
-
-  const categoryImgUrl = useRef(
-    `/images/building-categories/${category
-      .toLowerCase()
-      .split(' ')
-      .join('-')}.png`,
-  );
+  }, [power.generation, power.unit, power.usage]);
 
   return (
     <div className={classes.root}>
@@ -48,7 +35,7 @@ export default function BuildingDetails({
         <div
           className={classes.image}
           style={{
-            background: `#3E4357 url(${imgUrl.current}) no-repeat center center`,
+            background: `#3E4357 url(${imgUrl}) no-repeat center center`,
             backgroundSize: 'contain',
           }}
         />
@@ -60,7 +47,7 @@ export default function BuildingDetails({
             <div
               className={classes.categoryImage}
               style={{
-                background: `url(${categoryImgUrl.current}) no-repeat center center`,
+                background: `url(${categoryImgUrl}) no-repeat center center`,
                 backgroundSize: 'contain',
               }}
             />
@@ -72,7 +59,7 @@ export default function BuildingDetails({
         <Typography variant="body1" className={classes.title}>
           <small>Power</small>
         </Typography>
-        <Number value={netPower.current} suffix={powerSuffix.current} />
+        <Number value={netPower} suffix={powerSuffix} />
         {capacity.power.unit !== undefined && (
           <Typography variant="body1" className={classes.title}>
             <small>Power Capacity</small>

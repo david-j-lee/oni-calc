@@ -5,12 +5,31 @@ import ICapacityItem from '../interfaces/ICapacityItem';
 import IIO from '../interfaces/IIO';
 import IPower from '../interfaces/IPower';
 
+const BUILDING_IMG_PATH = '/images/buildings/';
+const BUILDING_CATEGORY_PATH = '/images/building-categories/';
+const WIKI_LINK_PATH = 'https://oxygennotincluded.gamepedia.com/';
+
 export function parseBuildings(rawBuildings: any): IBuilding[] {
   if (rawBuildings.constructor === Array) {
     return rawBuildings.map((building: any) => {
       const parsedBuilding: IBuilding = {
         category: building.category || '',
+        categoryImgUrl:
+          BUILDING_CATEGORY_PATH +
+          building.category
+            .toLowerCase()
+            .split(' ')
+            .join('-') +
+          '.png',
         name: building.name || '',
+        imgUrl:
+          BUILDING_IMG_PATH +
+          building.name
+            .toLowerCase()
+            .split(' ')
+            .join('-') +
+          '.png',
+        wikiUrl: WIKI_LINK_PATH + building.name.split('-').join('_'),
         capacity: parseCapacity(building.capacity),
         hasConsistentIO: building.hasConsistentIO || false,
         power: parsePower(building.power),

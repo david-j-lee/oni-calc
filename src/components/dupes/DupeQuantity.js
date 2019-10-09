@@ -27,7 +27,7 @@ export default function DupeQuantity() {
 
   const [{ dupes }, { setDupesTotalQuantity }] = useContext();
 
-  const [quantity, setQuantity] = useState(dupes.quantity);
+  const [quantity, setQuantity] = useState(dupes.quantity || 0);
   const [focused, setFocused] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -49,7 +49,7 @@ export default function DupeQuantity() {
       clearTimeout(timer.current);
     }
     timer.current = setTimeout(() => {
-      setDupesTotalQuantity(quantity);
+      setDupesTotalQuantity(quantity + 1);
     }, 500);
   };
 
@@ -60,7 +60,7 @@ export default function DupeQuantity() {
         clearTimeout(timer.current);
       }
       timer.current = setTimeout(() => {
-        setDupesTotalQuantity(quantity);
+        setDupesTotalQuantity(quantity - 1);
       }, 500);
     }
   };

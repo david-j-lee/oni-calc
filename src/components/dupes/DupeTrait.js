@@ -23,9 +23,9 @@ import DupeTraitDetails from './DupeTraitDetails';
 
 export default function DupeTrait({ trait }) {
   const classes = useStyles();
-  const [{ dupes }, { setDupeTraitQuantity }] = useContext();
+  const [{ dupes }, { setDupesTraitQuantity }] = useContext();
 
-  const [quantity, setQuantity] = useState(trait ? trait.quantity : 0);
+  const [quantity, setQuantity] = useState(trait.quantity || 0);
   const [focused, setFocused] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -48,7 +48,7 @@ export default function DupeTrait({ trait }) {
         clearTimeout(timer.current);
       }
       timer.current = setTimeout(() => {
-        setDupeTraitQuantity(trait.name, quantity);
+        setDupesTraitQuantity(trait.name, quantity + 1);
       }, 500);
     }
   };
@@ -60,7 +60,7 @@ export default function DupeTrait({ trait }) {
         clearTimeout(timer.current);
       }
       timer.current = setTimeout(() => {
-        setDupeTraitQuantity(trait.name, quantity);
+        setDupesTraitQuantity(trait.name, quantity - 1);
       }, 500);
     }
   };
@@ -75,7 +75,7 @@ export default function DupeTrait({ trait }) {
       clearTimeout(timer.current);
     }
     timer.current = setTimeout(() => {
-      setDupeTraitQuantity(trait.name, value);
+      setDupesTraitQuantity(trait.name, value);
     }, 500);
   };
 
@@ -88,8 +88,8 @@ export default function DupeTrait({ trait }) {
   };
 
   useEffect(() => {
-    setQuantity(dupes.quantity);
-  }, [dupes]);
+    setQuantity(trait.quantity);
+  }, [trait]);
 
   return (
     <div className={classes.root}>

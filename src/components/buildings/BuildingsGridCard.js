@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useContext } from '../../context';
 
 // material
@@ -29,8 +29,8 @@ export default function BuildingsGridCard({ building }) {
 
   const [, { setBuildingQuantity, setBuildingUtilization }] = useContext();
 
-  const [quantity, setQuantity] = useState(0);
-  const [utilization, setUtilization] = useState(0);
+  const [quantity, setQuantity] = useState(building.quantity || 0);
+  const [utilization, setUtilization] = useState(building.utilization || 0);
   const [focused, setFocused] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -38,19 +38,6 @@ export default function BuildingsGridCard({ building }) {
   const timer = useRef(null);
   const utilizationTimer = useRef(null);
   const rootRef = useRef(null);
-
-  const imgUrl = useRef(
-    `/images/buildings/${building.name
-      .toLowerCase()
-      .split(' ')
-      .join('-')}.png`,
-  );
-
-  const wikLink = useRef(
-    `https://oxygennotincluded.gamepedia.com/${building.name
-      .split('-')
-      .join('_')}`,
-  ); // may need to hard code as json
 
   // on hover
   const handlePopoverOpen = event => {
@@ -88,7 +75,7 @@ export default function BuildingsGridCard({ building }) {
       clearTimeout(timer.current);
     }
     timer.current = setTimeout(() => {
-      setBuildingQuantity(building.name, quantity);
+      setBuildingQuantity(building.name, quantity + 1);
     }, 500);
   };
 
@@ -99,7 +86,7 @@ export default function BuildingsGridCard({ building }) {
         clearTimeout(timer.current);
       }
       timer.current = setTimeout(() => {
-        setBuildingQuantity(building.name, quantity);
+        setBuildingQuantity(building.name, quantity - 1);
       }, 500);
     }
   };
@@ -128,8 +115,6 @@ export default function BuildingsGridCard({ building }) {
 
   const popoverOpen = !!anchorEl;
 
-  console.log('foobar');
-
   return (
     <div className={classes.root} ref={rootRef}>
       <Dialog
@@ -141,7 +126,7 @@ export default function BuildingsGridCard({ building }) {
         <div className={classes.dialog}>
           <BuildingDetails building={building} />
           <DialogActions>
-            <Button target="_blank" href={wikLink.current} color="primary">
+            <Button target="_blank" href={building.wikiUrl} color="primary">
               WIKI
             </Button>
             <Button
@@ -170,7 +155,7 @@ export default function BuildingsGridCard({ building }) {
       <Card className={classes.card}>
         <CardMedia
           className={classes.cover}
-          image={imgUrl.current}
+          image={building.imgUrl}
           title={building.name}
           onMouseOver={handlePopoverOpen}
           onMouseOut={handlePopoverClose}

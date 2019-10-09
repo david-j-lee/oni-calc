@@ -18,7 +18,9 @@ import BuildingsGridCard from './BuildingsGridCard';
 export default function BuildingsGrid() {
   const classes = useStyles();
 
-  const [{ buildings, collapseBuildingPanels }] = useContext();
+  const [
+    { buildings, collapseBuildingPanels, collapseBuildingPanelsTrigger },
+  ] = useContext();
 
   const [groupedBuildings, setGroupedBuildings] = useState([]);
   const [expansionPanelStates, setExpansionPanelStates] = useState(null);
@@ -31,37 +33,35 @@ export default function BuildingsGrid() {
   };
 
   useEffect(() => {
-    const getGroupedBuildings = () => {
-      const groupedValues = buildings.reduce((a, b) => {
-        a[b.category] = a[b.category] || [];
-        a[b.category].push(b);
-        return a;
-      }, []);
-      return Object.keys(groupedValues).map(group => {
-        return { name: group, buildings: groupedValues[group] };
-      });
-    };
+    if (buildings) {
+      const getGroupedBuildings = () => {
+        const groups = buildings.reduce((a, b) => {
+          a[b.category] = a[b.category] || [];
+          a[b.category].push(b);
+          return a;
+        }, {});
+        return Object.keys(groups).map(group => ({
+          name: group,
+          buildings: groups[group],
+        }));
+      };
+      setGroupedBuildings(getGroupedBuildings());
+    }
+  }, [buildings]);
 
-    const updateExpansionPanelStates = state => {
-      let states = { ...expansionPanelStates };
-      const updatedGroupedBuildings = getGroupedBuildings();
-      updatedGroupedBuildings.forEach(group => {
-        const normalizedName = group.name
-          .toLowerCase()
-          .split(' ')
-          .join('-');
-        states = {
-          ...states,
-          [normalizedName]: state,
-        };
-      });
-      setGroupedBuildings(updatedGroupedBuildings);
-      setExpansionPanelStates(states);
-    };
-    updateExpansionPanelStates(!collapseBuildingPanels);
-  }, [buildings, collapseBuildingPanels]);
-
-  console.log(groupedBuildings);
+  useEffect(() => {
+    let states = { ...expansionPanelStates };
+    groupedBuildings.forEach(group => {
+      const normalizedName = group.name
+        .toLowerCase()
+        .split(' ')
+        .join('-');
+      states[normalizedName] = !collapseBuildingPanels;
+    });
+    setExpansionPanelStates(states);
+    // TODO: figure out better way than having to use this comment
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [collapseBuildingPanelsTrigger]);
 
   return (
     <div className={classes.root}>
@@ -70,16 +70,19 @@ export default function BuildingsGrid() {
           .toLowerCase()
           .split(' ')
           .join('-');
-
         const image = `/images/building-categories/${normalizedName}.png`;
 
         return (
           <ExpansionPanel
             key={index}
-            expanded={expansionPanelStates[normalizedName]}
-            defaultExpanded={!collapseBuildingPanels}
+            expanded={
+              expansionPanelStates[normalizedName] === undefined ||
+              expansionPanelStates[normalizedName] === null
+                ? true
+                : expansionPanelStates[normalizedName]
+            }
             className={classes.expansionPanel}
-            onChange={() => handleChange(normalizedName)}
+            onChange={handleChange(normalizedName)}
           >
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <div className={classes.buildingName}>

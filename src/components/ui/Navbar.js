@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link, Route } from 'react-router-dom';
-import { useContext } from '../../context';
+import { Switch, Link, Route } from 'react-router-dom';
 
 // material
 import AppBar from '@material-ui/core/AppBar';
@@ -23,7 +22,6 @@ import NavbarGeysers from './NavbarGeysers';
 
 export default function Navbar() {
   const classes = useStyles();
-  const [{ tabIndex }] = useContext();
 
   return (
     <div className={classes.root}>
@@ -58,18 +56,16 @@ export default function Navbar() {
             </Tooltip>
           </div>
           <div className={classes.rightNav}>
-            {tabIndex === 0 && (
-              <Route exact path="/" render={() => <NavbarDupes />} />
-            )}
-            {tabIndex === 1 && (
-              <Route exact path="/" render={() => <NavbarBuildings />} />
-            )}
-            {tabIndex === 2 && (
-              <Route exact path="/" render={() => <NavbarFood />} />
-            )}
-            {tabIndex === 3 && (
-              <Route exact path="/" render={() => <NavbarGeysers />} />
-            )}
+            <Switch>
+              <Route exact path="/geysers" render={() => <NavbarGeysers />} />
+              <Route exact path="/food" render={() => <NavbarFood />} />
+              <Route
+                exact
+                path="/buildings"
+                render={() => <NavbarBuildings />}
+              />
+              <Route path="/" render={() => <NavbarDupes />} />
+            </Switch>
             <ThemePicker />
           </div>
         </Toolbar>
