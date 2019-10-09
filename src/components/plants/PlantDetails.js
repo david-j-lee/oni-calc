@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 // material
 import Typography from '@material-ui/core/Typography';
@@ -11,10 +11,12 @@ import ResourceChips from '../resources/ResourceChips';
 export default function PlantDetails({ plant }) {
   const classes = useStyles();
 
-  const imgUrl = `/images/bio/${plant.name
-    .toLowerCase()
-    .split(' ')
-    .join('-')}.png`;
+  const imgUrl = useRef(
+    `/images/bio/${plant.name
+      .toLowerCase()
+      .split(' ')
+      .join('-')}.png`,
+  );
 
   return (
     <div className={classes.root}>
@@ -22,7 +24,7 @@ export default function PlantDetails({ plant }) {
         <div
           className={classes.image}
           style={{
-            background: `#3E4357 url(${imgUrl}) no-repeat center center`,
+            background: `#3E4357 url(${imgUrl.current}) no-repeat center center`,
             backgroundSize: 'contain',
           }}
         />

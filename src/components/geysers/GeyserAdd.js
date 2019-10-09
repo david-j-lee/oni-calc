@@ -18,7 +18,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
-const MenuProps = {
+const MENU_PROPS = {
   PaperProps: {
     style: {
       maxHeight: 48 * 4.5 + 8,
@@ -105,7 +105,7 @@ export default function GeyserAdd() {
               <InputLabel htmlFor="geyser">Select a Geyser</InputLabel>
               <Select
                 displayEmpty
-                MenuProps={MenuProps}
+                MenuProps={MENU_PROPS}
                 value={geyserName}
                 onChange={handleSelectChange}
                 inputProps={{

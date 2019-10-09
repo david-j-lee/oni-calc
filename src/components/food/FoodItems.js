@@ -12,16 +12,14 @@ import FoodItem from './FoodItem';
 export default function FoodItems() {
   const classes = useStyles();
   const [{ food }] = useContext();
-  const rawFood = food.filter(item => item.isRaw);
-  const preparedFood = food.filter(item => !item.isRaw);
 
   return (
     <Grid container>
       <Grid item xs={12}>
         <Typography className={classes.title}>Raw Food</Typography>
       </Grid>
-      {rawFood
-        .filter(item => item.calories > 0)
+      {food
+        .filter(item => item.isRaw && item.calories > 0)
         .map((item, i) => {
           return (
             <Grid
@@ -41,8 +39,8 @@ export default function FoodItems() {
       <Grid item xs={12}>
         <Typography className={classes.title}>Prepared Food</Typography>
       </Grid>
-      {preparedFood
-        .filter(item => item.calories > 0)
+      {food
+        .filter(item => !item.isRaw && item.calories > 0)
         .map((item, i) => {
           return (
             <Grid

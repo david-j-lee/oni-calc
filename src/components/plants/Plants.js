@@ -19,6 +19,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // components
 import Plant from './Plant';
 
+const TABLE_HEADERS = [
+  { id: 'name', label: 'Resource', numeric: false },
+  { id: 'quantity', label: 'Quantity', numeric: true },
+];
+
 export default function Plants() {
   const classes = useStyles();
   const [
@@ -30,36 +35,6 @@ export default function Plants() {
     sortResources(id);
   };
 
-  const getTableHeaders = () => {
-    const tableHeaders = [
-      { id: 'name', label: 'Resource', numeric: false },
-      { id: 'quantity', label: 'Quantity', numeric: true },
-    ];
-    return (
-      <TableHead>
-        <TableRow className={classes.tableRow}>
-          {tableHeaders.map(header => {
-            return (
-              <TableCell
-                key={header.id}
-                className={classes.tableCell}
-                align={header.numeric ? 'right' : 'left'}
-              >
-                <TableSortLabel
-                  active={resourcesOrderBy === header.id}
-                  direction={resourcesOrder}
-                  onClick={() => handleRequestSort(header.id)}
-                >
-                  {header.label}
-                </TableSortLabel>
-              </TableCell>
-            );
-          })}
-        </TableRow>
-      </TableHead>
-    );
-  };
-
   return (
     <ExpansionPanel defaultExpanded>
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -67,7 +42,27 @@ export default function Plants() {
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <Table>
-          {getTableHeaders()}
+          <TableHead>
+            <TableRow className={classes.tableRow}>
+              {TABLE_HEADERS.map(header => {
+                return (
+                  <TableCell
+                    key={header.id}
+                    className={classes.tableCell}
+                    align={header.numeric ? 'right' : 'left'}
+                  >
+                    <TableSortLabel
+                      active={resourcesOrderBy === header.id}
+                      direction={resourcesOrder}
+                      onClick={() => handleRequestSort(header.id)}
+                    >
+                      {header.label}
+                    </TableSortLabel>
+                  </TableCell>
+                );
+              })}
+            </TableRow>
+          </TableHead>
           <TableBody>
             {plants.map((plant, i) => (
               <Plant key={i} plant={plant} />

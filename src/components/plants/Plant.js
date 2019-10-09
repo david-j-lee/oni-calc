@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 // material
 import TableRow from '@material-ui/core/TableRow';
@@ -14,6 +14,13 @@ export default function Plant({ plant }) {
   const classes = useStyles();
   const [detailsAnchorEl, setDetailsAnchorEl] = useState(null);
   const [foodAnchorEl, setFoodAnchorEl] = useState(null);
+
+  const imageUrl = useRef(
+    `/images/bio/${plant.name
+      .toLowerCase()
+      .split(' ')
+      .join('-')}.png`,
+  );
 
   const handleDetailsPopoverOpen = event => {
     setDetailsAnchorEl(event.target);
@@ -33,11 +40,6 @@ export default function Plant({ plant }) {
 
   const detailsDialogOpen = !!detailsAnchorEl;
   const foodDialogOpen = !!foodAnchorEl;
-
-  const imageUrl = `/images/bio/${plant.name
-    .toLowerCase()
-    .split(' ')
-    .join('-')}.png`;
 
   return (
     <TableRow className={classes.tableRow}>
@@ -74,7 +76,7 @@ export default function Plant({ plant }) {
         >
           <div
             className={classes.image}
-            style={{ backgroundImage: `url(${imageUrl})` }}
+            style={{ backgroundImage: `url(${imageUrl.current})` }}
           />
           {plant.name}
         </div>

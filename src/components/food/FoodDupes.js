@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useContext } from '../../context';
 
 // material
@@ -13,16 +13,24 @@ export default function FoodDupes() {
 
   const [{ dupes, food }] = useContext();
 
-  const totalCalories = food
-    .map(item => item.calories * item.quantity)
-    .reduce((a, b) => a + b);
+  const [totalCalories, setTotalCalories] = useState(0);
+  const [caloriesClassName, setCaloriesClassName] = useState('');
 
-  const caloriesClass =
-    totalCalories === 0 || !dupes.caloriesRequired
-      ? ''
-      : totalCalories >= dupes.caloriesRequired
-      ? classes.surplus
-      : classes.deficit;
+  useEffect(() => {
+    setTotalCalories(
+      food.map(item => item.calories * item.quantity).reduce((a, b) => a + b),
+    );
+  }, [food]);
+
+  useEffect(() => {
+    setCaloriesClassName(
+      totalCalories === 0 || !dupes.caloriesRequired
+        ? ''
+        : totalCalories >= dupes.caloriesRequired
+        ? classes.surplus
+        : classes.deficit,
+    );
+  }, [totalCalories, dupes, classes]);
 
   return (
     <Grid container>
@@ -33,7 +41,7 @@ export default function FoodDupes() {
               {dupes.quantity} Dupes
             </Typography>
             <Typography>
-              <span className={caloriesClass}>{totalCalories}</span> of{' '}
+              <span className={caloriesClassName}>{totalCalories}</span> of{' '}
               {dupes.caloriesRequired || 0} kcal/cycle
             </Typography>
           </CardContent>

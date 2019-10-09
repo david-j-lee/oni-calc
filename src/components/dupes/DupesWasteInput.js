@@ -15,6 +15,15 @@ export default function DupesWasteInput({ prop }) {
 
   const timer = useRef(null);
 
+  const imgUrl = useRef(
+    '/images/resources/' +
+      prop.title
+        .toLowerCase()
+        .split(' ')
+        .join('-') +
+      '.png',
+  );
+
   const handleChange = event => {
     const value = event.target.value;
     setValue(value);
@@ -25,14 +34,6 @@ export default function DupesWasteInput({ prop }) {
       setDupeWaste(prop.name, Math.round(value));
     }, 500);
   };
-
-  const imgUrl =
-    '/images/resources/' +
-    prop.title
-      .toLowerCase()
-      .split(' ')
-      .join('-') +
-    '.png';
 
   return (
     <div className={classes.root}>
@@ -45,7 +46,7 @@ export default function DupesWasteInput({ prop }) {
         <Grid item>
           <div
             className={classes.image}
-            style={{ backgroundImage: `url(${imgUrl})` }}
+            style={{ backgroundImage: `url(${imgUrl.current})` }}
           />
         </Grid>
         <Grid item className={classes.gridItem}>

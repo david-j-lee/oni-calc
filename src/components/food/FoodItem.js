@@ -35,6 +35,20 @@ export default function FoodItem({ item }) {
 
   const timer = useRef();
 
+  const wikiLink = useRef(
+    `https://oxygennotincluded.gamepedia.com/${item.name
+      .toLowerCase()
+      .split(' ')
+      .join('-')}`,
+  );
+
+  const imgUrl = useRef(
+    `/images/resources/${item.name
+      .toLowerCase()
+      .split(' ')
+      .join('-')}.png`,
+  );
+
   // on hover
   const handlePopoverOpen = event => {
     setAnchorEl(event.target);
@@ -100,16 +114,6 @@ export default function FoodItem({ item }) {
 
   const popoverOpen = !!anchorEl;
 
-  const wikiLink = `https://oxygennotincluded.gamepedia.com/${item.name
-    .toLowerCase()
-    .split(' ')
-    .join('-')}`;
-
-  const imgUrl = `/images/resources/${item.name
-    .toLowerCase()
-    .split(' ')
-    .join('-')}.png`;
-
   return (
     <div className={classes.root}>
       <Dialog
@@ -120,7 +124,7 @@ export default function FoodItem({ item }) {
       >
         <FoodItemDetails item={item} />
         <DialogActions>
-          <Button target="_blank" href={wikiLink} color="primary">
+          <Button target="_blank" href={wikiLink.current} color="primary">
             WIKI
           </Button>
           <Button
@@ -148,7 +152,7 @@ export default function FoodItem({ item }) {
       <Card className={classes.card}>
         <CardMedia
           className={classes.cover}
-          image={imgUrl}
+          image={imgUrl.current}
           title={item.name}
           onMouseOver={handlePopoverOpen}
           onMouseOut={handlePopoverClose}

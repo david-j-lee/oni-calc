@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
@@ -16,10 +16,17 @@ export default function BuildingDetails({
 }) {
   const classes = useStyles();
 
-  const netPower = useRef(power.generation || 0) - (power.usage || 0);
-  const powerSuffix = useRef(
-    `${power.unit || ''} (+${power.generation || 0}/-${power.usage || 0})`,
-  );
+  const [netPower, setNetPower] = useState(0);
+  const [powerSuffix, setPowerSuffix] = useState(null);
+
+  useEffect(() => {
+    setNetPower((power.generation || 0) - (power.usage || 0));
+    setPowerSuffix(
+      `${power.unit || ''} (+${power.generation || 0}/-${power.usage || 0})`,
+    );
+  }, [power]);
+
+  console.log(name, category);
 
   const imgUrl = useRef(
     `/images/buildings/${name

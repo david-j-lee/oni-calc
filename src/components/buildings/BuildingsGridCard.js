@@ -39,6 +39,19 @@ export default function BuildingsGridCard({ building }) {
   const utilizationTimer = useRef(null);
   const rootRef = useRef(null);
 
+  const imgUrl = useRef(
+    `/images/buildings/${building.name
+      .toLowerCase()
+      .split(' ')
+      .join('-')}.png`,
+  );
+
+  const wikLink = useRef(
+    `https://oxygennotincluded.gamepedia.com/${building.name
+      .split('-')
+      .join('_')}`,
+  ); // may need to hard code as json
+
   // on hover
   const handlePopoverOpen = event => {
     setAnchorEl(event.target);
@@ -113,21 +126,9 @@ export default function BuildingsGridCard({ building }) {
     setFocused(true);
   };
 
-  useEffect(() => {
-    setQuantity(building.quantity);
-    setUtilization(building.utilization);
-  }, [building]);
-
-  const imgUrl = `/images/buildings/${building.name
-    .toLowerCase()
-    .split(' ')
-    .join('-')}.png`;
-
-  const wikLink = `https://oxygennotincluded.gamepedia.com/${building.name
-    .split('-')
-    .join('_')}`; // may need to hard code as json
-
   const popoverOpen = !!anchorEl;
+
+  console.log('foobar');
 
   return (
     <div className={classes.root} ref={rootRef}>
@@ -140,7 +141,7 @@ export default function BuildingsGridCard({ building }) {
         <div className={classes.dialog}>
           <BuildingDetails building={building} />
           <DialogActions>
-            <Button target="_blank" href={wikLink} color="primary">
+            <Button target="_blank" href={wikLink.current} color="primary">
               WIKI
             </Button>
             <Button
@@ -158,10 +159,10 @@ export default function BuildingsGridCard({ building }) {
         className={classes.popover}
         classes={{ paper: classes.paper }}
         open={popoverOpen}
+        onClose={handlePopoverClose}
         anchorEl={anchorEl}
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-        onClose={handlePopoverClose}
         disableRestoreFocus
       >
         <BuildingDetails building={building} />
@@ -169,7 +170,7 @@ export default function BuildingsGridCard({ building }) {
       <Card className={classes.card}>
         <CardMedia
           className={classes.cover}
-          image={imgUrl}
+          image={imgUrl.current}
           title={building.name}
           onMouseOver={handlePopoverOpen}
           onMouseOut={handlePopoverClose}

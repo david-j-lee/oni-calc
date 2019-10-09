@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 // material
 import TableRow from '@material-ui/core/TableRow';
@@ -16,6 +16,13 @@ export default function Resource({ resource }) {
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogType, setDialogType] = useState('');
 
+  const imageUrl = useRef(
+    `/images/resources/${resource.name
+      .toLowerCase()
+      .split(' ')
+      .join('-')}.png`,
+  );
+
   const handlePopoverOpen = (event, title, type) => {
     setAnchorEl(event.target);
     setDialogTitle(title);
@@ -29,11 +36,6 @@ export default function Resource({ resource }) {
   };
 
   const dialogOpen = !!anchorEl;
-
-  const imageUrl = `/images/resources/${resource.name
-    .toLowerCase()
-    .split(' ')
-    .join('-')}.png`;
 
   return (
     <TableRow className={classes.tableRow}>
@@ -58,7 +60,7 @@ export default function Resource({ resource }) {
         <div className={classes.resourceName}>
           <div
             className={classes.image}
-            style={{ backgroundImage: `url(${imageUrl})` }}
+            style={{ backgroundImage: `url(${imageUrl.current})` }}
           />
           {resource.name}
           {resource.unitOfMeasure ? ' (' + resource.unitOfMeasure + ')' : ''}
