@@ -168,9 +168,12 @@ export default function BuildingsGridCard({ building }) {
             >
               {building.name}
             </Typography>
-            <IconButton onClick={handleClickOpen} aria-label="More">
-              <MoreVert />
-            </IconButton>
+            {/* div is required to prevent button from stretch in height */}
+            <div>
+              <IconButton onClick={handleClickOpen} aria-label="More">
+                <MoreVert />
+              </IconButton>
+            </div>
           </CardContent>
           <CardActions>
             <IconButton
@@ -236,6 +239,7 @@ const useStyles = makeStyles(theme => ({
   cardContent: {
     display: 'flex',
     paddingRight: theme.spacing(2),
+    flexGrow: 1,
   },
   cardContentTitle: {
     flexGrow: 1,

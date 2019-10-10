@@ -50,20 +50,14 @@ export default function Calculator({ location }) {
         sm={6}
         md={5}
         lg={4}
-        className={['left-section', classes.leftSection].join(' ')}
+        className={['styled-scrollbar', classes.leftSection].join(' ')}
       >
         <Power />
         <Resources />
         <Plants />
         <Capacity />
       </Grid>
-      <Grid
-        item
-        sm={6}
-        md={7}
-        lg={8}
-        className={['right-section', classes.rightSection].join(' ')}
-      >
+      <Grid item sm={6} md={7} lg={8} className={classes.rightSection}>
         <Tabs
           value={tabIndex}
           onChange={handleChange}
@@ -75,12 +69,14 @@ export default function Calculator({ location }) {
           <Tab label="Food" component={Link} to="/food" />
           <Tab label="Geysers" component={Link} to="/geysers" />
         </Tabs>
-        <Switch>
-          <Route path="/geysers" render={() => <Geysers />} />
-          <Route path="/food" render={() => <Food />} />
-          <Route path="/buildings" render={() => <Buildings />} />
-          <Route path="/" render={() => <Dupes />} />
-        </Switch>
+        <div className={['styled-scrollbar', classes.content].join(' ')}>
+          <Switch>
+            <Route path="/geysers" render={() => <Geysers />} />
+            <Route path="/food" render={() => <Food />} />
+            <Route path="/buildings" render={() => <Buildings />} />
+            <Route path="/" render={() => <Dupes />} />
+          </Switch>
+        </div>
       </Grid>
     </Grid>
   );
@@ -105,13 +101,19 @@ const useStyles = makeStyles(theme => ({
   },
   rightSection: {
     height: `calc(100% - ${theme.spacing(10)}px)`,
+    display: 'flex',
+    flexDirection: 'column',
     flexGrow: 1,
-    overflowY: 'auto',
+    paddingLeft: 0,
+    paddingRight: 0,
     marginTop: theme.spacing(10),
-    paddingLeft: theme.spacing(),
-    paddingRight: theme.spacing(),
     [theme.breakpoints.down('xs')]: {
       height: 'auto',
     },
+  },
+  content: {
+    paddingLeft: theme.spacing(),
+    paddingRight: theme.spacing(),
+    overflowY: 'auto',
   },
 }));
