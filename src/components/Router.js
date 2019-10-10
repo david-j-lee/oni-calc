@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/styles';
 
@@ -15,8 +15,10 @@ export default function Root() {
     <div className={classes.root}>
       <BrowserRouter>
         <Navbar />
-        <Route path="/about" component={About} />
-        <Route path="/" component={Calculator} />
+        <Switch>
+          <Route path="/about" component={About} />
+          <Route path="/" component={Calculator} />
+        </Switch>
       </BrowserRouter>
     </div>
   );
