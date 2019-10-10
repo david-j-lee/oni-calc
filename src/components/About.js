@@ -7,26 +7,6 @@ import { makeStyles } from '@material-ui/styles';
 
 export default function About() {
   const classes = useStyles();
-  const gitHubLink = (
-    <a
-      target="_blank"
-      href="https://github.com/david-j-lee/oni-calc"
-      className={classes.link}
-      rel="noopener noreferrer"
-    >
-      GitHub
-    </a>
-  );
-  const payPalLink = (
-    <a
-      target="_blank"
-      href="https://paypal.me/davethedev"
-      className={classes.link}
-      rel="noopener noreferrer"
-    >
-      PayPal
-    </a>
-  );
 
   return (
     <div className={classes.root}>
@@ -36,7 +16,20 @@ export default function About() {
           <span className={classes.onicColor}>C</span>
           alculator
         </Typography>
-        <div className={classes.actions}>
+        <div>
+          <h1>Contributors</h1>
+          <ul>
+            <li>
+              <a
+                target="_blank"
+                href="https://devdavidlee.com"
+                className={classes.link}
+                rel="noopener noreferrer"
+              >
+                David Lee
+              </a>
+            </li>
+          </ul>
           <Button
             variant="outlined"
             target="_blank"
@@ -44,6 +37,15 @@ export default function About() {
           >
             GitHub
           </Button>
+        </div>
+        <div>
+          <h1>Supporters</h1>
+          <p>Special thanks to those who have donated!</p>
+          <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
           <Button
             variant="outlined"
             target="_blank"
@@ -52,49 +54,8 @@ export default function About() {
             PayPal
           </Button>
         </div>
-        <Typography variant="body1" className={classes.section}>
-          Sick of having to start a new game because you used up all your water?
-          Tired of your dupes throwing up your hard earned stuffed berries? Well
-          you have come to the right place. Victory favors the prepared. So
-          prepare yourself for the tool that will allow you to reach more cycles
-          than the Tour De France.
-        </Typography>
-        <Typography variant="body1" className={classes.section}>
-          This application is currently in early access. You can contribute to
-          this project through the {gitHubLink} page. Please report any issues
-          or bugs on the GitHub page.
-        </Typography>
-        <Typography variant="body1" className={classes.section}>
-          This application will always be free. If you are enjoying the
-          application you can show your appreciation by donating to my{' '}
-          {payPalLink}. This money will be used for hosting fees and coffee.
-        </Typography>
       </div>
-      <div>
-        <h1>Supporters</h1>
-        <p>
-          These people have showed support in the application, thank you! You
-          make working on this project extra special.
-        </p>
-        <ul>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-      </div>
-      <div className={classes.footer}>
-        <Typography variant="caption">
-          by{' '}
-          <a
-            target="_blank"
-            href="https://devdavidlee.com"
-            className={classes.link}
-            rel="noopener noreferrer"
-          >
-            David Lee
-          </a>
-        </Typography>
-      </div>
+      <div className={classes.footer}>ONIC</div>
     </div>
   );
 }
