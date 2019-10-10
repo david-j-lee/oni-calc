@@ -234,12 +234,12 @@ export default function ThemePicker() {
           </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="secondary">
+          <Button onClick={handleClose} color="secondary" variant="text">
             Cancel
           </Button>
           <Button
             disabled={color1 === '' || color2 === ''}
-            variant="raised"
+            variant="contained"
             onClick={handleOk}
             color="primary"
           >
