@@ -41,6 +41,28 @@ import brown from '@material-ui/core/colors/brown';
 import grey from '@material-ui/core/colors/grey';
 import blueGrey from '@material-ui/core/colors/blueGrey';
 
+const COLORS = [
+  red,
+  pink,
+  purple,
+  deepPurple,
+  indigo,
+  blue,
+  lightBlue,
+  cyan,
+  teal,
+  green,
+  lightGreen,
+  lime,
+  yellow,
+  amber,
+  orange,
+  deepOrange,
+  brown,
+  grey,
+  blueGrey,
+];
+
 export default function ThemePicker() {
   const classes = useStyles();
   const [{ theme }, { getTheme, setTheme }] = useContext();
@@ -83,7 +105,7 @@ export default function ThemePicker() {
   };
 
   const handleDialogOpen = () => {
-    dialogOpen(true);
+    setDialogOpen(true);
   };
 
   const handleClose = () => {
@@ -120,31 +142,9 @@ export default function ThemePicker() {
     }
   };
 
-  const colors = [
-    red,
-    pink,
-    purple,
-    deepPurple,
-    indigo,
-    blue,
-    lightBlue,
-    cyan,
-    teal,
-    green,
-    lightGreen,
-    lime,
-    yellow,
-    amber,
-    orange,
-    deepOrange,
-    brown,
-    grey,
-    blueGrey,
-  ];
-
   const colorPreviews = (
     <div className={classes.colorPreviews}>
-      {colors.map((color, i) => {
+      {COLORS.map((color, i) => {
         return (
           <div key={i} className={classes.colorPreview}>
             <ButtonBase
@@ -160,8 +160,8 @@ export default function ThemePicker() {
 
   const selectedColors = (
     <div className={classes.selectedColors}>
-      <div className={classes.selectedColorInner}>
-        <div className={classes.selectedColorInnerHalf}>
+      <div className={classes.selectedColor}>
+        <div className={classes.selectedColorInner}>
           <div
             className={classes.colorPreviewCircleLeft}
             style={{ backgroundColor: theme ? theme.palette.primary[500] : '' }}
@@ -174,13 +174,13 @@ export default function ThemePicker() {
           />
         </div>
       </div>
-      <div>
+      <div className={classes.chevron}>
         <Typography>
           <ChevronRight size="small" />
         </Typography>
       </div>
-      <div>
-        <div>
+      <div className={classes.selectedColor}>
+        <div className={classes.selectedColorInner}>
           <ButtonBase
             onClick={handleColorOneClick}
             className={classes.colorPreviewCircleLeft}
@@ -193,7 +193,6 @@ export default function ThemePicker() {
           />
         </div>
       </div>
-      <div />
     </div>
   );
 
@@ -270,7 +269,7 @@ const useStyles = makeStyles(theme => ({
   },
   colorPreviewCircle: {
     height: 25,
-    width: '100%',
+    width: 25,
     borderRadius: '100%',
   },
   colorPreviewCircleLeft: {
@@ -290,16 +289,23 @@ const useStyles = makeStyles(theme => ({
     height: 25,
   },
   selectedColors: {
+    paddingTop: theme.spacing(2),
     display: 'flex',
     flexWrap: 'nowrap',
   },
+  selectedColor: {
+    width: '25%',
+  },
   selectedColorInner: {
+    display: 'flex',
+    flexWrap: 'nowrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  chevron: {
     width: '25%',
     display: 'flex',
-  },
-  selectedColorInnerHalf: {
-    margin: 'auto',
-    display: 'flex',
-    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 }));
