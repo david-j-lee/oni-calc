@@ -125,6 +125,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     marginTop: theme.spacing(),
     marginBottom: theme.spacing(2),
+    padding: theme.spacing(0, 1),
   },
   expansionPanel: {
     width: '100%',
