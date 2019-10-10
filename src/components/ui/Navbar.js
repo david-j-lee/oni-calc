@@ -37,7 +37,6 @@ export default function Navbar() {
                 component={Link}
                 to="/"
                 color="inherit"
-                size="small"
                 aria-label="Home"
               >
                 <HomeIcon />
@@ -48,7 +47,6 @@ export default function Navbar() {
                 component={Link}
                 to="/about"
                 color="inherit"
-                size="small"
                 aria-label="Help"
               >
                 <HelpIcon />
