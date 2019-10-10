@@ -59,6 +59,7 @@ export default function Calculator({ location }) {
       </Grid>
       <Grid item sm={6} md={7} lg={8} className={classes.rightSection}>
         <Tabs
+          className={classes.tabs}
           value={tabIndex}
           onChange={handleChange}
           indicatorColor="primary"
@@ -111,9 +112,12 @@ const useStyles = makeStyles(theme => ({
       height: 'auto',
     },
   },
+  tabs: {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+  },
   content: {
-    paddingLeft: theme.spacing(),
-    paddingRight: theme.spacing(),
+    padding: theme.spacing(1, 1, 0, 1),
     overflowY: 'auto',
   },
 }));

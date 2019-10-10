@@ -40,7 +40,7 @@ export default function DupesWasteInput({ prop }) {
       <Grid
         className={classes.gridContainer}
         container
-        spacing={8}
+        spacing={1}
         alignItems="center"
       >
         <Grid item>
