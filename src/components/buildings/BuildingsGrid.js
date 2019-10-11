@@ -50,18 +50,18 @@ export default function BuildingsGrid() {
   }, [buildings]);
 
   useEffect(() => {
-    let states = { ...expansionPanelStates };
-    groupedBuildings.forEach(group => {
-      const normalizedName = group.name
-        .toLowerCase()
-        .split(' ')
-        .join('-');
-      states[normalizedName] = !collapseBuildingPanels;
+    setExpansionPanelStates(states => {
+      const newStates = { ...states };
+      groupedBuildings.forEach(group => {
+        const normalizedName = group.name
+          .toLowerCase()
+          .split(' ')
+          .join('-');
+        newStates[normalizedName] = !collapseBuildingPanels;
+      });
+      return newStates;
     });
-    setExpansionPanelStates(states);
-    // TODO: figure out better way than having to use this comment
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [collapseBuildingPanelsTrigger]);
+  }, [groupedBuildings, collapseBuildingPanels, collapseBuildingPanelsTrigger]);
 
   return (
     <div className={classes.root}>
