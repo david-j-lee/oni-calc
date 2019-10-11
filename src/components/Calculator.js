@@ -9,29 +9,32 @@ import Tab from '@material-ui/core/Tab';
 import { makeStyles } from '@material-ui/styles';
 
 // components
-import Power from '../components/power/Power';
-import Resources from '../components/resources/Resources';
-import Plants from '../components/plants/Plants';
-import Capacity from '../components/capacity/Capacity';
+import Power from './power/Power';
+import Resources from './resources/Resources';
+import Plants from './plants/Plants';
+import Capacity from './capacity/Capacity';
 
-import Dupes from '../components/dupes/Dupes';
-import Buildings from '../components/buildings/Buildings';
-import Food from '../components/food/Food';
-import Geysers from '../components/geysers/Geysers';
+import Dupes from './dupes/Dupes';
+import Buildings from './buildings/Buildings';
+import Food from './food/Food';
+import Geysers from './geysers/Geysers';
+import Settings from './settings/Settings';
 
 export default function Calculator({ location }) {
   const classes = useStyles();
   const [, { getData }] = useContext();
 
   const [tabIndex, setTabIndex] = useState(
-    location.pathname === '/dupes'
+    location.pathname === '/settings'
       ? 0
-      : location.pathname === '/buildings'
+      : location.pathname === '/dupes'
       ? 1
-      : location.pathname === '/food'
+      : location.pathname === '/buildings'
       ? 2
-      : location.pathname === '/geysers'
+      : location.pathname === '/food'
       ? 3
+      : location.pathname === '/geysers'
+      ? 4
       : 0,
   );
 
@@ -65,6 +68,7 @@ export default function Calculator({ location }) {
           indicatorColor="primary"
           textColor="primary"
         >
+          <Tab label="Settings" component={Link} to="/settings" />
           <Tab label="Dupes" component={Link} to="/dupes" />
           <Tab label="Buildings" component={Link} to="/buildings" />
           <Tab label="Food" component={Link} to="/food" />
@@ -75,7 +79,8 @@ export default function Calculator({ location }) {
             <Route path="/geysers" render={() => <Geysers />} />
             <Route path="/food" render={() => <Food />} />
             <Route path="/buildings" render={() => <Buildings />} />
-            <Route path="/" render={() => <Dupes />} />
+            <Route path="/dupes" render={() => <Dupes />} />
+            <Route path="/" render={() => <Settings />} />
           </Switch>
         </div>
       </Grid>
