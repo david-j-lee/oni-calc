@@ -9,10 +9,14 @@ import { dupeActions } from './actions/dupeActions';
 import { foodActions } from './actions/foodActions';
 import { geyserActions } from './actions/geyserActions';
 import { resourceActions } from './actions/resourceActions';
+import { settingsActions } from './actions/settingsActions';
 import { uiActions } from './actions/uiActions';
 
 const INITIAL_STATE: IState = {
   tabIndex: 0,
+  settings: {
+    gameMode: '',
+  },
   collapseBuildingPanels: false,
   collapseBuildingPanelsTrigger: false,
   buildings: [],
@@ -43,6 +47,7 @@ const contract = {
   ...foodActions,
   ...geyserActions,
   ...resourceActions,
+  ...settingsActions,
   ...uiActions,
 };
 

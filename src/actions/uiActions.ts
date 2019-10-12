@@ -1,9 +1,3 @@
-// import {
-//   SET_TAB_INDEX,
-//   GET_THEME,
-//   SET_THEME,
-// } from '../constants/actionConstants';
-
 // material
 import indigo from '@material-ui/core/colors/indigo';
 import red from '@material-ui/core/colors/red';

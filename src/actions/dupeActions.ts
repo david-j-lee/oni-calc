@@ -10,7 +10,12 @@ export const dupeActions = {
     return state => {
       return {
         ...state,
-        ...setDupesQuantity(state.resources, state.dupes, quantity),
+        ...setDupesQuantity(
+          state.settings.gameMode,
+          state.resources,
+          state.dupes,
+          quantity,
+        ),
       };
     };
   },
@@ -18,7 +23,13 @@ export const dupeActions = {
     return state => {
       return {
         ...state,
-        ...setDupeTraitQuantity(state.resources, state.dupes, name, quantity),
+        ...setDupeTraitQuantity(
+          state.settings.gameMode,
+          state.resources,
+          state.dupes,
+          name,
+          quantity,
+        ),
       };
     };
   },

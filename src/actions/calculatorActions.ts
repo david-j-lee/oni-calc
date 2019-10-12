@@ -28,6 +28,7 @@ export const calculatorActions = {
       let foodInputs: any = localStorage.getItem('food');
       let geyserInputs: any = localStorage.getItem('geysers');
       let layout: any = localStorage.getItem('layout');
+      let settings: any = localStorage.getItem('settings');
 
       // remove old settings
       localStorage.removeItem('quantities');
@@ -54,11 +55,18 @@ export const calculatorActions = {
         throw e;
       }
 
+      try {
+        settings = JSON.parse(settings);
+      } catch (e) {
+        localStorage.removeItem('settings');
+        throw e;
+      }
+
       if (layout === null) {
         layout = 'grid';
       }
 
-      const newDupes = getDupes(dupes, dupeInputs);
+      const newDupes = getDupes(settings.gameMode, dupes, dupeInputs);
       const newBuildings = getBuildings(
         parseBuildings(buildings),
         parseBuildingInputs(localStorage.getItem('buildings')),
@@ -79,6 +87,7 @@ export const calculatorActions = {
 
       return {
         ...state,
+        settings,
         buildingsLayout: layout,
         resources: newResources,
         plants: newPlants,

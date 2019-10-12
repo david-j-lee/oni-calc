@@ -1,15 +1,26 @@
 import { updateResourcesWithDupes } from './resourceUtils';
 
-export const setDupesQuantity = (resources, dupes, quantity) => {
-  const newDupes = updateDupeQuantity(dupes, quantity);
+export const setDupesQuantity = (
+  gameMode: string,
+  resources,
+  dupes,
+  quantity: number,
+) => {
+  const newDupes = updateDupeQuantity(gameMode, dupes, quantity);
   return {
     resources: updateResourcesWithDupes(resources, newDupes),
     dupes: newDupes,
   };
 };
 
-export const setDupeTraitQuantity = (resources, dupes, name, quantity) => {
-  const newDupes = updateDupeTraitQuantity(dupes, name, quantity);
+export const setDupeTraitQuantity = (
+  gameMode: string,
+  resources,
+  dupes,
+  name: string,
+  quantity: number,
+) => {
+  const newDupes = updateDupeTraitQuantity(gameMode, dupes, name, quantity);
   return {
     resources: updateResourcesWithDupes(resources, newDupes),
     dupes: newDupes,
@@ -34,9 +45,9 @@ export const clearDupeInputs = (resources, dupes) => {
 
 // ----------------------------------------------
 
-export function getDupes(dupes, inputs) {
+export function getDupes(gameMode: string, dupes, inputs) {
   if (inputs && inputs.traits) {
-    return updateDupesWithInputs(dupes, inputs);
+    return updateDupesWithInputs(gameMode, dupes, inputs);
   } else {
     return getDupesWithDefaultInputs(dupes);
   }
@@ -62,7 +73,7 @@ function getDupesWithDefaultInputs(dupes) {
   };
 }
 
-function updateDupesWithInputs(dupes, inputs) {
+function updateDupesWithInputs(gameMode: string, dupes, inputs) {
   const newDupes = {
     ...dupes,
     waterValue: inputs.waterValue || 0,
@@ -81,7 +92,7 @@ function updateDupesWithInputs(dupes, inputs) {
       }
     }),
   };
-  newDupes.caloriesRequired = getCaloriesRequired(newDupes);
+  newDupes.caloriesRequired = getCaloriesRequired(gameMode, newDupes);
   return newDupes;
 }
 
@@ -165,7 +176,7 @@ function getWasteIOForResource(dupes, type: string, resourceName: string) {
   return arr;
 }
 
-export function updateDupeQuantity(dupes, quantity: number) {
+export function updateDupeQuantity(gameMode: string, dupes, quantity: number) {
   const newDupes = {
     ...dupes,
     quantity,
@@ -175,13 +186,18 @@ export function updateDupeQuantity(dupes, quantity: number) {
     })),
   };
 
-  newDupes.caloriesRequired = getCaloriesRequired(newDupes);
+  newDupes.caloriesRequired = getCaloriesRequired(gameMode, newDupes);
 
   saveToLocalStorage(newDupes);
   return newDupes;
 }
 
-export function updateDupeTraitQuantity(dupes, name: string, quantity: number) {
+export function updateDupeTraitQuantity(
+  gameMode: string,
+  dupes,
+  name: string,
+  quantity: number,
+) {
   const newDupes = {
     ...dupes,
     traits: dupes.traits.map(trait => ({
@@ -195,7 +211,7 @@ export function updateDupeTraitQuantity(dupes, name: string, quantity: number) {
     })),
   };
 
-  newDupes.caloriesRequired = getCaloriesRequired(newDupes);
+  newDupes.caloriesRequired = getCaloriesRequired(gameMode, newDupes);
 
   saveToLocalStorage(newDupes);
   return newDupes;
@@ -212,23 +228,27 @@ export function getDupeWaste(dupes, prop: string, value) {
   return newDupes;
 }
 
-function getCaloriesRequired(dupes) {
+function getCaloriesRequired(gameMode, dupes) {
   return (
-    getBaseCaloriesRequired(dupes) + getTraitCaloriesRequired(dupes.traits)
+    getBaseCaloriesRequired(gameMode, dupes) +
+    getTraitCaloriesRequired(gameMode, dupes.traits)
   );
 }
 
-function getBaseCaloriesRequired(dupes) {
+function getBaseCaloriesRequired(gameMode, dupes) {
   if (!dupes.inputs) return 0;
   const inputs = dupes.inputs.filter(input => input.name === 'Food');
   if (inputs.length === 0) return 0;
 
   return inputs
-    .map(input => input.value * dupes.quantity)
+    .map(
+      input =>
+        input.value * (gameMode === 'no-sweat' ? 0.5 : 0) * dupes.quantity,
+    )
     .reduce((a, b) => a + b);
 }
 
-function getTraitCaloriesRequired(traits) {
+function getTraitCaloriesRequired(gameMode, traits) {
   const inputs = traits
     .map(trait =>
       trait.inputs.map(input => ({ ...input, quantity: trait.quantity })),
@@ -238,9 +258,15 @@ function getTraitCaloriesRequired(traits) {
 
   if (inputs.length === 0) return 0;
 
-  return inputs
-    .map(input => input.value * input.quantity)
-    .reduce((a, b) => a + b);
+  return (
+    inputs
+      // TODO: confirm that no-sweat is 50% less
+      .map(
+        input =>
+          input.value * (gameMode === 'no-sweat' ? 0.5 : 0) * input.quantity,
+      )
+      .reduce((a, b) => a + b)
+  );
 }
 
 function saveToLocalStorage(dupes) {

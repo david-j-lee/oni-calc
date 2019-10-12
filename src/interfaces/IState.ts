@@ -1,7 +1,9 @@
 import IBuilding from './IBuilding';
+import ISettings from './ISettings';
 
 export default interface IState {
   tabIndex: number;
+  settings: ISettings;
   collapseBuildingPanels: boolean;
   collapseBuildingPanelsTrigger: boolean;
   buildings: IBuilding[];
