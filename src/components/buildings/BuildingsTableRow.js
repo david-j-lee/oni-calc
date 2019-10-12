@@ -61,7 +61,7 @@ export default function BuildingsTable({ building }) {
       clearTimeout(utilizationTimer.current);
     }
     utilizationTimer.current = setTimeout(() => {
-      setBuildingUtilization(building.name, Math.round(utilization));
+      setBuildingUtilization(building.name, Math.round(value));
     }, 500);
   };
 
