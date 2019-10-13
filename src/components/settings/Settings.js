@@ -23,31 +23,36 @@ export default function Settings() {
         <Grid item sm={6}>
           <Card className={classes.card}>
             <CardContent>
-              <Checkbox
-                checked={settings.gameMode === 'survival'}
-                onChange={() => handleChange('survival')}
-                value="survival"
-                inputProps={{
-                  'aria-label': 'game mode survival',
-                }}
-              />
-              <Typography variant="h6">Survival</Typography>
+              <Typography variant="h6" className={classes.title}>
+                {' '}
+                <Checkbox
+                  checked={settings.gameMode === 'survival'}
+                  onChange={() => handleChange('survival')}
+                  value="survival"
+                  inputProps={{
+                    'aria-label': 'game mode survival',
+                  }}
+                />
+                <span>Survival</span>
+              </Typography>
             </CardContent>
           </Card>
         </Grid>
         <Grid item sm={6}>
           <Card>
             <CardContent>
-              <Checkbox
-                checked={settings.gameMode === 'no-sweat'}
-                onChange={() => handleChange('no-sweat')}
-                value="no-sweat"
-                inputProps={{
-                  'aria-label': 'game mode no sweat',
-                }}
-              />
-              <Typography variant="h6">No Sweat</Typography>- 500 calories per
-              dupe
+              <Typography variant="h6" className={classes.title}>
+                <Checkbox
+                  checked={settings.gameMode === 'no-sweat'}
+                  onChange={() => handleChange('no-sweat')}
+                  value="no-sweat"
+                  inputProps={{
+                    'aria-label': 'game mode no sweat',
+                  }}
+                />
+                <span>No Sweat</span>
+              </Typography>
+              - 500 calories per dupe
             </CardContent>
           </Card>
         </Grid>
@@ -62,5 +67,9 @@ const useStyles = makeStyles(theme => ({
   },
   card: {
     height: '100%',
+  },
+  title: {
+    display: 'flex',
+    alignItems: 'center',
   },
 }));

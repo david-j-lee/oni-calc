@@ -87,7 +87,7 @@ export default function Plant({ plant }) {
           onMouseOver={handleFoodPopoverOpen}
           onMouseOut={handleFoodPopoverClose}
         >
-          {plant.quantity}
+          {plant.quantity.toLocaleString()}
         </div>
       </TableCell>
     </TableRow>

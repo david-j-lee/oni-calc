@@ -86,7 +86,7 @@ export default function Power() {
                 handlePopoverOpen(e, 'Usage', powerUsage.buildings)
               }
             >
-              {Math.round(powerUsage.value)} W
+              {Math.round(powerUsage.value).toLocaleString()} W
             </Typography>
             <Typography>Used</Typography>
           </div>
@@ -101,7 +101,7 @@ export default function Power() {
                 handlePopoverOpen(e, 'Generation', powerGeneration.buildings)
               }
             >
-              {Math.round(powerGeneration.value)} W
+              {Math.round(powerGeneration.value).toLocaleString()} W
             </Typography>
             <Typography>Generated</Typography>
           </div>

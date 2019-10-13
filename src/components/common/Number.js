@@ -6,9 +6,9 @@ import { makeStyles } from '@material-ui/styles';
 export default function Number({ value, suffix, variant, color }) {
   const classes = useStyles();
 
-  const [displayValue, setDisplayValue] = useState();
-  const [sign, setSign] = useState();
-  const [className, setClassName] = useState();
+  const [displayValue, setDisplayValue] = useState(0);
+  const [sign, setSign] = useState('');
+  const [className, setClassName] = useState('');
 
   useEffect(() => {
     setDisplayValue(Math.round(Math.abs(value) * 100) / 100);
@@ -20,7 +20,8 @@ export default function Number({ value, suffix, variant, color }) {
 
   return (
     <Typography className={classes.root} variant={variant} color={color}>
-      <span className={className}>{sign}</span> {displayValue} {suffix}
+      <span className={className}>{sign}</span> {displayValue.toLocaleString()}{' '}
+      {suffix}
     </Typography>
   );
 }

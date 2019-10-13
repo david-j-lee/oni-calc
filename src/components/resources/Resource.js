@@ -73,7 +73,7 @@ export default function Resource({ resource }) {
           onMouseOver={e => handlePopoverOpen(e, 'Inputs', 'inputs')}
           onMouseOut={handlePopoverClose}
         >
-          {Math.round(resource.totalInput)}
+          {Math.round(resource.totalInput).toLocaleString()}
         </div>
       </TableCell>
 
@@ -83,7 +83,7 @@ export default function Resource({ resource }) {
           onMouseOver={e => handlePopoverOpen(e, 'Outputs', 'outputs')}
           onMouseOut={handlePopoverClose}
         >
-          {Math.round(resource.totalOutput)}
+          {Math.round(resource.totalOutput).toLocaleString()}
         </div>
       </TableCell>
 

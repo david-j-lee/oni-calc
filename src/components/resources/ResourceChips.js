@@ -42,7 +42,11 @@ export default function ResourceChips({ ios }) {
                   />
                 </Avatar>
               }
-              label={[io.name, io.value, (io.unit || '') + rate].join(' ')}
+              label={[
+                io.name,
+                io.value.toLocaleString(),
+                (io.unit || '') + rate,
+              ].join(' ')}
             />
           );
         }),
