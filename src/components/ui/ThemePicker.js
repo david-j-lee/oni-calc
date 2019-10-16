@@ -150,7 +150,7 @@ export default function ThemePicker() {
             <ButtonBase
               onClick={() => selectColor(color)}
               style={{ backgroundColor: color[500] }}
-              className={classes.colorPreviewCircle}
+              className={classes.colorPreviewButton}
             />
           </div>
         );
@@ -163,11 +163,11 @@ export default function ThemePicker() {
       <div className={classes.selectedColor}>
         <div className={classes.selectedColorInner}>
           <div
-            className={classes.colorPreviewCircleLeft}
+            className={classes.colorPreviewHalf}
             style={{ backgroundColor: theme ? theme.palette.primary[500] : '' }}
           />
           <div
-            className={classes.colorPreviewCircleRight}
+            className={classes.colorPreviewHalf}
             style={{
               backgroundColor: theme ? theme.palette.secondary[500] : '',
             }}
@@ -183,12 +183,18 @@ export default function ThemePicker() {
         <div className={classes.selectedColorInner}>
           <ButtonBase
             onClick={handleColorOneClick}
-            className={classes.colorPreviewCircleLeft}
+            className={[
+              classes.colorPreviewHalf,
+              classes.colorPreviewLeft,
+            ].join(' ')}
             style={{ backgroundColor: color1[500] }}
           />
           <ButtonBase
             onClick={handleColorTwoClick}
-            className={classes.colorPreviewCircleRight}
+            className={[
+              classes.colorPreviewHalf,
+              classes.colorPreviewRight,
+            ].join(' ')}
             style={{ backgroundColor: color2[500] }}
           />
         </div>
@@ -251,12 +257,15 @@ export default function ThemePicker() {
   );
 }
 
+const SIZE = 40;
+const SPACING = 1;
+
 const useStyles = makeStyles(theme => ({
   colorsDialog: {
     maxWidth: 225,
   },
   colorsDialogContent: {
-    maxWidth: 125,
+    maxWidth: (SIZE + SPACING * 2) * 4,
     margin: '0 auto',
   },
   colorPreviews: {
@@ -264,29 +273,36 @@ const useStyles = makeStyles(theme => ({
     flexWrap: 'wrap',
   },
   colorPreview: {
-    width: '25%',
-    padding: '0.15rem',
+    padding: SPACING,
   },
-  colorPreviewCircle: {
-    height: 25,
-    width: 25,
-    borderRadius: '100%',
+  colorPreviewButton: {
+    height: SIZE,
+    width: SIZE,
+    transition: 'all 300ms ease',
+    '&:hover': {
+      borderRadius: '100%',
+    },
   },
-  colorPreviewCircleLeft: {
-    borderTopLeftRadius: 25,
-    borderBottomLeftRadius: 25,
-    borderTopRightRadius: 0,
-    borderBottomRightRadius: 0,
-    width: 'calc(25px/2)',
-    height: 25,
+  colorPreviewHalf: {
+    width: `calc(${SIZE}px/2)`,
+    height: SIZE,
+    transition: 'all 300ms ease',
   },
-  colorPreviewCircleRight: {
-    borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0,
-    borderTopRightRadius: 25,
-    borderBottomRightRadius: 25,
-    width: 'calc(25px/2)',
-    height: 25,
+  colorPreviewLeft: {
+    '&:hover': {
+      borderTopLeftRadius: SIZE,
+      borderBottomLeftRadius: SIZE,
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0,
+    },
+  },
+  colorPreviewRight: {
+    '&:hover': {
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+      borderTopRightRadius: SIZE,
+      borderBottomRightRadius: SIZE,
+    },
   },
   selectedColors: {
     paddingTop: theme.spacing(2),
@@ -294,7 +310,7 @@ const useStyles = makeStyles(theme => ({
     flexWrap: 'nowrap',
   },
   selectedColor: {
-    width: '25%',
+    width: SIZE,
   },
   selectedColorInner: {
     display: 'flex',
@@ -303,7 +319,8 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
   },
   chevron: {
-    width: '25%',
+    width: SIZE,
+    padding: SPACING,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
