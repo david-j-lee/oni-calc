@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useContext } from '../../context';
 
 // material
@@ -86,6 +86,12 @@ export default function DupeQuantity() {
   const onFocus = () => {
     setFocused(true);
   };
+
+  useEffect(() => {
+    if (dupes.quantity !== null && dupes.quantity !== undefined) {
+      setQuantity(dupes.quantity);
+    }
+  }, [dupes.quantity]);
 
   return (
     <Grid container className={classes.root}>
