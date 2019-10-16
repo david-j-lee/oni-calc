@@ -40,6 +40,7 @@ export default function Settings() {
                   />
                   <span>Survival</span>
                 </Typography>
+                <ul className={classes.traits}></ul>
               </CardContent>
             </ButtonBase>
           </Card>
@@ -62,7 +63,9 @@ export default function Settings() {
                   />
                   <span>No Sweat</span>
                 </Typography>
-                - 500 calories per dupe
+                <ul className={classes.traits}>
+                  <li>500 calories per dupe every cycle</li>
+                </ul>
               </CardContent>
             </ButtonBase>
           </Card>
@@ -80,7 +83,11 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
   },
   button: {
+    height: '100%',
+    width: '100%',
     justifyContent: 'flex-start',
+    display: 'flex',
+    flexDirection: 'column',
     alignItems: 'flex-start',
   },
   title: {

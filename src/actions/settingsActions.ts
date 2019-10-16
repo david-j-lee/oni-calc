@@ -1,3 +1,5 @@
+import { getCaloriesRequired } from '../utils/dupeUtils';
+
 export const settingsActions = {
   setGameMode(gameMode: any) {
     return state => {
@@ -7,6 +9,10 @@ export const settingsActions = {
         settings: {
           ...state.settings,
           gameMode,
+        },
+        dupes: {
+          ...state.dupes,
+          caloriesRequired: getCaloriesRequired(gameMode, state.dupes),
         },
       };
     };

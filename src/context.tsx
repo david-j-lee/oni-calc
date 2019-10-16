@@ -12,10 +12,10 @@ import { resourceActions } from './actions/resourceActions';
 import { settingsActions } from './actions/settingsActions';
 import { uiActions } from './actions/uiActions';
 
-const INITIAL_STATE: IState = {
+export const INITIAL_STATE: IState = {
   tabIndex: 0,
   settings: {
-    gameMode: '',
+    gameMode: 'survival',
   },
   collapseBuildingPanels: false,
   collapseBuildingPanelsTrigger: false,

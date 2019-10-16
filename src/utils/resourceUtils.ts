@@ -42,6 +42,7 @@ export function getClearedResources(resources) {
 }
 
 export function updateResources({
+  gameMode,
   resources,
   plants,
   dupes,

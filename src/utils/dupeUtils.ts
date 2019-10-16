@@ -27,7 +27,7 @@ export const setDupeTraitQuantity = (
   };
 };
 
-export const setDupeWaste = (resources, dupes, prop, value) => {
+export const setDupeWaste = (resources, dupes, prop: string, value: number) => {
   const newDupes = getDupeWaste(dupes, prop, value);
   return {
     resources: updateResourcesWithDupes(resources, newDupes),
@@ -217,7 +217,7 @@ export function updateDupeTraitQuantity(
   return newDupes;
 }
 
-export function getDupeWaste(dupes, prop: string, value) {
+export function getDupeWaste(dupes, prop: string, value: number) {
   const newDupes = { ...dupes };
 
   if (prop === '') return newDupes;
@@ -228,14 +228,14 @@ export function getDupeWaste(dupes, prop: string, value) {
   return newDupes;
 }
 
-function getCaloriesRequired(gameMode, dupes) {
+export function getCaloriesRequired(gameMode: string, dupes) {
   return (
     getBaseCaloriesRequired(gameMode, dupes) +
-    getTraitCaloriesRequired(gameMode, dupes.traits)
+    getTraitCaloriesRequired(dupes.traits)
   );
 }
 
-function getBaseCaloriesRequired(gameMode, dupes) {
+function getBaseCaloriesRequired(gameMode: string, dupes) {
   if (!dupes.inputs) return 0;
   const inputs = dupes.inputs.filter(input => input.name === 'Food');
   if (inputs.length === 0) return 0;
@@ -243,12 +243,20 @@ function getBaseCaloriesRequired(gameMode, dupes) {
   return inputs
     .map(
       input =>
-        input.value * (gameMode === 'no-sweat' ? 0.5 : 0) * dupes.quantity,
+        (typeof input.value === 'number'
+          ? input.value
+          : input.value[
+              gameMode === 'survival'
+                ? 'survival'
+                : gameMode === 'no-sweat'
+                ? 'noSweat'
+                : 'survival'
+            ]) * dupes.quantity,
     )
     .reduce((a, b) => a + b);
 }
 
-function getTraitCaloriesRequired(gameMode, traits) {
+function getTraitCaloriesRequired(traits) {
   const inputs = traits
     .map(trait =>
       trait.inputs.map(input => ({ ...input, quantity: trait.quantity })),
@@ -261,10 +269,7 @@ function getTraitCaloriesRequired(gameMode, traits) {
   return (
     inputs
       // TODO: confirm that no-sweat is 50% less
-      .map(
-        input =>
-          input.value * (gameMode === 'no-sweat' ? 0.5 : 0) * input.quantity,
-      )
+      .map(input => input.value * input.quantity)
       .reduce((a, b) => a + b)
   );
 }

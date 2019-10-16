@@ -1,7 +1,12 @@
 export const dupes = {
   inputs: [
     { name: 'Oxygen', value: 100, unit: 'g', rate: 'per second' },
-    { name: 'Food', value: 1000, unit: 'kcal', rate: 'per cycle' },
+    {
+      name: 'Food',
+      value: { survival: 1000, noSweat: 500 },
+      unit: 'kcal',
+      rate: 'per cycle',
+    },
   ],
   outputs: [
     { name: 'Carbon Dioxide', value: 20, unit: 'g', rate: 'per second' },

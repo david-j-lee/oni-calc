@@ -19,6 +19,7 @@ import {
   getBuildingsPowerUsage,
 } from '../utils/powerUtils';
 import { updateResources } from '../utils/resourceUtils';
+import { INITIAL_STATE } from './../context';
 
 // TODO: Refactor
 export const calculatorActions = {
@@ -66,17 +67,17 @@ export const calculatorActions = {
         layout = 'grid';
       }
 
-      const newDupes = getDupes(settings.gameMode, dupes, dupeInputs);
+      const newSettings = settings ? settings : INITIAL_STATE.settings;
+      const newDupes = getDupes(newSettings.gameMode, dupes, dupeInputs);
       const newBuildings = getBuildings(
         parseBuildings(buildings),
         parseBuildingInputs(localStorage.getItem('buildings')),
       );
       const newFood = getFood(food, foodInputs);
       const newGeysers = getGeysers(geysers, geyserInputs);
-
       const newPlants = updatePlants(plants, newFood);
-
       const newResources = updateResources({
+        gameMode: newSettings.gameMode,
         resources,
         plants: newPlants,
         dupes: newDupes,
@@ -87,7 +88,7 @@ export const calculatorActions = {
 
       return {
         ...state,
-        settings,
+        settings: newSettings,
         buildingsLayout: layout,
         resources: newResources,
         plants: newPlants,
