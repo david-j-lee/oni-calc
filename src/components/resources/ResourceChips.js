@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { useContext } from '../../context';
 
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 
+import { getGameModeValue } from './../../utils/commonUtils';
+
 export default function ResourceChips({ ios }) {
   const classes = useStyles();
+  const [{ settings }] = useContext();
 
   const [mappedIOs, setMappedIOs] = useState([]);
 
@@ -44,14 +48,14 @@ export default function ResourceChips({ ios }) {
               }
               label={[
                 io.name,
-                io.value.toLocaleString(),
+                getGameModeValue(settings.gameMode, io.value).toLocaleString(),
                 (io.unit || '') + rate,
               ].join(' ')}
             />
           );
         }),
     );
-  }, [ios, classes]);
+  }, [ios, settings, classes]);
 
   return (
     <div>

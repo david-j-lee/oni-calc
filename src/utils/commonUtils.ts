@@ -1,5 +1,21 @@
 import IIO from '../interfaces/IIO';
 
+export function getGameModeValue(gameMode: string, value: number | any) {
+  let gameModeValue = 0;
+  if (typeof value === 'number') {
+    gameModeValue = value;
+  } else {
+    if (gameMode === 'survival' && typeof value.survival === 'number') {
+      gameModeValue = value.survival;
+    }
+
+    if (gameMode === 'no-sweat' && typeof value.noSweat === 'number') {
+      gameModeValue = value.noSweat;
+    }
+  }
+  return gameModeValue;
+}
+
 export function getIOTotal(ios: IIO[]) {
   if (ios.length === 0) return 0;
 

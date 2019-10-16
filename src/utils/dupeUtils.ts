@@ -1,3 +1,4 @@
+import { getGameModeValue } from './commonUtils';
 import { updateResourcesWithDupes } from './resourceUtils';
 
 export const setDupesQuantity = (
@@ -241,18 +242,7 @@ function getBaseCaloriesRequired(gameMode: string, dupes) {
   if (inputs.length === 0) return 0;
 
   return inputs
-    .map(
-      input =>
-        (typeof input.value === 'number'
-          ? input.value
-          : input.value[
-              gameMode === 'survival'
-                ? 'survival'
-                : gameMode === 'no-sweat'
-                ? 'noSweat'
-                : 'survival'
-            ]) * dupes.quantity,
-    )
+    .map(input => getGameModeValue(gameMode, input.value) * dupes.quantity)
     .reduce((a, b) => a + b);
 }
 

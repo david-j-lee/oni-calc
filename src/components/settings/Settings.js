@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useContext } from '../../context';
 
 // material
@@ -12,7 +12,17 @@ import { makeStyles } from '@material-ui/styles';
 
 export default function Settings() {
   const classes = useStyles();
-  const [{ settings }, { setGameMode }] = useContext();
+  const [{ settings, dupes }, { setGameMode }] = useContext();
+
+  const dupeFoodInput = useMemo(() => {
+    if (dupes.inputs) {
+      const foodInput = dupes.inputs.find(input => input.name === 'Food');
+      if (foodInput) {
+        return foodInput.value;
+      }
+    }
+    return null;
+  }, [dupes.inputs]);
 
   const handleChange = newGameMode => {
     setGameMode(newGameMode);
@@ -40,6 +50,12 @@ export default function Settings() {
                   />
                   <span>Survival</span>
                 </Typography>
+                <ul className={classes.traits}>
+                  <li>
+                    {dupeFoodInput ? dupeFoodInput.survival : ''} calories per
+                    dupe every cycle
+                  </li>
+                </ul>
                 <ul className={classes.traits}></ul>
               </CardContent>
             </ButtonBase>
@@ -64,7 +80,10 @@ export default function Settings() {
                   <span>No Sweat</span>
                 </Typography>
                 <ul className={classes.traits}>
-                  <li>500 calories per dupe every cycle</li>
+                  <li>
+                    {dupeFoodInput ? dupeFoodInput.noSweat : ''} calories per
+                    dupe every cycle
+                  </li>
                 </ul>
               </CardContent>
             </ButtonBase>
