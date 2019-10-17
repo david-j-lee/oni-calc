@@ -240,6 +240,31 @@ export default function ThemePicker() {
           </div>
         </DialogContent>
         <DialogActions>
+          {theme &&
+            (theme.palette.type === 'light' ? (
+              <Button
+                onClick={changeType}
+                color="secondary"
+                variant="contained"
+              >
+                <BrightnessHigh
+                  className={[classes.leftIcon, classes.iconSmall].join(' ')}
+                />
+                Light Theme
+              </Button>
+            ) : (
+              <Button
+                onClick={changeType}
+                color="secondary"
+                variant="contained"
+              >
+                <Brightness2
+                  className={[classes.leftIcon, classes.iconSmall].join(' ')}
+                />
+                Dark Theme
+              </Button>
+            ))}
+          <div className={classes.grow} />
           <Button onClick={handleClose} color="secondary" variant="text">
             Cancel
           </Button>
@@ -324,5 +349,14 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  leftIcon: {
+    marginRight: theme.spacing(1),
+  },
+  iconSmall: {
+    fontSize: 20,
   },
 }));
