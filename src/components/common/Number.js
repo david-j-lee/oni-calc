@@ -20,8 +20,8 @@ export default function Number({ value, suffix, variant, color }) {
 
   return (
     <Typography className={classes.root} variant={variant} color={color}>
-      <span className={className}>{sign}</span> {displayValue.toLocaleString()}{' '}
-      {suffix}
+      <span className={[className, classes.sign].join(' ')}>{sign}</span>{' '}
+      {displayValue.toLocaleString()} {suffix}
     </Typography>
   );
 }
@@ -29,6 +29,9 @@ export default function Number({ value, suffix, variant, color }) {
 const useStyles = makeStyles(theme => ({
   root: {
     whiteSpace: 'nowrap',
+  },
+  sign: {
+    pointerEvents: 'none',
   },
   positive: {
     color: 'green',
