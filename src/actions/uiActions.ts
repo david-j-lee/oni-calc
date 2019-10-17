@@ -5,8 +5,16 @@ import red from '@material-ui/core/colors/red';
 export const uiActions = {
   getTheme() {
     return state => {
+      let theme: any = {
+        palette: {
+          type: 'dark',
+          primary: indigo,
+          secondary: red,
+          error: red,
+          contrastThreshold: 3,
+        },
+      };
       const strTheme = localStorage.getItem('theme');
-      let theme: any;
       if (strTheme) {
         try {
           theme = JSON.parse(strTheme);
@@ -14,23 +22,13 @@ export const uiActions = {
             throw new Error('using old settings');
           }
         } catch (e) {
-          theme = {
-            palette: {
-              type: 'dark',
-              primary: indigo,
-              secondary: red,
-              error: red,
-              contrastThreshold: 3,
-            },
-          };
           localStorage.setItem('theme', JSON.stringify(theme));
         }
-        return {
-          ...state,
-          theme,
-        };
       }
-      return state;
+      return {
+        ...state,
+        theme,
+      };
     };
   },
   setTheme(theme: any) {

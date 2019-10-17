@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useContext } from '../../context';
 
 // material
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import IconButton from '@material-ui/core/IconButton';
@@ -11,13 +10,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Dialog from '@material-ui/core/Dialog';
 import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 
 import Brightness2 from '@material-ui/icons/Brightness2';
 import BrightnessHigh from '@material-ui/icons/BrightnessHigh';
 
 // material icons
-import ChevronRight from '@material-ui/icons/ChevronRight';
 import ColorLens from '@material-ui/icons/ColorLens';
 
 // material colors
@@ -65,23 +64,12 @@ const COLORS = [
 
 export default function ThemePicker() {
   const classes = useStyles();
-  const [{ theme }, { getTheme, setTheme }] = useContext();
+  const [{ theme }, { setTheme }] = useContext();
 
-  const [icon, setIcon] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [color1, setColor1] = useState('');
-  const [color2, setColor2] = useState('');
-
-  useEffect(() => {
-    getTheme();
-  }, [getTheme]);
-
-  useEffect(() => {
-    if (theme) {
-      setTheme(theme);
-      updateButton(theme.palette.type);
-    }
-  }, [getTheme, setTheme, theme]);
+  const [selection, setSelection] = useState('primary');
+  const [color1, setColor1] = useState(theme && theme.palette.primary[500]);
+  const [color2, setColor2] = useState(theme && theme.palette.secondary[500]);
 
   const changeType = () => {
     let newTheme = { ...theme };
@@ -90,8 +78,6 @@ export default function ThemePicker() {
     // set theme
     newTheme.palette.type = newType;
     setTheme(newTheme);
-
-    updateButton(newType);
   };
 
   const changeColors = (primary, secondary) => {
@@ -114,110 +100,43 @@ export default function ThemePicker() {
     setDialogOpen(false);
   };
 
-  const handleOk = () => {
-    changeColors(color1, color2);
-    setColor1('');
-    setColor2('');
-    setDialogOpen(false);
-  };
-
-  const handleColorOneClick = () => {
-    setColor1('');
-  };
-
-  const handleColorTwoClick = () => {
-    setColor2('');
-  };
-
-  const updateButton = type => {
-    // update button
-    setIcon(type === 'light' ? <Brightness2 /> : <BrightnessHigh />);
-  };
-
   const selectColor = color => {
-    if (color1 === '') {
-      setColor1(color);
-    } else if (color2 === '') {
-      setColor2(color);
+    switch (selection) {
+      case 'primary':
+        setColor1(color);
+        if (color2) {
+          changeColors(color, color2);
+        }
+        break;
+      case 'secondary':
+        setColor2(color);
+        if (color1) {
+          changeColors(color1, color);
+        }
+        break;
+      default:
+        break;
     }
   };
 
-  const colorPreviews = (
-    <div className={classes.colorPreviews}>
-      {COLORS.map((color, i) => {
-        return (
-          <div key={i} className={classes.colorPreview}>
-            <ButtonBase
-              onClick={() => selectColor(color)}
-              style={{ backgroundColor: color[500] }}
-              className={classes.colorPreviewButton}
-            />
-          </div>
-        );
-      })}
-    </div>
-  );
-
-  const selectedColors = (
-    <div className={classes.selectedColors}>
-      <div className={classes.selectedColor}>
-        <div className={classes.selectedColorInner}>
-          <div
-            className={classes.colorPreviewHalf}
-            style={{ backgroundColor: theme ? theme.palette.primary[500] : '' }}
-          />
-          <div
-            className={classes.colorPreviewHalf}
-            style={{
-              backgroundColor: theme ? theme.palette.secondary[500] : '',
-            }}
-          />
-        </div>
-      </div>
-      <div className={classes.chevron}>
-        <Typography>
-          <ChevronRight size="small" />
-        </Typography>
-      </div>
-      <div className={classes.selectedColor}>
-        <div className={classes.selectedColorInner}>
-          <ButtonBase
-            onClick={handleColorOneClick}
-            className={[
-              classes.colorPreviewHalf,
-              classes.colorPreviewLeft,
-            ].join(' ')}
-            style={{ backgroundColor: color1[500] }}
-          />
-          <ButtonBase
-            onClick={handleColorTwoClick}
-            className={[
-              classes.colorPreviewHalf,
-              classes.colorPreviewRight,
-            ].join(' ')}
-            style={{ backgroundColor: color2[500] }}
-          />
-        </div>
-      </div>
-    </div>
-  );
+  useEffect(() => {
+    if (theme) {
+      if (theme.palette.primary[500]) {
+        setColor1(theme.palette.primary);
+      }
+      if (theme.palette.secondary[500]) {
+        setColor2(theme.palette.secondary);
+      }
+    }
+  }, [theme]);
 
   return (
     <div>
-      <Tooltip title={'Change theme type'}>
-        <IconButton
-          onClick={changeType}
-          color="inherit"
-          aria-label="Change Theme Type"
-        >
-          {icon}
-        </IconButton>
-      </Tooltip>
-      <Tooltip title="Change theme colors">
+      <Tooltip title="Change theme">
         <IconButton
           onClick={handleDialogOpen}
           color="inherit"
-          aria-label="Change Theme Colors"
+          aria-label="Change Theme"
         >
           <ColorLens />
         </IconButton>
@@ -228,53 +147,81 @@ export default function ThemePicker() {
         onClose={handleClose}
         classes={{ paper: 'colors-dialog' }}
       >
-        <DialogTitle id="simple-dialog-title">
-          {!color1
-            ? 'Select Primary Color Scheme'
-            : 'Select Secondary Color Scheme'}
-        </DialogTitle>
+        <DialogTitle id="theme-picker-dialog">Change Theme</DialogTitle>
         <DialogContent>
-          <div className={classes.colorsDialogContent}>
-            {colorPreviews}
-            {selectedColors}
-          </div>
-        </DialogContent>
-        <DialogActions>
-          {theme &&
-            (theme.palette.type === 'light' ? (
-              <Button
-                onClick={changeType}
-                color="secondary"
-                variant="contained"
-              >
+          <div>
+            {theme && theme.palette.type === 'light' ? (
+              <Button onClick={changeType} variant="contained" color="primary">
                 <BrightnessHigh
                   className={[classes.leftIcon, classes.iconSmall].join(' ')}
                 />
                 Light Theme
               </Button>
             ) : (
-              <Button
-                onClick={changeType}
-                color="secondary"
-                variant="contained"
-              >
+              <Button onClick={changeType} variant="contained" color="primary">
                 <Brightness2
                   className={[classes.leftIcon, classes.iconSmall].join(' ')}
                 />
                 Dark Theme
               </Button>
-            ))}
+            )}
+          </div>
+          <div className={classes.selector}>
+            <ButtonBase
+              onClick={() => setSelection('primary')}
+              className={classes.colorPreviewSelector}
+            >
+              <div
+                className={classes.colorPreviewSelectorIcon}
+                style={{ backgroundColor: color1 ? color1[500] : '' }}
+              />
+              {color1 && selection === 'primary' && (
+                <div
+                  className={classes.active}
+                  style={{ border: `5px solid ${color1[900]}` }}
+                ></div>
+              )}
+            </ButtonBase>
+            <Typography>Primary</Typography>
+          </div>
+          <div className={classes.selector}>
+            <ButtonBase
+              onClick={() => setSelection('secondary')}
+              className={classes.colorPreviewSelector}
+            >
+              <div
+                className={classes.colorPreviewSelectorIcon}
+                style={{ backgroundColor: color2 ? color2[500] : '' }}
+              />
+              {color2 && selection === 'secondary' && (
+                <div
+                  className={classes.active}
+                  style={{ border: `5px solid ${color2[900]}` }}
+                ></div>
+              )}
+            </ButtonBase>
+            <Typography>Secondary</Typography>
+          </div>
+          <div className={classes.colorsDialogContent}>
+            <div className={classes.colorPreviews}>
+              {COLORS.map((color, i) => {
+                return (
+                  <div key={i} className={classes.colorPreview}>
+                    <ButtonBase
+                      onClick={() => selectColor(color)}
+                      style={{ backgroundColor: color[500] }}
+                      className={classes.colorPreviewButton}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </DialogContent>
+        <DialogActions>
           <div className={classes.grow} />
           <Button onClick={handleClose} color="secondary" variant="text">
-            Cancel
-          </Button>
-          <Button
-            disabled={color1 === '' || color2 === ''}
-            variant="contained"
-            onClick={handleOk}
-            color="primary"
-          >
-            Ok
+            Close
           </Button>
         </DialogActions>
       </Dialog>
@@ -286,9 +233,7 @@ const SIZE = 40;
 const SPACING = 1;
 
 const useStyles = makeStyles(theme => ({
-  colorsDialog: {
-    maxWidth: 225,
-  },
+  colorsDialog: {},
   colorsDialogContent: {
     maxWidth: (SIZE + SPACING * 2) * 4,
     margin: '0 auto',
@@ -308,27 +253,6 @@ const useStyles = makeStyles(theme => ({
       borderRadius: '100%',
     },
   },
-  colorPreviewHalf: {
-    width: `calc(${SIZE}px/2)`,
-    height: SIZE,
-    transition: 'all 300ms ease',
-  },
-  colorPreviewLeft: {
-    '&:hover': {
-      borderTopLeftRadius: SIZE,
-      borderBottomLeftRadius: SIZE,
-      borderTopRightRadius: 0,
-      borderBottomRightRadius: 0,
-    },
-  },
-  colorPreviewRight: {
-    '&:hover': {
-      borderTopLeftRadius: 0,
-      borderBottomLeftRadius: 0,
-      borderTopRightRadius: SIZE,
-      borderBottomRightRadius: SIZE,
-    },
-  },
   selectedColors: {
     paddingTop: theme.spacing(2),
     display: 'flex',
@@ -337,18 +261,26 @@ const useStyles = makeStyles(theme => ({
   selectedColor: {
     width: SIZE,
   },
-  selectedColorInner: {
+  selector: {
     display: 'flex',
     flexWrap: 'nowrap',
     alignItems: 'center',
-    justifyContent: 'center',
+    margin: theme.spacing(2, 0),
   },
-  chevron: {
+  colorPreviewSelector: {
+    marginRight: theme.spacing(1),
+  },
+  colorPreviewSelectorIcon: {
+    height: SIZE,
     width: SIZE,
-    padding: SPACING,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+  },
+  active: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    transition: 'all 300ms ease',
   },
   grow: {
     flexGrow: 1,
