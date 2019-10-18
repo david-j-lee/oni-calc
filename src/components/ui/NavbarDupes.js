@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 
 // icons
-import ClearIcon from '@material-ui/icons/Clear';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 export default function NavbarDupes() {
   const [, { clearDupeInputs }] = useContext();
@@ -58,7 +58,7 @@ export default function NavbarDupes() {
           color="inherit"
           aria-label="Clear All Dupes"
         >
-          <ClearIcon />
+          <DeleteForeverIcon />
         </IconButton>
       </Tooltip>
     </div>

@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 
 // icons
-import ClearIcon from '@material-ui/icons/Clear';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import ViewList from '@material-ui/icons/ViewList';
 import ViewModule from '@material-ui/icons/ViewModule';
 import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
@@ -74,7 +74,7 @@ export default function NavbarBuildings() {
           color="inherit"
           aria-label="Clear"
         >
-          <ClearIcon />
+          <DeleteForeverIcon />
         </IconButton>
       </Tooltip>
       {buildingsLayout === 'grid' && (

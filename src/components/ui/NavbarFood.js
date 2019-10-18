@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 
 // icons
-import ClearIcon from '@material-ui/icons/Clear';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 export default function NavbarFood() {
   const [, { clearFoodInputs }] = useContext();
@@ -58,7 +58,7 @@ export default function NavbarFood() {
           color="inherit"
           aria-label="Clear All Food"
         >
-          <ClearIcon />
+          <DeleteForeverIcon />
         </IconButton>
       </Tooltip>
     </div>
