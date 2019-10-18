@@ -129,6 +129,8 @@ const useStyles = makeStyles(theme => ({
   },
   expansionPanel: {
     width: '100%',
+    background: 'transparent',
+    border: `3px solid ${theme.palette.background.paper}`,
   },
   building: {
     paddingLeft: theme.spacing(),
