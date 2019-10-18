@@ -146,80 +146,83 @@ export default function ThemePicker() {
         onClose={handleClose}
         classes={{ paper: 'colors-dialog' }}
       >
-        <DialogTitle id="theme-picker-dialog">Change Theme</DialogTitle>
+        <DialogTitle id="theme-picker-dialog" className={classes.dialogTitle}>
+          Change Theme
+        </DialogTitle>
         <DialogContent>
-          <div>
-            {theme && theme.palette.type === 'light' ? (
-              <Button
-                onClick={changeType}
-                variant="contained"
-                color="primary"
-                startIcon={<BrightnessHigh />}
-              >
-                Light Theme
-              </Button>
-            ) : (
-              <Button
-                onClick={changeType}
-                variant="contained"
-                color="primary"
-                startIcon={<Brightness2 />}
-              >
-                Dark Theme
-              </Button>
-            )}
-          </div>
-          <div className={classes.selector}>
-            <ButtonBase
-              onClick={() => setSelection('primary')}
-              className={classes.colorPreviewSelector}
-            >
-              <div
-                className={classes.colorPreviewSelectorIcon}
-                style={{ backgroundColor: color1 ? color1[500] : '' }}
-              />
-              {color1 && selection === 'primary' && (
-                <div
-                  className={classes.active}
-                  style={{ border: `5px solid ${color1[900]}` }}
+          <div className={classes.dialogContent}>
+            <div>
+              {theme && theme.palette.type === 'light' ? (
+                <Button
+                  onClick={changeType}
+                  variant="contained"
+                  color="primary"
+                  startIcon={<BrightnessHigh />}
                 >
-                  <Check style={{ color: color1[900] }} />
-                </div>
-              )}
-            </ButtonBase>
-            <Typography
-              className={classes.title}
-              onClick={() => setSelection('primary')}
-            >
-              Primary
-            </Typography>
-          </div>
-          <div className={classes.selector}>
-            <ButtonBase
-              onClick={() => setSelection('secondary')}
-              className={classes.colorPreviewSelector}
-            >
-              <div
-                className={classes.colorPreviewSelectorIcon}
-                style={{ backgroundColor: color2 ? color2[500] : '' }}
-              />
-              {color2 && selection === 'secondary' && (
-                <div
-                  className={classes.active}
-                  style={{ border: `5px solid ${color2[900]}` }}
+                  Light Theme
+                </Button>
+              ) : (
+                <Button
+                  onClick={changeType}
+                  variant="contained"
+                  color="primary"
+                  startIcon={<Brightness2 />}
                 >
-                  <Check style={{ color: color2[900] }} />
-                </div>
+                  Dark Theme
+                </Button>
               )}
-            </ButtonBase>
-            <Typography
-              className={classes.title}
-              onClick={() => setSelection('secondary')}
-            >
-              Secondary
-            </Typography>
-          </div>
-          <div className={classes.colorsDialogContent}>
+            </div>
+            <div className={classes.selector}>
+              <ButtonBase
+                onClick={() => setSelection('primary')}
+                className={classes.colorPreviewSelector}
+              >
+                <div
+                  className={classes.colorPreviewSelectorIcon}
+                  style={{ backgroundColor: color1 ? color1[500] : '' }}
+                />
+                {color1 && selection === 'primary' && (
+                  <div
+                    className={classes.active}
+                    style={{ border: `5px solid ${color1[900]}` }}
+                  >
+                    <Check style={{ color: color1[900] }} />
+                  </div>
+                )}
+              </ButtonBase>
+              <Typography
+                className={classes.title}
+                onClick={() => setSelection('primary')}
+              >
+                Primary
+              </Typography>
+            </div>
+            <div className={classes.selector}>
+              <ButtonBase
+                onClick={() => setSelection('secondary')}
+                className={classes.colorPreviewSelector}
+              >
+                <div
+                  className={classes.colorPreviewSelectorIcon}
+                  style={{ backgroundColor: color2 ? color2[500] : '' }}
+                />
+                {color2 && selection === 'secondary' && (
+                  <div
+                    className={classes.active}
+                    style={{ border: `5px solid ${color2[900]}` }}
+                  >
+                    <Check style={{ color: color2[900] }} />
+                  </div>
+                )}
+              </ButtonBase>
+              <Typography
+                className={classes.title}
+                onClick={() => setSelection('secondary')}
+              >
+                Secondary
+              </Typography>
+            </div>
+
             <div className={classes.colorPreviews}>
               {COLORS.map((color, i) => {
                 return (
@@ -250,10 +253,10 @@ const SIZE = 40;
 const SPACING = 1;
 
 const useStyles = makeStyles(theme => ({
-  colorsDialog: {},
-  colorsDialogContent: {
+  dialogTitle: {},
+  dialogContent: {
     maxWidth: (SIZE + SPACING * 2) * 4,
-    margin: '0 auto',
+    margin: theme.spacing(0, 4),
   },
   colorPreviews: {
     display: 'flex',
