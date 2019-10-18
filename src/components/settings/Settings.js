@@ -31,7 +31,7 @@ export default function Settings() {
   return (
     <div className={classes.root}>
       <Grid container spacing={1}>
-        <Grid item sm={6}>
+        <Grid item sm={6} xs={12}>
           <Card className={classes.card}>
             <ButtonBase
               className={classes.button}
@@ -61,7 +61,7 @@ export default function Settings() {
             </ButtonBase>
           </Card>
         </Grid>
-        <Grid item sm={6}>
+        <Grid item sm={6} xs={12}>
           <Card className={classes.card}>
             <ButtonBase
               className={classes.button}
