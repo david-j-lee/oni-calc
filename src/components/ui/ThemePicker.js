@@ -17,6 +17,7 @@ import Brightness2 from '@material-ui/icons/Brightness2';
 import BrightnessHigh from '@material-ui/icons/BrightnessHigh';
 
 // material icons
+import Check from '@material-ui/icons/Check';
 import ColorLens from '@material-ui/icons/ColorLens';
 
 // material colors
@@ -68,8 +69,8 @@ export default function ThemePicker() {
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selection, setSelection] = useState('primary');
-  const [color1, setColor1] = useState(theme && theme.palette.primary[500]);
-  const [color2, setColor2] = useState(theme && theme.palette.secondary[500]);
+  const [color1, setColor1] = useState(theme && theme.palette.primary);
+  const [color2, setColor2] = useState(theme && theme.palette.secondary);
 
   const changeType = () => {
     let newTheme = { ...theme };
@@ -95,8 +96,6 @@ export default function ThemePicker() {
   };
 
   const handleClose = () => {
-    setColor1('');
-    setColor2('');
     setDialogOpen(false);
   };
 
@@ -120,11 +119,11 @@ export default function ThemePicker() {
   };
 
   useEffect(() => {
-    if (theme) {
-      if (theme.palette.primary[500]) {
+    if (theme && theme.palette) {
+      if (theme.palette.primary) {
         setColor1(theme.palette.primary);
       }
-      if (theme.palette.secondary[500]) {
+      if (theme.palette.secondary) {
         setColor2(theme.palette.secondary);
       }
     }
@@ -151,17 +150,21 @@ export default function ThemePicker() {
         <DialogContent>
           <div>
             {theme && theme.palette.type === 'light' ? (
-              <Button onClick={changeType} variant="contained" color="primary">
-                <BrightnessHigh
-                  className={[classes.leftIcon, classes.iconSmall].join(' ')}
-                />
+              <Button
+                onClick={changeType}
+                variant="contained"
+                color="primary"
+                startIcon={<BrightnessHigh />}
+              >
                 Light Theme
               </Button>
             ) : (
-              <Button onClick={changeType} variant="contained" color="primary">
-                <Brightness2
-                  className={[classes.leftIcon, classes.iconSmall].join(' ')}
-                />
+              <Button
+                onClick={changeType}
+                variant="contained"
+                color="primary"
+                startIcon={<Brightness2 />}
+              >
                 Dark Theme
               </Button>
             )}
@@ -179,10 +182,17 @@ export default function ThemePicker() {
                 <div
                   className={classes.active}
                   style={{ border: `5px solid ${color1[900]}` }}
-                ></div>
+                >
+                  <Check style={{ color: color1[900] }} />
+                </div>
               )}
             </ButtonBase>
-            <Typography>Primary</Typography>
+            <Typography
+              className={classes.title}
+              onClick={() => setSelection('primary')}
+            >
+              Primary
+            </Typography>
           </div>
           <div className={classes.selector}>
             <ButtonBase
@@ -197,10 +207,17 @@ export default function ThemePicker() {
                 <div
                   className={classes.active}
                   style={{ border: `5px solid ${color2[900]}` }}
-                ></div>
+                >
+                  <Check style={{ color: color2[900] }} />
+                </div>
               )}
             </ButtonBase>
-            <Typography>Secondary</Typography>
+            <Typography
+              className={classes.title}
+              onClick={() => setSelection('secondary')}
+            >
+              Secondary
+            </Typography>
           </div>
           <div className={classes.colorsDialogContent}>
             <div className={classes.colorPreviews}>
@@ -274,6 +291,10 @@ const useStyles = makeStyles(theme => ({
     height: SIZE,
     width: SIZE,
   },
+  title: {
+    cursor: 'pointer',
+    width: '100%',
+  },
   active: {
     position: 'absolute',
     top: 0,
@@ -281,14 +302,11 @@ const useStyles = makeStyles(theme => ({
     left: 0,
     right: 0,
     transition: 'all 300ms ease',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   grow: {
     flexGrow: 1,
-  },
-  leftIcon: {
-    marginRight: theme.spacing(1),
-  },
-  iconSmall: {
-    fontSize: 20,
   },
 }));
