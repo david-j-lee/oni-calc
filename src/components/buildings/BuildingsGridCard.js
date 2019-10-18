@@ -2,18 +2,18 @@ import React, { useRef, useState } from 'react';
 import { useContext } from '../../context';
 
 // material
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
+import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import Popover from '@material-ui/core/Popover';
-import Slider from '@material-ui/lab/Slider';
+import Slider from '@material-ui/core/Slider';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 
 // icons
@@ -175,52 +175,54 @@ export default function BuildingsGridCard({ building }) {
               </IconButton>
             </div>
           </CardContent>
-          <CardActions>
-            <IconButton
-              color="secondary"
-              className={classes.button}
-              aria-label="Decrement"
-              onClick={decrement}
-            >
-              <ArrowDropDown />
-            </IconButton>
-            <TextField
-              type="number"
-              value={quantity}
-              onChange={handleChange}
-              className={classes.quantity}
-              onFocus={onFocus}
-              onBlur={onBlur}
-              InputProps={{
-                disableUnderline: !focused,
-                inputProps: {
-                  style: {
-                    textAlign: 'right',
-                    fontSize: '1.25rem',
+          <CardActions className={classes.actions}>
+            {!building.hasConsistentIO && quantity > 0 && (
+              <div className={classes.slider}>
+                <Slider value={utilization} onChange={handleSliderChange} />
+                <Typography className={classes.sliderLabel}>
+                  {utilization.toFixed(0) + '%'}
+                </Typography>
+              </div>
+            )}
+            <div className={classes.quantity}>
+              <IconButton
+                color="secondary"
+                className={classes.button}
+                aria-label="Decrement"
+                onClick={decrement}
+              >
+                <ArrowDropDown />
+              </IconButton>
+              <TextField
+                type="number"
+                value={quantity}
+                onChange={handleChange}
+                className={classes.quantityInput}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                InputProps={{
+                  disableUnderline: !focused,
+                  inputProps: {
+                    style: {
+                      textAlign: 'right',
+                      fontSize: '1.25rem',
+                    },
+                    'aria-label': 'Building Quantity',
                   },
-                  'aria-label': 'Building Quantity',
-                },
-              }}
-            >
-              {quantity}
-            </TextField>
-            <IconButton
-              color="primary"
-              className={classes.button}
-              aria-label="Increment"
-              onClick={increment}
-            >
-              <ArrowDropUp />
-            </IconButton>
-          </CardActions>
-          {!building.hasConsistentIO && quantity > 0 && (
-            <div className={classes.slider}>
-              <Slider value={utilization} onChange={handleSliderChange} />
-              <Typography className={classes.sliderLabel}>
-                {utilization.toFixed(0) + '%'}
-              </Typography>
+                }}
+              >
+                {quantity}
+              </TextField>
+              <IconButton
+                color="primary"
+                className={classes.button}
+                aria-label="Increment"
+                onClick={increment}
+              >
+                <ArrowDropUp />
+              </IconButton>
             </div>
-          )}
+          </CardActions>
         </div>
       </Card>
     </div>
@@ -255,7 +257,14 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#3E4357',
     cursor: 'default',
   },
+  actions: {
+    flexDirection: 'column',
+  },
   quantity: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  quantityInput: {
     flexGrow: 1,
     marginRight: theme.spacing(),
     textAlign: 'right',
@@ -272,12 +281,11 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(),
   },
   slider: {
+    width: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
-    marginBottom: theme.spacing(2),
+    padding: theme.spacing(0, 2),
   },
   sliderLabel: {
     paddingLeft: theme.spacing(2),

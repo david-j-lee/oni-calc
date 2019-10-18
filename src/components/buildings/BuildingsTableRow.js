@@ -2,16 +2,16 @@ import React, { useState, useRef } from 'react';
 import { useContext } from '../../context';
 
 // material
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
+import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
-import Popover from '@material-ui/core/Popover';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Slider from '@material-ui/lab/Slider';
+import Popover from '@material-ui/core/Popover';
+import Slider from '@material-ui/core/Slider';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 
 // icons
