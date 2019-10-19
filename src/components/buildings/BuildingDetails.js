@@ -71,7 +71,9 @@ export default function BuildingDetails({ building }) {
           <Typography variant="body1" className={classes.title}>
             <small>Resource Capacity</small>
             <br />
-            {capacity.resources.value + ' ' + capacity.resources.unit}
+            {capacity.resources.value.toLocaleString() +
+              ' ' +
+              capacity.resources.unit}
           </Typography>
         )}
         <Typography variant="subtitle1" className={classes.title}>
