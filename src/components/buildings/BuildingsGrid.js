@@ -22,8 +22,8 @@ export default function BuildingsGrid() {
     { buildings, collapseBuildingPanels, collapseBuildingPanelsTrigger },
   ] = useContext();
 
-  const [groupedBuildings, setGroupedBuildings] = useState([]);
-  const [expansionPanelStates, setExpansionPanelStates] = useState(null);
+  const [groupedBuildings, setGroupedBuildings] = useState({});
+  const [expansionPanelStates, setExpansionPanelStates] = useState({});
 
   const handleChange = panel => (event, expanded) => {
     setExpansionPanelStates({
@@ -34,89 +34,84 @@ export default function BuildingsGrid() {
 
   useEffect(() => {
     if (buildings) {
-      const getGroupedBuildings = () => {
-        const groups = buildings.reduce((a, b) => {
-          a[b.category] = a[b.category] || [];
-          a[b.category].push(b);
-          return a;
-        }, {});
-        return Object.keys(groups).map(group => ({
-          name: group,
-          buildings: groups[group],
-        }));
-      };
-      setGroupedBuildings(getGroupedBuildings());
+      const groups = {};
+      buildings.forEach(building => {
+        const group = groups[building.category];
+        if (group) {
+          group.buildings.push(building);
+        } else {
+          const normalizedName = building.category
+            .toLowerCase()
+            .split(' ')
+            .join('-');
+          groups[building.category] = {
+            name: building.category,
+            normalizedName,
+            image: `/images/building-categories/${normalizedName}.png`,
+            buildings: [building],
+          };
+        }
+      });
+      setGroupedBuildings(groups);
     }
   }, [buildings]);
 
   useEffect(() => {
-    setExpansionPanelStates(states => {
-      const newStates = { ...states };
-      groupedBuildings.forEach(group => {
-        const normalizedName = group.name
-          .toLowerCase()
-          .split(' ')
-          .join('-');
-        newStates[normalizedName] = !collapseBuildingPanels;
+    if (Object.keys(groupedBuildings).length !== 0) {
+      setExpansionPanelStates(states => {
+        const newStates = { ...states };
+        Object.values(groupedBuildings).forEach(group => {
+          newStates[group.normalizedName] = !collapseBuildingPanels;
+        });
+        return newStates;
       });
-      return newStates;
-    });
+    }
   }, [groupedBuildings, collapseBuildingPanels, collapseBuildingPanelsTrigger]);
 
   return (
     <div className={classes.root}>
-      {groupedBuildings.map((group, index) => {
-        const normalizedName = group.name
-          .toLowerCase()
-          .split(' ')
-          .join('-');
-        const image = `/images/building-categories/${normalizedName}.png`;
-
-        return (
-          <ExpansionPanel
-            key={index}
-            expanded={
-              expansionPanelStates[normalizedName] === undefined ||
-              expansionPanelStates[normalizedName] === null
-                ? true
-                : expansionPanelStates[normalizedName]
-            }
-            className={classes.expansionPanel}
-            onChange={handleChange(normalizedName)}
-          >
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <div className={classes.buildingName}>
-                <div
-                  className={classes.image}
-                  style={{ backgroundImage: `url(${image})` }}
-                />
-                <Typography>{group.name}</Typography>
-              </div>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <Grid container>
-                {group.buildings
-                  .sort((a, b) => (a.name < b.name ? -1 : 1))
-                  .map((building, buildingIndex) => {
-                    return (
-                      <Grid
-                        item
-                        key={buildingIndex}
-                        className={classes.building}
-                        sm={12}
-                        md={6}
-                        lg={4}
-                        xl={3}
-                      >
-                        <BuildingsGridCard building={building} />
-                      </Grid>
-                    );
-                  })}
-              </Grid>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-        );
-      })}
+      {Object.values(groupedBuildings).map((group, index) => (
+        <ExpansionPanel
+          key={index}
+          expanded={
+            expansionPanelStates[group.normalizedName] === undefined ||
+            expansionPanelStates[group.normalizedName] === null
+              ? true
+              : expansionPanelStates[group.normalizedName]
+          }
+          className={classes.expansionPanel}
+          onChange={handleChange(group.normalizedName)}
+        >
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <div className={classes.buildingName}>
+              <div
+                className={classes.image}
+                style={{ backgroundImage: `url(${group.image})` }}
+              />
+              <Typography>{group.name}</Typography>
+            </div>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Grid container>
+              {group.buildings.map((building, buildingIndex) => {
+                return (
+                  <Grid
+                    item
+                    key={buildingIndex}
+                    className={classes.building}
+                    sm={12}
+                    md={6}
+                    lg={4}
+                    xl={3}
+                  >
+                    <BuildingsGridCard building={building} />
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+      ))}
     </div>
   );
 }
