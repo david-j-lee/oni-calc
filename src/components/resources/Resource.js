@@ -117,6 +117,7 @@ const useStyles = makeStyles(theme => ({
     width: 15,
     backgroundSize: 'cover',
     marginRight: theme.spacing(),
+    flexShrink: 0,
   },
   io: {
     cursor: 'default',
