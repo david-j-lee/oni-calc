@@ -32,13 +32,15 @@ export default function BuildingDetails({ building }) {
   return (
     <div className={classes.root}>
       <div className={classes.heading}>
-        <div
-          className={classes.image}
-          style={{
-            background: `#3E4357 url(${imgUrl}) no-repeat center center`,
-            backgroundSize: 'contain',
-          }}
-        />
+        <div className={classes.imageWrapper}>
+          <div
+            className={classes.image}
+            style={{
+              background: `url(${imgUrl}) no-repeat center center`,
+              backgroundSize: 'contain',
+            }}
+          />
+        </div>
         <div className={classes.headingContent}>
           <Typography variant="h4" id="responsive-dialog-title">
             {name}
@@ -92,6 +94,10 @@ export default function BuildingDetails({ building }) {
 const useStyles = makeStyles(theme => ({
   root: {
     minWidth: 400,
+  },
+  imageWrapper: {
+    padding: theme.spacing(2),
+    backgroundColor: '#3E4357',
   },
   image: {
     width: 160,

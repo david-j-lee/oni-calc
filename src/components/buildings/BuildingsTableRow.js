@@ -155,7 +155,10 @@ export default function BuildingsTable({ building }) {
         <div className={classes.category}>
           <div
             className={classes.categoryImg}
-            style={{ backgroundImage: `url(${building.categoryImgUrl})` }}
+            style={{
+              background: `url(${building.categoryImgUrl}) no-repeat center center`,
+              backgroundSize: 'contain',
+            }}
           />
           {building.category}
         </div>
@@ -167,7 +170,10 @@ export default function BuildingsTable({ building }) {
             className={classes.buildingImg}
             onMouseOver={handlePopoverOpen}
             onMouseOut={handlePopoverClose}
-            style={{ backgroundImage: `url(${building.imgUrl})` }}
+            style={{
+              background: `url(${building.imgUrl}) no-repeat center center`,
+              backgroundSize: 'contain',
+            }}
           />
           {building.name}
         </div>
@@ -245,7 +251,6 @@ const useStyles = makeStyles(theme => ({
   categoryImg: {
     width: 25,
     height: 25,
-    backgroundSize: 'cover',
     marginRight: theme.spacing(),
     cursor: 'default',
   },
@@ -256,9 +261,8 @@ const useStyles = makeStyles(theme => ({
     fontSize: '9pt',
   },
   buildingImg: {
-    width: 40,
-    height: 40,
-    backgroundSize: 'cover',
+    width: 30,
+    height: 30,
     marginRight: theme.spacing(),
     cursor: 'default',
   },
