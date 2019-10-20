@@ -28,7 +28,7 @@ export const buildings = [
   },
   {
     category: 'Base',
-    name: 'Smart Storage Compactor',
+    name: 'Smart Storage Bin',
     hasConsistentIO: false,
     capacity: {
       power: {},
@@ -40,7 +40,7 @@ export const buildings = [
   },
   {
     category: 'Base',
-    name: 'Storage Compactor',
+    name: 'Storage Bin',
     hasConsistentIO: true,
     capacity: {
       power: {},
