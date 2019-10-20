@@ -152,7 +152,11 @@ export default function BuildingsGridCard({ building }) {
         <BuildingDetails building={building} />
       </Popover>
       <Card className={classes.card}>
-        <div className={classes.imgWrapper}>
+        <div
+          className={classes.imgWrapper}
+          onMouseOver={handlePopoverOpen}
+          onMouseOut={handlePopoverClose}
+        >
           <div
             className={classes.img}
             style={{
@@ -160,8 +164,6 @@ export default function BuildingsGridCard({ building }) {
               backgroundSize: 'contain',
             }}
             title={building.name}
-            onMouseOver={handlePopoverOpen}
-            onMouseOut={handlePopoverClose}
           />
         </div>
         <div className={classes.details}>
@@ -256,12 +258,13 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
   },
   imgWrapper: {
-    padding: theme.spacing(),
     backgroundColor: '#3E4357',
   },
   img: {
     width: 40,
     height: '100%',
+    margin: theme.spacing(),
+    pointerEvents: 'none',
     backgroundSize: 'contain',
     backgroundColor: '#3E4357',
     cursor: 'default',
