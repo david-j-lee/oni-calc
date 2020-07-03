@@ -14,11 +14,12 @@ import HomeIcon from '@material-ui/icons/Home';
 import HelpIcon from '@material-ui/icons/Help';
 
 // components
-import ThemePicker from './ThemePicker';
 import NavbarDupes from './NavbarDupes';
 import NavbarBuildings from './NavbarBuildings';
 import NavbarFood from './NavbarFood';
 import NavbarGeysers from './NavbarGeysers';
+import ThemePicker from './ThemePicker';
+import TopMessage from './TopMessage';
 
 export const Navbar = memo(() => {
   const classes = useStyles();
