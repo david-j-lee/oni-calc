@@ -1,22 +1,93 @@
-import React from 'react';
-
-// redux
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { useContext } from '../../context';
 
 // material
-import { withStyles } from '@material-ui/core';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import Popover from '@material-ui/core/Popover';
+import { makeStyles } from '@material-ui/styles';
 
 // icons
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import CapacityBuildings from './CapacityBuildings';
 
-const styles = theme => ({
+export const Capacity = () => {
+  const classes = useStyles();
+
+  const [{ powerCapacity, resourcesCapacity }] = useContext();
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [dialogTitle, setDialogTitle] = useState('');
+  const [dialogArray, setDialogArray] = useState([]);
+
+  const handlePopoverOpen = (event, title, array) => {
+    setAnchorEl(event.target);
+    setDialogTitle(title);
+    setDialogArray(array);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+    setDialogTitle('');
+    setDialogArray([]);
+  };
+
+  const dialogOpen = !!anchorEl;
+
+  return (
+    <Accordion defaultExpanded>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography>Capacity</Typography>
+      </AccordionSummary>
+      <AccordionDetails className={classes.panelDetails}>
+        <Popover
+          className={classes.popover}
+          classes={{ paper: classes.paper }}
+          open={dialogOpen}
+          anchorEl={anchorEl}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+          onClose={handlePopoverClose}
+          disableRestoreFocus
+        >
+          <CapacityBuildings title={dialogTitle} buildings={dialogArray} />
+        </Popover>
+
+        <div className={classes.capacity}>
+          <div className={classes.capacityText}>
+            <Typography
+              className={classes.pointer}
+              onMouseOut={handlePopoverClose}
+              onMouseOver={(e) =>
+                handlePopoverOpen(e, 'Power', powerCapacity.buildings)
+              }
+            >
+              {powerCapacity.value} kJ
+            </Typography>
+            <Typography>Power</Typography>
+          </div>
+          <div className={classes.capacityText}>
+            <Typography
+              className={classes.pointer}
+              onMouseOut={handlePopoverClose}
+              onMouseOver={(e) =>
+                handlePopoverOpen(e, 'Resources', resourcesCapacity.buildings)
+              }
+            >
+              {resourcesCapacity.value / 1000} T
+            </Typography>
+            <Typography>Storage</Typography>
+          </div>
+        </div>
+      </AccordionDetails>
+    </Accordion>
+  );
+};
+
+const useStyles = makeStyles((theme) => ({
   panelDetails: {
     display: 'flex',
     flexDirection: 'column',
@@ -38,87 +109,6 @@ const styles = theme => ({
   pointer: {
     cursor: 'default',
   },
-});
+}));
 
-export class Capacity extends React.Component {
-  state = {
-    anchorEl: null,
-    dialogContent: '',
-    dialogTitle: '',
-    dialogArray: [],
-  };
-
-  handlePopoverOpen = (event, title, array) => {
-    this.setState({
-      anchorEl: event.target,
-      dialogTitle: title,
-      dialogArray: array,
-    });
-  };
-
-  handlePopoverClose = () => {
-    this.setState({
-      anchorEl: null,
-      dialogTitle: '',
-      dialogArray: [],
-    });
-  };
-
-  render() {
-    const { classes, powerCapacity, resourcesCapacity } = this.props;
-
-    const { anchorEl, dialogTitle, dialogArray } = this.state;
-    const dialogOpen = !!anchorEl;
-
-    return (
-      <ExpansionPanel defaultExpanded>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>Capacity</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails className={classes.panelDetails}>
-
-          <Popover
-            className={classes.popover}
-            classes={{ paper: classes.paper, }}
-            open={dialogOpen}
-            anchorEl={anchorEl}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right', }}
-            transformOrigin={{ vertical: 'top', horizontal: 'left', }}
-            onClose={this.handlePopoverClose}
-            disableRestoreFocus>
-            <CapacityBuildings title={dialogTitle} buildings={dialogArray} />
-          </Popover>
-
-          <div className={classes.capacity}>
-            <div className={classes.capacityText}>
-              <Typography className={classes.pointer}
-                onMouseOut={this.handlePopoverClose}
-                onMouseOver={(e) => this.handlePopoverOpen(e, "Power", powerCapacity.buildings)}>
-                {powerCapacity.value} kJ
-              </Typography>
-              <Typography>Power</Typography>
-            </div>
-            <div className={classes.capacityText}>
-              <Typography className={classes.pointer}
-                onMouseOut={this.handlePopoverClose}
-                onMouseOver={(e) => this.handlePopoverOpen(e, "Resources", resourcesCapacity.buildings)}>
-                {resourcesCapacity.value / 1000} T
-              </Typography>
-              <Typography>Storage</Typography>
-            </div>
-          </div>
-
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-    )
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    powerCapacity: state.calculator.powerCapacity,
-    resourcesCapacity: state.calculator.resourcesCapacity,
-  }
-}
-
-export default connect(mapStateToProps, null)(withStyles(styles)(Capacity));
+export default Capacity;

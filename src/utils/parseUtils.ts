@@ -1,16 +1,35 @@
-import { IBuildingInput } from '../interfaces/building-input.interface';
-import { IBuilding } from '../interfaces/building.interface';
-import { ICapacityItem } from '../interfaces/capacity-item.interface';
-import { ICapacity } from '../interfaces/capacity.interface';
-import { IIO } from '../interfaces/io.interface';
-import { IPower } from '../interfaces/power.interface';
+import IBuilding from '../interfaces/IBuilding';
+import IBuildingInput from '../interfaces/IBuildingInput';
+import ICapacity from '../interfaces/ICapacity';
+import ICapacityItem from '../interfaces/ICapacityItem';
+import IIO from '../interfaces/IIO';
+import IPower from '../interfaces/IPower';
+
+const BUILDING_IMG_PATH = '/images/buildings/';
+const BUILDING_CATEGORY_PATH = '/images/building-categories/';
+const WIKI_LINK_PATH = 'https://oxygennotincluded.gamepedia.com/';
 
 export function parseBuildings(rawBuildings: any): IBuilding[] {
   if (rawBuildings.constructor === Array) {
     return rawBuildings.map((building: any) => {
       const parsedBuilding: IBuilding = {
         category: building.category || '',
+        categoryImgUrl:
+          BUILDING_CATEGORY_PATH +
+          building.category
+            .toLowerCase()
+            .split(' ')
+            .join('-') +
+          '.png',
         name: building.name || '',
+        imgUrl:
+          BUILDING_IMG_PATH +
+          building.name
+            .toLowerCase()
+            .split(' ')
+            .join('-') +
+          '.png',
+        wikiUrl: WIKI_LINK_PATH + building.name.split('-').join('_'),
         capacity: parseCapacity(building.capacity),
         hasConsistentIO: building.hasConsistentIO || false,
         power: parsePower(building.power),
@@ -117,10 +136,17 @@ function parseIO(input: any): IIO {
     return {
       name: input.name || '',
       value: input.value || 0,
+      valueExtended: input.value || 0,
       unit: input.unit || '',
       rate: input.rate || '',
     };
   } else {
-    return { name: '', value: 0, unit: '', rate: '' };
+    return {
+      name: '',
+      value: 0,
+      valueExtended: 0,
+      unit: '',
+      rate: '',
+    };
   }
 }

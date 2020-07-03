@@ -1,38 +1,21 @@
 import React from 'react';
-
-// redux
-import { connect } from 'react-redux';
-
-// material
-import { withStyles } from '@material-ui/core';
+import { useContext } from '../../context';
 
 // components
 import BuildingsGrid from './BuildingsGrid';
 import BuildingsTable from './BuildingsTable';
 
-const styles = theme => ({
-  root: {
+import DelayedLoader from './../common/DelayedLoader';
 
-  },
-});
+export const Buildings = () => {
+  const [{ buildingsLayout }] = useContext();
 
-export class Buildings extends React.Component {
-  render() {
-    const { classes, buildingsLayout } = this.props;
+  return (
+    <DelayedLoader>
+      {buildingsLayout === 'grid' && <BuildingsGrid />}
+      {buildingsLayout === 'table' && <BuildingsTable />}
+    </DelayedLoader>
+  );
+};
 
-    return (
-      <div className={classes.root}>
-        {buildingsLayout === 'grid' && <BuildingsGrid />}
-        {buildingsLayout === 'table' && <BuildingsTable />}
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    buildingsLayout: state.calculator.buildingsLayout,
-  }
-}
-
-export default connect(mapStateToProps, null)(withStyles(styles)(Buildings))
+export default Buildings;

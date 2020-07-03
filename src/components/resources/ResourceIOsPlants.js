@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { memo } from 'react';
 
-import { withStyles } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,34 +8,22 @@ import TableCell from '@material-ui/core/TableCell';
 
 import Number from '../common/Number';
 
-const styles = theme => ({
-  noIOs: {
-    padding: theme.spacing.unit,
-  },
-  positive: {
-    color: 'green',
-  },
-  negative: {
-    color: 'red',
-  },
-});
-
-export class ResourceIOsPlants extends React.Component {
-  getArray(resource, type) {
+export const ResourceIOsPlants = memo(({ resource, title, type }) => {
+  const getArray = (resource, type) => {
     switch (type) {
       case 'inputs':
-        return this.getInputs(resource);
+        return getInputs(resource);
       case 'outputs':
         return resource.plantOutputs;
       case 'both':
-        return this.getBoth(resource);
+        return getBoth(resource);
       default:
         return [];
     }
-  }
+  };
 
-  getInputs = resource => {
-    return resource.plantInputs.map(input => {
+  const getInputs = (resource) => {
+    return resource.plantInputs.map((input) => {
       return {
         ...input,
         valueExtended: input.valueExtended * -1,
@@ -44,9 +31,9 @@ export class ResourceIOsPlants extends React.Component {
     });
   };
 
-  getBoth = resource => {
+  const getBoth = (resource) => {
     return resource.plantOutputs.concat(
-      resource.plantInputs.map(input => {
+      resource.plantInputs.map((input) => {
         return {
           ...input,
           valueExtended: input.valueExtended * -1,
@@ -55,45 +42,42 @@ export class ResourceIOsPlants extends React.Component {
     );
   };
 
-  render() {
-    const { resource, title, type } = this.props;
-    const array = this.getArray(resource, type);
+  const array = getArray(resource, type);
 
-    return (
-      <div>
-        {array.length > 0 && (
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell padding="dense">Plants</TableCell>
-                <TableCell numeric padding="dense">
-                  Quantity
-                </TableCell>
-                <TableCell numeric padding="dense">
-                  Total {title}
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {array.map((io, index) => {
-                return (
-                  <TableRow key={index}>
-                    <TableCell padding="dense">{io.plant.name}</TableCell>
-                    <TableCell numeric padding="dense">
-                      {io.plant.quantity}
-                    </TableCell>
-                    <TableCell numeric padding="dense">
-                      <Number value={io.valueExtended} />
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        )}
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      {array.length > 0 && (
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell size="small">Plants</TableCell>
+              <TableCell align="right" size="small">
+                Quantity
+              </TableCell>
+              <TableCell align="right" size="small">
+                Total {title}
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {array.map((io, index) => {
+              return (
+                <TableRow key={index}>
+                  <TableCell size="small">{io.plant.name}</TableCell>
+                  <TableCell align="right" size="small">
+                    {io.plant.quantity}
+                  </TableCell>
+                  <TableCell align="right" size="small">
+                    <Number value={io.valueExtended} />
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      )}
+    </div>
+  );
+});
 
-export default withStyles(styles)(ResourceIOsPlants);
+export default ResourceIOsPlants;

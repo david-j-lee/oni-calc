@@ -1,11 +1,7 @@
-import React from 'react';
-
-// redux
-import { connect } from 'react-redux';
-import { clearDupeInputs } from '../../actions/dupeActions';
+import React, { useState } from 'react';
+import { useContext } from '../../context';
 
 // material
-import { withStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -15,74 +11,58 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 
 // icons
-import ClearIcon from '@material-ui/icons/Clear';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
-const styles = theme => ({
-  root: {},
-});
+export const NavbarDupes = () => {
+  const [, { clearDupeInputs }] = useContext();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
-export class NavbarDupes extends React.Component {
-  state = {
-    dialogOpen: false,
+  const handleClickOpen = () => {
+    setDialogOpen(true);
   };
 
-  handleClickOpen = () => {
-    this.setState({ dialogOpen: true });
+  const handleClose = () => {
+    setDialogOpen(false);
   };
 
-  handleClose = () => {
-    this.setState({ dialogOpen: false });
+  const handleClearDupeInputs = () => {
+    clearDupeInputs();
+    setDialogOpen(false);
   };
 
-  clearDupeInputs = () => {
-    this.props.clearDupeInputs();
-    this.setState({ dialogOpen: false });
-  };
-
-  render() {
-    const { classes } = this.props;
-
-    return (
-      <div className={classes.root}>
-        <Dialog open={this.state.dialogOpen} onClose={this.handleClose}>
-          <DialogContent>
-            <DialogContentText>
-              Are you sure you want to delete all of your dupe inputs?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              onClick={this.clearDupeInputs}
-              color="primary"
-              autoFocus
-            >
-              Confirm
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <Tooltip title="Clear all dupe inputs">
-          <IconButton
-            onClick={this.handleClickOpen}
-            color="inherit"
-            aria-label="Clear All Dupes"
+  return (
+    <div>
+      <Dialog open={dialogOpen} onClose={handleClose}>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete all of your dupe inputs?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleClearDupeInputs}
+            color="primary"
+            autoFocus
           >
-            <ClearIcon />
-          </IconButton>
-        </Tooltip>
-      </div>
-    );
-  }
-}
-
-const mapDispatchToProps = {
-  clearDupeInputs,
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Tooltip title="Clear all dupe inputs">
+        <IconButton
+          onClick={handleClickOpen}
+          color="inherit"
+          aria-label="Clear All Dupes"
+        >
+          <DeleteForeverIcon />
+        </IconButton>
+      </Tooltip>
+    </div>
+  );
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(withStyles(styles)(NavbarDupes));
+export default NavbarDupes;

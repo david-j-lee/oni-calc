@@ -1,15 +1,72 @@
-import React from 'react';
-
-// redux
-import { connect } from 'react-redux';
-import { setDupeWaste } from '../../actions/dupeActions';
+import React, { memo, useRef, useState } from 'react';
+import { useContext } from '../../context';
 
 // material
-import { withStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import { makeStyles } from '@material-ui/styles';
 
-const styles = theme => ({
+export const DupesWasteInput = memo(({ prop }) => {
+  const classes = useStyles();
+
+  const [, { setDupeWaste }] = useContext();
+
+  const [value, setValue] = useState(prop.value);
+
+  const timer = useRef(null);
+
+  const imgUrl = useRef(
+    '/images/resources/' +
+      prop.title.toLowerCase().split(' ').join('-') +
+      '.png',
+  );
+
+  const handleChange = (event) => {
+    const value = event.target.value;
+    setValue(value);
+    if (timer.current) {
+      clearTimeout(timer.current);
+    }
+    timer.current = setTimeout(() => {
+      setDupeWaste(prop.name, Math.round(value));
+    }, 500);
+  };
+
+  return (
+    <div className={classes.root}>
+      <Grid
+        className={classes.gridContainer}
+        container
+        spacing={1}
+        alignItems="center"
+      >
+        <Grid item>
+          <div
+            className={classes.image}
+            style={{ backgroundImage: `url(${imgUrl.current})` }}
+          />
+        </Grid>
+        <Grid item className={classes.gridItem}>
+          <TextField
+            type="number"
+            label={prop.title}
+            inputProps={{
+              style: { textAlign: 'right' },
+              'aria-label': 'Dupe Waste Value',
+            }}
+            value={value}
+            onChange={handleChange}
+            helperText="g/cycle/dupe"
+            margin="none"
+            fullWidth
+          />
+        </Grid>
+      </Grid>
+    </div>
+  );
+});
+
+const useStyles = makeStyles((theme) => ({
   root: {},
   gridContainer: {
     flexWrap: 'nowrap',
@@ -21,81 +78,9 @@ const styles = theme => ({
     height: 20,
     width: 20,
     backgroundSize: 'cover',
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(),
     marginTop: 5,
   },
-});
+}));
 
-export class DupesWasteInput extends React.Component {
-  timer = 0;
-
-  state = {
-    value: this.props.prop.value,
-  };
-
-  handleChange = event => {
-    const value = event.target.value;
-    this.setState({ value: value });
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
-    this.timer = setTimeout(() => {
-      this.props.setDupeWaste(this.props.prop.name, Math.round(value));
-    }, 500);
-  };
-
-  render() {
-    const { classes, prop } = this.props;
-    const { value } = this.state;
-
-    const imgUrl =
-      '/images/resources/' +
-      prop.title
-        .toLowerCase()
-        .split(' ')
-        .join('-') +
-      '.png';
-
-    return (
-      <div className={classes.root}>
-        <Grid
-          className={classes.gridContainer}
-          container
-          spacing={8}
-          alignItems="center"
-        >
-          <Grid item>
-            <div
-              className={classes.image}
-              style={{ backgroundImage: `url(${imgUrl})` }}
-            />
-          </Grid>
-          <Grid item className={classes.gridItem}>
-            <TextField
-              type="number"
-              label={prop.title}
-              inputProps={{
-                style: { textAlign: 'right' },
-                'aria-label': 'Dupe Waste Value',
-              }}
-              value={value}
-              onChange={this.handleChange}
-              helperText="g/cycle/dupe"
-              margin="none"
-              fullWidth
-            />
-          </Grid>
-        </Grid>
-      </div>
-    );
-  }
-}
-
-const mapDispatchToProps = {
-  setDupeWaste,
-};
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(withStyles(styles)(DupesWasteInput));
+export default DupesWasteInput;

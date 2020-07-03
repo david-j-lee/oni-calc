@@ -1,11 +1,7 @@
-import React from 'react';
-
-// redux
-import { connect } from 'react-redux';
-import { clearGeyserInputs } from '../../actions/geyserActions';
+import React, { useState } from 'react';
+import { useContext } from '../../context';
 
 // material
-import { withStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -15,74 +11,58 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 
 // icons
-import ClearIcon from '@material-ui/icons/Clear';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
-const styles = theme => ({
-  root: {},
-});
+export const NavbarGeysers = () => {
+  const [, { clearGeyserInputs }] = useContext();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
-export class NavbarGeysers extends React.Component {
-  state = {
-    dialogOpen: false,
+  const handleClickOpen = () => {
+    setDialogOpen(true);
   };
 
-  handleClickOpen = () => {
-    this.setState({ dialogOpen: true });
+  const handleClose = () => {
+    setDialogOpen(false);
   };
 
-  handleClose = () => {
-    this.setState({ dialogOpen: false });
+  const handleClearGeyserInputs = () => {
+    clearGeyserInputs();
+    setDialogOpen(false);
   };
 
-  clearGeyserInputs = () => {
-    this.props.clearGeyserInputs();
-    this.setState({ dialogOpen: false });
-  };
-
-  render() {
-    const { classes } = this.props;
-
-    return (
-      <div className={classes.root}>
-        <Dialog open={this.state.dialogOpen} onClose={this.handleClose}>
-          <DialogContent>
-            <DialogContentText>
-              Are you sure you want to delete all of your geyser inputs?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              onClick={this.clearGeyserInputs}
-              color="primary"
-              autoFocus
-            >
-              Confirm
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <Tooltip title="Clear all geyser inputs">
-          <IconButton
-            onClick={this.handleClickOpen}
-            color="inherit"
-            aria-label="Clear All Geysers"
+  return (
+    <div>
+      <Dialog open={dialogOpen} onClose={handleClose}>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete all of your geyser inputs?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleClearGeyserInputs}
+            color="primary"
+            autoFocus
           >
-            <ClearIcon />
-          </IconButton>
-        </Tooltip>
-      </div>
-    );
-  }
-}
-
-const mapDispatchToProps = {
-  clearGeyserInputs,
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Tooltip title="Clear all geyser inputs">
+        <IconButton
+          onClick={handleClickOpen}
+          color="inherit"
+          aria-label="Clear All Geysers"
+        >
+          <DeleteForeverIcon />
+        </IconButton>
+      </Tooltip>
+    </div>
+  );
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(withStyles(styles)(NavbarGeysers));
+export default NavbarGeysers;

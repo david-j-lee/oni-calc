@@ -1,15 +1,13 @@
-import React from 'react';
-
-// redux
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { useContext } from '../../context';
 
 // material
-import { withStyles } from '@material-ui/core';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import Popover from '@material-ui/core/Popover';
+import { makeStyles } from '@material-ui/styles';
 
 // icons
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -18,7 +16,102 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Number from '../common/Number';
 import PowerBuildings from './PowerBuildings';
 
-const styles = theme => ({
+export const Power = () => {
+  const classes = useStyles();
+  const [{ powerGeneration, powerUsage }] = useContext();
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [dialogTitle, setDialogTitle] = useState('');
+  const [dialogArray, setDialogArray] = useState([]);
+
+  const handlePopoverOpen = (event, title, array) => {
+    setAnchorEl(event.target);
+    setDialogTitle(title);
+    setDialogArray(array);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+    setDialogTitle('');
+    setDialogArray([]);
+  };
+
+  const dialogOpen = !!anchorEl;
+
+  return (
+    <Accordion defaultExpanded>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography>Power</Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Popover
+          className={classes.popover}
+          classes={{ paper: classes.paper }}
+          open={dialogOpen}
+          anchorEl={anchorEl}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+          onClose={handlePopoverClose}
+          disableRestoreFocus
+        >
+          <PowerBuildings title={dialogTitle} buildings={dialogArray} />
+        </Popover>
+
+        <div className={classes.power}>
+          <div className={classes.powerText}>
+            <div
+              className={classes.pointer}
+              onMouseOut={handlePopoverClose}
+              onMouseOver={(e) =>
+                handlePopoverOpen(
+                  e,
+                  'Net',
+                  powerUsage.buildings.concat(powerGeneration.buildings),
+                )
+              }
+            >
+              <Number
+                suffix=" W"
+                value={powerGeneration.value - powerUsage.value}
+              />
+            </div>
+            <Typography>Net</Typography>
+          </div>
+
+          <div className={classes.powerText}>
+            <Typography
+              className={classes.pointer}
+              onMouseOut={handlePopoverClose}
+              onMouseOver={(e) =>
+                handlePopoverOpen(e, 'Usage', powerUsage.buildings)
+              }
+            >
+              {Math.round(powerUsage.value).toLocaleString()} W
+            </Typography>
+            <Typography>Used</Typography>
+          </div>
+
+          <Typography>/</Typography>
+
+          <div className={classes.powerText}>
+            <Typography
+              className={classes.pointer}
+              onMouseOut={handlePopoverClose}
+              onMouseOver={(e) =>
+                handlePopoverOpen(e, 'Generation', powerGeneration.buildings)
+              }
+            >
+              {Math.round(powerGeneration.value).toLocaleString()} W
+            </Typography>
+            <Typography>Generated</Typography>
+          </div>
+        </div>
+      </AccordionDetails>
+    </Accordion>
+  );
+};
+
+const useStyles = makeStyles((theme) => ({
   power: {
     display: 'flex',
     alignItems: 'center',
@@ -36,132 +129,6 @@ const styles = theme => ({
   pointer: {
     cursor: 'default',
   },
-});
+}));
 
-export class Power extends React.Component {
-  state = {
-    netColor: 'inherit',
-    dialogContent: '',
-    dialogTitle: '',
-    dialogArray: [],
-  };
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.powerUsage.value > nextProps.powerGeneration.value) {
-      this.setState({ netColor: 'red' });
-    } else {
-      this.setState({ netColor: 'green' });
-    }
-  }
-
-  handlePopoverOpen = (event, title, array) => {
-    this.setState({
-      anchorEl: event.target,
-      dialogTitle: title,
-      dialogArray: array,
-    });
-  };
-
-  handlePopoverClose = () => {
-    this.setState({
-      anchorEl: null,
-      dialogTitle: '',
-      dialogArray: [],
-    });
-  };
-
-  render() {
-    const { classes, powerUsage, powerGeneration } = this.props;
-
-    const { anchorEl, dialogTitle, dialogArray } = this.state;
-    const dialogOpen = !!anchorEl;
-
-    return (
-      <ExpansionPanel defaultExpanded>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>Power</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <Popover
-            className={classes.popover}
-            classes={{ paper: classes.paper }}
-            open={dialogOpen}
-            anchorEl={anchorEl}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-            onClose={this.handlePopoverClose}
-            disableRestoreFocus
-          >
-            <PowerBuildings title={dialogTitle} buildings={dialogArray} />
-          </Popover>
-
-          <div className={classes.power}>
-            <div className={classes.powerText}>
-              <div
-                className={classes.pointer}
-                onMouseOut={this.handlePopoverClose}
-                onMouseOver={e =>
-                  this.handlePopoverOpen(
-                    e,
-                    'Net',
-                    powerUsage.buildings.concat(powerGeneration.buildings),
-                  )
-                }
-              >
-                <Number
-                  suffix=" W"
-                  value={powerGeneration.value - powerUsage.value}
-                />
-              </div>
-              <Typography>Net</Typography>
-            </div>
-
-            <div className={classes.powerText}>
-              <Typography
-                className={classes.pointer}
-                onMouseOut={this.handlePopoverClose}
-                onMouseOver={e =>
-                  this.handlePopoverOpen(e, 'Usage', powerUsage.buildings)
-                }
-              >
-                {Math.round(powerUsage.value)} W
-              </Typography>
-              <Typography>Used</Typography>
-            </div>
-
-            <Typography>/</Typography>
-
-            <div className={classes.powerText}>
-              <Typography
-                className={classes.pointer}
-                onMouseOut={this.handlePopoverClose}
-                onMouseOver={e =>
-                  this.handlePopoverOpen(
-                    e,
-                    'Generation',
-                    powerGeneration.buildings,
-                  )
-                }
-              >
-                {Math.round(powerGeneration.value)} W
-              </Typography>
-              <Typography>Generated</Typography>
-            </div>
-          </div>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-    );
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    powerGeneration: state.calculator.powerGeneration,
-    powerUsage: state.calculator.powerUsage,
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  null,
-)(withStyles(styles)(Power));
+export default Power;

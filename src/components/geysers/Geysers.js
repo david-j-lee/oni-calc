@@ -1,30 +1,21 @@
 import React from 'react';
-
-// redux
-import { connect } from 'react-redux';
+import { useContext } from '../../context';
 
 // material
-import { withStyles, Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/styles';
 
 // components
+import DelayedLoader from './../common/DelayedLoader';
 import GeyserAdd from './GeyserAdd';
 import Geyser from './Geyser';
 
-const styles = theme => ({
-  root: {
-    paddingTop: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-  },
-  geyser: {
-    padding: theme.spacing.unit,
-  },
-});
+export const Geysers = () => {
+  const classes = useStyles();
+  const [{ geysers }] = useContext();
 
-export class Geysers extends React.Component {
-  render() {
-    const { classes, geysers } = this.props;
-
-    return (
+  return (
+    <DelayedLoader>
       <div className={classes.root}>
         <Grid container>
           <Grid item xs={12}>
@@ -39,15 +30,18 @@ export class Geysers extends React.Component {
           })}
         </Grid>
       </div>
-    );
-  }
-}
+    </DelayedLoader>
+  );
+};
 
-const mapStateToProps = state => ({
-  geysers: state.calculator.geysers,
-});
+const useStyles = makeStyles((theme) => ({
+  root: {
+    paddingTop: theme.spacing(),
+    paddingBottom: theme.spacing(),
+  },
+  geyser: {
+    padding: theme.spacing(),
+  },
+}));
 
-export default connect(
-  mapStateToProps,
-  null,
-)(withStyles(styles)(Geysers));
+export default Geysers;

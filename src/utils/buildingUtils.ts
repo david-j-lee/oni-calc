@@ -1,8 +1,74 @@
-import { IBuilding } from '../interfaces/building.interface';
-import { IBuildingInput } from './../interfaces/building-input.interface';
-import { IIO } from './../interfaces/io.interface';
+import IBuilding from '../interfaces/IBuilding';
+import IBuildingInput from './../interfaces/IBuildingInput';
+import IIO from './../interfaces/IIO';
 
-import { getStandardIO } from './commonUtils';
+import { getPowerCapacity, getResourcesCapacity } from './capacityUtils';
+import { getSortedArray, getStandardIO } from './commonUtils';
+import {
+  getBuildingsPowerGeneration,
+  getBuildingsPowerUsage,
+} from './powerUtils';
+import { updateResourcesWithBuildings } from './resourceUtils';
+
+export const setBuildingsLayout = (layout) => {
+  const newLayout = layout === 'grid' ? 'table' : 'grid';
+  localStorage.setItem('layout', newLayout);
+  return {
+    buildingsLayout: newLayout,
+  };
+};
+
+export const setBuildingQuantity = (resources, buildings, name, quantity) => {
+  const newBuildings = updateBuildingQuantity(buildings, name, quantity);
+  return {
+    buildings: newBuildings,
+    resources: updateResourcesWithBuildings(resources, newBuildings),
+    powerGeneration: getBuildingsPowerGeneration(newBuildings),
+    powerUsage: getBuildingsPowerUsage(newBuildings),
+    powerCapacity: getPowerCapacity(newBuildings),
+    resourcesCapacity: getResourcesCapacity(newBuildings),
+  };
+};
+
+export const setBuildingUtilization = (
+  resources,
+  buildings,
+  name,
+  utilization,
+) => {
+  const newBuildings = updateBuildingUtilization(buildings, name, utilization);
+  const newResources = updateResourcesWithBuildings(resources, newBuildings);
+  return {
+    buildings: newBuildings,
+    resources: newResources,
+    powerGeneration: getBuildingsPowerGeneration(newBuildings),
+    powerUsage: getBuildingsPowerUsage(newBuildings),
+  };
+};
+
+export const clearBuildingInputs = (resources, buildings) => {
+  const newBuildings = getBuildingsWithClearedInputs(buildings);
+  return {
+    resources: updateResourcesWithBuildings(resources, newBuildings),
+    buildings: newBuildings,
+    powerGeneration: { value: 0, buildings: [] },
+    powerUsage: { value: 0, buildings: [] },
+    resourcesCapacity: { value: 0, buildings: [] },
+    powerCapacity: { value: 0, buildings: [] },
+  };
+};
+
+export const sortBuildings = (buildings, currentOrderBy, orderBy, order) => {
+  const newOrder =
+    currentOrderBy === orderBy && order === 'desc' ? 'asc' : 'desc';
+  return {
+    buildings: getSortedArray(buildings, orderBy, newOrder),
+    buildingsOrderBy: orderBy,
+    buildingsOrder: newOrder,
+  };
+};
+
+// -------------------------------------------------------------------
 
 export function getBuildings(
   buildings: IBuilding[],
@@ -16,7 +82,7 @@ export function getBuildings(
 }
 
 function getBuildingsWithDefaultInputs(buildings: IBuilding[]): IBuilding[] {
-  return buildings.map(building => ({
+  return buildings.map((building) => ({
     ...building,
     quantity: 0,
     utilization: building.hasConsistentIO ? 0 : 100,
@@ -27,9 +93,9 @@ function updateBuildingsWithInputs(
   buildings: IBuilding[],
   inputs: IBuildingInput[],
 ): IBuilding[] {
-  return buildings.map(building => {
+  return buildings.map((building) => {
     const input: IBuildingInput | undefined = inputs.find(
-      i => i.name === building.name,
+      (i) => i.name === building.name,
     );
     if (input === undefined) {
       return {
@@ -44,8 +110,8 @@ function updateBuildingsWithInputs(
         utilization: input.utilization
           ? input.utilization
           : building.hasConsistentIO
-            ? 0
-            : 100,
+          ? 0
+          : 100,
       };
     }
   });
@@ -82,22 +148,24 @@ function getBuildingsIOsForResource(
     throw new Error('Type must be inputs or outputs');
   }
 
-  const newBuildings = buildings.filter(building => building.quantity > 0);
+  const newBuildings = buildings.filter((building) => building.quantity > 0);
   if (newBuildings.length === 0) return [];
 
   return newBuildings
-    .map(building => getBuildingIOs(building, type, resourceName))
+    .map((building) => getBuildingIOs(building, type, resourceName))
     .reduce((a, b) => a.concat(b));
 }
 
 function getBuildingIOs(
   building: IBuilding,
-  type: string,
+  type: keyof IBuilding,
   resourceName: string,
 ) {
   if (building[type] === undefined) return [];
 
-  const ios = building[type].filter((io: IIO) => io.name === resourceName);
+  const ios = (building[type] as IIO[]).filter(
+    (io: IIO) => io.name === resourceName,
+  );
   if (ios.length === 0) return [];
 
   return ios.map((io: IIO) => {
@@ -128,10 +196,16 @@ export function updateBuildingQuantity(
   name: string,
   quantity: number,
 ) {
-  const newBuildings = buildings.map(building => ({
-    ...building,
-    quantity: building.name === name ? quantity : building.quantity,
-  }));
+  const newBuildings = buildings.map((building) => {
+    if (building.name === name) {
+      return {
+        ...building,
+        quantity: building.name === name ? quantity : building.quantity,
+      };
+    } else {
+      return building;
+    }
+  });
   saveToLocalStorage(newBuildings);
   return newBuildings;
 }
@@ -141,7 +215,7 @@ export function updateBuildingUtilization(
   name: string,
   utilization: number,
 ) {
-  const newBuildings = buildings.map(building => ({
+  const newBuildings = buildings.map((building) => ({
     ...building,
     utilization: building.name === name ? utilization : building.utilization,
   }));
@@ -153,7 +227,7 @@ function saveToLocalStorage(buildings: IBuilding[]) {
   localStorage.setItem(
     'buildings',
     JSON.stringify(
-      buildings.map(building => ({
+      buildings.map((building) => ({
         name: building.name,
         quantity: building.quantity ? building.quantity : 0,
         utilization: building.utilization ? building.utilization : 100,

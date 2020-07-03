@@ -1,42 +1,31 @@
-import React from 'react';
-
-// redux
-import { connect } from 'react-redux';
+import React, { memo } from 'react';
 
 // material
-import { withStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 
 // components
+import DelayedLoader from '../common/DelayedLoader';
 import FoodDupes from './FoodDupes';
 import FoodItems from './FoodItems';
 
-const styles = theme => ({
-  root: {
-    paddingTop: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-  },
-});
+export const Food = memo(() => {
+  const classes = useStyles();
 
-export class Food extends React.Component {
-  render() {
-    const { classes } = this.props;
-
-    return (
+  return (
+    <DelayedLoader>
       <div className={classes.root}>
         <FoodDupes />
         <FoodItems />
       </div>
-    );
-  }
-}
+    </DelayedLoader>
+  );
+});
 
-const mapStateToProps = state => {
-  return {
-    // dupes: state.calculator.dupes,
-  };
-};
+const useStyles = makeStyles((theme) => ({
+  root: {
+    paddingTop: theme.spacing(),
+    paddingBottom: theme.spacing(),
+  },
+}));
 
-export default connect(
-  mapStateToProps,
-  null,
-)(withStyles(styles)(Food));
+export default Food;

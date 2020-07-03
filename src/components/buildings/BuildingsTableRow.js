@@ -1,24 +1,18 @@
-import React from 'react';
-
-// redux
-import { connect } from 'react-redux';
-import {
-  setBuildingQuantity,
-  setBuildingUtilization,
-} from '../../actions/buildingActions';
+import React, { memo, useState, useRef } from 'react';
+import { useContext } from '../../context';
 
 // material
-import { withStyles } from '@material-ui/core';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
+import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
-import Popover from '@material-ui/core/Popover';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Slider from '@material-ui/lab/Slider';
+import Popover from '@material-ui/core/Popover';
+import Slider from '@material-ui/core/Slider';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/styles';
 
 // icons
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
@@ -28,18 +22,236 @@ import MoreHoriz from '@material-ui/icons/MoreHoriz';
 // component
 import BuildingDetails from './BuildingDetails';
 
-const styles = theme => ({
+export const BuildingsTableRow = memo(({ building }) => {
+  const classes = useStyles();
+
+  const [, { setBuildingUtilization, setBuildingQuantity }] = useContext();
+
+  const [quantity, setQuantity] = useState(building.quantity);
+  const [focused, setFocused] = useState(false);
+  const [utilization, setUtilization] = useState(building.utilization || 0);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const timer = useRef();
+  const utilizationTimer = useRef();
+
+  // on hover
+  const handlePopoverOpen = (event) => {
+    setAnchorEl(event.target);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  // more info
+  const handleClickOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const handleClose = () => {
+    setDialogOpen(false);
+  };
+
+  // utilization
+  const handleSliderChange = (event, value) => {
+    setUtilization(value);
+    if (utilizationTimer.current) {
+      clearTimeout(utilizationTimer.current);
+    }
+    utilizationTimer.current = setTimeout(() => {
+      setBuildingUtilization(building.name, Math.round(value));
+    }, 500);
+  };
+
+  // quantities
+  const increment = () => {
+    setQuantity(quantity + 1);
+    if (timer.current) {
+      clearTimeout(timer.current);
+    }
+    timer.current = setTimeout(() => {
+      setBuildingQuantity(building.name, quantity + 1);
+    }, 500);
+  };
+
+  const decrement = () => {
+    if (quantity > 0) {
+      setQuantity(quantity - 1);
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+      timer.current = setTimeout(() => {
+        setBuildingQuantity(building.name, quantity - 1);
+      }, 500);
+    }
+  };
+
+  const handleChange = (event) => {
+    let value = event.target.value;
+    value = Number(value);
+    if (value < 0) value = 0;
+
+    setQuantity(value);
+    if (timer.current) {
+      clearTimeout(timer.current);
+    }
+    timer.current = setTimeout(() => {
+      setBuildingQuantity(building.name, value);
+    }, 500);
+  };
+
+  const onBlur = () => {
+    setFocused(false);
+  };
+
+  const onFocus = () => {
+    setFocused(false);
+  };
+
+  const popoverOpen = !!anchorEl;
+
+  return (
+    <TableRow>
+      <Popover
+        className={classes.popover}
+        classes={{ paper: classes.paper }}
+        open={popoverOpen}
+        anchorEl={anchorEl}
+        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+        onClose={handlePopoverClose}
+        disableRestoreFocus
+      >
+        <BuildingDetails building={building} />
+      </Popover>
+
+      <Dialog
+        fullScreen={false}
+        open={dialogOpen}
+        onClose={handleClose}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <div className={classes.dialog}>
+          <BuildingDetails building={building} />
+          <DialogActions>
+            <Button target="_blank" href={building.wikLink} color="primary">
+              WIKI
+            </Button>
+            <Button
+              variant="contained"
+              onClick={handleClose}
+              color="primary"
+              autoFocus
+            >
+              CLOSE
+            </Button>
+          </DialogActions>
+        </div>
+      </Dialog>
+
+      <TableCell size="small">
+        <div className={classes.category}>
+          <div
+            className={classes.categoryImg}
+            style={{
+              background: `url(${building.categoryImgUrl}) no-repeat center center`,
+              backgroundSize: 'contain',
+            }}
+          />
+          {building.category}
+        </div>
+      </TableCell>
+
+      <TableCell size="small">
+        <div className={classes.building}>
+          <div
+            className={classes.buildingImg}
+            onMouseOver={handlePopoverOpen}
+            onMouseOut={handlePopoverClose}
+            style={{
+              background: `url(${building.imgUrl}) no-repeat center center`,
+              backgroundSize: 'contain',
+            }}
+          />
+          {building.name}
+        </div>
+      </TableCell>
+
+      <TableCell size="small">
+        {!building.hasConsistentIO && building.quantity > 0 && (
+          <span className={classes.slider}>
+            <Slider value={utilization} onChange={handleSliderChange} />
+            <Typography className={classes.sliderLabel}>
+              {utilization.toFixed(0) + '%'}
+            </Typography>
+          </span>
+        )}
+      </TableCell>
+
+      <TableCell align="right" className={classes.quantity} size="small">
+        <TextField
+          type="number"
+          value={quantity}
+          onChange={handleChange}
+          className={classes.quantity}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          InputProps={{
+            disableUnderline: !focused,
+            inputProps: {
+              style: {
+                textAlign: 'right',
+                maxWidth: '100px',
+                fontSize: '1.25rem',
+              },
+              'aria-label': 'Building Quantity',
+            },
+          }}
+        >
+          {quantity}
+        </TextField>
+      </TableCell>
+
+      <TableCell size="small">
+        <div className={classes.actions}>
+          <IconButton
+            color="secondary"
+            className={classes.button}
+            aria-label="Decrement"
+            onClick={decrement}
+          >
+            <ArrowDropDown />
+          </IconButton>
+          <IconButton
+            color="primary"
+            className={classes.button}
+            aria-label="Increment"
+            onClick={increment}
+          >
+            <ArrowDropUp />
+          </IconButton>
+          <IconButton onClick={handleClickOpen} aria-label="More">
+            <MoreHoriz />
+          </IconButton>
+        </div>
+      </TableCell>
+    </TableRow>
+  );
+});
+
+const useStyles = makeStyles((theme) => ({
   image: {
     width: 40,
     height: 40,
     backgroundSize: 'cover',
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(),
   },
   categoryImg: {
     width: 25,
     height: 25,
-    backgroundSize: 'cover',
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(),
     cursor: 'default',
   },
   category: {
@@ -49,10 +261,9 @@ const styles = theme => ({
     fontSize: '9pt',
   },
   buildingImg: {
-    width: 40,
-    height: 40,
-    backgroundSize: 'cover',
-    marginRight: theme.spacing.unit,
+    width: 30,
+    height: 30,
+    marginRight: theme.spacing(),
     cursor: 'default',
   },
   building: {
@@ -75,279 +286,13 @@ const styles = theme => ({
     whiteSpace: 'nowrap',
   },
   sliderLabel: {
-    paddingLeft: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing(2),
     textAlign: 'right',
     width: 75,
   },
   popover: {
     pointerEvents: 'none',
   },
-});
+}));
 
-export class BuildingsTable extends React.Component {
-  timer = 0;
-  utilizationTimer = 0;
-
-  state = {
-    quantity: this.props.building.quantity,
-    focused: false,
-    utilization: this.props.building.utilization || 0,
-    dialogOpen: false,
-    popoverOpen: false,
-    anchorEl: null,
-  };
-
-  componentWillReceiveProps(nextProps) {
-    if (this.state.quantity !== nextProps.building.quantity) {
-      this.setState({ quantity: nextProps.building.quantity });
-    }
-  }
-
-  // on hover
-  handlePopoverOpen = event => {
-    this.setState({ anchorEl: event.target });
-  };
-
-  handlePopoverClose = () => {
-    this.setState({ anchorEl: null });
-  };
-
-  // more info
-  handleClickOpen = () => {
-    this.setState({ dialogOpen: true });
-  };
-
-  handleClose = () => {
-    this.setState({ dialogOpen: false });
-  };
-
-  // utilization
-  handleSliderChange = (event, value) => {
-    this.setState({ utilization: value });
-    if (this.utilizationTimer) {
-      clearTimeout(this.utilizationTimer);
-    }
-    this.utilizationTimer = setTimeout(() => {
-      this.props.setBuildingUtilization(
-        this.props.building.name,
-        Math.round(this.state.utilization),
-      );
-    }, 500);
-  };
-
-  // quantities
-  increment = () => {
-    this.setState({ quantity: this.state.quantity + 1 });
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
-    this.timer = setTimeout(() => {
-      this.props.setBuildingQuantity(
-        this.props.building.name,
-        this.state.quantity,
-      );
-    }, 500);
-  };
-
-  decrement = () => {
-    if (this.state.quantity > 0) {
-      this.setState({ quantity: this.state.quantity - 1 });
-      if (this.timer) {
-        clearTimeout(this.timer);
-      }
-      this.timer = setTimeout(() => {
-        this.props.setBuildingQuantity(
-          this.props.building.name,
-          this.state.quantity,
-        );
-      }, 500);
-    }
-  };
-
-  handleChange = event => {
-    let value = event.target.value;
-    value = Number(value);
-    if (value < 0) value = 0;
-
-    this.setState({ quantity: value });
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
-    this.timer = setTimeout(() => {
-      this.props.setBuildingQuantity(this.props.building.name, value);
-    }, 500);
-  };
-
-  onBlur = () => {
-    this.setState({ focused: false });
-  };
-
-  onFocus = () => {
-    this.setState({ focused: true });
-  };
-
-  render() {
-    const { classes, building, fullScreen } = this.props;
-    const { quantity, utilization, anchorEl } = this.state;
-
-    const buildingImg =
-      '/images/buildings/' +
-      building.name
-        .toLowerCase()
-        .split(' ')
-        .join('-') +
-      '.png';
-    const groupImg =
-      '/images/building-categories/' +
-      building.category
-        .toLowerCase()
-        .split(' ')
-        .join('-') +
-      '.png';
-
-    const wikLink =
-      'https://oxygennotincluded.gamepedia.com/' +
-      building.name.split('-').join('_'); // may need to hard code as json
-    const popoverOpen = !!anchorEl;
-
-    return (
-      <TableRow>
-        <Popover
-          className={classes.popover}
-          classes={{ paper: classes.paper }}
-          open={popoverOpen}
-          anchorEl={anchorEl}
-          anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-          transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-          onClose={this.handlePopoverClose}
-          disableRestoreFocus
-        >
-          <BuildingDetails building={this.props.building} />
-        </Popover>
-
-        <Dialog
-          fullScreen={fullScreen}
-          open={this.state.dialogOpen}
-          onClose={this.handleClose}
-          aria-labelledby="responsive-dialog-title"
-        >
-          <div className={classes.dialog}>
-            <BuildingDetails building={this.props.building} />
-            <DialogActions>
-              <Button target="_blank" href={wikLink} color="primary">
-                WIKI
-              </Button>
-              <Button
-                variant="contained"
-                onClick={this.handleClose}
-                color="primary"
-                autoFocus
-              >
-                CLOSE
-              </Button>
-            </DialogActions>
-          </div>
-        </Dialog>
-
-        <TableCell padding="dense">
-          <div className={classes.category}>
-            <div
-              className={classes.categoryImg}
-              style={{ backgroundImage: `url(${groupImg})` }}
-            />
-            {building.category}
-          </div>
-        </TableCell>
-
-        <TableCell padding="dense">
-          <div className={classes.building}>
-            <div
-              className={classes.buildingImg}
-              onMouseOver={this.handlePopoverOpen}
-              onMouseOut={this.handlePopoverClose}
-              style={{ backgroundImage: `url(${buildingImg})` }}
-            />
-            {building.name}
-          </div>
-        </TableCell>
-
-        <TableCell padding="dense">
-          {!building.hasConsistentIO &&
-            building.quantity > 0 && (
-              <span className={classes.slider}>
-                <Slider
-                  value={utilization}
-                  onChange={this.handleSliderChange}
-                />
-                <Typography className={classes.sliderLabel}>
-                  {utilization.toFixed(0) + '%'}
-                </Typography>
-              </span>
-            )}
-        </TableCell>
-
-        <TableCell numeric className={classes.quantity} padding="dense">
-          <TextField
-            type="number"
-            value={quantity}
-            onChange={this.handleChange}
-            className={classes.quantity}
-            onFocus={this.onFocus}
-            onBlur={this.onBlur}
-            InputProps={{
-              disableUnderline: !this.state.focused,
-              inputProps: {
-                style: {
-                  textAlign: 'right',
-                  maxWidth: '100px',
-                  fontSize: '1.25rem',
-                },
-                'aria-label': 'Building Quantity',
-              },
-            }}
-          >
-            {quantity}
-          </TextField>
-        </TableCell>
-
-        <TableCell padding="dense">
-          <div className={classes.actions}>
-            <IconButton
-              color="secondary"
-              className={classes.button}
-              aria-label="Decrement"
-              onClick={this.decrement}
-            >
-              <ArrowDropDown />
-            </IconButton>
-            <IconButton
-              color="primary"
-              className={classes.button}
-              aria-label="Increment"
-              onClick={this.increment}
-            >
-              <ArrowDropUp />
-            </IconButton>
-            <IconButton onClick={this.handleClickOpen} aria-label="More">
-              <MoreHoriz />
-            </IconButton>
-          </div>
-        </TableCell>
-      </TableRow>
-    );
-  }
-}
-
-const mapStateToProps = state => {
-  return {};
-};
-
-const mapDispatchToProps = {
-  setBuildingQuantity,
-  setBuildingUtilization,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withStyles(styles)(BuildingsTable));
+export default BuildingsTableRow;

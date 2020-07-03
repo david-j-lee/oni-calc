@@ -1,11 +1,7 @@
 import React from 'react';
-
-// redux
-import { connect } from 'react-redux';
-import { sortBuildings } from '../../actions/buildingActions';
+import { useContext } from '../../context';
 
 // material
-import { withStyles } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
@@ -16,72 +12,53 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 // component
 import BuildingsTableRow from './BuildingsTableRow';
 
-const styles = theme => ({
-});
+const TABLE_HEADERS = [
+  { id: 'category', label: 'Category', numeric: false },
+  { id: 'name', label: 'Building', numeric: false },
+  { id: 'utilization', label: 'Utilization', numeric: true },
+  { id: 'quantity', label: 'Quantity', numeric: true },
+  { id: 'actions', label: 'Actions', numeric: false },
+];
 
-export class BuildingsTable extends React.Component {
+export const BuildingsTable = () => {
+  const [
+    { buildings, buildingsOrderBy, buildingsOrder },
+    { sortBuildings },
+  ] = useContext();
 
-  handleRequestSort = id => {
-    this.props.sortBuildings(id);
-  }
+  const handleRequestSort = (id) => {
+    sortBuildings(id);
+  };
 
-  getTableHeaders() {
-    const tableHeaders = [
-      { id: 'category', label: 'Category', numeric: false },
-      { id: 'name', label: 'Building', numeric: false },
-      { id: 'utilization', label: 'Utilization', numeric: true },
-      { id: 'quantity', label: 'Quantity', numeric: true },
-      { id: 'actions', label: 'Actions', numeric: false },
-    ];
-    return (
+  return (
+    <Table>
       <TableHead>
         <TableRow>
-          {tableHeaders.map(header => {
+          {TABLE_HEADERS.map((header) => {
             return (
               <TableCell
                 key={header.id}
-                numeric={header.numeric}>
+                align={header.numeric ? 'right' : 'left'}
+              >
                 <TableSortLabel
-                  active={this.props.buildingsOrderBy === header.id}
-                  direction={this.props.buildingsOrder}
-                  onClick={() => this.handleRequestSort(header.id)}>
+                  active={buildingsOrderBy === header.id}
+                  direction={buildingsOrder}
+                  onClick={() => handleRequestSort(header.id)}
+                >
                   {header.label}
                 </TableSortLabel>
               </TableCell>
-            )
+            );
           })}
         </TableRow>
       </TableHead>
-    )
-  }
+      <TableBody>
+        {buildings.map((building) => {
+          return <BuildingsTableRow key={building.name} building={building} />;
+        })}
+      </TableBody>
+    </Table>
+  );
+};
 
-  render() {
-    const { buildings } = this.props;
-
-    return (
-      <Table>
-        {this.getTableHeaders()}
-        <TableBody>
-          {buildings.map(building => {
-            return (
-              <BuildingsTableRow key={building.name} building={building} />);
-          })}
-        </TableBody>
-      </Table>
-    )
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    buildings: state.calculator.buildings,
-    buildingsOrderBy: state.calculator.buildingsOrderBy,
-    buildingsOrder: state.calculator.buildingsOrder,
-  }
-}
-
-const mapDispatchToProps = {
-  sortBuildings
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BuildingsTable));
+export default BuildingsTable;

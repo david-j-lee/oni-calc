@@ -1,11 +1,7 @@
-import React from 'react';
-
-// redux
-import { connect } from 'react-redux';
-import { setFoodQuantity } from '../../actions/foodActions';
+import React, { memo, useEffect, useState, useRef } from 'react';
+import { useContext } from '../../context';
 
 // material
-import { withStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Card from '@material-ui/core/Card';
@@ -17,6 +13,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
 import TextField from '@material-ui/core/TextField';
+import { makeStyles } from '@material-ui/core';
 
 // icons
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
@@ -26,7 +23,198 @@ import MoreVert from '@material-ui/icons/MoreVert';
 // components
 import FoodItemDetails from './FoodItemDetails';
 
-const styles = theme => ({
+export const FoodItem = memo(({ item }) => {
+  const classes = useStyles();
+
+  const [, { setFoodQuantity }] = useContext();
+
+  const [quantity, setQuantity] = useState(item.quantity);
+  const [focused, setFocused] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const timer = useRef();
+
+  const wikiLink = useRef(
+    `https://oxygennotincluded.gamepedia.com/${item.name
+      .toLowerCase()
+      .split(' ')
+      .join('-')}`,
+  );
+
+  const imgUrl = useRef(
+    `/images/resources/${item.name.toLowerCase().split(' ').join('-')}.png`,
+  );
+
+  useEffect(() => {
+    setQuantity(item.quantity);
+  }, [item.quantity]);
+
+  // on hover
+  const handlePopoverOpen = (event) => {
+    setAnchorEl(event.target);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  // open dialog
+  const handleClickOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const handleClose = () => {
+    setDialogOpen(false);
+  };
+
+  // change quantities
+  const increment = () => {
+    setQuantity(quantity + 1);
+    if (timer.current) {
+      clearTimeout(timer.current);
+    }
+    timer.current = setTimeout(() => {
+      setFoodQuantity(item.name, quantity + 1);
+    }, 500);
+  };
+
+  const decrement = () => {
+    if (quantity > 0) {
+      setQuantity(quantity - 1);
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+      timer.current = setTimeout(() => {
+        setFoodQuantity(item.name, quantity - 1);
+      }, 500);
+    }
+  };
+
+  const handleChange = (event) => {
+    let value = event.target.value;
+    value = Number(value);
+    if (value < 0) value = 0;
+
+    setQuantity(value);
+    if (timer.current) {
+      clearTimeout(timer.current);
+    }
+    timer.current = setTimeout(() => {
+      setFoodQuantity(item.name, value);
+    }, 500);
+  };
+
+  const onBlur = () => {
+    setFocused(false);
+  };
+
+  const onFocus = () => {
+    setFocused(true);
+  };
+
+  const popoverOpen = !!anchorEl;
+
+  return (
+    <div className={classes.root}>
+      <Dialog
+        fullScreen={false}
+        open={dialogOpen}
+        onClose={handleClose}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <FoodItemDetails item={item} />
+        <DialogActions>
+          <Button target="_blank" href={wikiLink.current} color="primary">
+            WIKI
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleClose}
+            color="primary"
+            autoFocus
+          >
+            CLOSE
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Popover
+        className={classes.popover}
+        classes={{ paper: classes.paper }}
+        open={popoverOpen}
+        anchorEl={anchorEl}
+        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+        onClose={handlePopoverClose}
+        disableRestoreFocus
+      >
+        <FoodItemDetails item={item} />
+      </Popover>
+      <Card className={classes.card}>
+        <CardMedia
+          className={classes.cover}
+          image={imgUrl.current}
+          title={item.name}
+          onMouseOver={handlePopoverOpen}
+          onMouseOut={handlePopoverClose}
+        />
+        <div className={classes.details}>
+          <CardContent className={classes.cardContent}>
+            <Typography
+              variant="subtitle1"
+              className={classes.cardContentTitle}
+            >
+              {item.name}
+            </Typography>
+            <IconButton onClick={handleClickOpen} aria-label="More">
+              <MoreVert />
+            </IconButton>
+          </CardContent>
+          <CardActions>
+            <IconButton
+              color="secondary"
+              className={classes.button}
+              aria-label="Decrement"
+              onClick={decrement}
+            >
+              <ArrowDropDown />
+            </IconButton>
+            <TextField
+              type="number"
+              value={quantity}
+              onChange={handleChange}
+              className={classes.quantity}
+              onFocus={onFocus}
+              onBlur={onBlur}
+              InputProps={{
+                disableUnderline: !focused,
+                inputProps: {
+                  style: {
+                    textAlign: 'right',
+                    fontSize: '1.25rem',
+                  },
+                },
+                'aria-label': 'Food Quantity',
+              }}
+            >
+              {quantity}
+            </TextField>
+            <IconButton
+              color="primary"
+              className={classes.button}
+              aria-label="Increment"
+              onClick={increment}
+            >
+              <ArrowDropUp />
+            </IconButton>
+          </CardActions>
+        </div>
+      </Card>
+    </div>
+  );
+});
+
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
   },
@@ -38,7 +226,7 @@ const styles = theme => ({
   cardContent: {
     flex: '1 0 auto',
     display: 'flex',
-    paddingRight: theme.spacing.unit * 2,
+    paddingRight: theme.spacing(2),
   },
   cardContentTitle: {
     flexGrow: 1,
@@ -56,7 +244,7 @@ const styles = theme => ({
   },
   quantity: {
     flexGrow: 1,
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(),
     textAlign: 'right',
   },
   dialog: {
@@ -65,205 +253,6 @@ const styles = theme => ({
   popover: {
     pointerEvents: 'none',
   },
-});
+}));
 
-export class FoodItem extends React.Component {
-  state = {
-    quantity: this.props.item.quantity,
-    focused: false,
-    dialogOpen: false,
-  };
-
-  componentWillReceiveProps(nextProp) {
-    if (nextProp.item.quantity !== this.state.quantity) {
-      this.setState({ quantity: nextProp.item.quantity });
-    }
-  }
-
-  // on hover
-  handlePopoverOpen = event => {
-    this.setState({ anchorEl: event.target });
-  };
-
-  handlePopoverClose = () => {
-    this.setState({ anchorEl: null });
-  };
-
-  // open dialog
-  handleClickOpen = () => {
-    this.setState({ dialogOpen: true });
-  };
-
-  handleClose = () => {
-    this.setState({ dialogOpen: false });
-  };
-
-  // change quantities
-  increment = () => {
-    this.setState({ quantity: this.state.quantity + 1 });
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
-    this.timer = setTimeout(() => {
-      this.props.setFoodQuantity(this.props.item.name, this.state.quantity);
-    }, 500);
-  };
-
-  decrement = () => {
-    if (this.state.quantity > 0) {
-      this.setState({ quantity: this.state.quantity - 1 });
-      if (this.timer) {
-        clearTimeout(this.timer);
-      }
-      this.timer = setTimeout(() => {
-        this.props.setFoodQuantity(this.props.item.name, this.state.quantity);
-      }, 500);
-    }
-  };
-
-  handleChange = event => {
-    let value = event.target.value;
-    value = Number(value);
-    if (value < 0) value = 0;
-
-    this.setState({ quantity: value });
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
-    this.timer = setTimeout(() => {
-      this.props.setFoodQuantity(this.props.item.name, value);
-    }, 500);
-  };
-
-  onBlur = () => {
-    this.setState({ focused: false });
-  };
-
-  onFocus = () => {
-    this.setState({ focused: true });
-  };
-
-  render() {
-    const { classes, fullScreen, item } = this.props;
-    const { quantity, dialogOpen, anchorEl } = this.state;
-    const popoverOpen = !!anchorEl;
-
-    const wikiLink = `https://oxygennotincluded.gamepedia.com/${item.name
-      .toLowerCase()
-      .split(' ')
-      .join('-')}`;
-
-    const imgUrl = `/images/resources/${item.name
-      .toLowerCase()
-      .split(' ')
-      .join('-')}.png`;
-
-    return (
-      <div className={classes.root}>
-        <Dialog
-          fullScreen={fullScreen}
-          open={dialogOpen}
-          onClose={this.handleClose}
-          aria-labelledby="responsive-dialog-title"
-        >
-          <FoodItemDetails item={item} />
-          <DialogActions>
-            <Button target="_blank" href={wikiLink} color="primary">
-              WIKI
-            </Button>
-            <Button
-              variant="contained"
-              onClick={this.handleClose}
-              color="primary"
-              autoFocus
-            >
-              CLOSE
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <Popover
-          className={classes.popover}
-          classes={{ paper: classes.paper }}
-          open={popoverOpen}
-          anchorEl={anchorEl}
-          anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-          transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-          onClose={this.handlePopoverClose}
-          disableRestoreFocus
-        >
-          <FoodItemDetails item={item} />
-        </Popover>
-        <Card className={classes.card}>
-          <CardMedia
-            className={classes.cover}
-            image={imgUrl}
-            title={item.name}
-            onMouseOver={this.handlePopoverOpen}
-            onMouseOut={this.handlePopoverClose}
-          />
-          <div className={classes.details}>
-            <CardContent className={classes.cardContent}>
-              <Typography
-                variant="subheading"
-                className={classes.cardContentTitle}
-              >
-                {item.name}
-              </Typography>
-              <IconButton onClick={this.handleClickOpen} aria-label="More">
-                <MoreVert />
-              </IconButton>
-            </CardContent>
-            <CardActions>
-              <IconButton
-                color="secondary"
-                className={classes.button}
-                aria-label="Decrement"
-                onClick={this.decrement}
-              >
-                <ArrowDropDown />
-              </IconButton>
-              <TextField
-                type="number"
-                value={quantity}
-                onChange={this.handleChange}
-                className={classes.quantity}
-                onFocus={this.onFocus}
-                onBlur={this.onBlur}
-                InputProps={{
-                  disableUnderline: !this.state.focused,
-                  inputProps: {
-                    style: {
-                      textAlign: 'right',
-                      fontSize: '1.25rem',
-                      width: '25px',
-                    },
-                  },
-                  'aria-label': 'Food Quantity',
-                }}
-              >
-                {quantity}
-              </TextField>
-              <IconButton
-                color="primary"
-                className={classes.button}
-                aria-label="Increment"
-                onClick={this.increment}
-              >
-                <ArrowDropUp />
-              </IconButton>
-            </CardActions>
-          </div>
-        </Card>
-      </div>
-    );
-  }
-}
-
-const mapDispatchToProps = {
-  setFoodQuantity,
-};
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(withStyles(styles)(FoodItem));
+export default FoodItem;

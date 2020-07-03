@@ -1,44 +1,35 @@
 import React from 'react';
-
-// redux
-import { connect } from 'react-redux';
+import { useContext } from '../../context';
 
 // material
-import { withStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 
 // components
+import DelayedLoader from '../common/DelayedLoader';
 import DupeQuantity from './DupeQuantity';
 import DupeTraits from './DupeTraits';
 import DupesWaste from './DupesWaste';
 
-const styles = theme => ({
-  root: {
-    paddingTop: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-  },
-});
+export const Dupes = () => {
+  const classes = useStyles();
+  const [{ dupes }] = useContext();
 
-export class Dupes extends React.Component {
-  render() {
-    const { classes } = this.props;
-
-    return (
+  return (
+    <DelayedLoader>
       <div className={classes.root}>
         <DupeQuantity />
-        {this.props.dupes.quantity > 0 && <DupeTraits />}
-        {this.props.dupes.quantity > 0 && <DupesWaste />}
+        {dupes.quantity > 0 && <DupeTraits />}
+        {dupes.quantity > 0 && <DupesWaste />}
       </div>
-    );
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    dupes: state.calculator.dupes,
-  };
+    </DelayedLoader>
+  );
 };
 
-export default connect(
-  mapStateToProps,
-  null,
-)(withStyles(styles)(Dupes));
+const useStyles = makeStyles((theme) => ({
+  root: {
+    paddingTop: theme.spacing(),
+    paddingBottom: theme.spacing(),
+  },
+}));
+
+export default Dupes;
