@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useContext } from '../../context';
 
 // material
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import Popover from '@material-ui/core/Popover';
 import { makeStyles } from '@material-ui/styles';
@@ -14,7 +14,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import CapacityBuildings from './CapacityBuildings';
 
-export default function Capacity() {
+export const Capacity = () => {
   const classes = useStyles();
 
   const [{ powerCapacity, resourcesCapacity }] = useContext();
@@ -38,11 +38,11 @@ export default function Capacity() {
   const dialogOpen = !!anchorEl;
 
   return (
-    <ExpansionPanel defaultExpanded>
-      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+    <Accordion defaultExpanded>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography>Capacity</Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails className={classes.panelDetails}>
+      </AccordionSummary>
+      <AccordionDetails className={classes.panelDetails}>
         <Popover
           className={classes.popover}
           classes={{ paper: classes.paper }}
@@ -61,7 +61,7 @@ export default function Capacity() {
             <Typography
               className={classes.pointer}
               onMouseOut={handlePopoverClose}
-              onMouseOver={e =>
+              onMouseOver={(e) =>
                 handlePopoverOpen(e, 'Power', powerCapacity.buildings)
               }
             >
@@ -73,7 +73,7 @@ export default function Capacity() {
             <Typography
               className={classes.pointer}
               onMouseOut={handlePopoverClose}
-              onMouseOver={e =>
+              onMouseOver={(e) =>
                 handlePopoverOpen(e, 'Resources', resourcesCapacity.buildings)
               }
             >
@@ -82,12 +82,12 @@ export default function Capacity() {
             <Typography>Storage</Typography>
           </div>
         </div>
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+      </AccordionDetails>
+    </Accordion>
   );
-}
+};
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   panelDetails: {
     display: 'flex',
     flexDirection: 'column',
@@ -110,3 +110,5 @@ const useStyles = makeStyles(theme => ({
     cursor: 'default',
   },
 }));
+
+export default Capacity;

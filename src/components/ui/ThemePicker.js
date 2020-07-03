@@ -63,7 +63,7 @@ const COLORS = [
   blueGrey,
 ];
 
-export default function ThemePicker() {
+export const ThemePicker = () => {
   const classes = useStyles();
   const [{ theme }, { setTheme }] = useContext();
 
@@ -99,7 +99,7 @@ export default function ThemePicker() {
     setDialogOpen(false);
   };
 
-  const selectColor = color => {
+  const selectColor = (color) => {
     switch (selection) {
       case 'primary':
         setColor1(color);
@@ -247,12 +247,12 @@ export default function ThemePicker() {
       </Dialog>
     </div>
   );
-}
+};
 
 const SIZE = 40;
 const SPACING = 1;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   dialogTitle: {},
   dialogContent: {
     maxWidth: (SIZE + SPACING * 2) * 4,
@@ -313,3 +313,5 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
 }));
+
+export default ThemePicker;

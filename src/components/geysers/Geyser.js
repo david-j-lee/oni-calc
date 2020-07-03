@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useContext } from '../../context';
 
 // material
@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/styles';
 
-export default function Geyser({ geyser }) {
+export const Geyser = memo(({ geyser }) => {
   const classes = useStyles();
   const [, { deleteGeyser }] = useContext();
 
@@ -67,9 +67,9 @@ export default function Geyser({ geyser }) {
       </Card>
     </div>
   );
-}
+});
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
   },
@@ -85,3 +85,5 @@ const useStyles = makeStyles(theme => ({
     width: '75%',
   },
 }));
+
+export default Geyser;

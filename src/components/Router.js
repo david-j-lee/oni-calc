@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/styles';
@@ -8,7 +8,7 @@ import About from './About';
 import Calculator from './Calculator';
 import Navbar from './ui/Navbar';
 
-export default function Root() {
+export const Root = memo(() => {
   const classes = useStyles();
 
   return (
@@ -22,10 +22,12 @@ export default function Root() {
       </BrowserRouter>
     </div>
   );
-}
+});
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
   },
 }));
+
+export default Root;

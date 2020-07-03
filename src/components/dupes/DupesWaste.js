@@ -18,7 +18,7 @@ const DUPES_WASTE_PROPS = [
   { name: 'dirtValue', title: 'Dirt' },
 ];
 
-export default function DupesWaste() {
+export const DupesWaste = () => {
   const classes = useStyles();
   const [{ dupes }] = useContext();
 
@@ -40,9 +40,9 @@ export default function DupesWaste() {
       })}
     </Grid>
   );
-}
+};
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {},
   title: {
     padding: theme.spacing(),
@@ -52,3 +52,5 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(),
   },
 }));
+
+export default DupesWaste;

@@ -2,6 +2,7 @@ export const buildings = [
   {
     category: 'Base',
     name: 'Automatic Dispenser',
+    hasPerOperation: false,
     hasConsistentIO: false,
     capacity: { power: {}, resources: {} },
     power: { usage: 60, generation: 0, unit: 'W', rate: 'per second' },
@@ -11,6 +12,7 @@ export const buildings = [
   {
     category: 'Base',
     name: 'Bunker Door',
+    hasPerOperation: false,
     hasConsistentIO: false,
     capacity: { power: {}, resources: {} },
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
@@ -20,6 +22,7 @@ export const buildings = [
   {
     category: 'Base',
     name: 'Mechanized Airlock',
+    hasPerOperation: false,
     hasConsistentIO: false,
     capacity: { power: {}, resources: {} },
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
@@ -29,6 +32,7 @@ export const buildings = [
   {
     category: 'Base',
     name: 'Smart Storage Bin',
+    hasPerOperation: false,
     hasConsistentIO: false,
     capacity: {
       power: {},
@@ -41,6 +45,7 @@ export const buildings = [
   {
     category: 'Base',
     name: 'Storage Bin',
+    hasPerOperation: false,
     hasConsistentIO: true,
     capacity: {
       power: {},
@@ -585,6 +590,7 @@ export const buildings = [
   {
     category: 'Furniture',
     name: 'Espresso Machine',
+    hasPerOperation: true,
     hasConsistentIO: false,
     capacity: { power: {}, resources: {} },
     power: { usage: 480, generation: 0, unit: 'W', rate: 'per second' },

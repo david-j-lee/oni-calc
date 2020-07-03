@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
@@ -10,7 +10,7 @@ import ResourceIOsFood from './ResourceIOsFood';
 import ResourceIOsPlants from './ResourceIOsPlants';
 import ResourceIOsGeysers from './ResourceIOsGeysers';
 
-export default function ResourceIOs({ title, resource, type }) {
+export const ResourceIOs = memo(({ title, resource, type }) => {
   const classes = useStyles();
 
   const showTables = (resource, type) => {
@@ -26,7 +26,7 @@ export default function ResourceIOs({ title, resource, type }) {
     }
   };
 
-  const hasInputs = resource => {
+  const hasInputs = (resource) => {
     return (
       resource.buildingInputs.length > 0 ||
       resource.dupeInputs.length > 0 ||
@@ -36,7 +36,7 @@ export default function ResourceIOs({ title, resource, type }) {
     );
   };
 
-  const hasOutputs = resource => {
+  const hasOutputs = (resource) => {
     return (
       resource.buildingOutputs.length > 0 ||
       resource.dupeOutputs.length > 0 ||
@@ -71,9 +71,9 @@ export default function ResourceIOs({ title, resource, type }) {
       )}
     </div>
   );
-}
+});
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   section: {
     // paddingBottom: theme.spacing(),
   },
@@ -81,3 +81,5 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(),
   },
 }));
+
+export default ResourceIOs;

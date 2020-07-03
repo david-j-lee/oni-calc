@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { memo, useEffect, useState, useRef } from 'react';
 import { useContext } from '../../context';
 
 // material
@@ -23,7 +23,7 @@ import MoreVert from '@material-ui/icons/MoreVert';
 // components
 import FoodItemDetails from './FoodItemDetails';
 
-export default function FoodItem({ item }) {
+export const FoodItem = memo(({ item }) => {
   const classes = useStyles();
 
   const [, { setFoodQuantity }] = useContext();
@@ -43,14 +43,15 @@ export default function FoodItem({ item }) {
   );
 
   const imgUrl = useRef(
-    `/images/resources/${item.name
-      .toLowerCase()
-      .split(' ')
-      .join('-')}.png`,
+    `/images/resources/${item.name.toLowerCase().split(' ').join('-')}.png`,
   );
 
+  useEffect(() => {
+    setQuantity(item.quantity);
+  }, [item.quantity]);
+
   // on hover
-  const handlePopoverOpen = event => {
+  const handlePopoverOpen = (event) => {
     setAnchorEl(event.target);
   };
 
@@ -90,7 +91,7 @@ export default function FoodItem({ item }) {
     }
   };
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     let value = event.target.value;
     value = Number(value);
     if (value < 0) value = 0;
@@ -211,9 +212,9 @@ export default function FoodItem({ item }) {
       </Card>
     </div>
   );
-}
+});
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
   },
@@ -253,3 +254,5 @@ const useStyles = makeStyles(theme => ({
     pointerEvents: 'none',
   },
 }));
+
+export default FoodItem;

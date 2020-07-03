@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 // material
 import Typography from '@material-ui/core/Typography';
@@ -9,7 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import { makeStyles } from '@material-ui/styles';
 
-export default function PlantFood({ plant }) {
+export const PlantFood = memo(({ plant }) => {
   const classes = useStyles();
 
   return (
@@ -66,10 +66,12 @@ export default function PlantFood({ plant }) {
       )}
     </div>
   );
-}
+});
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   notFound: {
     padding: theme.spacing(),
   },
 }));
+
+export default PlantFood;

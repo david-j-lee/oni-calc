@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/styles';
 
-export default function About() {
+export const About = () => {
   const classes = useStyles();
 
   return (
@@ -58,9 +58,9 @@ export default function About() {
       <div className={classes.footer}>ONIC</div>
     </div>
   );
-}
+};
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(),
     paddingTop: theme.spacing(10),
@@ -91,3 +91,5 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.text.primary,
   },
 }));
+
+export default About;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -8,7 +8,7 @@ import TableCell from '@material-ui/core/TableCell';
 
 import Number from '../common/Number';
 
-export default function ResourceIOsPlants({ resource, title, type }) {
+export const ResourceIOsPlants = memo(({ resource, title, type }) => {
   const getArray = (resource, type) => {
     switch (type) {
       case 'inputs':
@@ -22,8 +22,8 @@ export default function ResourceIOsPlants({ resource, title, type }) {
     }
   };
 
-  const getInputs = resource => {
-    return resource.plantInputs.map(input => {
+  const getInputs = (resource) => {
+    return resource.plantInputs.map((input) => {
       return {
         ...input,
         valueExtended: input.valueExtended * -1,
@@ -31,9 +31,9 @@ export default function ResourceIOsPlants({ resource, title, type }) {
     });
   };
 
-  const getBoth = resource => {
+  const getBoth = (resource) => {
     return resource.plantOutputs.concat(
-      resource.plantInputs.map(input => {
+      resource.plantInputs.map((input) => {
         return {
           ...input,
           valueExtended: input.valueExtended * -1,
@@ -78,4 +78,6 @@ export default function ResourceIOsPlants({ resource, title, type }) {
       )}
     </div>
   );
-}
+});
+
+export default ResourceIOsPlants;

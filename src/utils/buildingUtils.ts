@@ -10,7 +10,7 @@ import {
 } from './powerUtils';
 import { updateResourcesWithBuildings } from './resourceUtils';
 
-export const setBuildingsLayout = layout => {
+export const setBuildingsLayout = (layout) => {
   const newLayout = layout === 'grid' ? 'table' : 'grid';
   localStorage.setItem('layout', newLayout);
   return {
@@ -82,7 +82,7 @@ export function getBuildings(
 }
 
 function getBuildingsWithDefaultInputs(buildings: IBuilding[]): IBuilding[] {
-  return buildings.map(building => ({
+  return buildings.map((building) => ({
     ...building,
     quantity: 0,
     utilization: building.hasConsistentIO ? 0 : 100,
@@ -93,9 +93,9 @@ function updateBuildingsWithInputs(
   buildings: IBuilding[],
   inputs: IBuildingInput[],
 ): IBuilding[] {
-  return buildings.map(building => {
+  return buildings.map((building) => {
     const input: IBuildingInput | undefined = inputs.find(
-      i => i.name === building.name,
+      (i) => i.name === building.name,
     );
     if (input === undefined) {
       return {
@@ -148,11 +148,11 @@ function getBuildingsIOsForResource(
     throw new Error('Type must be inputs or outputs');
   }
 
-  const newBuildings = buildings.filter(building => building.quantity > 0);
+  const newBuildings = buildings.filter((building) => building.quantity > 0);
   if (newBuildings.length === 0) return [];
 
   return newBuildings
-    .map(building => getBuildingIOs(building, type, resourceName))
+    .map((building) => getBuildingIOs(building, type, resourceName))
     .reduce((a, b) => a.concat(b));
 }
 
@@ -196,10 +196,16 @@ export function updateBuildingQuantity(
   name: string,
   quantity: number,
 ) {
-  const newBuildings = buildings.map(building => ({
-    ...building,
-    quantity: building.name === name ? quantity : building.quantity,
-  }));
+  const newBuildings = buildings.map((building) => {
+    if (building.name === name) {
+      return {
+        ...building,
+        quantity: building.name === name ? quantity : building.quantity,
+      };
+    } else {
+      return building;
+    }
+  });
   saveToLocalStorage(newBuildings);
   return newBuildings;
 }
@@ -209,7 +215,7 @@ export function updateBuildingUtilization(
   name: string,
   utilization: number,
 ) {
-  const newBuildings = buildings.map(building => ({
+  const newBuildings = buildings.map((building) => ({
     ...building,
     utilization: building.name === name ? utilization : building.utilization,
   }));
@@ -221,7 +227,7 @@ function saveToLocalStorage(buildings: IBuilding[]) {
   localStorage.setItem(
     'buildings',
     JSON.stringify(
-      buildings.map(building => ({
+      buildings.map((building) => ({
         name: building.name,
         quantity: building.quantity ? building.quantity : 0,
         utilization: building.utilization ? building.utilization : 100,

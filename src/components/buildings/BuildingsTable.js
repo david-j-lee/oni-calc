@@ -20,13 +20,13 @@ const TABLE_HEADERS = [
   { id: 'actions', label: 'Actions', numeric: false },
 ];
 
-export default function BuildingsTable() {
+export const BuildingsTable = () => {
   const [
     { buildings, buildingsOrderBy, buildingsOrder },
     { sortBuildings },
   ] = useContext();
 
-  const handleRequestSort = id => {
+  const handleRequestSort = (id) => {
     sortBuildings(id);
   };
 
@@ -34,7 +34,7 @@ export default function BuildingsTable() {
     <Table>
       <TableHead>
         <TableRow>
-          {TABLE_HEADERS.map(header => {
+          {TABLE_HEADERS.map((header) => {
             return (
               <TableCell
                 key={header.id}
@@ -53,10 +53,12 @@ export default function BuildingsTable() {
         </TableRow>
       </TableHead>
       <TableBody>
-        {buildings.map(building => {
+        {buildings.map((building) => {
           return <BuildingsTableRow key={building.name} building={building} />;
         })}
       </TableBody>
     </Table>
   );
-}
+};
+
+export default BuildingsTable;

@@ -17,7 +17,7 @@ import ViewModule from '@material-ui/icons/ViewModule';
 import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
 import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
 
-export default function NavbarBuildings() {
+export const NavbarBuildings = () => {
   const [
     { buildingsLayout },
     {
@@ -111,4 +111,6 @@ export default function NavbarBuildings() {
       </Tooltip>
     </div>
   );
-}
+};
+
+export default NavbarBuildings;

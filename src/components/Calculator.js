@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 import { useContext } from '../context';
 
@@ -20,7 +20,7 @@ import Food from './food/Food';
 import Geysers from './geysers/Geysers';
 import Settings from './settings/Settings';
 
-export default function Calculator({ location }) {
+export const Calculator = memo(({ location }) => {
   const classes = useStyles();
   const [, { getData }] = useContext();
 
@@ -67,6 +67,7 @@ export default function Calculator({ location }) {
           onChange={handleChange}
           indicatorColor="primary"
           textColor="primary"
+          variant="scrollable"
         >
           <Tab label="Settings" component={Link} to="/settings" />
           <Tab label="Dupes" component={Link} to="/dupes" />
@@ -76,19 +77,29 @@ export default function Calculator({ location }) {
         </Tabs>
         <div className={['styled-scrollbar', classes.content].join(' ')}>
           <Switch>
-            <Route path="/geysers" render={() => <Geysers />} />
-            <Route path="/food" render={() => <Food />} />
-            <Route path="/buildings" render={() => <Buildings />} />
-            <Route path="/dupes" render={() => <Dupes />} />
-            <Route path="/" render={() => <Settings />} />
+            <Route path="/geysers">
+              <Geysers />
+            </Route>
+            <Route path="/food">
+              <Food />
+            </Route>
+            <Route path="/buildings">
+              <Buildings />
+            </Route>
+            <Route path="/dupes">
+              <Dupes />
+            </Route>
+            <Route path="/">
+              <Settings />
+            </Route>
           </Switch>
         </div>
       </Grid>
     </Grid>
   );
-}
+});
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
     display: 'flex',
@@ -123,6 +134,9 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     padding: theme.spacing(1, 1, 0, 1),
+    height: '100%',
     overflowY: 'auto',
   },
 }));
+
+export default Calculator;

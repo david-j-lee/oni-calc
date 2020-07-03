@@ -8,7 +8,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/styles';
 
-export default function FoodDupes() {
+export const FoodDupes = () => {
   const classes = useStyles();
 
   const [{ dupes, food }] = useContext();
@@ -19,7 +19,9 @@ export default function FoodDupes() {
   useEffect(() => {
     if (food.length > 0) {
       setTotalCalories(
-        food.map(item => item.calories * item.quantity).reduce((a, b) => a + b),
+        food
+          .map((item) => item.calories * item.quantity)
+          .reduce((a, b) => a + b),
       );
     }
   }, [food]);
@@ -51,9 +53,9 @@ export default function FoodDupes() {
       </Grid>
     </Grid>
   );
-}
+};
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {},
   title: {
     paddingBottom: theme.spacing(),
@@ -68,3 +70,5 @@ const useStyles = makeStyles(theme => ({
     color: 'red',
   },
 }));
+
+export default FoodDupes;

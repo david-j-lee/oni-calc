@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Switch, Link, Route } from 'react-router-dom';
 
 // material
@@ -20,7 +20,7 @@ import NavbarBuildings from './NavbarBuildings';
 import NavbarFood from './NavbarFood';
 import NavbarGeysers from './NavbarGeysers';
 
-export default function Navbar() {
+export const Navbar = memo(() => {
   const classes = useStyles();
 
   return (
@@ -70,9 +70,9 @@ export default function Navbar() {
       </AppBar>
     </div>
   );
-}
+});
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
@@ -98,3 +98,5 @@ const useStyles = makeStyles(theme => ({
     color: '#00E3E3',
   },
 }));
+
+export default Navbar;

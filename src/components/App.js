@@ -7,7 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Router from './Router';
 
-export default function App() {
+export const App = () => {
   const [{ theme }, { getTheme }] = useContext();
 
   useEffect(() => {
@@ -25,4 +25,6 @@ export default function App() {
       <Router />
     </MuiThemeProvider>
   );
-}
+};
+
+export default App;

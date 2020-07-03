@@ -13,7 +13,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 // icons
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
-export default function NavbarGeysers() {
+export const NavbarGeysers = () => {
   const [, { clearGeyserInputs }] = useContext();
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -63,4 +63,6 @@ export default function NavbarGeysers() {
       </Tooltip>
     </div>
   );
-}
+};
+
+export default NavbarGeysers;

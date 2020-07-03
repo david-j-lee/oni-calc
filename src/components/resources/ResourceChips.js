@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/styles';
 
 import { getGameModeValue } from './../../utils/commonUtils';
 
-export default function ResourceChips({ ios }) {
+export const ResourceChips = ({ ios }) => {
   const classes = useStyles();
   const [{ settings }] = useContext();
 
@@ -66,9 +66,9 @@ export default function ResourceChips({ ios }) {
       )}
     </div>
   );
-}
+};
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   chip: {
     marginRight: theme.spacing(),
   },
@@ -77,3 +77,5 @@ const useStyles = makeStyles(theme => ({
     width: '75%',
   },
 }));
+
+export default ResourceChips;

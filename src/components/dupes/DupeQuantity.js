@@ -22,7 +22,7 @@ import MoreVert from '@material-ui/icons/MoreVert';
 // components
 import DupeDetails from './DupeDetails';
 
-export default function DupeQuantity() {
+export const DupeQuantity = () => {
   const classes = useStyles();
 
   const [{ dupes }, { setDupesTotalQuantity }] = useContext();
@@ -65,7 +65,7 @@ export default function DupeQuantity() {
     }
   };
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     let value = event.target.value;
     value = Number(value);
     if (value < 0) value = 0;
@@ -169,9 +169,9 @@ export default function DupeQuantity() {
       </Grid>
     </Grid>
   );
-}
+};
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {},
   card: {
     margin: theme.spacing(),
@@ -189,3 +189,5 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(),
   },
 }));
+
+export default DupeQuantity;

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { memo, useRef, useState, useEffect } from 'react';
 import { useContext } from '../../context';
 
 // material
@@ -23,7 +23,7 @@ import MoreVert from '@material-ui/icons/MoreVert';
 // component
 import BuildingDetails from './BuildingDetails';
 
-export default function BuildingsGridCard({ building }) {
+export const BuildingsGridCard = memo(({ building }) => {
   const classes = useStyles();
 
   const [, { setBuildingQuantity, setBuildingUtilization }] = useContext();
@@ -38,8 +38,12 @@ export default function BuildingsGridCard({ building }) {
   const utilizationTimer = useRef(null);
   const rootRef = useRef(null);
 
+  useEffect(() => {
+    setQuantity(building.quantity);
+  }, [building.quantity]);
+
   // on hover
-  const handlePopoverOpen = event => {
+  const handlePopoverOpen = (event) => {
     setAnchorEl(event.target);
   };
 
@@ -90,7 +94,7 @@ export default function BuildingsGridCard({ building }) {
     }
   };
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     let value = event.target.value;
     value = Number(value);
     if (value < 0) value = 0;
@@ -233,9 +237,9 @@ export default function BuildingsGridCard({ building }) {
       </Card>
     </div>
   );
-}
+});
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
   },
@@ -311,3 +315,5 @@ const useStyles = makeStyles(theme => ({
     pointerEvents: 'none',
   },
 }));
+
+export default BuildingsGridCard;

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { memo, useState, useRef } from 'react';
 import { useContext } from '../../context';
 
 // material
@@ -22,7 +22,7 @@ import MoreHoriz from '@material-ui/icons/MoreHoriz';
 // component
 import BuildingDetails from './BuildingDetails';
 
-export default function BuildingsTable({ building }) {
+export const BuildingsTableRow = memo(({ building }) => {
   const classes = useStyles();
 
   const [, { setBuildingUtilization, setBuildingQuantity }] = useContext();
@@ -37,7 +37,7 @@ export default function BuildingsTable({ building }) {
   const utilizationTimer = useRef();
 
   // on hover
-  const handlePopoverOpen = event => {
+  const handlePopoverOpen = (event) => {
     setAnchorEl(event.target);
   };
 
@@ -88,7 +88,7 @@ export default function BuildingsTable({ building }) {
     }
   };
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     let value = event.target.value;
     value = Number(value);
     if (value < 0) value = 0;
@@ -239,9 +239,9 @@ export default function BuildingsTable({ building }) {
       </TableCell>
     </TableRow>
   );
-}
+});
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   image: {
     width: 40,
     height: 40,
@@ -294,3 +294,5 @@ const useStyles = makeStyles(theme => ({
     pointerEvents: 'none',
   },
 }));
+
+export default BuildingsTableRow;

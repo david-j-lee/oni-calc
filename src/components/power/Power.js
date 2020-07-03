@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useContext } from '../../context';
 
 // material
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import Popover from '@material-ui/core/Popover';
 import { makeStyles } from '@material-ui/styles';
@@ -16,7 +16,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Number from '../common/Number';
 import PowerBuildings from './PowerBuildings';
 
-export default function Power() {
+export const Power = () => {
   const classes = useStyles();
   const [{ powerGeneration, powerUsage }] = useContext();
 
@@ -39,11 +39,11 @@ export default function Power() {
   const dialogOpen = !!anchorEl;
 
   return (
-    <ExpansionPanel defaultExpanded>
-      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+    <Accordion defaultExpanded>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography>Power</Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
+      </AccordionSummary>
+      <AccordionDetails>
         <Popover
           className={classes.popover}
           classes={{ paper: classes.paper }}
@@ -62,7 +62,7 @@ export default function Power() {
             <div
               className={classes.pointer}
               onMouseOut={handlePopoverClose}
-              onMouseOver={e =>
+              onMouseOver={(e) =>
                 handlePopoverOpen(
                   e,
                   'Net',
@@ -82,7 +82,7 @@ export default function Power() {
             <Typography
               className={classes.pointer}
               onMouseOut={handlePopoverClose}
-              onMouseOver={e =>
+              onMouseOver={(e) =>
                 handlePopoverOpen(e, 'Usage', powerUsage.buildings)
               }
             >
@@ -97,7 +97,7 @@ export default function Power() {
             <Typography
               className={classes.pointer}
               onMouseOut={handlePopoverClose}
-              onMouseOver={e =>
+              onMouseOver={(e) =>
                 handlePopoverOpen(e, 'Generation', powerGeneration.buildings)
               }
             >
@@ -106,12 +106,12 @@ export default function Power() {
             <Typography>Generated</Typography>
           </div>
         </div>
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+      </AccordionDetails>
+    </Accordion>
   );
-}
+};
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   power: {
     display: 'flex',
     alignItems: 'center',
@@ -130,3 +130,5 @@ const useStyles = makeStyles(theme => ({
     cursor: 'default',
   },
 }));
+
+export default Power;

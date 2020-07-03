@@ -28,7 +28,7 @@ const MENU_PROPS = {
   },
 };
 
-export default function GeyserAdd() {
+export const GeyserAdd = () => {
   const classes = useStyles();
   const [{ geysers }, { addGeyser }] = useContext();
 
@@ -36,9 +36,9 @@ export default function GeyserAdd() {
   const [geyser, setGeyser] = useState({});
   const [isValid, setIsValid] = useState(false);
 
-  const handleSelectChange = event => {
+  const handleSelectChange = (event) => {
     if (geysers && geysers.listing) {
-      const geyser = geysers.listing.find(g => g.name === event.target.value);
+      const geyser = geysers.listing.find((g) => g.name === event.target.value);
       if (geyser) {
         setGeyser({
           ...geyser,
@@ -143,10 +143,7 @@ export default function GeyserAdd() {
                   {geyser.outputs.map((output, i) => {
                     const imageUrl =
                       '/images/resources/' +
-                      output.name
-                        .toLowerCase()
-                        .split(' ')
-                        .join('-') +
+                      output.name.toLowerCase().split(' ').join('-') +
                       '.png';
 
                     return (
@@ -176,7 +173,7 @@ export default function GeyserAdd() {
                     value={geyser.amount}
                     className={classes.textField}
                     margin="dense"
-                    onChange={e => handleTextFieldChange(e, 'amount')}
+                    onChange={(e) => handleTextFieldChange(e, 'amount')}
                     label="Amount per eruption"
                     helperText="g/s"
                     type="number"
@@ -191,7 +188,9 @@ export default function GeyserAdd() {
                     value={geyser.eruptionDuration}
                     className={classes.textField}
                     margin="dense"
-                    onChange={e => handleTextFieldChange(e, 'eruptionDuration')}
+                    onChange={(e) =>
+                      handleTextFieldChange(e, 'eruptionDuration')
+                    }
                     label="Eruption duration"
                     helperText="seconds"
                     type="number"
@@ -204,7 +203,7 @@ export default function GeyserAdd() {
                     value={geyser.eruptionEvery}
                     className={classes.textField}
                     margin="dense"
-                    onChange={e => handleTextFieldChange(e, 'eruptionEvery')}
+                    onChange={(e) => handleTextFieldChange(e, 'eruptionEvery')}
                     label="Eruption every"
                     helperText="seconds"
                     type="number"
@@ -219,7 +218,7 @@ export default function GeyserAdd() {
                     value={geyser.activeDuration}
                     className={classes.textField}
                     margin="dense"
-                    onChange={e => handleTextFieldChange(e, 'activeDuration')}
+                    onChange={(e) => handleTextFieldChange(e, 'activeDuration')}
                     label="Active duration"
                     helperText="cycles"
                     type="number"
@@ -231,7 +230,8 @@ export default function GeyserAdd() {
                   <TextField
                     value={geyser.activeEvery}
                     className={classes.textField}
-                    onChange={e => handleTextFieldChange(e, 'activeEvery')}
+                    margin="dense"
+                    onChange={(e) => handleTextFieldChange(e, 'activeEvery')}
                     label="Active every"
                     helperText="cycles"
                     type="number"
@@ -260,9 +260,9 @@ export default function GeyserAdd() {
       )}
     </Card>
   );
-}
+};
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {},
   card: {
     margin: theme.spacing(),
@@ -294,3 +294,5 @@ const useStyles = makeStyles(theme => ({
     paddingRight: theme.spacing(),
   },
 }));
+
+export default GeyserAdd;

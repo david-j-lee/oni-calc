@@ -5,13 +5,17 @@ import { useContext } from '../../context';
 import BuildingsGrid from './BuildingsGrid';
 import BuildingsTable from './BuildingsTable';
 
-export default function Buildings() {
+import DelayedLoader from './../common/DelayedLoader';
+
+export const Buildings = () => {
   const [{ buildingsLayout }] = useContext();
 
   return (
-    <div>
+    <DelayedLoader>
       {buildingsLayout === 'grid' && <BuildingsGrid />}
       {buildingsLayout === 'table' && <BuildingsTable />}
-    </div>
+    </DelayedLoader>
   );
-}
+};
+
+export default Buildings;

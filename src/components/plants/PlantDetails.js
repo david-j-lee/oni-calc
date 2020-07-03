@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { memo, useRef } from 'react';
 
 // material
 import Typography from '@material-ui/core/Typography';
@@ -8,14 +8,11 @@ import { makeStyles } from '@material-ui/styles';
 // components
 import ResourceChips from '../resources/ResourceChips';
 
-export default function PlantDetails({ plant }) {
+export const PlantDetails = memo(({ plant }) => {
   const classes = useStyles();
 
   const imgUrl = useRef(
-    `/images/bio/${plant.name
-      .toLowerCase()
-      .split(' ')
-      .join('-')}.png`,
+    `/images/bio/${plant.name.toLowerCase().split(' ').join('-')}.png`,
   );
 
   return (
@@ -56,9 +53,9 @@ export default function PlantDetails({ plant }) {
       </div>
     </div>
   );
-}
+});
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {},
   heading: {
     display: 'flex',
@@ -91,3 +88,5 @@ const useStyles = makeStyles(theme => ({
     backgroundSize: 'contain',
   },
 }));
+
+export default PlantDetails;

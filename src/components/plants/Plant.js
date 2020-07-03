@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { memo, useState, useRef } from 'react';
 
 // material
 import TableRow from '@material-ui/core/TableRow';
@@ -10,19 +10,16 @@ import { makeStyles } from '@material-ui/styles';
 import PlantFood from './PlantFood';
 import PlantDetails from './PlantDetails';
 
-export default function Plant({ plant }) {
+export const Plant = memo(({ plant }) => {
   const classes = useStyles();
   const [detailsAnchorEl, setDetailsAnchorEl] = useState(null);
   const [foodAnchorEl, setFoodAnchorEl] = useState(null);
 
   const imageUrl = useRef(
-    `/images/bio/${plant.name
-      .toLowerCase()
-      .split(' ')
-      .join('-')}.png`,
+    `/images/bio/${plant.name.toLowerCase().split(' ').join('-')}.png`,
   );
 
-  const handleDetailsPopoverOpen = event => {
+  const handleDetailsPopoverOpen = (event) => {
     setDetailsAnchorEl(event.target);
   };
 
@@ -30,7 +27,7 @@ export default function Plant({ plant }) {
     setDetailsAnchorEl(null);
   };
 
-  const handleFoodPopoverOpen = event => {
+  const handleFoodPopoverOpen = (event) => {
     setFoodAnchorEl(event.target);
   };
 
@@ -76,7 +73,10 @@ export default function Plant({ plant }) {
         >
           <div
             className={classes.image}
-            style={{ backgroundImage: `url(${imageUrl.current})` }}
+            style={{
+              background: `url(${imageUrl.current}) no-repeat center center`,
+              backgroundSize: 'contain',
+            }}
           />
           {plant.name}
         </div>
@@ -92,9 +92,9 @@ export default function Plant({ plant }) {
       </TableCell>
     </TableRow>
   );
-}
+});
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   tableRow: {
     height: 'inherit',
   },
@@ -121,3 +121,5 @@ const useStyles = makeStyles(theme => ({
     pointerEvents: 'none',
   },
 }));
+
+export default Plant;

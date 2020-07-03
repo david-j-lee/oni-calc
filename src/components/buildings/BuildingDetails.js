@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/styles';
 import ResourceChips from '../resources/ResourceChips';
 import Number from '../common/Number';
 
-export default function BuildingDetails({ building }) {
+export const BuildingDetails = memo(({ building }) => {
   const classes = useStyles();
   const {
     category,
@@ -89,9 +89,9 @@ export default function BuildingDetails({ building }) {
       </div>
     </div>
   );
-}
+});
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: 400,
   },
@@ -135,3 +135,5 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: theme.spacing(3),
   },
 }));
+
+export default BuildingDetails;

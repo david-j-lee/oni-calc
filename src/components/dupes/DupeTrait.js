@@ -21,7 +21,7 @@ import MoreVert from '@material-ui/icons/MoreVert';
 // components
 import DupeTraitDetails from './DupeTraitDetails';
 
-export default function DupeTrait({ trait }) {
+export const DupeTrait = ({ trait }) => {
   const classes = useStyles();
   const [{ dupes }, { setDupesTraitQuantity }] = useContext();
 
@@ -65,7 +65,7 @@ export default function DupeTrait({ trait }) {
     }
   };
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     let value = event.target.value;
     value = Number(value);
     if (value < 0) value = 0;
@@ -165,9 +165,9 @@ export default function DupeTrait({ trait }) {
       </Card>
     </div>
   );
-}
+};
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
   },
@@ -185,3 +185,5 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'right',
   },
 }));
+
+export default DupeTrait;

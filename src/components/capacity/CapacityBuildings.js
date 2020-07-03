@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/styles';
 
 import Number from '../common/Number';
 
-export default function CapacityBuildings({ buildings, title }) {
+export const CapacityBuildings = memo(({ buildings, title }) => {
   const classes = useStyles();
 
   return (
@@ -58,9 +58,9 @@ export default function CapacityBuildings({ buildings, title }) {
       )}
     </div>
   );
-}
+});
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   noBuildings: {
     padding: theme.spacing(),
   },
@@ -71,3 +71,5 @@ const useStyles = makeStyles(theme => ({
     color: 'red',
   },
 }));
+
+export default CapacityBuildings;

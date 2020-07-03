@@ -8,9 +8,9 @@ import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 
@@ -24,27 +24,24 @@ const TABLE_HEADERS = [
   { id: 'quantity', label: 'Quantity', numeric: true },
 ];
 
-export default function Plants() {
+export const Plants = () => {
   const classes = useStyles();
-  const [
-    { plants, resourcesOrderBy, resourcesOrder },
-    { sortResources },
-  ] = useContext();
+  const [{ plants, plantsOrderBy, plantsOrder }, { sortPlants }] = useContext();
 
-  const handleRequestSort = id => {
-    sortResources(id);
+  const handleRequestSort = (id) => {
+    sortPlants(id);
   };
 
   return (
-    <ExpansionPanel defaultExpanded>
-      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+    <Accordion defaultExpanded>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography>Plants</Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
+      </AccordionSummary>
+      <AccordionDetails>
         <Table>
           <TableHead>
             <TableRow className={classes.tableRow}>
-              {TABLE_HEADERS.map(header => {
+              {TABLE_HEADERS.map((header) => {
                 return (
                   <TableCell
                     key={header.id}
@@ -52,8 +49,8 @@ export default function Plants() {
                     align={header.numeric ? 'right' : 'left'}
                   >
                     <TableSortLabel
-                      active={resourcesOrderBy === header.id}
-                      direction={resourcesOrder}
+                      active={plantsOrderBy === header.id}
+                      direction={plantsOrder}
                       onClick={() => handleRequestSort(header.id)}
                     >
                       {header.label}
@@ -69,12 +66,12 @@ export default function Plants() {
             ))}
           </TableBody>
         </Table>
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+      </AccordionDetails>
+    </Accordion>
   );
-}
+};
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   tableRow: {
     height: 'inherit',
   },
@@ -82,3 +79,5 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(),
   },
 }));
+
+export default Plants;

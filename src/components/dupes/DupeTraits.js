@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core';
 // components
 import DupeTrait from './DupeTrait';
 
-export default function DupeTraits() {
+export const DupeTraits = () => {
   const classes = useStyles();
   const [{ dupes }] = useContext();
 
@@ -29,9 +29,9 @@ export default function DupeTraits() {
       })}
     </Grid>
   );
-}
+};
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {},
   title: {
     padding: theme.spacing(),
@@ -41,3 +41,5 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(),
   },
 }));
+
+export default DupeTraits;

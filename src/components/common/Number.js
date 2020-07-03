@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 
-export default function Number({ value, suffix, variant, color }) {
+export const Number = memo(({ value, suffix, variant, color }) => {
   const classes = useStyles();
 
   const [displayValue, setDisplayValue] = useState(0);
@@ -24,9 +24,9 @@ export default function Number({ value, suffix, variant, color }) {
       {displayValue.toLocaleString()} {suffix}
     </Typography>
   );
-}
+});
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     whiteSpace: 'nowrap',
   },
@@ -40,3 +40,5 @@ const useStyles = makeStyles(theme => ({
     color: 'red',
   },
 }));
+
+export default Number;

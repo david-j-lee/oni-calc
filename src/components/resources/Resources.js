@@ -8,9 +8,9 @@ import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 
@@ -19,18 +19,18 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // components
 import Resource from './Resource';
 
-export default function Resources() {
+export const Resources = () => {
   const classes = useStyles();
   const [
     { resources, resourcesOrder, resourcesOrderBy },
     { sortResources },
   ] = useContext();
 
-  const handleRequestSort = id => {
+  const handleRequestSort = (id) => {
     sortResources(id);
   };
 
-  const mapResourceToElement = resources => {
+  const mapResourceToElement = (resources) => {
     return resources.map((resource, i) => {
       return <Resource key={i} resource={resource} />;
     });
@@ -46,7 +46,7 @@ export default function Resources() {
     return (
       <TableHead>
         <TableRow className={classes.tableRow}>
-          {tableHeaders.map(header => {
+          {tableHeaders.map((header) => {
             return (
               <TableCell
                 key={header.id}
@@ -69,21 +69,21 @@ export default function Resources() {
   };
 
   return (
-    <ExpansionPanel defaultExpanded>
-      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+    <Accordion defaultExpanded>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography>Resources</Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
+      </AccordionSummary>
+      <AccordionDetails>
         <Table>
           {getTableHeaders()}
           <TableBody>{mapResourceToElement(resources)}</TableBody>
         </Table>
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+      </AccordionDetails>
+    </Accordion>
   );
-}
+};
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   tableRow: {
     height: 'inherit',
   },
@@ -91,3 +91,5 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(),
   },
 }));
+
+export default Resources;

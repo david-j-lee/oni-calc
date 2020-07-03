@@ -9,6 +9,7 @@ import { dupeActions } from './actions/dupeActions';
 import { foodActions } from './actions/foodActions';
 import { geyserActions } from './actions/geyserActions';
 import { resourceActions } from './actions/resourceActions';
+import { plantActions } from './actions/plantActions';
 import { settingsActions } from './actions/settingsActions';
 import { uiActions } from './actions/uiActions';
 
@@ -47,6 +48,7 @@ const contract = {
   ...foodActions,
   ...geyserActions,
   ...resourceActions,
+  ...plantActions,
   ...settingsActions,
   ...uiActions,
 };

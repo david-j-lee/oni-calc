@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/styles';
 
 import Number from '../common/Number';
 
-export default function PowerBuildings({ buildings, title }) {
+export const PowerBuildings = memo(({ buildings, title }) => {
   const classes = useStyles();
 
   return (
@@ -65,10 +65,12 @@ export default function PowerBuildings({ buildings, title }) {
       )}
     </div>
   );
-}
+});
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   noBuildings: {
     padding: theme.spacing(),
   },
 }));
+
+export default PowerBuildings;

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { memo, useRef } from 'react';
 
 // material
 import Typography from '@material-ui/core/Typography';
@@ -10,14 +10,11 @@ import { makeStyles } from '@material-ui/styles';
 // components
 import ResourceChips from '../resources/ResourceChips';
 
-export default function FoodItemDetail({ item }) {
+export const FoodItemDetail = memo(({ item }) => {
   const classes = useStyles();
 
   const imgUrl = useRef(
-    `/images/resources/${item.name
-      .toLowerCase()
-      .split(' ')
-      .join('-')}.png`,
+    `/images/resources/${item.name.toLowerCase().split(' ').join('-')}.png`,
   );
 
   return (
@@ -87,9 +84,9 @@ export default function FoodItemDetail({ item }) {
       </div>
     </div>
   );
-}
+});
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: 400,
   },
@@ -124,3 +121,5 @@ const useStyles = makeStyles(theme => ({
     backgroundSize: 'contain',
   },
 }));
+
+export default FoodItemDetail;

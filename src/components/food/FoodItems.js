@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/styles';
 // components
 import FoodItem from './FoodItem';
 
-export default function FoodItems() {
+export const FoodItems = () => {
   const classes = useStyles();
   const [{ food }] = useContext();
 
@@ -19,7 +19,7 @@ export default function FoodItems() {
         <Typography className={classes.title}>Raw Food</Typography>
       </Grid>
       {food
-        .filter(item => item.isRaw && item.calories > 0)
+        .filter((item) => item.isRaw && item.calories > 0)
         .map((item, i) => {
           return (
             <Grid
@@ -40,7 +40,7 @@ export default function FoodItems() {
         <Typography className={classes.title}>Prepared Food</Typography>
       </Grid>
       {food
-        .filter(item => !item.isRaw && item.calories > 0)
+        .filter((item) => !item.isRaw && item.calories > 0)
         .map((item, i) => {
           return (
             <Grid
@@ -59,9 +59,9 @@ export default function FoodItems() {
         })}
     </Grid>
   );
-}
+};
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {},
   title: {
     padding: theme.spacing(),
@@ -76,3 +76,5 @@ const useStyles = makeStyles(theme => ({
     },
   },
 }));
+
+export default FoodItems;

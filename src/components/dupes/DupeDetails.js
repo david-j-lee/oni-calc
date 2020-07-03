@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 // material
 import Typography from '@material-ui/core/Typography';
@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/styles';
 // components
 import ResourceChips from '../resources/ResourceChips';
 
-export default function DupeDetails({ details }) {
+export const DupeDetails = memo(({ details }) => {
   const classes = useStyles();
 
   return (
@@ -23,9 +23,9 @@ export default function DupeDetails({ details }) {
       <ResourceChips ios={details.outputs} type="Outputs" />
     </div>
   );
-}
+});
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(3),
     minWidth: 400,
@@ -35,3 +35,5 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: theme.spacing(),
   },
 }));
+
+export default DupeDetails;

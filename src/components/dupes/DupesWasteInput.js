@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { memo, useRef, useState } from 'react';
 import { useContext } from '../../context';
 
 // material
@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/styles';
 
-export default function DupesWasteInput({ prop }) {
+export const DupesWasteInput = memo(({ prop }) => {
   const classes = useStyles();
 
   const [, { setDupeWaste }] = useContext();
@@ -17,14 +17,11 @@ export default function DupesWasteInput({ prop }) {
 
   const imgUrl = useRef(
     '/images/resources/' +
-      prop.title
-        .toLowerCase()
-        .split(' ')
-        .join('-') +
+      prop.title.toLowerCase().split(' ').join('-') +
       '.png',
   );
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     const value = event.target.value;
     setValue(value);
     if (timer.current) {
@@ -67,9 +64,9 @@ export default function DupesWasteInput({ prop }) {
       </Grid>
     </div>
   );
-}
+});
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {},
   gridContainer: {
     flexWrap: 'nowrap',
@@ -85,3 +82,5 @@ const useStyles = makeStyles(theme => ({
     marginTop: 5,
   },
 }));
+
+export default DupesWasteInput;

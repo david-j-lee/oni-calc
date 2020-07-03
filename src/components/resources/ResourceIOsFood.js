@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -8,7 +8,7 @@ import TableCell from '@material-ui/core/TableCell';
 
 import Number from '../common/Number';
 
-export default function ResourceIOsFood({ resource, title, type }) {
+export const ResourceIOsFood = memo(({ resource, title, type }) => {
   const getArray = (resource, type) => {
     switch (type) {
       case 'inputs':
@@ -22,16 +22,16 @@ export default function ResourceIOsFood({ resource, title, type }) {
     }
   };
 
-  const getInputs = resource => {
-    return resource.foodInputs.map(input => ({
+  const getInputs = (resource) => {
+    return resource.foodInputs.map((input) => ({
       ...input,
       valueExtended: input.valueExtended * -1,
     }));
   };
 
-  const getBoth = resource => {
+  const getBoth = (resource) => {
     return resource.foodOutputs.concat(
-      resource.foodInputs.map(input => ({
+      resource.foodInputs.map((input) => ({
         ...input,
         valueExtended: input.valueExtended * -1,
       })),
@@ -74,4 +74,6 @@ export default function ResourceIOsFood({ resource, title, type }) {
       )}
     </div>
   );
-}
+});
+
+export default ResourceIOsFood;

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { memo, useState, useRef } from 'react';
 
 // material
 import TableRow from '@material-ui/core/TableRow';
@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/styles';
 import ResourceIOs from './ResourceIOs';
 import Number from '../common/Number';
 
-export default function Resource({ resource }) {
+export const Resource = memo(({ resource }) => {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -17,10 +17,7 @@ export default function Resource({ resource }) {
   const [dialogType, setDialogType] = useState('');
 
   const imageUrl = useRef(
-    `/images/resources/${resource.name
-      .toLowerCase()
-      .split(' ')
-      .join('-')}.png`,
+    `/images/resources/${resource.name.toLowerCase().split(' ').join('-')}.png`,
   );
 
   const handlePopoverOpen = (event, title, type) => {
@@ -70,7 +67,7 @@ export default function Resource({ resource }) {
       <TableCell align="right" className={classes.tableCell}>
         <div
           className={classes.io}
-          onMouseOver={e => handlePopoverOpen(e, 'Inputs', 'inputs')}
+          onMouseOver={(e) => handlePopoverOpen(e, 'Inputs', 'inputs')}
           onMouseOut={handlePopoverClose}
         >
           {Math.round(resource.totalInput).toLocaleString()}
@@ -80,7 +77,7 @@ export default function Resource({ resource }) {
       <TableCell align="right" className={classes.tableCell}>
         <div
           className={classes.io}
-          onMouseOver={e => handlePopoverOpen(e, 'Outputs', 'outputs')}
+          onMouseOver={(e) => handlePopoverOpen(e, 'Outputs', 'outputs')}
           onMouseOut={handlePopoverClose}
         >
           {Math.round(resource.totalOutput).toLocaleString()}
@@ -90,7 +87,7 @@ export default function Resource({ resource }) {
       <TableCell align="right" className={classes.tableCell}>
         <div
           className={classes.io}
-          onMouseOver={e => handlePopoverOpen(e, 'Inputs or Outputs', 'both')}
+          onMouseOver={(e) => handlePopoverOpen(e, 'Inputs or Outputs', 'both')}
           onMouseOut={handlePopoverClose}
         >
           <Number value={Math.round(resource.totalIO)} />
@@ -98,9 +95,9 @@ export default function Resource({ resource }) {
       </TableCell>
     </TableRow>
   );
-}
+});
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   tableRow: {
     height: 'inherit',
   },
@@ -126,3 +123,5 @@ const useStyles = makeStyles(theme => ({
     pointerEvents: 'none',
   },
 }));
+
+export default Resource;
