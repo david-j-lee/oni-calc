@@ -16,20 +16,10 @@ export const About = () => {
           <span className={classes.onicColor}>C</span>
           alculator
         </Typography>
-        <div>
-          <h1>Contributors</h1>
-          <ul>
-            <li>
-              <a
-                target="_blank"
-                href="https://devdavidlee.com"
-                className={classes.link}
-                rel="noopener noreferrer"
-              >
-                David Lee
-              </a>
-            </li>
-          </ul>
+        <div className={classes.section}>
+          <Typography>
+            ONIC is open source. Contributions are welcome!
+          </Typography>
           <Button
             variant="outlined"
             target="_blank"
@@ -38,14 +28,8 @@ export const About = () => {
             GitHub
           </Button>
         </div>
-        <div>
-          <h1>Supporters</h1>
-          <p>Special thanks to those who have donated!</p>
-          <ul>
-            <li></li>
-            <li></li>
-            <li></li>
-          </ul>
+        <div className={classes.section}>
+          <Typography>If you want to buy me some coffee.</Typography>
           <Button
             variant="outlined"
             target="_blank"
