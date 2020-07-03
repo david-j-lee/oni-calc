@@ -19,7 +19,6 @@ import NavbarBuildings from './NavbarBuildings';
 import NavbarFood from './NavbarFood';
 import NavbarGeysers from './NavbarGeysers';
 import ThemePicker from './ThemePicker';
-import TopMessage from './TopMessage';
 
 export const Navbar = memo(() => {
   const classes = useStyles();
