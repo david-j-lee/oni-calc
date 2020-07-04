@@ -1,10 +1,16 @@
+import IResource from './../interfaces/IResource';
+import IDupes from './../interfaces/IDupes';
+import IDupesInput from '../interfaces/IDupesInput';
+
 import { getGameModeValue } from './commonUtils';
 import { updateResourcesWithDupes } from './resourceUtils';
+import IIO from '../interfaces/IIO';
+import IDupeTrait from './../interfaces/IDupeTrait';
 
 export const setDupesQuantity = (
   gameMode: string,
-  resources,
-  dupes,
+  resources: IResource[],
+  dupes: IDupes,
   quantity: number,
 ) => {
   const newDupes = updateDupeQuantity(gameMode, dupes, quantity);
@@ -16,8 +22,8 @@ export const setDupesQuantity = (
 
 export const setDupeTraitQuantity = (
   gameMode: string,
-  resources,
-  dupes,
+  resources: IResource[],
+  dupes: IDupes,
   name: string,
   quantity: number,
 ) => {
@@ -28,7 +34,12 @@ export const setDupeTraitQuantity = (
   };
 };
 
-export const setDupeWaste = (resources, dupes, prop: string, value: number) => {
+export const setDupeWaste = (
+  resources: IResource[],
+  dupes: IDupes,
+  prop: string,
+  value: number,
+) => {
   const newDupes = getDupeWaste(dupes, prop, value);
   return {
     resources: updateResourcesWithDupes(resources, newDupes),
@@ -36,7 +47,7 @@ export const setDupeWaste = (resources, dupes, prop: string, value: number) => {
   };
 };
 
-export const clearDupeInputs = (resources, dupes) => {
+export const clearDupeInputs = (resources: IResource[], dupes: IDupes) => {
   const newDupes = getDupesWithClearedInputs(dupes);
   return {
     resources: updateResourcesWithDupes(resources, newDupes),
@@ -46,7 +57,7 @@ export const clearDupeInputs = (resources, dupes) => {
 
 // ----------------------------------------------
 
-export function getDupes(gameMode: string, dupes, inputs) {
+export function getDupes(gameMode: string, dupes: IDupes, inputs: IDupesInput) {
   if (inputs && inputs.traits) {
     return updateDupesWithInputs(gameMode, dupes, inputs);
   } else {
@@ -54,7 +65,7 @@ export function getDupes(gameMode: string, dupes, inputs) {
   }
 }
 
-function getDupesWithDefaultInputs(dupes) {
+function getDupesWithDefaultInputs(dupes: IDupes) {
   return {
     ...dupes,
     quantity: 0,
@@ -64,7 +75,7 @@ function getDupesWithDefaultInputs(dupes) {
     pollutedDirtValue: 0,
     traits:
       dupes.traits && dupes.traits.length > 0
-        ? dupes.traits.map(trait => {
+        ? dupes.traits.map((trait) => {
             return {
               ...trait,
               quantity: 0,
@@ -74,22 +85,26 @@ function getDupesWithDefaultInputs(dupes) {
   };
 }
 
-function updateDupesWithInputs(gameMode: string, dupes, inputs) {
-  const newDupes = {
+function updateDupesWithInputs(
+  gameMode: string,
+  dupes: IDupes,
+  inputs: IDupesInput,
+) {
+  const newDupes: IDupes = {
     ...dupes,
     waterValue: inputs.waterValue || 0,
     pollutedWaterValue: inputs.pollutedWaterValue || 0,
     dirtValue: inputs.dirtValue || 0,
     pollutedDirtValue: inputs.pollutedDirtValue || 0,
     quantity: inputs.total || 0,
-    traits: dupes.traits.map(trait => {
+    traits: dupes.traits.map((trait) => {
       if (inputs.traits && inputs.traits.length > 0) {
         const inputTrait = inputs.traits.find(
-          input => input.name === trait.name,
+          (input) => input.name === trait.name,
         );
-        return { ...trait, quantity: inputTrait.quantity || 0 };
+        return { ...trait, quantity: inputTrait?.quantity || 0 };
       } else {
-        return {};
+        return trait;
       }
     }),
   };
@@ -97,50 +112,61 @@ function updateDupesWithInputs(gameMode: string, dupes, inputs) {
   return newDupes;
 }
 
-export function getDupesWithClearedInputs(dupes) {
+export function getDupesWithClearedInputs(dupes: IDupes) {
   const newDupes = getDupesWithDefaultInputs(dupes);
   saveToLocalStorage(newDupes);
   return newDupes;
 }
 
-export function getDupesInputsForResource(dupes, resourceName: string) {
+export function getDupesInputsForResource(dupes: IDupes, resourceName: string) {
   const base = getBaseIOForResource(dupes, 'inputs', resourceName);
   const traits = getTraitsIOForResource(dupes.traits, 'inputs', resourceName);
   const waste = getWasteIOForResource(dupes, 'inputs', resourceName);
   return base.concat(traits).concat(waste);
 }
 
-export function getDupesOutputsForResource(dupes, resourceName: string) {
+export function getDupesOutputsForResource(
+  dupes: IDupes,
+  resourceName: string,
+) {
   const base = getBaseIOForResource(dupes, 'outputs', resourceName);
   const traits = getTraitsIOForResource(dupes.traits, 'outputs', resourceName);
   const waste = getWasteIOForResource(dupes, 'outputs', resourceName);
   return base.concat(traits).concat(waste);
 }
 
-function getBaseIOForResource(dupes, type, resourceName: string) {
+function getBaseIOForResource(
+  dupes: IDupes,
+  type: string,
+  resourceName: string,
+) {
   return dupes[type]
-    .filter(io => io.name === resourceName)
-    .map(io => ({
+    .filter((io: IIO) => io.name === resourceName)
+    .map((io: IIO) => ({
       ...io,
       valueExtended: io.value * dupes.quantity,
       dupe: { reference: 'Base Dupe', quantity: dupes.quantity },
     }));
 }
 
-function getTraitsIOForResource(traits, type: string, resourceName: string) {
-  const filteredTraits = traits.filter(trait => trait.quantity > 0);
+function getTraitsIOForResource(
+  traits: IDupeTrait[],
+  type: string,
+  resourceName: string,
+) {
+  const filteredTraits = traits.filter((trait) => trait.quantity > 0);
   if (filteredTraits.length === 0) return [];
 
   return filteredTraits
-    .map(trait =>
-      trait[type].map(io => ({
+    .map((trait) =>
+      trait[type].map((io: IIO) => ({
         ...io,
         dupe: { reference: trait.name, quantity: trait.quantity },
         valueExtended: io.value * trait.quantity,
       })),
     )
     .reduce((a, b) => a.concat(b))
-    .filter(io => io.name === resourceName);
+    .filter((io: IIO) => io.name === resourceName);
 }
 
 const WASTE_PROPERTIES = [
@@ -150,10 +176,14 @@ const WASTE_PROPERTIES = [
   { name: 'dirtValue', title: 'Dirt' },
 ];
 
-function getWasteIOForResource(dupes, type: string, resourceName: string) {
+function getWasteIOForResource(
+  dupes: IDupes,
+  type: string,
+  resourceName: string,
+) {
   let arr: any = []; // TODO: Types
 
-  WASTE_PROPERTIES.forEach(prop => {
+  WASTE_PROPERTIES.forEach((prop) => {
     const isValid =
       prop.title === resourceName &&
       ((dupes[prop.name] < 0 && type === 'inputs') ||
@@ -177,11 +207,15 @@ function getWasteIOForResource(dupes, type: string, resourceName: string) {
   return arr;
 }
 
-export function updateDupeQuantity(gameMode: string, dupes, quantity: number) {
+export function updateDupeQuantity(
+  gameMode: string,
+  dupes: IDupes,
+  quantity: number,
+) {
   const newDupes = {
     ...dupes,
     quantity,
-    traits: dupes.traits.map(trait => ({
+    traits: dupes.traits.map((trait) => ({
       ...trait,
       quantity: trait.quantity > quantity ? quantity : trait.quantity,
     })),
@@ -195,13 +229,13 @@ export function updateDupeQuantity(gameMode: string, dupes, quantity: number) {
 
 export function updateDupeTraitQuantity(
   gameMode: string,
-  dupes,
+  dupes: IDupes,
   name: string,
   quantity: number,
 ) {
   const newDupes = {
     ...dupes,
-    traits: dupes.traits.map(trait => ({
+    traits: dupes.traits.map((trait) => ({
       ...trait,
       quantity:
         trait.name === name
@@ -218,7 +252,7 @@ export function updateDupeTraitQuantity(
   return newDupes;
 }
 
-export function getDupeWaste(dupes, prop: string, value: number) {
+export function getDupeWaste(dupes: IDupes, prop: string, value: number) {
   const newDupes = { ...dupes };
 
   if (prop === '') return newDupes;
@@ -229,42 +263,42 @@ export function getDupeWaste(dupes, prop: string, value: number) {
   return newDupes;
 }
 
-export function getCaloriesRequired(gameMode: string, dupes) {
+export function getCaloriesRequired(gameMode: string, dupes: IDupes) {
   return (
     getBaseCaloriesRequired(gameMode, dupes) +
     getTraitCaloriesRequired(dupes.traits)
   );
 }
 
-function getBaseCaloriesRequired(gameMode: string, dupes) {
+function getBaseCaloriesRequired(gameMode: string, dupes: IDupes) {
   if (!dupes.inputs) return 0;
-  const inputs = dupes.inputs.filter(input => input.name === 'Food');
+  const inputs = dupes.inputs.filter((input) => input.name === 'Food');
   if (inputs.length === 0) return 0;
 
   return inputs
-    .map(input => getGameModeValue(gameMode, input.value) * dupes.quantity)
+    .map((input) => getGameModeValue(gameMode, input.value) * dupes.quantity)
     .reduce((a, b) => a + b);
 }
 
-function getTraitCaloriesRequired(traits) {
+function getTraitCaloriesRequired(traits: IDupeTrait[]) {
   const inputs = traits
-    .map(trait =>
-      trait.inputs.map(input => ({ ...input, quantity: trait.quantity })),
+    .map((trait) =>
+      trait.inputs.map((input) => ({ ...input, quantity: trait.quantity })),
     )
     .reduce((a, b) => a.concat(b))
-    .filter(input => input.name === 'Food');
+    .filter((input) => input.name === 'Food');
 
   if (inputs.length === 0) return 0;
 
   return (
     inputs
       // TODO: confirm that no-sweat is 50% less
-      .map(input => input.value * input.quantity)
+      .map((input) => input.value * input.quantity)
       .reduce((a, b) => a + b)
   );
 }
 
-function saveToLocalStorage(dupes) {
+function saveToLocalStorage(dupes: IDupes) {
   localStorage.setItem(
     'dupes',
     JSON.stringify({
@@ -273,7 +307,7 @@ function saveToLocalStorage(dupes) {
       pollutedWaterValue: dupes.pollutedWaterValue || 0,
       dirtValue: dupes.dirtValue || 0,
       pollutedDirtValue: dupes.pollutedDirtValue || 0,
-      traits: dupes.traits.map(trait => ({
+      traits: dupes.traits.map((trait) => ({
         name: trait.name,
         quantity: trait.quantity || 0,
       })),

@@ -1,6 +1,16 @@
+import IFood from '../interfaces/IFood';
+import IIO from '../interfaces/IIO';
+import IPlantRequirement from './../interfaces/IPlantRequirement';
+import IPlant from './../interfaces/IPlant';
+
 import { getSortedArray } from './commonUtils';
 
-export const sortPlants = (plants, currentOrderBy, orderBy, order) => {
+export const sortPlants = (
+  plants: IPlant[],
+  currentOrderBy: string,
+  orderBy: string,
+  order: string,
+) => {
   const newOrder =
     currentOrderBy === orderBy && order === 'desc' ? 'asc' : 'desc';
   return {
@@ -10,7 +20,7 @@ export const sortPlants = (plants, currentOrderBy, orderBy, order) => {
   };
 };
 
-export function updatePlants(plants, food) {
+export function updatePlants(plants: any[], food: IFood[]) {
   const foodWithQty = food.filter((item) => item.quantity > 0);
 
   if (foodWithQty.length === 0) {
@@ -38,7 +48,7 @@ export function updatePlants(plants, food) {
   }
 }
 
-function getRawFoodRequirements(food) {
+function getRawFoodRequirements(food: IFood[]) {
   const newFoods = food.filter((item) => item.quantity > 0 && item.isRaw);
   if (newFoods.length === 0) return [];
 
@@ -54,14 +64,14 @@ function getRawFoodRequirements(food) {
     .filter((req) => req.type === 'Plant');
 }
 
-function getPreparedFoodRequirements(food) {
+function getPreparedFoodRequirements(food: IFood[]) {
   const rawFoods = food.filter((item) => item.isRaw);
   const preparedFoods = food.filter((item) => item.quantity > 0 && !item.isRaw);
   return getPreparedFoodInputs(preparedFoods, rawFoods);
 }
 
 // TODO: refactor?
-function getPreparedFoodInputs(preparedFoods, rawFoods) {
+function getPreparedFoodInputs(preparedFoods: IFood[], rawFoods: IFood[]) {
   if (rawFoods.length > 0 && preparedFoods.length > 0) {
     const inputs = getRawFoodInputsForPreparedFood(preparedFoods, rawFoods);
     if (inputs.length > 0) {
@@ -75,7 +85,10 @@ function getPreparedFoodInputs(preparedFoods, rawFoods) {
 }
 
 // TODO: refactor?
-function getRawFoodInputsForPreparedFood(preparedFoods, rawFoods) {
+function getRawFoodInputsForPreparedFood(
+  preparedFoods: IFood[],
+  rawFoods: IFood[],
+): IFood[] {
   return preparedFoods
     .map((item) =>
       item.inputs.map((input) => {
@@ -92,11 +105,11 @@ function getRawFoodInputsForPreparedFood(preparedFoods, rawFoods) {
       }),
     )
     .reduce((a, b) => a.concat(b))
-    .filter((item) => item);
+    .filter((item) => item) as IFood[];
 }
 
 // TODO: refactor?
-function getPreparedFoodInputsFromRawFoodInputs(inputs) {
+function getPreparedFoodInputsFromRawFoodInputs(inputs: IFood[]) {
   return inputs
     .map((input) =>
       input.requirements.map((requirement) => ({
@@ -110,9 +123,9 @@ function getPreparedFoodInputsFromRawFoodInputs(inputs) {
 }
 
 function getRequirement(
-  plantName,
-  rawFoodRequirements,
-  preparedFoodRequirements,
+  plantName: string,
+  rawFoodRequirements: IPlantRequirement[],
+  preparedFoodRequirements: IPlantRequirement[],
 ) {
   let requirement = 0;
 
@@ -147,28 +160,38 @@ function getNumberOfPlants(
   return requirement / (plantYield / growthRate);
 }
 
-export function getPlantsInputsForResource(plants, resourceName: string) {
+export function getPlantsInputsForResource(
+  plants: IPlant[],
+  resourceName: string,
+) {
   return getIOForResource(plants, 'inputs', resourceName);
 }
 
-export function getPlantsOutputsForResource(plants, resourceName: string) {
+export function getPlantsOutputsForResource(
+  plants: IPlant[],
+  resourceName: string,
+) {
   return getIOForResource(plants, 'outputs', resourceName);
 }
 
-function getIOForResource(plants, type: string, resourceName: string) {
+function getIOForResource(
+  plants: IPlant[],
+  type: string,
+  resourceName: string,
+) {
   const newPlants = plants.filter((plant) => plant.quantity > 0);
   if (newPlants.length === 0) return [];
 
   return newPlants
     .map((plant) =>
       plant[type]
-        .filter((io) => io.name === resourceName)
-        .map((io) => getExtendedValue(plant, io)),
+        .filter((io: IIO) => io.name === resourceName)
+        .map((io: IIO) => getExtendedValue(plant, io)),
     )
     .reduce((a, b) => a.concat(b));
 }
 
-function getExtendedValue(plant, io) {
+function getExtendedValue(plant: IPlant, io: IIO) {
   return {
     ...io,
     plant,

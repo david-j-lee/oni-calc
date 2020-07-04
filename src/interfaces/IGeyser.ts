@@ -2,7 +2,7 @@ export default interface IGeyser {
   name: string;
   temp: IGeyserTemp;
   maxPressure: IGeyserMaxPressure;
-  outputs: IGeyserOutput;
+  outputs: IGeyserOutput[];
 }
 
 interface IGeyserTemp {

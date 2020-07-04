@@ -60,7 +60,7 @@ export const ResourceIOsGeysers = memo(({ resource, title, type }) => {
             {array.map((io, index) => {
               return (
                 <TableRow key={index}>
-                  <TableCell size="small">{io.geyser.name}</TableCell>
+                  <TableCell size="small">{io.name}</TableCell>
                   <TableCell align="right" size="small">
                     <Number value={io.valueExtended} />
                   </TableCell>

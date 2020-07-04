@@ -8,7 +8,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Router from './Router';
 
 export const App = () => {
-  const [{ theme }, { getTheme }] = useContext();
+  const [state, { getTheme }] = useContext();
+  const { theme } = state;
+  console.log(state);
 
   useEffect(() => {
     getTheme();

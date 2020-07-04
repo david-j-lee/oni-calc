@@ -1,7 +1,7 @@
 import IGeyserInput from './IGeyserInput';
 import IGeyser from './IGeyser';
 
-export interface IGeysers {
+export default interface IGeysers {
   listing: IGeyser[];
-  inputted: IGeyserInput;
+  inputted: IGeyserInput[];
 }

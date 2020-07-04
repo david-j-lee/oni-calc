@@ -15,9 +15,7 @@ import { uiActions } from './actions/uiActions';
 
 export const INITIAL_STATE: IState = {
   tabIndex: 0,
-  settings: {
-    gameMode: 'survival',
-  },
+  settings: { gameMode: 'survival' },
   collapseBuildingPanels: false,
   collapseBuildingPanelsTrigger: false,
   buildings: [],
@@ -28,17 +26,24 @@ export const INITIAL_STATE: IState = {
   resourcesOrderBy: 'name',
   resourcesOrder: 'asc',
   theme: null,
-  powerUsage: {},
-  powerGeneration: {},
-  powerCapacity: {},
-  resourcesCapacity: {},
-  dupes: {},
+  powerUsage: { buildings: [], value: 0 },
+  powerGeneration: { buildings: [], value: 0 },
+  powerCapacity: { buildings: [], value: 0 },
+  resourcesCapacity: { buildings: [], value: 0 },
+  dupes: {
+    inputs: [],
+    outputs: [],
+    traits: [],
+    quantity: 0,
+    caloriesRequired: 0,
+    waterValue: 0,
+    pollutedWaterValue: 0,
+    dirtValue: 0,
+    pollutedDirtValue: 0,
+  },
   food: [],
   plants: [],
-  geysers: {
-    listing: [],
-    inputted: [],
-  },
+  geysers: { listing: [], inputted: [] },
 };
 
 const contract = {
