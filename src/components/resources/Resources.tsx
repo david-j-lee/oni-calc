@@ -76,7 +76,9 @@ export const Resources: FC = () => {
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography>Resources</Typography>
       </AccordionSummary>
-      <AccordionDetails>
+      <AccordionDetails
+        className={['styled-scrollbar', classes.accordionDetails].join(' ')}
+      >
         <Table>
           {getTableHeaders()}
           <TableBody>{mapResourceToElement(resources)}</TableBody>
@@ -92,6 +94,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   tableCell: {
     padding: theme.spacing(),
+  },
+  accordionDetails: {
+    overflowX: 'auto',
+    overflowY: 'hidden',
   },
 }));
 

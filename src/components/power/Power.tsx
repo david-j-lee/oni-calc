@@ -15,6 +15,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // components
 import Number from '../common/Number';
 import PowerBuildings from './PowerBuildings';
+import { Theme } from '@material-ui/core/styles';
 
 export const Power: FC = () => {
   const classes = useStyles();
@@ -43,7 +44,9 @@ export const Power: FC = () => {
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography>Power</Typography>
       </AccordionSummary>
-      <AccordionDetails>
+      <AccordionDetails
+        className={['styled-scrollbar', classes.accordionDetails].join(' ')}
+      >
         <Popover
           className={classes.popover}
           open={dialogOpen}
@@ -59,7 +62,7 @@ export const Power: FC = () => {
         <div className={classes.power}>
           <div className={classes.powerText}>
             <div
-              className={classes.pointer}
+              className={classes.value}
               onMouseOut={handlePopoverClose}
               onMouseOver={(e) =>
                 handlePopoverOpen(
@@ -79,7 +82,7 @@ export const Power: FC = () => {
 
           <div className={classes.powerText}>
             <Typography
-              className={classes.pointer}
+              className={classes.value}
               onMouseOut={handlePopoverClose}
               onMouseOver={(e) =>
                 handlePopoverOpen(e, 'Usage', powerUsage.buildings)
@@ -94,7 +97,7 @@ export const Power: FC = () => {
 
           <div className={classes.powerText}>
             <Typography
-              className={classes.pointer}
+              className={classes.value}
               onMouseOut={handlePopoverClose}
               onMouseOver={(e) =>
                 handlePopoverOpen(e, 'Generation', powerGeneration.buildings)
@@ -110,7 +113,7 @@ export const Power: FC = () => {
   );
 };
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme: Theme) => ({
   power: {
     display: 'flex',
     alignItems: 'center',
@@ -125,8 +128,14 @@ const useStyles = makeStyles(() => ({
   popover: {
     pointerEvents: 'none',
   },
-  pointer: {
+  value: {
     cursor: 'default',
+    whiteSpace: 'nowrap',
+    padding: theme.spacing(),
+  },
+  accordionDetails: {
+    overflowX: 'auto',
+    overflowY: 'hidden',
   },
 }));
 
