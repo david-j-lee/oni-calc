@@ -52,7 +52,7 @@ export const Calculator: FC<IProps> = memo(({ location }) => {
   };
 
   return (
-    <Grid container className={classes.root}>
+    <Grid container className={[classes.root, 'styled-scrollbar'].join(' ')}>
       <Grid
         item
         sm={6}
@@ -108,6 +108,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     height: '100vh',
     display: 'flex',
+    [theme.breakpoints.down('xs')]: {
+      height: `calc(100vh - ${theme.spacing(8)}px)`,
+      display: 'block',
+      overflowY: 'auto',
+      marginTop: theme.spacing(8),
+    },
   },
   leftSection: {
     height: `calc(100% - ${theme.spacing(10)}px)`,
@@ -119,6 +125,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     paddingBottom: theme.spacing(2),
     [theme.breakpoints.down('xs')]: {
       height: 'auto',
+      marginTop: 0,
     },
   },
   rightSection: {
@@ -131,6 +138,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginTop: theme.spacing(10),
     [theme.breakpoints.down('xs')]: {
       height: 'auto',
+      marginTop: theme.spacing(),
     },
   },
   tabs: {
