@@ -144,7 +144,7 @@ function getBaseIOForResource(
     .filter((io: IIO) => io.name === resourceName)
     .map((io: IIO) => ({
       ...io,
-      valueExtended: io.value * dupes.quantity,
+      valueExtended: (io.value as number) * dupes.quantity,
       dupe: { reference: 'Base Dupe', quantity: dupes.quantity },
     }));
 }
@@ -162,7 +162,7 @@ function getTraitsIOForResource(
       trait[type].map((io: IIO) => ({
         ...io,
         dupe: { reference: trait.name, quantity: trait.quantity },
-        valueExtended: io.value * trait.quantity,
+        valueExtended: (io.value as number) * trait.quantity,
       })),
     )
     .reduce((a, b) => a.concat(b))
@@ -293,7 +293,7 @@ function getTraitCaloriesRequired(traits: IDupeTrait[]) {
   return (
     inputs
       // TODO: confirm that no-sweat is 50% less
-      .map((input) => input.value * input.quantity)
+      .map((input) => (input.value as number) * input.quantity)
       .reduce((a, b) => a + b)
   );
 }

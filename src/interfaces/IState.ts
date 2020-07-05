@@ -5,20 +5,21 @@ import IBuildingAggregate from './IBuildingAggregate';
 import IFood from './IFood';
 import IPlant from './IPlant';
 import IGeysers from './IGeysers';
+import IResource from './IResource';
 
 export default interface IState {
   tabIndex: number;
   settings: ISettings;
   collapseBuildingPanels: boolean;
-  collapseBuildingPanelsTrigger: boolean;
+  collapseBuildingPanelsTrigger: number;
   theme: any;
-  buildingOrder: string;
+  buildingOrder: 'asc' | 'desc';
   buildings: IBuilding[];
   buildingsLayout: string;
   buildingsOrderBy: string;
-  resources: [];
+  resources: IResource[];
   resourcesOrderBy: string;
-  resourcesOrder: string;
+  resourcesOrder: 'asc' | 'desc';
   powerUsage: IBuildingAggregate;
   powerGeneration: IBuildingAggregate;
   powerCapacity: IBuildingAggregate;
@@ -26,5 +27,7 @@ export default interface IState {
   dupes: IDupes;
   food: IFood[];
   plants: IPlant[];
+  plantsOrderBy: string;
+  plantsOrder: 'asc' | 'desc';
   geysers: IGeysers;
 }

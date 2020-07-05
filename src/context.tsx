@@ -17,7 +17,7 @@ export const INITIAL_STATE: IState = {
   tabIndex: 0,
   settings: { gameMode: 'survival' },
   collapseBuildingPanels: false,
-  collapseBuildingPanelsTrigger: false,
+  collapseBuildingPanelsTrigger: -1,
   buildings: [],
   buildingsLayout: 'grid',
   buildingsOrderBy: '',
@@ -43,6 +43,8 @@ export const INITIAL_STATE: IState = {
   },
   food: [],
   plants: [],
+  plantsOrder: 'desc',
+  plantsOrderBy: 'name',
   geysers: { listing: [], inputted: [] },
 };
 

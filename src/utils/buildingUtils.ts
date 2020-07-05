@@ -1,3 +1,4 @@
+import IGameModeValue from '../interfaces/IGameModeValue';
 import IBuilding from '../interfaces/IBuilding';
 import IBuildingInput from './../interfaces/IBuildingInput';
 import IIO from './../interfaces/IIO';
@@ -200,9 +201,9 @@ function getBuildingIOs(
 function getExtendedValue(
   quantity: number,
   utilization: number,
-  value: number,
+  value: number | IGameModeValue,
 ) {
-  return (quantity * value * utilization) / 100;
+  return (quantity * (value as number) * utilization) / 100;
 }
 
 export function updateBuildingQuantity(

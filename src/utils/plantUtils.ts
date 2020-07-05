@@ -97,7 +97,7 @@ function getRawFoodInputsForPreparedFood(
           return {
             ...rawFood,
             name: item.name,
-            quantity: item.quantity * input.value,
+            quantity: item.quantity * (input.value as number),
           };
         } else {
           return null;
@@ -195,6 +195,6 @@ function getExtendedValue(plant: IPlant, io: IIO) {
   return {
     ...io,
     plant,
-    valueExtended: plant.quantity * io.value,
+    valueExtended: plant.quantity * (io.value as number),
   };
 }

@@ -1,3 +1,5 @@
+import IGeyserOutput from './IGeyserOutput';
+
 export default interface IGeyser {
   name: string;
   temp: IGeyserTemp;
@@ -13,8 +15,4 @@ interface IGeyserTemp {
 interface IGeyserMaxPressure {
   value: number;
   unit: string;
-}
-
-interface IGeyserOutput {
-  name: string;
 }
