@@ -1,3 +1,9 @@
+import IBuilding from '../interfaces/IBuilding';
+import IDupes from './../interfaces/IDupes';
+import IFood from '../interfaces/IFood';
+import IPlant from './../interfaces/IPlant';
+import IResource from './../interfaces/IResource';
+
 import {
   getPlantsInputsForResource,
   getPlantsOutputsForResource,
@@ -17,10 +23,14 @@ import { getFoodInputsForResource } from './foodUtils';
 
 import { getIOTotal, getSortedArray } from './commonUtils';
 import { getGeyserOutputs } from './geyserUtils';
+import IGeysers from '../interfaces/IGeysers';
 
-import IBuilding from '../interfaces/IBuilding';
-
-export const sortResources = (resources, currentOrderBy, orderBy, order) => {
+export const sortResources = (
+  resources: IResource[],
+  currentOrderBy: string,
+  orderBy: string,
+  order: string,
+) => {
   const newOrder =
     currentOrderBy === orderBy && order === 'desc' ? 'asc' : 'desc';
   return {
@@ -32,8 +42,8 @@ export const sortResources = (resources, currentOrderBy, orderBy, order) => {
 
 // -----------------------------------------------------------
 
-export function getClearedResources(resources) {
-  return resources.map(resource => {
+export function getClearedResources(resources: IResource[]) {
+  return resources.map((resource) => {
     resource.totalInput = 0;
     resource.totalOutput = 0;
     resource.totalIO = 0;
@@ -50,7 +60,7 @@ export function updateResources({
   food,
   geysers,
 }) {
-  return resources.map(resource => {
+  return resources.map((resource: IResource) => {
     const updatedResource = {
       ...resource,
       ...resourceDupes(resource, dupes),
@@ -71,10 +81,10 @@ export function updateResources({
 }
 
 export function updateResourcesWithBuildings(
-  resources,
+  resources: IResource[],
   buildings: IBuilding[],
 ) {
-  return resources.map(resource => {
+  return resources.map((resource) => {
     const updatedResource = {
       ...resource,
       ...resourceBuildings(resource, buildings),
@@ -89,8 +99,11 @@ export function updateResourcesWithBuildings(
   });
 }
 
-export function updateResourcesWithDupes(resources, dupes) {
-  return resources.map(resource => {
+export function updateResourcesWithDupes(
+  resources: IResource[],
+  dupes: IDupes,
+) {
+  return resources.map((resource) => {
     const updatedResource = {
       ...resource,
       ...resourceDupes(resource, dupes),
@@ -105,8 +118,12 @@ export function updateResourcesWithDupes(resources, dupes) {
   });
 }
 
-export function updateResourcesWithFoodAndPlants(resources, plants, food) {
-  return resources.map(resource => {
+export function updateResourcesWithFoodAndPlants(
+  resources: IResource[],
+  plants: IPlant[],
+  food: IFood[],
+) {
+  return resources.map((resource) => {
     const updatedResource = {
       ...resource,
       ...resourceFood(resource, food),
@@ -122,8 +139,11 @@ export function updateResourcesWithFoodAndPlants(resources, plants, food) {
   });
 }
 
-export function updateResourcesWithGeysers(resources, geysers) {
-  return resources.map(resource => {
+export function updateResourcesWithGeysers(
+  resources: IResource[],
+  geysers: IGeysers,
+) {
+  return resources.map((resource) => {
     const updatedResource = {
       ...resource,
       ...resourceGeysers(resource, geysers),
@@ -138,7 +158,7 @@ export function updateResourcesWithGeysers(resources, geysers) {
   });
 }
 
-function resourceDupes(resource, dupes) {
+function resourceDupes(resource: IResource, dupes: IDupes) {
   const dupeInputs = getDupesInputsForResource(dupes, resource.name);
   const dupeOutputs = getDupesOutputsForResource(dupes, resource.name);
   const totalDupeInput = getIOTotal(dupeInputs);
@@ -153,7 +173,7 @@ function resourceDupes(resource, dupes) {
   };
 }
 
-function resourceBuildings(resource, buildings: IBuilding[]) {
+function resourceBuildings(resource: IResource, buildings: IBuilding[]) {
   const buildingInputs = getBuildingsInputsForResource(
     buildings,
     resource.name,
@@ -174,7 +194,7 @@ function resourceBuildings(resource, buildings: IBuilding[]) {
   };
 }
 
-function resourceFood(resource, food) {
+function resourceFood(resource: IResource, food: IFood[]) {
   const foodInputs = getFoodInputsForResource(food, resource.name);
   const foodOutputs = [];
   const totalFoodInput = getIOTotal(foodInputs);
@@ -189,7 +209,7 @@ function resourceFood(resource, food) {
   };
 }
 
-function resourcePlants(resource, plants) {
+function resourcePlants(resource: IResource, plants: IPlant[]) {
   const plantInputs = getPlantsInputsForResource(plants, resource.name);
   const plantOutputs = getPlantsOutputsForResource(plants, resource.name);
   const totalPlantInput = getIOTotal(plantInputs);
@@ -204,7 +224,7 @@ function resourcePlants(resource, plants) {
   };
 }
 
-function resourceGeysers(resource, geysers) {
+function resourceGeysers(resource: IResource, geysers: IGeysers) {
   const geyserInputs = [];
   const geyserOutputs = getGeyserOutputs(geysers, resource.name);
   const totalGeyserInput = getIOTotal(geyserInputs);
@@ -219,7 +239,7 @@ function resourceGeysers(resource, geysers) {
   };
 }
 
-function getTotalInput(resource) {
+function getTotalInput(resource: IResource) {
   return (
     resource.totalDupeInput +
     resource.totalBuildingInput +
@@ -229,7 +249,7 @@ function getTotalInput(resource) {
   );
 }
 
-function getTotalOutput(resource) {
+function getTotalOutput(resource: IResource) {
   return (
     resource.totalDupeOutput +
     resource.totalBuildingOutput +

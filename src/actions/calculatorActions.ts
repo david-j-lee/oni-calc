@@ -21,10 +21,13 @@ import {
 import { updateResources } from '../utils/resourceUtils';
 import { INITIAL_STATE } from './../context';
 
+import IDupes from '../interfaces/IDupes';
+import IState from './../interfaces/IState';
+
 // TODO: Refactor
 export const calculatorActions = {
   getData() {
-    return state => {
+    return (state: IState) => {
       let dupeInputs: any = localStorage.getItem('dupes');
       let foodInputs: any = localStorage.getItem('food');
       let geyserInputs: any = localStorage.getItem('geysers');
@@ -68,7 +71,11 @@ export const calculatorActions = {
       }
 
       const newSettings = settings ? settings : INITIAL_STATE.settings;
-      const newDupes = getDupes(newSettings.gameMode, dupes, dupeInputs);
+      const newDupes = getDupes(
+        newSettings.gameMode,
+        dupes as IDupes,
+        dupeInputs,
+      );
       const newBuildings = getBuildings(
         parseBuildings(buildings),
         parseBuildingInputs(localStorage.getItem('buildings')),

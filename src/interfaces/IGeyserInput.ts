@@ -1,3 +1,5 @@
+import IGeyserOutput from './IGeyserOutput';
+
 export default interface IGeyserInput {
   name: string;
   amount: number;
@@ -5,4 +7,5 @@ export default interface IGeyserInput {
   activeEvery: number;
   eruptionDuration: number;
   eruptionEvery: number;
+  outputs: IGeyserOutput[];
 }

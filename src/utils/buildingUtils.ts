@@ -1,6 +1,8 @@
+import IGameModeValue from '../interfaces/IGameModeValue';
 import IBuilding from '../interfaces/IBuilding';
 import IBuildingInput from './../interfaces/IBuildingInput';
 import IIO from './../interfaces/IIO';
+import IResource from './../interfaces/IResource';
 
 import { getPowerCapacity, getResourcesCapacity } from './capacityUtils';
 import { getSortedArray, getStandardIO } from './commonUtils';
@@ -18,7 +20,12 @@ export const setBuildingsLayout = (layout) => {
   };
 };
 
-export const setBuildingQuantity = (resources, buildings, name, quantity) => {
+export const setBuildingQuantity = (
+  resources: IResource[],
+  buildings: IBuilding[],
+  name: string,
+  quantity: number,
+) => {
   const newBuildings = updateBuildingQuantity(buildings, name, quantity);
   return {
     buildings: newBuildings,
@@ -31,10 +38,10 @@ export const setBuildingQuantity = (resources, buildings, name, quantity) => {
 };
 
 export const setBuildingUtilization = (
-  resources,
-  buildings,
-  name,
-  utilization,
+  resources: IResource[],
+  buildings: IBuilding[],
+  name: string,
+  utilization: number,
 ) => {
   const newBuildings = updateBuildingUtilization(buildings, name, utilization);
   const newResources = updateResourcesWithBuildings(resources, newBuildings);
@@ -46,7 +53,10 @@ export const setBuildingUtilization = (
   };
 };
 
-export const clearBuildingInputs = (resources, buildings) => {
+export const clearBuildingInputs = (
+  resources: IResource[],
+  buildings: IBuilding[],
+) => {
   const newBuildings = getBuildingsWithClearedInputs(buildings);
   return {
     resources: updateResourcesWithBuildings(resources, newBuildings),
@@ -58,7 +68,12 @@ export const clearBuildingInputs = (resources, buildings) => {
   };
 };
 
-export const sortBuildings = (buildings, currentOrderBy, orderBy, order) => {
+export const sortBuildings = (
+  buildings: IBuilding[],
+  currentOrderBy: string,
+  orderBy: string,
+  order: string,
+) => {
   const newOrder =
     currentOrderBy === orderBy && order === 'desc' ? 'asc' : 'desc';
   return {
@@ -186,9 +201,9 @@ function getBuildingIOs(
 function getExtendedValue(
   quantity: number,
   utilization: number,
-  value: number,
+  value: number | IGameModeValue,
 ) {
-  return (quantity * value * utilization) / 100;
+  return (quantity * (value as number) * utilization) / 100;
 }
 
 export function updateBuildingQuantity(
