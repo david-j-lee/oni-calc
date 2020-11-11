@@ -91,7 +91,7 @@ export const geysers = [
   },
   {
     name: 'Steam Vent',
-    temp: { value: 110, unit: 'C' },
+    temp: { value: 500, unit: 'C' },
     maxPressure: { value: 5, unit: 'kg' },
     outputs: [{ name: 'Steam' }],
   },
