@@ -29,7 +29,7 @@
     "@types/react-dom": "16.9.8",
     "@types/react-router-dom": "5.1.5",
     "@types/webfontloader": "1.6.32",
-    "node-sass": "4.14.1",
+    "node-sass": "7.0.0",
     "react-scripts": "3.4.1",
     "typescript": "3.9.6"
   },
