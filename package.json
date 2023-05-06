@@ -13,25 +13,22 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@material-ui/core": "4.11.0",
-    "@material-ui/icons": "4.9.1",
-    "@material-ui/lab": "4.0.0-alpha.56",
     "@techempower/react-governor": "0.7.0",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "react-router-dom": "5.2.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-router-dom": "6.3.0",
     "webfontloader": "1.6.28"
   },
   "devDependencies": {
-    "@types/jest": "26.0.3",
-    "@types/node": "12.11.1",
-    "@types/react": "16.9.41",
-    "@types/react-dom": "16.9.8",
-    "@types/react-router-dom": "5.1.5",
-    "@types/webfontloader": "1.6.32",
-    "node-sass": "4.14.1",
-    "react-scripts": "3.4.1",
-    "typescript": "3.9.6"
+    "@types/jest": "28.1.6",
+    "@types/node": "18.0.6",
+    "@types/react": "18.0.15",
+    "@types/react-dom": "18.0.6",
+    "@types/react-router-dom": "5.3.3",
+    "@types/webfontloader": "1.6.34",
+    "node-sass": "7.0.1",
+    "react-scripts": "5.0.1",
+    "typescript": "4.7.4"
   },
   "eslintConfig": {
     "extends": "react-app"
