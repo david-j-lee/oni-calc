@@ -30,6 +30,27 @@ export const food = [
     inputs: [],
   },
   {
+    name: 'Cooked Seafood',
+    isRaw: false,
+    calories: 1600,
+    quality: 3,
+    requirements: [],
+    inputs: [
+      { name: 'Pacu Fillet/Raw Shellfish', value: 1, unit: 'each', rate: 'per item' },
+    ],
+  },
+  {
+    name: 'Curried Beans',
+    isRaw: false,
+    calories: 5000,
+    quality: 4,
+    requirements: [],
+    inputs: [
+      { name: 'Nosh Bean', value: 4, unit: 'each', rate: 'per item' },
+      { name: 'Tonic Root', value: 4, unit: 'each', rate: 'per item' },
+    ],
+  },
+  {
     name: 'Fried Mushroom',
     isRaw: false,
     calories: 2800,
@@ -45,6 +66,18 @@ export const food = [
     requirements: [],
     inputs: [
       { name: 'Sleet Wheat Grain', value: 3, unit: 'each', rate: 'per item' },
+    ],
+  },
+  {
+    name: 'Frost Burger',
+    isRaw: false,
+    calories: 6000,
+    quality: 6,
+    requirements: [],
+    inputs: [
+      { name: 'Barbeque', value: 1, unit: 'each', rate: 'per item' },
+      { name: 'Frost Bun', value: 1, unit: 'each', rate: 'per item' },
+      { name: 'Lettuce', value: 1, unit: 'each', rate: 'per item' },
     ],
   },
   {
@@ -69,6 +102,14 @@ export const food = [
     ],
   },
   {
+    name: 'Lettuce',
+    isRaw: true,
+    calories: 400,
+    quality: 0,
+    requirements: [{ type: 'Plant', name: 'Waterweed' }],
+    inputs: [],
+  },
+  {
     name: 'Meal Lice',
     isRaw: true,
     calories: 1000,
@@ -91,8 +132,8 @@ export const food = [
     quality: -1,
     requirements: [],
     inputs: [
-      { name: 'Water', value: 93.8, unit: 'g', rate: 'per item' },
-      { name: 'Dirt', value: 93.8, unit: 'g', rate: 'per item' },
+      { name: 'Water', value: 75, unit: 'kg', rate: 'per item' },
+      { name: 'Dirt', value: 75, unit: 'kg', rate: 'per item' },
     ],
   },
   {
@@ -112,12 +153,51 @@ export const food = [
     inputs: [],
   },
   {
+    name: 'Mushroom Quiche',
+    isRaw: false,
+    calories: 6400,
+    quality: 2,
+    requirements: [],
+    inputs: [
+      { name: 'Fried Mushroom', value: 1, unit: 'each', rate: 'per item' },
+      { name: 'Lettuce', value: 1, unit: 'each', rate: 'per item' },
+      { name: 'Omelette', value: 1, unit: 'each', rate: 'per item' },
+    ],
+  },
+  {
+    name: 'Mushroom Wrap',
+    isRaw: false,
+    calories: 4800,
+    quality: 4,
+    requirements: [],
+    inputs: [
+      { name: 'Fried Mushroom', value: 1, unit: 'each', rate: 'per item' },
+      { name: 'Lettuce', value: 4, unit: 'each', rate: 'per item' },
+    ],
+  },
+  {
+    name: 'Nosh Bean',
+    isRaw: true,
+    calories: 0,
+    quality: 0,
+    requirements: [{ type: 'Plant', name: 'Nosh Sprout' }],
+    inputs: [],
+  },
+  {
     name: 'Omelette',
     isRaw: false,
     calories: 2800,
     quality: 2,
     requirements: [],
     inputs: [{ name: 'Raw Egg', value: 1, unit: 'each', rate: 'per item' }],
+  },
+  {
+    name: 'Pacu Fillet',
+    isRaw: true,
+    calories: 1000,
+    quality: 2,
+    requirements: [{ type: 'Critter', name: 'Adult Pacu' }],
+    inputs: [],
   },
   {
     name: 'Pepper Bread',
@@ -135,7 +215,7 @@ export const food = [
     isRaw: true,
     calories: 0,
     quality: 0,
-    requirements: [{ type: 'Plant', name: 'Pincha Pepper' }],
+    requirements: [{ type: 'Plant', name: 'Pincha Pepperplant' }],
     inputs: [],
   },
   {
@@ -147,12 +227,31 @@ export const food = [
     inputs: [{ name: 'Meal Lice', value: 1, rate: 'per item' }],
   },
   {
+    name: 'Raw Shellfish',
+    isRaw: true,
+    calories: 1000,
+    quality: 2,
+    requirements: [{ type: 'Critter', name: 'Adult Sanishell' }],
+    inputs: [],
+  },
+  {
     name: 'Sleet Wheat Grain',
     isRaw: true,
     calories: 0,
     quality: 0,
     requirements: [{ type: 'Plant', name: 'Sleet Wheat' }],
     inputs: [],
+  },
+  {
+    name: 'Spicy Tofu',
+    isRaw: false,
+    calories: 4000,
+    quality: 5,
+    requirements: [],
+    inputs: [
+      { name: 'Pincha Peppernut', value: 1, unit: 'each', rate: 'per item' },
+      { name: 'Tofu', value: 1, unit: 'each', rate: 'per item' },
+    ],
   },
   {
     name: 'Stuffed Berry',
@@ -163,6 +262,28 @@ export const food = [
     inputs: [
       { name: 'Pincha Peppernut', value: 2, unit: 'each', rate: 'per item' },
       { name: 'Bristle Berry', value: 2, unit: 'each', rate: 'per item' },
+    ],
+  },
+  {
+    name: "Surf'n'Turf",
+    isRaw: false,
+    calories: 6000,
+    quality: 4,
+    requirements: [],
+    inputs: [
+      { name: 'Barbeque', value: 1, unit: 'each', rate: 'per item' },
+      { name: 'Cooked Seafood', value: 1, unit: 'each', rate: 'per item' },
+    ],
+  },
+  {
+    name: "Tofu",
+    isRaw: false,
+    calories: 3600,
+    quality: 2,
+    requirements: [],
+    inputs: [
+      { name: 'Nosh Bean', value: 6, unit: 'each', rate: 'per item' },
+      { name: 'Water', value: 50, unit: 'kg', rate: 'per item' },
     ],
   },
 ];
