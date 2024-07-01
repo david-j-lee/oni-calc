@@ -25,7 +25,7 @@ export const PlantFood: FC<IProps> = memo(({ plant }) => {
         plant.rawFood.length === 0 &&
         plant.preparedFood &&
         plant.preparedFood.length === 0 && (
-          <Typography className={classes.notFound}>No food found</Typography>
+          <Typography className={classes.notFound}>No food related to this plant</Typography>
         )}
       {plant.rawFood && plant.rawFood.length > 0 && (
         <Table>
