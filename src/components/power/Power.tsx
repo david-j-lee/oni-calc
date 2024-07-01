@@ -61,6 +61,36 @@ export const Power: FC = () => {
 
         <div className={classes.power}>
           <div className={classes.powerText}>
+            <Typography
+              className={classes.value}
+              onMouseOut={handlePopoverClose}
+              onMouseOver={(e) =>
+                handlePopoverOpen(e, 'Generation', powerGeneration.buildings)
+              }
+            >
+              {Math.round(powerGeneration.value).toLocaleString()} W
+            </Typography>
+            <Typography>Generated</Typography>
+          </div>
+
+          <Typography variant="h2">-</Typography>
+
+          <div className={classes.powerText}>
+            <Typography
+              className={classes.value}
+              onMouseOut={handlePopoverClose}
+              onMouseOver={(e) =>
+                handlePopoverOpen(e, 'Usage', powerUsage.buildings)
+              }
+            >
+              {Math.round(powerUsage.value).toLocaleString()} W
+            </Typography>
+            <Typography>Used</Typography>
+          </div>
+
+          <Typography variant="h2">=</Typography>
+
+          <div className={classes.powerText}>
             <div
               className={classes.value}
               onMouseOut={handlePopoverClose}
@@ -78,34 +108,6 @@ export const Power: FC = () => {
               />
             </div>
             <Typography>Net</Typography>
-          </div>
-
-          <div className={classes.powerText}>
-            <Typography
-              className={classes.value}
-              onMouseOut={handlePopoverClose}
-              onMouseOver={(e) =>
-                handlePopoverOpen(e, 'Usage', powerUsage.buildings)
-              }
-            >
-              {Math.round(powerUsage.value).toLocaleString()} W
-            </Typography>
-            <Typography>Used</Typography>
-          </div>
-
-          <Typography>/</Typography>
-
-          <div className={classes.powerText}>
-            <Typography
-              className={classes.value}
-              onMouseOut={handlePopoverClose}
-              onMouseOver={(e) =>
-                handlePopoverOpen(e, 'Generation', powerGeneration.buildings)
-              }
-            >
-              {Math.round(powerGeneration.value).toLocaleString()} W
-            </Typography>
-            <Typography>Generated</Typography>
           </div>
         </div>
       </AccordionDetails>
