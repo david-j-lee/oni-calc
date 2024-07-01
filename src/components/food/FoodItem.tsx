@@ -237,6 +237,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
+    '& .MuiIconButton-colorPrimary': {
+      color: theme.palette.success[theme.palette.type],
+      '&:hover': {
+        backgroundColor: theme.palette.success[theme.palette.type] + '14', //14 = 0.08 opacity from the default bg
+      }
+    }
   },
   cover: {
     width: 60,

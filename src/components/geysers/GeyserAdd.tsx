@@ -258,7 +258,7 @@ export const GeyserAdd: FC = () => {
       </CardContent>
       {geyserName !== '' && (
         <CardActions className={classes.cardActions}>
-          <Button onClick={clearInputs} color="primary">
+          <Button onClick={clearInputs} color="secondary">
             Clear
           </Button>
           {isValid && (

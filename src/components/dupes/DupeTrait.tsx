@@ -175,6 +175,12 @@ export const DupeTrait: FC<IProps> = ({ trait }) => {
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     height: '100%',
+    '& .MuiIconButton-colorPrimary': {
+      color: theme.palette.success[theme.palette.type],
+      '&:hover': {
+        backgroundColor: theme.palette.success[theme.palette.type] + '14', //14 = 0.08 opacity from the default bg
+      }
+    }
   },
   cardContent: {
     flex: '1 0 auto',

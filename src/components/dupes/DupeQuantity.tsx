@@ -175,6 +175,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {},
   card: {
     margin: theme.spacing(),
+    '& .MuiIconButton-colorPrimary': {
+      color: theme.palette.success[theme.palette.type],
+      '&:hover': {
+        backgroundColor: theme.palette.success[theme.palette.type] + '14', //14 = 0.08 opacity from the default bg
+      }
+    }
   },
   cardContent: {
     flex: '1 0 auto',

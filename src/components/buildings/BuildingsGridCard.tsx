@@ -283,6 +283,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   quantity: {
     display: 'flex',
     alignItems: 'center',
+    '& .MuiIconButton-colorPrimary': {
+      color: theme.palette.success[theme.palette.type],
+      '&:hover': {
+        backgroundColor: theme.palette.success[theme.palette.type] + '14', //14 = 0.08 opacity from the default bg
+      }
+    }
   },
   quantityInput: {
     flexGrow: 1,
