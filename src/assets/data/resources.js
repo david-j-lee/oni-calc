@@ -21,10 +21,16 @@ export const resources = [
     name: 'Dirt',
   },
   {
+    name: 'Ethanol',
+  },
+  {
     name: 'Fertilizer',
   },
   {
     name: 'Hydrogen',
+  },
+  {
+    name: 'Lumber',
   },
   {
     name: 'Magma',
