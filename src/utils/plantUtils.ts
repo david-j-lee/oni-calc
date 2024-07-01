@@ -3,7 +3,7 @@ import IIO from '../interfaces/IIO';
 import IPlantRequirement from './../interfaces/IPlantRequirement';
 import IPlant from './../interfaces/IPlant';
 
-import { getSortedArray } from './commonUtils';
+import { getSortedArray, getStandardIO } from './commonUtils';
 
 export const sortPlants = (
   plants: IPlant[],
@@ -197,7 +197,7 @@ function getIOForResource(
     .map((plant) =>
       plant[type]
         .filter((io: IIO) => io.name === resourceName)
-        .map((io: IIO) => getExtendedValue(plant, io)),
+        .map((io: IIO) => getExtendedValue(plant, getStandardIO(io))),
     )
     .reduce((a, b) => a.concat(b));
 }
