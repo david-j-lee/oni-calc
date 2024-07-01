@@ -1,6 +1,6 @@
 export const food = [
   {
-    name: 'BBQ',
+    name: 'Barbeque',
     isRaw: false,
     calories: 4000,
     quality: 5,
