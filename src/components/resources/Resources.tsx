@@ -25,7 +25,7 @@ import Resource from './Resource';
 export const Resources: FC = () => {
   const classes = useStyles();
   const [
-    { resources, resourcesOrder, resourcesOrderBy },
+    { settings: { hideEmpty }, resources, resourcesOrder, resourcesOrderBy },
     { sortResources },
   ] = useContext();
 
@@ -34,9 +34,11 @@ export const Resources: FC = () => {
   };
 
   const mapResourceToElement = (resources: IResource[]) => {
-    return resources.map((resource, i) => {
-      return <Resource key={i} resource={resource} />;
-    });
+    return resources
+      .filter((resource) => !hideEmpty || resource.totalInput || resource.totalOutput)
+      .map((resource, i) => {
+        return <Resource key={i} resource={resource} />;
+      });
   };
 
   const getTableHeaders = () => {

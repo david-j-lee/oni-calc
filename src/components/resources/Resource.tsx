@@ -24,6 +24,7 @@ export const Resource: FC<IProps> = memo(({ resource }) => {
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogType, setDialogType] = useState('');
 
+  //FIXME this ref seems to be stucking with the image, even when the resource name change (from hide/showing empty resources)
   const imageUrl = useRef(
     `/images/resources/${resource.name.toLowerCase().split(' ').join('-')}.png`,
   );

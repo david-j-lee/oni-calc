@@ -17,7 +17,7 @@ import IGameModeValue from './../../interfaces/IGameModeValue';
 
 export const Settings: FC = () => {
   const classes = useStyles();
-  const [{ settings, dupes }, { setGameMode }] = useContext();
+  const [{ settings, dupes }, { setGameMode, toggleHideEmpty }] = useContext();
 
   const dupeFoodInput = useMemo(() => {
     if (dupes.inputs) {
@@ -29,10 +29,6 @@ export const Settings: FC = () => {
     return null;
   }, [dupes.inputs]);
 
-  const handleChange = (newGameMode) => {
-    setGameMode(newGameMode);
-  };
-
   return (
     <DelayedLoader>
       <div className={classes.root}>
@@ -41,14 +37,14 @@ export const Settings: FC = () => {
             <Card className={classes.card}>
               <ButtonBase
                 className={classes.button}
-                onClick={() => handleChange('survival')}
+                onClick={() => setGameMode('survival')}
               >
                 <CardContent>
                   <Typography variant="h6" className={classes.title}>
                     {' '}
                     <Checkbox
                       checked={settings.gameMode === 'survival'}
-                      onChange={() => handleChange('survival')}
+                      onChange={() => setGameMode('survival')}
                       value="survival"
                       inputProps={{
                         'aria-label': 'game mode survival',
@@ -70,13 +66,13 @@ export const Settings: FC = () => {
             <Card className={classes.card}>
               <ButtonBase
                 className={classes.button}
-                onClick={() => handleChange('no-sweat')}
+                onClick={() => setGameMode('no-sweat')}
               >
                 <CardContent>
                   <Typography variant="h6" className={classes.title}>
                     <Checkbox
                       checked={settings.gameMode === 'no-sweat'}
-                      onChange={() => handleChange('no-sweat')}
+                      onChange={() => setGameMode('no-sweat')}
                       value="no-sweat"
                       inputProps={{
                         'aria-label': 'game mode no sweat',
@@ -90,6 +86,30 @@ export const Settings: FC = () => {
                       dupe every cycle
                     </li>
                   </ul>
+                </CardContent>
+              </ButtonBase>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Card className={classes.card}>
+              <ButtonBase
+                className={classes.button}
+                onClick={toggleHideEmpty}
+              >
+                <CardContent>
+                  <Typography variant="h6" className={classes.title}>
+                    <Checkbox
+                      checked={settings.hideEmpty}
+                      onChange={toggleHideEmpty}
+                      value="hide-empty"
+                      inputProps={{
+                        'aria-label': 'hide empty values from sidebar',
+                      }}
+                    />
+                    <span>Hide empty values</span>
+                  </Typography>
+                  Hide unused resources and plants from the results sidebar
                 </CardContent>
               </ButtonBase>
             </Card>
