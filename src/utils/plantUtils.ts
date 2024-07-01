@@ -66,7 +66,7 @@ function getRawFoodRequirements(food: IFood[]) {
 
 function getPreparedFoodRequirements(food: IFood[]) {
   const rawFoods = food.filter((item) => item.isRaw);
-  const preparedFoods = food.filter((item) => item.quantity > 0 && !item.isRaw);
+  const preparedFoods = food.filter((item) => !item.isRaw);
   return getPreparedFoodInputs(preparedFoods, rawFoods);
 }
 
@@ -89,22 +89,33 @@ function getRawFoodInputsForPreparedFood(
   preparedFoods: IFood[],
   rawFoods: IFood[],
 ): IFood[] {
-  return preparedFoods
-    .map((item) =>
-      item.inputs.map((input) => {
-        const rawFood = rawFoods.find((f) => f.name === input.name);
-        if (rawFood) {
-          return {
-            ...rawFood,
-            name: item.name,
+  const inputsFromPreparedFood = (item) => {
+    return item.inputs.map((input) => {
+      const rawFood = rawFoods.find((f) => f.name === input.name);
+      if (rawFood) {
+        return {
+          ...rawFood,
+          name: item.name,
+          quantity: item.quantity * (input.value as number),
+        };
+      } else {
+        let preparedFood = preparedFoods.find((f) => f.name === input.name);
+        if (preparedFood) {
+          preparedFood = {
+            ...preparedFood,
             quantity: item.quantity * (input.value as number),
           };
-        } else {
-          return null;
+          return inputsFromPreparedFood(preparedFood)
         }
-      }),
-    )
-    .reduce((a, b) => a.concat(b))
+        return null;
+      }
+    })
+  };
+
+  return preparedFoods
+    .filter((item) => item.quantity > 0)
+    .map(inputsFromPreparedFood)
+    .reduce((a, b) => a.concat(b).flat())
     .filter((item) => item) as IFood[];
 }
 
