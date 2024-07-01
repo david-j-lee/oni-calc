@@ -18,14 +18,18 @@ export const DupeTraitDetails: FC<IProps> = memo(({ trait }) => {
   return (
     <div className={classes.root}>
       <Typography variant="h6">{trait.name}</Typography>
-      <Typography variant="subtitle1" className={classes.title}>
-        Inputs
-      </Typography>
-      <ResourceChips ios={trait.inputs} />
-      <Typography variant="subtitle1" className={classes.title}>
-        Outputs
-      </Typography>
-      <ResourceChips ios={trait.outputs} />
+      {!trait.inputs.length ? null : (<>
+        <Typography variant="subtitle1" className={classes.title}>
+          Inputs
+        </Typography>
+        <ResourceChips ios={trait.inputs} />
+      </>)}
+      {!trait.outputs.length ? null : (<>
+        <Typography variant="subtitle1" className={classes.title}>
+          Outputs
+        </Typography>
+        <ResourceChips ios={trait.outputs} />
+      </>)}
     </div>
   );
 });

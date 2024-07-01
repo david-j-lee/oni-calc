@@ -64,19 +64,22 @@ export const BuildingDetails: FC<IProps> = memo(({ building }) => {
           </div>
         </div>
       </div>
+
       <div className={classes.content}>
-        <Typography variant="body1" className={classes.title}>
-          <small>Power</small>
-        </Typography>
-        <Number value={netPower} suffix={powerSuffix} />
-        {capacity.power.unit !== undefined && (
+        {!netPower ? null : (<>
+          <Typography variant="body1" className={classes.title}>
+            <small>Power</small>
+          </Typography>
+          <Number value={netPower} suffix={powerSuffix} />
+        </>)}
+        {!capacity.power.value ? null : (
           <Typography variant="body1" className={classes.title}>
             <small>Power Capacity</small>
             <br />
             {capacity.power.value + ' ' + capacity.power.unit}
           </Typography>
         )}
-        {capacity.resources.unit !== undefined && (
+        {!capacity.resources.value ? null : (
           <Typography variant="body1" className={classes.title}>
             <small>Resource Capacity</small>
             <br />
@@ -85,14 +88,18 @@ export const BuildingDetails: FC<IProps> = memo(({ building }) => {
               capacity.resources.unit}
           </Typography>
         )}
-        <Typography variant="subtitle1" className={classes.title}>
-          Inputs
-        </Typography>
-        <ResourceChips ios={inputs} />
-        <Typography variant="subtitle1" className={classes.title}>
-          Outputs
-        </Typography>
-        <ResourceChips ios={outputs} />
+        {!inputs.length ? null : (<>
+          <Typography variant="subtitle1" className={classes.title}>
+            Inputs
+          </Typography>
+          <ResourceChips ios={inputs} />
+        </>)}
+        {!outputs.length ? null : (<>
+          <Typography variant="subtitle1" className={classes.title}>
+            Outputs
+          </Typography>
+          <ResourceChips ios={outputs} />
+        </>)}
       </div>
     </div>
   );

@@ -50,7 +50,7 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
   );
 
   const imgUrl = useRef(
-    `/images/resources/${item.name.toLowerCase().split(' ').join('-')}.png`,
+    `/images/resources/${item.name.toLowerCase().replaceAll(/[ ']/g, '-')}.png`,
   );
 
   useEffect(() => {
