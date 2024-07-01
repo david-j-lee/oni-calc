@@ -18,14 +18,14 @@ export const dupes = {
       outputs: [],
     },
     {
-      name: "Diver's Lung",
+      name: "Diver's Lungs",
       inputs: [{ name: 'Oxygen', value: -25, unit: 'g', rate: 'per second' }],
       outputs: [
         { name: 'Carbon Dioxide', value: -5, unit: 'g', rate: 'per second' },
       ],
     },
     {
-      name: 'Flatulence',
+      name: 'Flatulent',
       inputs: [],
       outputs: [
         { name: 'Natural Gas', value: 5, unit: 'g', rate: 'per second' },

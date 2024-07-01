@@ -7,7 +7,7 @@ import IPower from '../interfaces/IPower';
 
 const BUILDING_IMG_PATH = '/images/buildings/';
 const BUILDING_CATEGORY_PATH = '/images/building-categories/';
-const WIKI_LINK_PATH = 'https://oxygennotincluded.gamepedia.com/';
+export const WIKI_LINK_PATH = 'https://oxygennotincluded.wiki.gg/';
 
 export function parseBuildings(rawBuildings: any): IBuilding[] {
   if (rawBuildings.constructor === Array) {
@@ -29,7 +29,9 @@ export function parseBuildings(rawBuildings: any): IBuilding[] {
             .split(' ')
             .join('-') +
           '.png',
-        wikiUrl: WIKI_LINK_PATH + building.name.split('-').join('_'),
+        wikiUrl: WIKI_LINK_PATH + building.name
+          .replace(/^(Domesticated|Wild) /, '')
+          .replace(' ', '_'),
         capacity: parseCapacity(building.capacity),
         hasConsistentIO: building.hasConsistentIO || false,
         power: parsePower(building.power),

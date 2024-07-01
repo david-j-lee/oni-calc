@@ -142,7 +142,7 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
         <div>
           <BuildingDetails building={building} />
           <DialogActions>
-            <Button target="_blank" href={building.wikiUrl} color="primary">
+            <Button target="_blank" href={building.wikiUrl} color="default">
               WIKI
             </Button>
             <Button

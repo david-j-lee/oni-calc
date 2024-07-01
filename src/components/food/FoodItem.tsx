@@ -25,6 +25,7 @@ import IFood from './../../interfaces/IFood';
 
 // components
 import FoodItemDetails from './FoodItemDetails';
+import { WIKI_LINK_PATH } from '../../utils/parseUtils';
 
 interface IProps {
   item: IFood;
@@ -43,10 +44,7 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
   const timer = useRef<any>();
 
   const wikiLink = useRef(
-    `https://oxygennotincluded.gamepedia.com/${item.name
-      .toLowerCase()
-      .split(' ')
-      .join('-')}`,
+    WIKI_LINK_PATH + item.name.split(' ').join('_'),
   );
 
   const imgUrl = useRef(
@@ -132,7 +130,7 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
       >
         <FoodItemDetails item={item} />
         <DialogActions>
-          <Button target="_blank" href={wikiLink.current} color="primary">
+          <Button target="_blank" href={wikiLink.current} color="default">
             WIKI
           </Button>
           <Button

@@ -136,7 +136,7 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
         <div className={classes.dialog}>
           <BuildingDetails building={building} />
           <DialogActions>
-            <Button target="_blank" href={building.wikiUrl} color="primary">
+            <Button target="_blank" href={building.wikiUrl} color="default">
               WIKI
             </Button>
             <Button
