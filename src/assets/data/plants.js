@@ -51,7 +51,7 @@ export const plants = [
     outputs: [],
   },
   {
-    name: 'Pincha Pepper',
+    name: 'Pincha Pepperplant',
     growthRate: { value: 8, rate: 'cycle' },
     yield: 4,
     inputs: [
@@ -67,6 +67,16 @@ export const plants = [
     inputs: [
       { name: 'Water', value: 20, unit: 'kg', rate: 'per cycle' },
       { name: 'Dirt', value: 5, unit: 'kg', rate: 'per cycle' },
+    ],
+    outputs: [],
+  },
+  {
+    name: 'Waterweed',
+    growthRate: { value: 0, rate: 'cycle' },
+    yield: 1,
+    inputs: [
+      { name: 'Salt Water', value: 5, unit: 'kg', rate: 'per cycle' },
+      { name: 'Bleach Stone', value: 0.5, unit: 'kg', rate: 'per cycle' },
     ],
     outputs: [],
   },
