@@ -88,7 +88,7 @@ export const Plant: FC<IProps> = memo(({ plant }) => {
       </TableCell>
       <TableCell align="right" className={classes.tableCell}>
         <div
-          className={classes.quantity}
+          className={plant.quantity? classes.quantity : classes.emptyQuantity}
           onMouseOver={handleFoodPopoverOpen}
           onMouseOut={handleFoodPopoverClose}
         >
@@ -121,6 +121,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   quantity: {
     cursor: 'default',
+  },
+  emptyQuantity: {
+    cursor: 'default',
+    color: theme.palette.text.disabled,
   },
   popover: {
     pointerEvents: 'none',

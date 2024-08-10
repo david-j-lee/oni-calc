@@ -25,6 +25,7 @@ import IFood from './../../interfaces/IFood';
 
 // components
 import FoodItemDetails from './FoodItemDetails';
+import { WIKI_LINK_PATH } from '../../utils/parseUtils';
 
 interface IProps {
   item: IFood;
@@ -43,14 +44,11 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
   const timer = useRef<any>();
 
   const wikiLink = useRef(
-    `https://oxygennotincluded.gamepedia.com/${item.name
-      .toLowerCase()
-      .split(' ')
-      .join('-')}`,
+    WIKI_LINK_PATH + item.name.split(' ').join('_'),
   );
 
   const imgUrl = useRef(
-    `/images/resources/${item.name.toLowerCase().split(' ').join('-')}.png`,
+    `/images/resources/${item.name.toLowerCase().replaceAll(/[ ']/g, '-')}.png`,
   );
 
   useEffect(() => {
@@ -132,7 +130,7 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
       >
         <FoodItemDetails item={item} />
         <DialogActions>
-          <Button target="_blank" href={wikiLink.current} color="primary">
+          <Button target="_blank" href={wikiLink.current} color="default">
             WIKI
           </Button>
           <Button
@@ -239,6 +237,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
+    '& .MuiIconButton-colorPrimary': {
+      color: theme.palette.success[theme.palette.type],
+      '&:hover': {
+        backgroundColor: theme.palette.success[theme.palette.type] + '14', //14 = 0.08 opacity from the default bg
+      }
+    }
   },
   cover: {
     width: 60,

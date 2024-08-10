@@ -15,7 +15,7 @@ import { uiActions } from './actions/uiActions';
 
 export const INITIAL_STATE: IState = {
   tabIndex: 0,
-  settings: { gameMode: 'survival' },
+  settings: { gameMode: 'survival', hideEmpty: false },
   collapseBuildingPanels: false,
   collapseBuildingPanelsTrigger: -1,
   buildings: [],

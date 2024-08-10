@@ -10,7 +10,6 @@ Any bugs or issues will get immediate priority. Please report any bugs or issues
 
 In no particular order.
 
-- Option to only show items with a value on the left section
 - Functionality for different input or outputs.
   - Filtration mediums for Water Sieve
   - Raw metal and refined metal from Metal Refinery

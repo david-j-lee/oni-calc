@@ -51,7 +51,7 @@ export function getStandardIO(io: IIO) {
       value = 0.0;
       break;
   }
-  return { value, unit: standardUnit, rate: standardRate };
+  return { ...io, value, unit: standardUnit, rate: standardRate };
 }
 
 export function getSortedArray(array: any[], orderBy: string, order: string) {

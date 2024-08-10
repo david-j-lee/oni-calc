@@ -22,6 +22,7 @@ import MoreVert from '@material-ui/icons/MoreVert';
 // components
 import DupeTraitDetails from './DupeTraitDetails';
 import IDupeTrait from './../../interfaces/IDupeTrait';
+import { WIKI_LINK_PATH } from '../../utils/parseUtils';
 
 interface IProps {
   trait: IDupeTrait;
@@ -109,7 +110,7 @@ export const DupeTrait: FC<IProps> = ({ trait }) => {
         <DialogActions>
           <Button
             target="_blank"
-            href="https://oxygennotincluded.gamepedia.com/duplicant"
+            href={`${WIKI_LINK_PATH}Duplicant#Traits`}
             color="primary"
           >
             WIKI
@@ -174,6 +175,12 @@ export const DupeTrait: FC<IProps> = ({ trait }) => {
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     height: '100%',
+    '& .MuiIconButton-colorPrimary': {
+      color: theme.palette.success[theme.palette.type],
+      '&:hover': {
+        backgroundColor: theme.palette.success[theme.palette.type] + '14', //14 = 0.08 opacity from the default bg
+      }
+    }
   },
   cardContent: {
     flex: '1 0 auto',

@@ -22,6 +22,7 @@ import MoreVert from '@material-ui/icons/MoreVert';
 
 // components
 import DupeDetails from './DupeDetails';
+import { WIKI_LINK_PATH } from '../../utils/parseUtils';
 
 export const DupeQuantity: FC = () => {
   const classes = useStyles();
@@ -107,7 +108,7 @@ export const DupeQuantity: FC = () => {
           <DialogActions>
             <Button
               target="_blank"
-              href="https://oxygennotincluded.gamepedia.com/duplicant"
+              href={`${WIKI_LINK_PATH}Duplicant`}
               color="primary"
             >
               WIKI
@@ -174,6 +175,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {},
   card: {
     margin: theme.spacing(),
+    '& .MuiIconButton-colorPrimary': {
+      color: theme.palette.success[theme.palette.type],
+      '&:hover': {
+        backgroundColor: theme.palette.success[theme.palette.type] + '14', //14 = 0.08 opacity from the default bg
+      }
+    }
   },
   cardContent: {
     flex: '1 0 auto',

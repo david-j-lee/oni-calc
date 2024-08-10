@@ -11,6 +11,7 @@ import IResource from './../../interfaces/IResource';
 
 import ResourceIOs from './ResourceIOs';
 import Number from '../common/Number';
+import Chip from '@material-ui/core/Chip';
 
 interface IProps {
   resource: IResource;
@@ -23,6 +24,7 @@ export const Resource: FC<IProps> = memo(({ resource }) => {
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogType, setDialogType] = useState('');
 
+  //FIXME this ref seems to be stucking with the image, even when the resource name change (from hide/showing empty resources)
   const imageUrl = useRef(
     `/images/resources/${resource.name.toLowerCase().split(' ').join('-')}.png`,
   );
@@ -66,13 +68,17 @@ export const Resource: FC<IProps> = memo(({ resource }) => {
             style={{ backgroundImage: `url(${imageUrl.current})` }}
           />
           {resource.name}
-          {resource.unitOfMeasure ? ' (' + resource.unitOfMeasure + ')' : ''}
+          {!resource.unitOfMeasure ? null :
+            <Chip
+              label={resource.unitOfMeasure}
+              size="small"
+            />}
         </div>
       </TableCell>
 
       <TableCell align="right" className={classes.tableCell}>
         <div
-          className={classes.io}
+          className={resource.totalInput? classes.io : classes.emptyIo}
           onMouseOver={(e) => handlePopoverOpen(e, 'Inputs', 'inputs')}
           onMouseOut={handlePopoverClose}
         >
@@ -82,7 +88,7 @@ export const Resource: FC<IProps> = memo(({ resource }) => {
 
       <TableCell align="right" className={classes.tableCell}>
         <div
-          className={classes.io}
+          className={resource.totalOutput? classes.io : classes.emptyIo}
           onMouseOver={(e) => handlePopoverOpen(e, 'Outputs', 'outputs')}
           onMouseOut={handlePopoverClose}
         >
@@ -92,7 +98,7 @@ export const Resource: FC<IProps> = memo(({ resource }) => {
 
       <TableCell align="right" className={classes.tableCell}>
         <div
-          className={classes.io}
+          className={resource.totalIO? classes.io : classes.emptyIo}
           onMouseOver={(e) => handlePopoverOpen(e, 'Inputs or Outputs', 'both')}
           onMouseOut={handlePopoverClose}
         >
@@ -114,6 +120,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     flexWrap: 'nowrap',
     alignItems: 'center',
+    '& .MuiChip-root': {
+      marginLeft: theme.spacing(),
+    }
   },
   image: {
     height: 15,
@@ -124,6 +133,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   io: {
     cursor: 'default',
+  },
+  emptyIo: {
+    cursor: 'default',
+    color: theme.palette.text.disabled,
   },
   popover: {
     pointerEvents: 'none',

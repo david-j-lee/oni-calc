@@ -21,8 +21,9 @@ export const FoodItemDetail: FC<IProps> = memo(({ item }) => {
   const classes = useStyles();
 
   const imgUrl = useRef(
-    `/images/resources/${item.name.toLowerCase().split(' ').join('-')}.png`,
+    `/images/resources/${item.name.toLowerCase().replaceAll(/[ ']/g, '-')}.png`,
   );
+  console.log(imgUrl.current);
 
   return (
     <div className={classes.root}>
@@ -55,13 +56,11 @@ export const FoodItemDetail: FC<IProps> = memo(({ item }) => {
         </div>
       </div>
       <div className={classes.content}>
-        <Typography variant="subtitle1" className={classes.title}>
-          Requirements
-        </Typography>
-        {item.requirements.length === 0 ? (
-          <Typography>No requirements found</Typography>
-        ) : (
-          item.requirements.map((requirement, i) => {
+        {item.requirements.length > 0 && (<>
+          <Typography variant="subtitle1" className={classes.title}>
+            Requirements
+          </Typography>
+          {item.requirements.map((requirement, i) => {
             const reqImgUrl = `/images/bio/${requirement.name
               .toLowerCase()
               .split(' ')
@@ -81,12 +80,14 @@ export const FoodItemDetail: FC<IProps> = memo(({ item }) => {
                 }
               />
             );
-          })
-        )}
-        <Typography variant="subtitle1" className={classes.title}>
-          Inputs
-        </Typography>
-        <ResourceChips ios={item.inputs} />
+          })}
+        </>)}
+        {item.inputs.length > 0 && (<>
+          <Typography variant="subtitle1" className={classes.title}>
+            Inputs
+          </Typography>
+          <ResourceChips ios={item.inputs} />
+        </>)}
       </div>
     </div>
   );

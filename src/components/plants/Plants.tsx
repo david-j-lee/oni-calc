@@ -28,7 +28,7 @@ const TABLE_HEADERS = [
 
 export const Plants: FC = () => {
   const classes = useStyles();
-  const [{ plants, plantsOrderBy, plantsOrder }, { sortPlants }] = useContext();
+  const [{ settings: { hideEmpty }, plants, plantsOrderBy, plantsOrder }, { sortPlants }] = useContext();
 
   const handleRequestSort = (id: string) => {
     sortPlants(id);
@@ -63,9 +63,11 @@ export const Plants: FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {plants.map((plant, i) => (
-              <Plant key={i} plant={plant} />
-            ))}
+            {plants
+              .filter((plant) => !hideEmpty || plant.quantity)
+              .map((plant, i) => (
+                <Plant key={i} plant={plant} />
+              ))}
           </TableBody>
         </Table>
       </AccordionDetails>
