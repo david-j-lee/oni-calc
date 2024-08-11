@@ -1,9 +1,9 @@
-import React, { FC, useEffect } from 'react';
-import { useContext } from '../context';
+import { FC, useEffect } from 'react';
+import { useContext } from '../context/context';
 
 // material
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
 import Router from './Router';
 
@@ -15,16 +15,16 @@ export const App: FC = () => {
     getTheme();
   }, [getTheme]);
 
-  const muiTheme = createMuiTheme({
+  const muiTheme = createTheme({
     ...theme,
     typography: { fontFamily: ['"Nova Square"', 'sans-serif'].join(', ') },
   });
 
   return (
-    <MuiThemeProvider theme={muiTheme}>
+    <ThemeProvider theme={muiTheme}>
       <CssBaseline />
       <Router />
-    </MuiThemeProvider>
+    </ThemeProvider>
   );
 };
 

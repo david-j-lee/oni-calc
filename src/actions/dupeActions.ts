@@ -1,5 +1,7 @@
+import IState from '../interfaces/IState';
 import {
   clearDupeInputs,
+  dupesWastePropNames,
   setDupesQuantity,
   setDupeTraitQuantity,
   setDupeWaste,
@@ -7,7 +9,7 @@ import {
 
 export const dupeActions = {
   setDupesTotalQuantity(quantity: number) {
-    return state => {
+    return (state: IState) => {
       return {
         ...state,
         ...setDupesQuantity(
@@ -20,7 +22,7 @@ export const dupeActions = {
     };
   },
   setDupesTraitQuantity(name: string, quantity: number) {
-    return state => {
+    return (state: IState) => {
       return {
         ...state,
         ...setDupeTraitQuantity(
@@ -33,8 +35,8 @@ export const dupeActions = {
       };
     };
   },
-  setDupeWaste(prop: string, value: number) {
-    return state => {
+  setDupeWaste(prop: dupesWastePropNames, value: number) {
+    return (state: IState) => {
       return {
         ...state,
         ...setDupeWaste(state.resources, state.dupes, prop, value),
@@ -42,7 +44,7 @@ export const dupeActions = {
     };
   },
   clearDupeInputs() {
-    return state => {
+    return (state: IState) => {
       return {
         ...state,
         ...clearDupeInputs(state.resources, state.dupes),

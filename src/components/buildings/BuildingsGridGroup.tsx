@@ -1,32 +1,33 @@
-import React, { FC, memo, useEffect, useState } from 'react';
+import { FC, memo, useEffect, useState } from 'react';
 
 // material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
+import { css } from '@emotion/react';
+import { Theme } from '@mui/material/styles';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
 
 // icons
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 // components
 import BuildingsGridCard from './BuildingsGridCard';
+import IBuilding from '../../interfaces/IBuilding';
+import { IBuildingsGroupedItem } from '../../interfaces/IBuildingsGrouped';
 
 interface IProps {
-  group: any;
+  group: IBuildingsGroupedItem;
   collapseBuildingPanels: boolean;
   collapseBuildingPanelsTrigger: number;
 }
 
 export const BuildingsGridGroup: FC<IProps> = memo(
   ({ group, collapseBuildingPanels, collapseBuildingPanelsTrigger }) => {
-    const classes = useStyles();
     const [expanded, setExpanded] = useState(!collapseBuildingPanels);
 
-    const handleChange = (panel) => (event, isExpanded) => {
+    const handleChange = () => {
       setExpanded(!expanded);
     };
 
@@ -35,15 +36,11 @@ export const BuildingsGridGroup: FC<IProps> = memo(
     }, [collapseBuildingPanels, collapseBuildingPanelsTrigger]);
 
     return (
-      <Accordion
-        expanded={expanded}
-        className={classes.Accordion}
-        onChange={handleChange(group.normalizedName)}
-      >
+      <Accordion expanded={expanded} css={accordionCss} onChange={handleChange}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <div className={classes.buildingName}>
+          <div css={buildingNameCss}>
             <div
-              className={classes.image}
+              css={imageCss}
               style={{ backgroundImage: `url(${group.image})` }}
             />
             <Typography>{group.name}</Typography>
@@ -51,12 +48,12 @@ export const BuildingsGridGroup: FC<IProps> = memo(
         </AccordionSummary>
         <AccordionDetails>
           <Grid container>
-            {group.buildings.map((building) => {
+            {group.buildings.map((building: IBuilding) => {
               return (
                 <Grid
                   item
                   key={building.name}
-                  className={classes.building}
+                  css={buildingCss}
                   sm={12}
                   md={6}
                   lg={4}
@@ -73,31 +70,35 @@ export const BuildingsGridGroup: FC<IProps> = memo(
   },
 );
 
-const useStyles = makeStyles((theme: Theme) => ({
-  Accordion: {
+const accordionCss = (theme: Theme) =>
+  css({
     width: '100%',
     background: 'transparent',
     border: `3px solid ${theme.palette.background.paper}`,
-  },
-  building: {
+  });
+
+const buildingCss = (theme: Theme) =>
+  css({
     paddingLeft: theme.spacing(),
     paddingRight: theme.spacing(),
     paddingBottom: theme.spacing(),
     [theme.breakpoints.down('sm')]: {
       width: '100%',
     },
-  },
-  buildingName: {
-    display: 'flex',
-    flexWrap: 'nowrap',
-    alignItems: 'center',
-  },
-  image: {
+  });
+
+const buildingNameCss = css({
+  display: 'flex',
+  flexWrap: 'nowrap',
+  alignItems: 'center',
+});
+
+const imageCss = (theme: Theme) =>
+  css({
     width: 15,
     height: 15,
     backgroundSize: 'cover',
     marginRight: theme.spacing(),
-  },
-}));
+  });
 
 export default BuildingsGridGroup;

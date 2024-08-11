@@ -1,3 +1,5 @@
+import { Theme } from '@mui/material';
+
 import IBuilding from './IBuilding';
 import IDupes from './IDupes';
 import ISettings from './ISettings';
@@ -6,16 +8,17 @@ import IFood from './IFood';
 import IPlant from './IPlant';
 import IGeysers from './IGeysers';
 import IResource from './IResource';
+import IThemeSaved from './IThemeSaved';
 
 export default interface IState {
   tabIndex: number;
   settings: ISettings;
   collapseBuildingPanels: boolean;
   collapseBuildingPanelsTrigger: number;
-  theme: any;
-  buildingOrder: 'asc' | 'desc';
+  theme: IThemeSaved | null;
+  buildingsOrder: 'asc' | 'desc';
   buildings: IBuilding[];
-  buildingsLayout: string;
+  buildingsLayout: 'grid' | 'table';
   buildingsOrderBy: string;
   resources: IResource[];
   resourcesOrderBy: string;

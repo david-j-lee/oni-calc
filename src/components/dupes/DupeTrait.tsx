@@ -1,23 +1,23 @@
-import React, { FC, useState, useRef, useEffect } from 'react';
-import { useContext } from '../../context';
+import { FC, useState, useRef, useEffect } from 'react';
+import { useContext } from '../../context/context';
 
 // material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import TextField from '@material-ui/core/TextField';
+import { css } from '@emotion/react';
+import { Theme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import TextField from '@mui/material/TextField';
 
 // icons
-import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
-import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
-import MoreVert from '@material-ui/icons/MoreVert';
+import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
+import MoreVert from '@mui/icons-material/MoreVert';
 
 // components
 import DupeTraitDetails from './DupeTraitDetails';
@@ -29,14 +29,12 @@ interface IProps {
 }
 
 export const DupeTrait: FC<IProps> = ({ trait }) => {
-  const classes = useStyles();
   const [{ dupes }, { setDupesTraitQuantity }] = useContext();
 
   const [quantity, setQuantity] = useState(trait.quantity || 0);
-  const [focused, setFocused] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const timer = useRef<any>(null);
+  const timer = useRef<number | null>(null);
 
   // open dialog
   const handleClickOpen = () => {
@@ -72,9 +70,8 @@ export const DupeTrait: FC<IProps> = ({ trait }) => {
     }
   };
 
-  const handleChange = (event) => {
-    let value = event.target.value;
-    value = Number(value);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let value = Number(event.target.value);
     if (value < 0) value = 0;
 
     setQuantity(value);
@@ -86,20 +83,12 @@ export const DupeTrait: FC<IProps> = ({ trait }) => {
     }, 500);
   };
 
-  const onBlur = () => {
-    setFocused(false);
-  };
-
-  const onFocus = () => {
-    setFocused(true);
-  };
-
   useEffect(() => {
     setQuantity(trait.quantity);
   }, [trait]);
 
   return (
-    <div className={classes.root}>
+    <div css={rootCss}>
       <Dialog
         fullScreen={false}
         open={dialogOpen}
@@ -108,26 +97,17 @@ export const DupeTrait: FC<IProps> = ({ trait }) => {
       >
         <DupeTraitDetails trait={trait} />
         <DialogActions>
-          <Button
-            target="_blank"
-            href={`${WIKI_LINK_PATH}Duplicant#Traits`}
-            color="primary"
-          >
+          <Button target="_blank" href={`${WIKI_LINK_PATH}Duplicant#Traits`}>
             WIKI
           </Button>
-          <Button
-            variant="contained"
-            onClick={handleClose}
-            color="primary"
-            autoFocus
-          >
+          <Button variant="contained" onClick={handleClose} autoFocus>
             CLOSE
           </Button>
         </DialogActions>
       </Dialog>
       <Card>
-        <CardContent className={classes.cardContent}>
-          <Typography variant="subtitle1" className={classes.cardContentTitle}>
+        <CardContent css={cardContentCss}>
+          <Typography variant="subtitle1" css={cardContentTitleCss}>
             {trait.name}
           </Typography>
           <IconButton onClick={handleClickOpen} aria-label="More">
@@ -146,11 +126,8 @@ export const DupeTrait: FC<IProps> = ({ trait }) => {
             type="number"
             value={quantity}
             onChange={handleChange}
-            className={classes.quantity}
-            onFocus={onFocus}
-            onBlur={onBlur}
+            css={quantityCss}
             InputProps={{
-              disableUnderline: !focused,
               inputProps: {
                 style: { textAlign: 'right', fontSize: '1.25rem' },
                 'aria-label': 'Dupe Trait Quantity',
@@ -172,29 +149,33 @@ export const DupeTrait: FC<IProps> = ({ trait }) => {
   );
 };
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
+const rootCss = (theme: Theme) =>
+  css({
     height: '100%',
     '& .MuiIconButton-colorPrimary': {
-      color: theme.palette.success[theme.palette.type],
+      color: theme.palette.success[theme.palette.mode],
       '&:hover': {
-        backgroundColor: theme.palette.success[theme.palette.type] + '14', //14 = 0.08 opacity from the default bg
-      }
-    }
-  },
-  cardContent: {
+        backgroundColor: theme.palette.success[theme.palette.mode] + '14', // 14 = 0.08 opacity from the default bg
+      },
+    },
+  });
+
+const cardContentCss = (theme: Theme) =>
+  css({
     flex: '1 0 auto',
     display: 'flex',
     paddingRight: theme.spacing(2),
-  },
-  cardContentTitle: {
-    flexGrow: 1,
-  },
-  quantity: {
+  });
+
+const cardContentTitleCss = css({
+  flexGrow: 1,
+});
+
+const quantityCss = (theme: Theme) =>
+  css({
     flexGrow: 1,
     marginRight: theme.spacing(),
     textAlign: 'right',
-  },
-}));
+  });
 
 export default DupeTrait;

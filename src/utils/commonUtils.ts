@@ -1,6 +1,11 @@
+import IGameModeValue from '../interfaces/IGameModeValue';
+import { IGameMode } from '../interfaces/IGameMode';
 import IIO from '../interfaces/IIO';
 
-export function getGameModeValue(gameMode: string, value: number | any) {
+export function getGameModeValue(
+  gameMode: IGameMode,
+  value: number | IGameModeValue,
+) {
   let gameModeValue = 0;
   if (typeof value === 'number') {
     gameModeValue = value;
@@ -19,7 +24,7 @@ export function getGameModeValue(gameMode: string, value: number | any) {
 export function getIOTotal(ios: IIO[]) {
   if (ios.length === 0) return 0;
 
-  return ios.map((io) => io.valueExtended || 0).reduce((a, b) => a + b);
+  return ios.map((io) => io.valueExtended || 0).reduce((a, b) => a + b, 0);
 }
 
 export function getStandardIO(io: IIO) {
@@ -54,6 +59,7 @@ export function getStandardIO(io: IIO) {
   return { ...io, value, unit: standardUnit, rate: standardRate };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getSortedArray(array: any[], orderBy: string, order: string) {
   return order === 'desc'
     ? [...array].sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))

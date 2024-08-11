@@ -1,4 +1,6 @@
-export const plants = [
+import { IPlantBase } from '../interfaces/IPlant';
+
+export const plants: IPlantBase[] = [
   // { //TODO figure out how to include industrial farm calculations for plants
   //   name: 'Arbor Tree',
   //   growthRate: { value: 4.5, rate: 'cycle' },
@@ -7,28 +9,24 @@ export const plants = [
   //     { name: 'Polluted Water', value: 70, unit: 'kg', rate: 'per cycle' },
   //     { name: 'Dirt', value: 10, unit: 'kg', rate: 'per cycle' },
   //   ],
-  //   outputs: [],
   // },
   {
     name: 'Bristle Blossom',
     growthRate: { value: 6, rate: 'cycle' },
     yield: 1,
     inputs: [{ name: 'Water', value: 20, unit: 'kg', rate: 'per cycle' }],
-    outputs: [],
   },
   {
     name: 'Dusk Cap',
     growthRate: { value: 7.5, rate: 'cycle' },
     yield: 1,
     inputs: [{ name: 'Slime', value: 4, unit: 'kg', rate: 'per cycle' }],
-    outputs: [],
   },
   {
     name: 'Mealwood',
     growthRate: { value: 3, rate: 'cycle' },
     yield: 1,
     inputs: [{ name: 'Dirt', value: 10, unit: 'kg', rate: 'per cycle' }],
-    outputs: [],
   },
   // { //TODO figure out how to include industrial farm calculations for plants
   //   name: 'Oxyfern',
@@ -38,7 +36,7 @@ export const plants = [
   //     { name: 'Water', value: 19, unit: 'kg', rate: 'per cycle' },
   //     { name: 'Dirt', value: 4, unit: 'kg', rate: 'per cycle' },
   //   ],
-  //   outputs: [],
+  //
   // },
   {
     name: 'Nosh Sprout',
@@ -48,7 +46,6 @@ export const plants = [
       { name: 'Ethanol', value: 20, unit: 'kg', rate: 'per cycle' },
       { name: 'Dirt', value: 5, unit: 'kg', rate: 'per cycle' },
     ],
-    outputs: [],
   },
   {
     name: 'Pincha Pepperplant',
@@ -58,7 +55,6 @@ export const plants = [
       { name: 'Polluted Water', value: 35, unit: 'kg', rate: 'per cycle' },
       { name: 'Phosphorite', value: 1, unit: 'kg', rate: 'per cycle' },
     ],
-    outputs: [],
   },
   {
     name: 'Sleet Wheat',
@@ -68,7 +64,6 @@ export const plants = [
       { name: 'Water', value: 20, unit: 'kg', rate: 'per cycle' },
       { name: 'Dirt', value: 5, unit: 'kg', rate: 'per cycle' },
     ],
-    outputs: [],
   },
   {
     name: 'Waterweed',
@@ -78,6 +73,5 @@ export const plants = [
       { name: 'Salt Water', value: 5, unit: 'kg', rate: 'per cycle' },
       { name: 'Bleach Stone', value: 0.5, unit: 'kg', rate: 'per cycle' },
     ],
-    outputs: [],
   },
 ];

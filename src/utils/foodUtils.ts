@@ -1,10 +1,11 @@
 import IFoodInput from './../interfaces/IFoodInput';
 import IResource from './../interfaces/IResource';
 import IPlant from '../interfaces/IPlant';
-import IFood from '../interfaces/IFood';
+import IFood, { IFoodBase } from '../interfaces/IFood';
 
 import { updatePlants } from './plantUtils';
 import { updateResourcesWithFoodAndPlants } from './resourceUtils';
+import IGameModeValue from '../interfaces/IGameModeValue';
 
 export const setFoodQuantity = (
   resources: IResource[],
@@ -43,7 +44,7 @@ export const clearFoodInputs = (
 
 // ------------------------------------------------------------
 
-export function getFood(food: any[], inputs: IFoodInput[]) {
+export function getFood(food: IFoodBase[], inputs?: IFoodInput[]): IFood[] {
   if (inputs) {
     return updateFoodWithInputs(food, inputs);
   } else {
@@ -51,18 +52,29 @@ export function getFood(food: any[], inputs: IFoodInput[]) {
   }
 }
 
-function updateFoodWithInputs(food: IFood[], inputs: IFoodInput[]) {
+function updateFoodWithInputs(
+  food: IFoodBase[],
+  inputs: IFoodInput[],
+): IFood[] {
   return food.map((item) => {
     const input = inputs.find((i) => i.name === item.name);
     return {
       ...item,
       quantity: input && input.quantity ? input.quantity : 0,
-    };
+      inputs:
+        item.inputs.map((input) => ({ ...input, valueExtended: 0 })) ?? [],
+      outputs: [],
+    } as IFood;
   });
 }
 
-function getFoodWithDefaultInputs(food: IFood[]) {
-  return food.map((item) => ({ ...item, quantity: 0 }));
+function getFoodWithDefaultInputs(food: IFoodBase[]): IFood[] {
+  return food.map((item) => ({
+    ...item,
+    inputs: item.inputs.map((input) => ({ ...input, valueExtended: 0 })),
+    outputs: [],
+    quantity: 0,
+  }));
 }
 
 export function getFoodWithClearedInputs(food: IFood[]) {
@@ -94,13 +106,9 @@ export function getFoodOutputsForResource(food: IFood[], resourceName: string) {
 
 function getFoodIOsForResource(
   food: IFood[],
-  type: string,
+  type: 'inputs' | 'outputs',
   resourceName: string,
 ) {
-  if (type !== 'inputs' && type !== 'outputs') {
-    throw new Error('Type must be inputs or outputs');
-  }
-
   const newFood = food.filter((item) => item.quantity > 0);
   if (newFood.length === 0) return [];
 
@@ -114,10 +122,14 @@ function getFoodIOsForResource(
           valueExtended: getExtendedValue(io.value, item.quantity),
         })),
     )
-    .reduce((a, b) => a.concat(b));
+    .reduce((a, b) => a.concat(b), []);
 }
 
-function getExtendedValue(value: number, quantity: number) {
+function getExtendedValue(value: number | IGameModeValue, quantity: number) {
+  if (typeof value !== 'number') {
+    return value.noSweat || value.survival;
+  }
+
   const SECONDS_IN_A_CYCLE = 600;
   return (quantity * value) / SECONDS_IN_A_CYCLE;
 }

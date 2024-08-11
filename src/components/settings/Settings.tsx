@@ -1,22 +1,20 @@
-import React, { FC, useMemo } from 'react';
-import { useContext } from '../../context';
+import { FC, useMemo } from 'react';
+import { useContext } from '../../context/context';
 
 // material
-import { Theme } from '@material-ui/core/styles';
-import { makeStyles } from '@material-ui/styles';
-import ButtonBase from '@material-ui/core/ButtonBase';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Checkbox from '@material-ui/core/Checkbox';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import { Theme } from '@mui/material/styles';
+import { css } from '@emotion/react';
+import ButtonBase from '@mui/material/ButtonBase';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Checkbox from '@mui/material/Checkbox';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
 // components
-import DelayedLoader from './../common/DelayedLoader';
 import IGameModeValue from './../../interfaces/IGameModeValue';
 
 export const Settings: FC = () => {
-  const classes = useStyles();
   const [{ settings, dupes }, { setGameMode, toggleHideEmpty }] = useContext();
 
   const dupeFoodInput = useMemo(() => {
@@ -30,115 +28,106 @@ export const Settings: FC = () => {
   }, [dupes.inputs]);
 
   return (
-    <DelayedLoader>
-      <div className={classes.root}>
-        <Grid container spacing={1}>
-          <Grid item sm={6} xs={12}>
-            <Card className={classes.card}>
-              <ButtonBase
-                className={classes.button}
-                onClick={() => setGameMode('survival')}
-              >
-                <CardContent>
-                  <Typography variant="h6" className={classes.title}>
-                    {' '}
-                    <Checkbox
-                      checked={settings.gameMode === 'survival'}
-                      onChange={() => setGameMode('survival')}
-                      value="survival"
-                      inputProps={{
-                        'aria-label': 'game mode survival',
-                      }}
-                    />
-                    <span>Survival</span>
-                  </Typography>
-                  <ul>
-                    <li>
-                      {dupeFoodInput ? dupeFoodInput.survival : ''} calories per
-                      dupe every cycle
-                    </li>
-                  </ul>
-                </CardContent>
-              </ButtonBase>
-            </Card>
-          </Grid>
-          <Grid item sm={6} xs={12}>
-            <Card className={classes.card}>
-              <ButtonBase
-                className={classes.button}
-                onClick={() => setGameMode('no-sweat')}
-              >
-                <CardContent>
-                  <Typography variant="h6" className={classes.title}>
-                    <Checkbox
-                      checked={settings.gameMode === 'no-sweat'}
-                      onChange={() => setGameMode('no-sweat')}
-                      value="no-sweat"
-                      inputProps={{
-                        'aria-label': 'game mode no sweat',
-                      }}
-                    />
-                    <span>No Sweat</span>
-                  </Typography>
-                  <ul>
-                    <li>
-                      {dupeFoodInput ? dupeFoodInput.noSweat : ''} calories per
-                      dupe every cycle
-                    </li>
-                  </ul>
-                </CardContent>
-              </ButtonBase>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12}>
-            <Card className={classes.card}>
-              <ButtonBase
-                className={classes.button}
-                onClick={toggleHideEmpty}
-              >
-                <CardContent>
-                  <Typography variant="h6" className={classes.title}>
-                    <Checkbox
-                      checked={settings.hideEmpty}
-                      onChange={toggleHideEmpty}
-                      value="hide-empty"
-                      inputProps={{
-                        'aria-label': 'hide empty values from sidebar',
-                      }}
-                    />
-                    <span>Hide empty values</span>
-                  </Typography>
-                  Hide unused resources and plants from the results sidebar
-                </CardContent>
-              </ButtonBase>
-            </Card>
-          </Grid>
+    <div css={rootCss}>
+      <Grid container spacing={1}>
+        <Grid item sm={6} xs={12}>
+          <Card css={cardCss}>
+            <ButtonBase css={buttonCss} onClick={() => setGameMode('survival')}>
+              <CardContent>
+                <Typography variant="h6" css={titleCss}>
+                  {' '}
+                  <Checkbox
+                    checked={settings.gameMode === 'survival'}
+                    onChange={() => setGameMode('survival')}
+                    value="survival"
+                    inputProps={{
+                      'aria-label': 'game mode survival',
+                    }}
+                  />
+                  <span>Survival</span>
+                </Typography>
+                <ul>
+                  <li>
+                    {dupeFoodInput ? dupeFoodInput.survival : ''} calories per
+                    dupe every cycle
+                  </li>
+                </ul>
+              </CardContent>
+            </ButtonBase>
+          </Card>
         </Grid>
-      </div>
-    </DelayedLoader>
+        <Grid item sm={6} xs={12}>
+          <Card css={cardCss}>
+            <ButtonBase css={buttonCss} onClick={() => setGameMode('no-sweat')}>
+              <CardContent>
+                <Typography variant="h6" css={titleCss}>
+                  <Checkbox
+                    checked={settings.gameMode === 'no-sweat'}
+                    onChange={() => setGameMode('no-sweat')}
+                    value="no-sweat"
+                    inputProps={{
+                      'aria-label': 'game mode no sweat',
+                    }}
+                  />
+                  <span>No Sweat</span>
+                </Typography>
+                <ul>
+                  <li>
+                    {dupeFoodInput ? dupeFoodInput.noSweat : ''} calories per
+                    dupe every cycle
+                  </li>
+                </ul>
+              </CardContent>
+            </ButtonBase>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Card css={cardCss}>
+            <ButtonBase css={buttonCss} onClick={toggleHideEmpty}>
+              <CardContent>
+                <Typography variant="h6" css={titleCss}>
+                  <Checkbox
+                    checked={settings.hideEmpty}
+                    onChange={toggleHideEmpty}
+                    value="hide-empty"
+                    inputProps={{
+                      'aria-label': 'hide empty values from sidebar',
+                    }}
+                  />
+                  <span>Hide empty values</span>
+                </Typography>
+                Hide unused resources and plants from the results sidebar
+              </CardContent>
+            </ButtonBase>
+          </Card>
+        </Grid>
+      </Grid>
+    </div>
   );
 };
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
+const rootCss = (theme: Theme) =>
+  css({
     padding: theme.spacing(),
-  },
-  card: {
-    height: '100%',
-  },
-  button: {
-    height: '100%',
-    width: '100%',
-    justifyContent: 'flex-start',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-  },
-  title: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-}));
+  });
+
+const cardCss = css({
+  height: '100%',
+});
+
+const buttonCss = css({
+  height: '100%',
+  width: '100%',
+  justifyContent: 'flex-start',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+});
+
+const titleCss = css({
+  display: 'flex',
+  alignItems: 'center',
+});
 
 export default Settings;

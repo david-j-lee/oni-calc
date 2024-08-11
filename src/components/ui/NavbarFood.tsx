@@ -1,17 +1,17 @@
-import React, { FC, useState } from 'react';
-import { useContext } from '../../context';
+import { FC, useState } from 'react';
+import { useContext } from '../../context/context';
 
 // material
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogActions from '@material-ui/core/DialogActions';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogActions from '@mui/material/DialogActions';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 
 // icons
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 export const NavbarFood: FC = () => {
   const [, { clearFoodInputs }] = useContext();
@@ -39,15 +39,8 @@ export const NavbarFood: FC = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            onClick={handleClearFoodInputs}
-            color="primary"
-            autoFocus
-          >
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button variant="contained" onClick={handleClearFoodInputs} autoFocus>
             Confirm
           </Button>
         </DialogActions>

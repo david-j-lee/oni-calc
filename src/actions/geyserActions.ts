@@ -1,3 +1,5 @@
+import IGeyserInput from '../interfaces/IGeyserInput';
+import IState from '../interfaces/IState';
 import {
   addGeyser,
   clearGeyserInputs,
@@ -5,18 +7,16 @@ import {
 } from '../utils/geyserUtils';
 
 export const geyserActions = {
-  // TODO: Types
-  addGeyser(geyser: any) {
-    return state => {
+  addGeyser(geyser: IGeyserInput) {
+    return (state: IState) => {
       return {
         ...state,
         ...addGeyser(state.resources, state.geysers, geyser),
       };
     };
   },
-  // TODO: Types
-  deleteGeyser(geyser: any) {
-    return state => {
+  deleteGeyser(geyser: IGeyserInput) {
+    return (state: IState) => {
       return {
         ...state,
         ...deleteGeyser(state.resources, state.geysers, geyser),
@@ -24,7 +24,7 @@ export const geyserActions = {
     };
   },
   clearGeyserInputs() {
-    return state => {
+    return (state: IState) => {
       return {
         ...state,
         ...clearGeyserInputs(state.resources, state.geysers),

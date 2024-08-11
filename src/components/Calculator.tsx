@@ -1,13 +1,13 @@
-import React, { FC, memo, useEffect, useState } from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
-import { useContext } from '../context';
+import { useEffect, useState } from 'react';
+import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { useContext } from '../context/context';
 
 // material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import { css } from '@emotion/react';
+import { Theme } from '@mui/material/styles';
+import Grid from '@mui/material/Grid';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
 // components
 import Power from './power/Power';
@@ -21,12 +21,8 @@ import Food from './food/Food';
 import Geysers from './geysers/Geysers';
 import Settings from './settings/Settings';
 
-interface IProps {
-  location: any;
-}
-
-export const Calculator: FC<IProps> = memo(({ location }) => {
-  const classes = useStyles();
+export const Calculator = () => {
+  const location = useLocation();
   const [, { getData }] = useContext();
 
   const [tabIndex, setTabIndex] = useState(
@@ -47,31 +43,30 @@ export const Calculator: FC<IProps> = memo(({ location }) => {
     getData();
   }, [getData]);
 
-  const handleChange = (event, value) => {
+  const handleChange = (_event: React.SyntheticEvent, value: number) => {
     setTabIndex(value);
   };
 
   return (
-    <Grid container className={[classes.root, 'styled-scrollbar'].join(' ')}>
+    <Grid container css={rootCss} className="styled-scrollbar">
       <Grid
         item
         sm={6}
         md={5}
         lg={4}
-        className={['styled-scrollbar', classes.leftSection].join(' ')}
+        css={leftSectionCss}
+        className="styled-scrollbar"
       >
         <Power />
         <Resources />
         <Plants />
         <Capacity />
       </Grid>
-      <Grid item sm={6} md={7} lg={8} className={classes.rightSection}>
+      <Grid item sm={6} md={7} lg={8} css={rightSectionCss}>
         <Tabs
-          className={classes.tabs}
+          css={tabsCss}
           value={tabIndex}
           onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
           variant="scrollable"
         >
           <Tab label="Settings" component={Link} to="/settings" />
@@ -80,32 +75,22 @@ export const Calculator: FC<IProps> = memo(({ location }) => {
           <Tab label="Food" component={Link} to="/food" />
           <Tab label="Geysers" component={Link} to="/geysers" />
         </Tabs>
-        <div className={['styled-scrollbar', classes.content].join(' ')}>
-          <Switch>
-            <Route path="/geysers">
-              <Geysers />
-            </Route>
-            <Route path="/food">
-              <Food />
-            </Route>
-            <Route path="/buildings">
-              <Buildings />
-            </Route>
-            <Route path="/dupes">
-              <Dupes />
-            </Route>
-            <Route path="/">
-              <Settings />
-            </Route>
-          </Switch>
+        <div css={contentCss} className="styled-scrollbar">
+          <Routes>
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/dupes" element={<Dupes />} />
+            <Route path="/buildings" element={<Buildings />} />
+            <Route path="/food" element={<Food />} />
+            <Route path="/geysers" element={<Geysers />} />
+          </Routes>
         </div>
       </Grid>
     </Grid>
   );
-});
+};
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
+const rootCss = (theme: Theme) =>
+  css({
     height: '100vh',
     display: 'flex',
     [theme.breakpoints.down('xs')]: {
@@ -114,8 +99,10 @@ const useStyles = makeStyles((theme: Theme) => ({
       overflowY: 'auto',
       marginTop: theme.spacing(8),
     },
-  },
-  leftSection: {
+  });
+
+const leftSectionCss = (theme: Theme) =>
+  css({
     height: `calc(100% - ${theme.spacing(10)}px)`,
     flexGrow: 1,
     overflowY: 'auto',
@@ -127,8 +114,10 @@ const useStyles = makeStyles((theme: Theme) => ({
       height: 'auto',
       marginTop: 0,
     },
-  },
-  rightSection: {
+  });
+
+const rightSectionCss = (theme: Theme) =>
+  css({
     height: `calc(100% - ${theme.spacing(10)}px)`,
     display: 'flex',
     flexDirection: 'column',
@@ -140,16 +129,19 @@ const useStyles = makeStyles((theme: Theme) => ({
       height: 'auto',
       marginTop: theme.spacing(),
     },
-  },
-  tabs: {
+  });
+
+const tabsCss = (theme: Theme) =>
+  css({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
-  },
-  content: {
+  });
+
+const contentCss = (theme: Theme) =>
+  css({
     padding: theme.spacing(1, 1, 0, 1),
     height: '100%',
     overflowY: 'auto',
-  },
-}));
+  });
 
 export default Calculator;

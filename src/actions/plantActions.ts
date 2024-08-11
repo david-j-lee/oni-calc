@@ -1,8 +1,9 @@
+import IState from '../interfaces/IState';
 import { sortPlants } from '../utils/plantUtils';
 
 export const plantActions = {
   sortPlants(key: string) {
-    return (state) => {
+    return (state: IState) => {
       return {
         ...state,
         ...sortPlants(

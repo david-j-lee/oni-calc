@@ -1,10 +1,10 @@
 // json data
-import { buildings } from '../assets/data/buildings';
-import { dupes } from '../assets/data/dupes';
-import { food } from '../assets/data/food';
-import { geysers } from '../assets/data/geysers';
-import { plants } from '../assets/data/plants';
-import { resources } from '../assets/data/resources';
+import { buildings } from '../data/buildings';
+import { dupes } from '../data/dupes';
+import { food } from '../data/food';
+import { geysers } from '../data/geysers';
+import { plants } from '../data/plants';
+import { resources } from '../data/resources';
 
 // utils
 import { getBuildings } from '../utils/buildingUtils';
@@ -19,58 +19,34 @@ import {
   getBuildingsPowerUsage,
 } from '../utils/powerUtils';
 import { updateResources } from '../utils/resourceUtils';
-import { INITIAL_STATE } from './../context';
+import { initialState } from '../context/context';
 
 import IDupes from '../interfaces/IDupes';
 import IState from './../interfaces/IState';
+import ISettings from '../interfaces/ISettings';
+import IDupeInput from '../interfaces/IDupeInput';
+import IFoodInput from '../interfaces/IFoodInput';
+import IGeyserInput from '../interfaces/IGeyserInput';
 
 // TODO: Refactor
 export const calculatorActions = {
   getData() {
     return (state: IState) => {
-      let dupeInputs: any = localStorage.getItem('dupes');
-      let foodInputs: any = localStorage.getItem('food');
-      let geyserInputs: any = localStorage.getItem('geysers');
-      let layout: any = localStorage.getItem('layout');
-      let settings: any = localStorage.getItem('settings');
+      const dupeInputs = getJsonFromLocalStorage<IDupeInput>('dupes');
+      const foodInputs = getJsonFromLocalStorage<IFoodInput[]>('food');
+      const geyserInputs = getJsonFromLocalStorage<IGeyserInput[]>('geysers');
+      const settings = getJsonFromLocalStorage<ISettings>('settings');
+      let layout = localStorage.getItem('layout');
 
       // remove old settings
       localStorage.removeItem('quantities');
       localStorage.removeItem('inputs');
 
-      try {
-        dupeInputs = JSON.parse(dupeInputs);
-      } catch (e) {
-        localStorage.removeItem('dupes');
-        throw e;
-      }
-
-      try {
-        foodInputs = JSON.parse(foodInputs);
-      } catch (e) {
-        localStorage.removeItem('food');
-        throw e;
-      }
-
-      try {
-        geyserInputs = JSON.parse(geyserInputs);
-      } catch (e) {
-        localStorage.removeItem('geysers');
-        throw e;
-      }
-
-      try {
-        settings = JSON.parse(settings);
-      } catch (e) {
-        localStorage.removeItem('settings');
-        throw e;
-      }
-
       if (layout === null) {
         layout = 'grid';
       }
 
-      const newSettings = settings ? settings : INITIAL_STATE.settings;
+      const newSettings = settings ? settings : initialState.settings;
       const newDupes = getDupes(
         newSettings.gameMode,
         dupes as IDupes,
@@ -84,7 +60,6 @@ export const calculatorActions = {
       const newGeysers = getGeysers(geysers, geyserInputs);
       const newPlants = updatePlants(plants, newFood);
       const newResources = updateResources({
-        gameMode: newSettings.gameMode,
         resources,
         plants: newPlants,
         dupes: newDupes,
@@ -111,3 +86,18 @@ export const calculatorActions = {
     };
   },
 };
+
+function getJsonFromLocalStorage<Type>(key: string): Type | undefined {
+  const jsonString = localStorage.getItem(key);
+
+  if (!jsonString) {
+    return;
+  }
+
+  try {
+    return JSON.parse(jsonString);
+  } catch (e) {
+    localStorage.removeItem(key);
+    throw e;
+  }
+}

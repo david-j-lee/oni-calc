@@ -1,7 +1,7 @@
 import IFood from '../interfaces/IFood';
 import IIO from '../interfaces/IIO';
 import IPlantRequirement from './../interfaces/IPlantRequirement';
-import IPlant from './../interfaces/IPlant';
+import IPlant, { IPlantBase } from './../interfaces/IPlant';
 
 import { getSortedArray, getStandardIO } from './commonUtils';
 
@@ -20,11 +20,19 @@ export const sortPlants = (
   };
 };
 
-export function updatePlants(plants: any[], food: IFood[]) {
+export function updatePlants(plants: IPlantBase[], food: IFood[]): IPlant[] {
   const foodWithQty = food.filter((item) => item.quantity > 0);
 
   if (foodWithQty.length === 0) {
-    return plants.map((plant) => ({ ...plant, quantity: 0 }));
+    return plants.map((plant) => ({
+      ...plant,
+      rawFood: [],
+      preparedFood: [],
+      inputs:
+        plant.inputs?.map((input) => ({ ...input, valueExtended: 0 })) ?? [],
+      outputs: [],
+      quantity: 0,
+    }));
   } else {
     const rawFoodRequirements = getRawFoodRequirements(food);
     const preparedFoodRequirements = getPreparedFoodRequirements(food);
@@ -35,6 +43,9 @@ export function updatePlants(plants: any[], food: IFood[]) {
       preparedFood: preparedFoodRequirements.filter(
         (f) => f.name === plant.name,
       ),
+      inputs:
+        plant.inputs?.map((input) => ({ ...input, valueExtended: 0 })) ?? [],
+      outputs: [],
       quantity: getNumberOfPlants(
         getRequirement(
           plant.name,
@@ -60,7 +71,7 @@ function getRawFoodRequirements(food: IFood[]) {
         quantity: item.quantity,
       })),
     )
-    .reduce((a, b) => a.concat(b))
+    .reduce((a, b) => a.concat(b), [])
     .filter((req) => req.type === 'Plant');
 }
 
@@ -89,7 +100,7 @@ function getRawFoodInputsForPreparedFood(
   preparedFoods: IFood[],
   rawFoods: IFood[],
 ): IFood[] {
-  const inputsFromPreparedFood = (item) => {
+  const inputsFromPreparedFood = (item: IFood): (IFood | IFood[] | null)[] => {
     return item.inputs.map((input) => {
       const rawFood = rawFoods.find((f) => f.name === input.name);
       if (rawFood) {
@@ -97,7 +108,7 @@ function getRawFoodInputsForPreparedFood(
           ...rawFood,
           name: item.name,
           quantity: item.quantity * (input.value as number),
-        };
+        } as IFood;
       } else {
         let preparedFood = preparedFoods.find((f) => f.name === input.name);
         if (preparedFood) {
@@ -105,17 +116,17 @@ function getRawFoodInputsForPreparedFood(
             ...preparedFood,
             quantity: item.quantity * (input.value as number),
           };
-          return inputsFromPreparedFood(preparedFood)
+          return inputsFromPreparedFood(preparedFood) as IFood[];
         }
         return null;
       }
-    })
+    });
   };
 
   return preparedFoods
     .filter((item) => item.quantity > 0)
     .map(inputsFromPreparedFood)
-    .reduce((a, b) => a.concat(b).flat())
+    .reduce((a, b) => a.concat(b).flat(), [])
     .filter((item) => item) as IFood[];
 }
 
@@ -129,7 +140,7 @@ function getPreparedFoodInputsFromRawFoodInputs(inputs: IFood[]) {
         quantity: input.quantity,
       })),
     )
-    .reduce((a, b) => a.concat(b))
+    .reduce((a, b) => a.concat(b), [])
     .filter((req) => req.type === 'Plant');
 }
 
@@ -147,7 +158,7 @@ function getRequirement(
   if (rawFoodReq && rawFoodReq.length > 0) {
     requirement += rawFoodReq
       .map((req) => req.quantity)
-      .reduce((a, b) => a + b);
+      .reduce((a, b) => a + b, 0);
   }
 
   // prepared foods
@@ -157,7 +168,7 @@ function getRequirement(
   if (preparedFoodReq && preparedFoodReq.length > 0) {
     requirement += preparedFoodReq
       .map((req) => req.quantity)
-      .reduce((a, b) => a + b);
+      .reduce((a, b) => a + b, 0);
   }
 
   return requirement;
@@ -187,7 +198,7 @@ export function getPlantsOutputsForResource(
 
 function getIOForResource(
   plants: IPlant[],
-  type: string,
+  type: 'inputs' | 'outputs',
   resourceName: string,
 ) {
   const newPlants = plants.filter((plant) => plant.quantity > 0);
@@ -199,7 +210,7 @@ function getIOForResource(
         .filter((io: IIO) => io.name === resourceName)
         .map((io: IIO) => getExtendedValue(plant, getStandardIO(io))),
     )
-    .reduce((a, b) => a.concat(b));
+    .reduce((a, b) => a.concat(b), []);
 }
 
 function getExtendedValue(plant: IPlant, io: IIO) {

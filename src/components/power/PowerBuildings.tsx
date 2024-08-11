@@ -1,13 +1,13 @@
-import React, { FC, memo } from 'react';
+import { FC, memo } from 'react';
 
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Table from '@material-ui/core/Table';
-import TableHead from '@material-ui/core/TableHead';
-import TableBody from '@material-ui/core/TableBody';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
+import { css } from '@emotion/react';
+import { Theme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import Table from '@mui/material/Table';
+import TableHead from '@mui/material/TableHead';
+import TableBody from '@mui/material/TableBody';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
 
 import IBuilding from '../../interfaces/IBuilding';
 
@@ -19,12 +19,10 @@ interface IProps {
 }
 
 export const PowerBuildings: FC<IProps> = memo(({ buildings, title }) => {
-  const classes = useStyles();
-
   return (
     <div>
       {buildings.length <= 0 ? (
-        <Typography className={classes.noBuildings}>
+        <Typography css={noBuildingsCss}>
           No {title.toLowerCase()} found
         </Typography>
       ) : (
@@ -75,10 +73,9 @@ export const PowerBuildings: FC<IProps> = memo(({ buildings, title }) => {
   );
 });
 
-const useStyles = makeStyles((theme: Theme) => ({
-  noBuildings: {
+const noBuildingsCss = (theme: Theme) =>
+  css({
     padding: theme.spacing(),
-  },
-}));
+  });
 
 export default PowerBuildings;

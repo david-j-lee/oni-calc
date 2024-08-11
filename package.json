@@ -1,51 +1,40 @@
 {
   "name": "oni-calc",
   "version": "0.1.0",
-  "private": true,
+  "type": "module",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
     "publish": "npm run build && aws s3 sync build/ s3://onicalc.com && npm run image-cache",
     "image-cache": "aws s3 cp s3://onicalc.com/images/ s3://onicalc.com/images/ --recursive --metadata-directive REPLACE --expires 2028-01-01T00:00:00Z --acl public-read --cache-control max-age=31536000,s-maxage=31536000,public",
     "static-cache": "aws s3 cp s3://onicalc.com/static/ s3://onicalc.com/static/ --recursive --metadata-directive REPLACE --expires 2028-01-01T00:00:00Z --acl public-read --cache-control max-age=31536000,s-maxage=31536000,public",
     "test": "react-scripts test --env=jsdom",
-    "coverage": "react-scripts test --env=jsdom --coverage",
-    "eject": "react-scripts eject"
+    "coverage": "react-scripts test --env=jsdom --coverage"
   },
   "dependencies": {
-    "@material-ui/core": "4.11.0",
-    "@material-ui/icons": "4.9.1",
-    "@material-ui/lab": "4.0.0-alpha.56",
-    "@techempower/react-governor": "0.7.0",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "react-router-dom": "5.2.0",
-    "webfontloader": "1.6.28"
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@mui/icons-material": "^5.16.7",
+    "@mui/material": "^5.16.7",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.0"
   },
   "devDependencies": {
-    "@types/jest": "26.0.3",
-    "@types/node": "12.11.1",
-    "@types/react": "16.9.41",
-    "@types/react-dom": "16.9.8",
-    "@types/react-router-dom": "5.1.5",
-    "@types/webfontloader": "1.6.32",
-    "node-sass": "4.14.1",
-    "react-scripts": "3.4.1",
-    "typescript": "3.9.6"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "@emotion/babel-preset-css-prop": "^11.12.0",
+    "@eslint/js": "^9.8.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "eslint": "^9.8.0",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-plugin-react-refresh": "^0.4.9",
+    "globals": "^15.9.0",
+    "sass": "^1.77.8",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.0.0",
+    "vite": "^5.4.0"
   }
 }

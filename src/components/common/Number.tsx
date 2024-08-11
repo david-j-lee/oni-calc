@@ -1,8 +1,8 @@
-import React, { FC, memo, useEffect, useState } from 'react';
+import { FC, memo, useEffect, useState } from 'react';
 
-import { makeStyles } from '@material-ui/styles';
-import { Variant } from '@material-ui/core/styles/createTypography';
-import Typography from '@material-ui/core/Typography';
+import { css, SerializedStyles } from '@emotion/react';
+import { Variant } from '@mui/material/styles/createTypography';
+import Typography from '@mui/material/Typography';
 
 interface IProps {
   value: number;
@@ -19,41 +19,38 @@ interface IProps {
 }
 
 export const Number: FC<IProps> = memo(({ value, suffix, variant, color }) => {
-  const classes = useStyles();
-
   const [displayValue, setDisplayValue] = useState(0);
   const [sign, setSign] = useState('');
-  const [className, setClassName] = useState('');
+  const [signCss, setSignCss] = useState<SerializedStyles | ''>('');
 
   useEffect(() => {
     setDisplayValue(Math.round(Math.abs(value) * 100) / 100);
     setSign(value === 0 ? '' : value >= 0 ? '+' : '-');
-    setClassName(
-      value === 0 ? '' : value >= 0 ? classes.positive : classes.negative,
-    );
-  }, [value, classes]);
+    setSignCss(value === 0 ? '' : value >= 0 ? positiveCss : negativeCss);
+  }, [value]);
 
   return (
-    <Typography className={classes.root} variant={variant} color={color}>
-      <span className={[className, classes.sign].join(' ')}>{sign}</span>{' '}
+    <Typography css={rootCss} variant={variant} color={color}>
+      <span css={[signBaseCss, signCss]}>{sign}</span>{' '}
       {displayValue.toLocaleString()} {suffix}
     </Typography>
   );
 });
 
-const useStyles = makeStyles(() => ({
-  root: {
-    whiteSpace: 'nowrap',
-  },
-  sign: {
-    pointerEvents: 'none',
-  },
-  positive: {
-    color: 'green',
-  },
-  negative: {
-    color: 'red',
-  },
-}));
+const rootCss = css({
+  whiteSpace: 'nowrap',
+});
+
+const signBaseCss = css({
+  pointerEvents: 'none',
+});
+
+const positiveCss = css({
+  color: 'green',
+});
+
+const negativeCss = css({
+  color: 'red',
+});
 
 export default Number;

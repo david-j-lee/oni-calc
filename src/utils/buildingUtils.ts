@@ -12,7 +12,7 @@ import {
 } from './powerUtils';
 import { updateResourcesWithBuildings } from './resourceUtils';
 
-export const setBuildingsLayout = (layout) => {
+export const setBuildingsLayout = (layout: 'grid' | 'table') => {
   const newLayout = layout === 'grid' ? 'table' : 'grid';
   localStorage.setItem('layout', newLayout);
   return {
@@ -168,7 +168,7 @@ function getBuildingsIOsForResource(
 
   return newBuildings
     .map((building) => getBuildingIOs(building, type, resourceName))
-    .reduce((a, b) => a.concat(b));
+    .reduce((a, b) => a.concat(b), []);
 }
 
 function getBuildingIOs(

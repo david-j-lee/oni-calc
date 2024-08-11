@@ -1,14 +1,14 @@
-import React, { FC, memo } from 'react';
+import { FC, memo } from 'react';
 
 // material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Table from '@material-ui/core/Table';
-import TableHead from '@material-ui/core/TableHead';
-import TableBody from '@material-ui/core/TableBody';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
+import { css } from '@emotion/react';
+import { Theme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import Table from '@mui/material/Table';
+import TableHead from '@mui/material/TableHead';
+import TableBody from '@mui/material/TableBody';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
 
 import IPlant from './../../interfaces/IPlant';
 
@@ -17,15 +17,15 @@ interface IProps {
 }
 
 export const PlantFood: FC<IProps> = memo(({ plant }) => {
-  const classes = useStyles();
-
   return (
     <div>
       {plant.rawFood &&
         plant.rawFood.length === 0 &&
         plant.preparedFood &&
         plant.preparedFood.length === 0 && (
-          <Typography className={classes.notFound}>No food related to this plant</Typography>
+          <Typography css={notFoundCss}>
+            No food related to this plant
+          </Typography>
         )}
       {plant.rawFood && plant.rawFood.length > 0 && (
         <Table>
@@ -75,10 +75,9 @@ export const PlantFood: FC<IProps> = memo(({ plant }) => {
   );
 });
 
-const useStyles = makeStyles((theme: Theme) => ({
-  notFound: {
+const notFoundCss = (theme: Theme) =>
+  css({
     padding: theme.spacing(),
-  },
-}));
+  });
 
 export default PlantFood;

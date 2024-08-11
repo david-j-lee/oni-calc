@@ -1,8 +1,8 @@
-import React, { FC, memo } from 'react';
+import { FC, Fragment, memo } from 'react';
 
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import { css } from '@emotion/react';
+import { Theme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 
 import IResource from './../../interfaces/IResource';
 
@@ -20,9 +20,7 @@ interface IProps {
 }
 
 export const ResourceIOs: FC<IProps> = memo(({ title, resource, type }) => {
-  const classes = useStyles();
-
-  const showTables = (resource, type) => {
+  const showTables = (resource: IResource, type: string) => {
     switch (type) {
       case 'inputs':
         return hasInputs(resource);
@@ -35,7 +33,7 @@ export const ResourceIOs: FC<IProps> = memo(({ title, resource, type }) => {
     }
   };
 
-  const hasInputs = (resource) => {
+  const hasInputs = (resource: IResource) => {
     return (
       resource.buildingInputs.length > 0 ||
       resource.dupeInputs.length > 0 ||
@@ -45,7 +43,7 @@ export const ResourceIOs: FC<IProps> = memo(({ title, resource, type }) => {
     );
   };
 
-  const hasOutputs = (resource) => {
+  const hasOutputs = (resource: IResource) => {
     return (
       resource.buildingOutputs.length > 0 ||
       resource.dupeOutputs.length > 0 ||
@@ -58,37 +56,23 @@ export const ResourceIOs: FC<IProps> = memo(({ title, resource, type }) => {
   return (
     <div>
       {showTables(resource, type) ? (
-        <div>
-          <div className={classes.section}>
-            <ResourceIOsDupes resource={resource} type={type} />
-          </div>
-          <div className={classes.section}>
-            <ResourceIOsBuildings resource={resource} type={type} />
-          </div>
-          <div className={classes.section}>
-            <ResourceIOsFood resource={resource} type={type} />
-          </div>
-          <div className={classes.section}>
-            <ResourceIOsPlants resource={resource} type={type} />
-          </div>
-          <div className={classes.section}>
-            <ResourceIOsGeysers resource={resource} type={type} />
-          </div>
-        </div>
+        <Fragment>
+          <ResourceIOsDupes resource={resource} type={type} />
+          <ResourceIOsBuildings resource={resource} type={type} />
+          <ResourceIOsFood resource={resource} type={type} />
+          <ResourceIOsPlants resource={resource} type={type} />
+          <ResourceIOsGeysers resource={resource} type={type} />
+        </Fragment>
       ) : (
-        <Typography className={classes.noIOs}>No {title}</Typography>
+        <Typography css={noIOsCss}>No {title}</Typography>
       )}
     </div>
   );
 });
 
-const useStyles = makeStyles((theme: Theme) => ({
-  section: {
-    // paddingBottom: theme.spacing(),
-  },
-  noIOs: {
+const noIOsCss = (theme: Theme) =>
+  css({
     padding: theme.spacing(),
-  },
-}));
+  });
 
 export default ResourceIOs;

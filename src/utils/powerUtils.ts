@@ -2,7 +2,7 @@ import IBuilding from '../interfaces/IBuilding';
 
 export function getBuildingsPowerUsage(buildings: IBuilding[]) {
   const newBuildings = buildings.filter(
-    building => building.power.usage > 0 && building.quantity > 0,
+    (building) => building.power.usage > 0 && building.quantity > 0,
   );
 
   return {
@@ -12,7 +12,7 @@ export function getBuildingsPowerUsage(buildings: IBuilding[]) {
 }
 
 export function getBuildingsPowerGeneration(buildings: IBuilding[]) {
-  const newBuildings = buildings.filter(building => {
+  const newBuildings = buildings.filter((building) => {
     return building.power.generation > 0 && building.quantity > 0;
   });
 
@@ -22,14 +22,14 @@ export function getBuildingsPowerGeneration(buildings: IBuilding[]) {
   };
 }
 
-function getPowerValue(buildings: IBuilding[], prop: string) {
+function getPowerValue(buildings: IBuilding[], prop: 'generation' | 'usage') {
   if (buildings.length === 0) return 0;
 
   return buildings
     .map(
-      building =>
+      (building) =>
         ((building.power[prop] * building.utilization) / 100.0) *
         building.quantity,
     )
-    .reduce((a, b) => a + b);
+    .reduce((a, b) => a + b, 0);
 }

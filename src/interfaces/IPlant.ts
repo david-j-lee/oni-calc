@@ -1,10 +1,15 @@
-import IIO from './IIO';
+import IIO, { IIOBase } from './IIO';
 import IPlantRequirement from './IPlantRequirement';
 
-export default interface IPlant {
+export interface IPlantBase {
   name: string;
-  quantity: number;
   yield: number;
+  growthRate: IPlantGrowthRate;
+  inputs?: IIOBase[];
+}
+
+export default interface IPlant extends IPlantBase {
+  quantity: number;
   growthRate: IPlantGrowthRate;
   rawFood: IPlantRequirement[];
   preparedFood: IPlantRequirement[];

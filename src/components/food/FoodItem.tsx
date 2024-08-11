@@ -1,25 +1,25 @@
-import React, { FC, memo, useEffect, useState, useRef } from 'react';
-import { useContext } from '../../context';
+import { FC, memo, useEffect, useState, useRef } from 'react';
+import { useContext } from '../../context/context';
 
 // material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
-import Popover from '@material-ui/core/Popover';
-import TextField from '@material-ui/core/TextField';
+import { css } from '@emotion/react';
+import { Theme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import Popover from '@mui/material/Popover';
+import TextField from '@mui/material/TextField';
 
 // icons
-import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
-import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
-import MoreVert from '@material-ui/icons/MoreVert';
+import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
+import MoreVert from '@mui/icons-material/MoreVert';
 
 import IFood from './../../interfaces/IFood';
 
@@ -32,20 +32,15 @@ interface IProps {
 }
 
 export const FoodItem: FC<IProps> = memo(({ item }) => {
-  const classes = useStyles();
-
   const [, { setFoodQuantity }] = useContext();
 
   const [quantity, setQuantity] = useState(item.quantity);
-  const [focused, setFocused] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
 
-  const timer = useRef<any>();
+  const timer = useRef<number | null>(null);
 
-  const wikiLink = useRef(
-    WIKI_LINK_PATH + item.name.split(' ').join('_'),
-  );
+  const wikiLink = useRef(WIKI_LINK_PATH + item.name.split(' ').join('_'));
 
   const imgUrl = useRef(
     `/images/resources/${item.name.toLowerCase().replaceAll(/[ ']/g, '-')}.png`,
@@ -56,8 +51,8 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
   }, [item.quantity]);
 
   // on hover
-  const handlePopoverOpen = (event) => {
-    setAnchorEl(event.target);
+  const handlePopoverOpen = (event: React.MouseEvent<HTMLDivElement>) => {
+    setAnchorEl(event.currentTarget);
   };
 
   const handlePopoverClose = () => {
@@ -96,9 +91,8 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
     }
   };
 
-  const handleChange = (event) => {
-    let value = event.target.value;
-    value = Number(value);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let value = Number(event.target.value);
     if (value < 0) value = 0;
 
     setQuantity(value);
@@ -110,18 +104,10 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
     }, 500);
   };
 
-  const onBlur = () => {
-    setFocused(false);
-  };
-
-  const onFocus = () => {
-    setFocused(true);
-  };
-
   const popoverOpen = !!anchorEl;
 
   return (
-    <div className={classes.root}>
+    <div css={rootCss}>
       <Dialog
         fullScreen={false}
         open={dialogOpen}
@@ -130,21 +116,16 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
       >
         <FoodItemDetails item={item} />
         <DialogActions>
-          <Button target="_blank" href={wikiLink.current} color="default">
+          <Button target="_blank" href={wikiLink.current}>
             WIKI
           </Button>
-          <Button
-            variant="contained"
-            onClick={handleClose}
-            color="primary"
-            autoFocus
-          >
+          <Button variant="contained" onClick={handleClose} autoFocus>
             CLOSE
           </Button>
         </DialogActions>
       </Dialog>
       <Popover
-        className={classes.popover}
+        css={popoverCss}
         open={popoverOpen}
         anchorEl={anchorEl}
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
@@ -154,20 +135,17 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
       >
         <FoodItemDetails item={item} />
       </Popover>
-      <Card className={classes.card}>
+      <Card css={cardCss}>
         <CardMedia
-          className={classes.cover}
+          css={coverCss}
           image={imgUrl.current}
           title={item.name}
           onMouseOver={handlePopoverOpen}
           onMouseOut={handlePopoverClose}
         />
-        <div className={classes.details}>
-          <CardContent className={classes.cardContent}>
-            <Typography
-              variant="subtitle1"
-              className={classes.cardContentTitle}
-            >
+        <div css={detailsCss}>
+          <CardContent css={cardContentCss}>
+            <Typography variant="subtitle1" css={cardContentTitleCss}>
               {item.name}
             </Typography>
             <IconButton onClick={handleClickOpen} aria-label="More">
@@ -186,11 +164,8 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
               type="number"
               value={quantity}
               onChange={handleChange}
-              className={classes.quantity}
-              onFocus={onFocus}
-              onBlur={onBlur}
+              css={quantityCss}
               InputProps={{
-                disableUnderline: !focused,
                 inputProps: {
                   style: {
                     textAlign: 'right',
@@ -216,51 +191,56 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
   );
 });
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    height: '100%',
-  },
-  card: {
-    display: 'flex',
-    width: '100%',
-    height: '100%',
-  },
-  cardContent: {
+const rootCss = css({
+  height: '100%',
+});
+
+const cardCss = css({
+  display: 'flex',
+  width: '100%',
+  height: '100%',
+});
+
+const cardContentCss = (theme: Theme) =>
+  css({
     flex: '1 0 auto',
     display: 'flex',
     paddingRight: theme.spacing(2),
-  },
-  cardContentTitle: {
-    flexGrow: 1,
-  },
-  details: {
+  });
+
+const cardContentTitleCss = css({
+  flexGrow: 1,
+});
+
+const detailsCss = (theme: Theme) =>
+  css({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
     '& .MuiIconButton-colorPrimary': {
-      color: theme.palette.success[theme.palette.type],
+      color: theme.palette.success[theme.palette.mode],
       '&:hover': {
-        backgroundColor: theme.palette.success[theme.palette.type] + '14', //14 = 0.08 opacity from the default bg
-      }
-    }
-  },
-  cover: {
-    width: 60,
-    backgroundSize: 'contain',
-    backgroundColor: '#3E4357',
-    cursor: 'default',
-  },
-  quantity: {
+        backgroundColor: theme.palette.success[theme.palette.mode] + '14', // 14 = 0.08 opacity from the default bg
+      },
+    },
+  });
+
+const coverCss = css({
+  width: 60,
+  backgroundSize: 'contain',
+  backgroundColor: '#3E4357',
+  cursor: 'default',
+});
+
+const quantityCss = (theme: Theme) =>
+  css({
     flexGrow: 1,
     marginRight: theme.spacing(),
     textAlign: 'right',
-  },
-  dialog: {
-    maxWidth: 500,
-  },
-  popover: {
-    pointerEvents: 'none',
-  },
-}));
+  });
+
+const popoverCss = css({
+  pointerEvents: 'none',
+});
 
 export default FoodItem;

@@ -1,7 +1,7 @@
-import React, { FC, memo } from 'react';
+import { FC, memo } from 'react';
 
 // material
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 
 import IGeyser from '../../interfaces/IGeyser';
 

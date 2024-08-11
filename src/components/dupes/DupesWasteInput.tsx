@@ -1,24 +1,30 @@
-import React, { FC, memo, useRef, useState } from 'react';
-import { useContext } from '../../context';
+import { FC, memo, useRef, useState } from 'react';
+import { useContext } from '../../context/context';
 
 // material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
+import { css } from '@emotion/react';
+import { Theme } from '@mui/material/styles';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
 
 interface IProps {
-  prop: any;
+  prop: {
+    name:
+      | 'pollutedWaterValue'
+      | 'pollutedDirtValue'
+      | 'waterValue'
+      | 'dirtValue';
+    title: string;
+    value: number;
+  };
 }
 
 export const DupesWasteInput: FC<IProps> = memo(({ prop }) => {
-  const classes = useStyles();
-
   const [, { setDupeWaste }] = useContext();
 
   const [value, setValue] = useState(prop.value);
 
-  const timer = useRef<any>(null);
+  const timer = useRef<number | null>(null);
 
   const imgUrl = useRef(
     '/images/resources/' +
@@ -26,8 +32,8 @@ export const DupesWasteInput: FC<IProps> = memo(({ prop }) => {
       '.png',
   );
 
-  const handleChange = (event) => {
-    const value = event.target.value;
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(event.target.value);
     setValue(value);
     if (timer.current) {
       clearTimeout(timer.current);
@@ -38,54 +44,47 @@ export const DupesWasteInput: FC<IProps> = memo(({ prop }) => {
   };
 
   return (
-    <div className={classes.root}>
-      <Grid
-        className={classes.gridContainer}
-        container
-        spacing={1}
-        alignItems="center"
-      >
-        <Grid item>
-          <div
-            className={classes.image}
-            style={{ backgroundImage: `url(${imgUrl.current})` }}
-          />
-        </Grid>
-        <Grid item className={classes.gridItem}>
-          <TextField
-            type="number"
-            label={prop.title}
-            inputProps={{
-              style: { textAlign: 'right' },
-              'aria-label': 'Dupe Waste Value',
-            }}
-            value={value}
-            onChange={handleChange}
-            helperText="g/cycle/dupe"
-            margin="none"
-            fullWidth
-          />
-        </Grid>
+    <Grid css={gridContainerCss} container spacing={1} alignItems="center">
+      <Grid item>
+        <div
+          css={imageCss}
+          style={{ backgroundImage: `url(${imgUrl.current})` }}
+        />
       </Grid>
-    </div>
+      <Grid item css={gridItemCss}>
+        <TextField
+          type="number"
+          label={prop.title}
+          inputProps={{
+            style: { textAlign: 'right' },
+            'aria-label': 'Dupe Waste Value',
+          }}
+          value={value}
+          onChange={handleChange}
+          helperText="g/cycle/dupe"
+          margin="none"
+          fullWidth
+        />
+      </Grid>
+    </Grid>
   );
 });
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {},
-  gridContainer: {
-    flexWrap: 'nowrap',
-  },
-  gridItem: {
-    width: '100%',
-  },
-  image: {
+const gridContainerCss = css({
+  flexWrap: 'nowrap',
+});
+
+const gridItemCss = css({
+  width: '100%',
+});
+
+const imageCss = (theme: Theme) =>
+  css({
     height: 20,
     width: 20,
     backgroundSize: 'cover',
     marginRight: theme.spacing(),
     marginTop: 5,
-  },
-}));
+  });
 
 export default DupesWasteInput;

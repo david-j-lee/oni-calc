@@ -1,28 +1,27 @@
-import React, { FC } from 'react';
-import { useContext } from '../../context';
+import { FC } from 'react';
+import { useContext } from '../../context/context';
 
 // material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import { css } from '@emotion/react';
+import { Theme } from '@mui/material/styles';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
 // components
 import DupeTrait from './DupeTrait';
 
 export const DupeTraits: FC = () => {
-  const classes = useStyles();
   const [{ dupes }] = useContext();
 
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Typography className={classes.title}>Traits</Typography>
+        <Typography css={titleCss}>Traits</Typography>
       </Grid>
       {dupes.traits.map((trait, i) => {
         return (
           <Grid key={i} item xs={12} sm={12} md={6} lg={4} xl={3}>
-            <div className={classes.dupe}>
+            <div css={dupeCss}>
               <DupeTrait trait={trait} />
             </div>
           </Grid>
@@ -32,15 +31,15 @@ export const DupeTraits: FC = () => {
   );
 };
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {},
-  title: {
+const titleCss = (theme: Theme) =>
+  css({
     padding: theme.spacing(),
     paddingTop: theme.spacing(2),
-  },
-  dupe: {
+  });
+
+const dupeCss = (theme: Theme) =>
+  css({
     padding: theme.spacing(),
-  },
-}));
+  });
 
 export default DupeTraits;

@@ -4,10 +4,9 @@ import IFood from './IFood';
 import IPlant from './IPlant';
 import IGameModeValue from './IGameModeValue';
 
-export default interface IIO {
+export interface IIOBase {
   name: string;
   value: IGameModeValue | number;
-  valueExtended: number;
   unit: string;
   rate: string;
 
@@ -15,4 +14,8 @@ export default interface IIO {
   dupe?: IIOReference;
   food?: IFood;
   plant?: IPlant;
+}
+
+export default interface IIO extends IIOBase {
+  valueExtended: number;
 }

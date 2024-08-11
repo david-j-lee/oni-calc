@@ -1,28 +1,28 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useContext } from '../../context';
+import { FC, useEffect, useState } from 'react';
+import { useContext } from '../../context/context';
 
 // material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import { SerializedStyles, css } from '@emotion/react';
+import { Theme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 
 export const FoodDupes: FC = () => {
-  const classes = useStyles();
-
   const [{ dupes, food }] = useContext();
 
   const [totalCalories, setTotalCalories] = useState(0);
-  const [caloriesClassName, setCaloriesClassName] = useState('');
+  const [caloriesCss, setCaloriesClassName] = useState<SerializedStyles | ''>(
+    '',
+  );
 
   useEffect(() => {
     if (food.length > 0) {
       setTotalCalories(
         food
           .map((item) => item.calories * item.quantity)
-          .reduce((a, b) => a + b),
+          .reduce((a, b) => a + b, 0),
       );
     }
   }, [food]);
@@ -32,21 +32,21 @@ export const FoodDupes: FC = () => {
       totalCalories === 0 || !dupes.caloriesRequired
         ? ''
         : totalCalories >= dupes.caloriesRequired
-        ? classes.surplus
-        : classes.deficit,
+        ? surplusCss
+        : deficitCss,
     );
-  }, [totalCalories, dupes, classes]);
+  }, [totalCalories, dupes]);
 
   return (
     <Grid container>
       <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
-        <Card className={classes.card}>
+        <Card css={cardCss}>
           <CardContent>
-            <Typography variant="h6" className={classes.title}>
+            <Typography variant="h6" css={titleCss}>
               {dupes.quantity} Dupes
             </Typography>
             <Typography>
-              <span className={caloriesClassName}>{totalCalories}</span> of{' '}
+              <span css={caloriesCss}>{totalCalories}</span> of{' '}
               {dupes.caloriesRequired || 0} kcal/cycle
             </Typography>
           </CardContent>
@@ -56,20 +56,22 @@ export const FoodDupes: FC = () => {
   );
 };
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {},
-  title: {
+const titleCss = (theme: Theme) =>
+  css({
     paddingBottom: theme.spacing(),
-  },
-  card: {
+  });
+
+const cardCss = (theme: Theme) =>
+  css({
     margin: theme.spacing(),
-  },
-  surplus: {
-    color: 'green',
-  },
-  deficit: {
-    color: 'red',
-  },
-}));
+  });
+
+const surplusCss = css({
+  color: 'green',
+});
+
+const deficitCss = css({
+  color: 'red',
+});
 
 export default FoodDupes;

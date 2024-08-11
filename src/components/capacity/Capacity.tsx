@@ -1,30 +1,33 @@
-import React, { FC, useState } from 'react';
-import { useContext } from '../../context';
+import { FC, useState } from 'react';
+import { useContext } from '../../context/context';
 
 // material
-import { makeStyles } from '@material-ui/styles';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
-import Popover from '@material-ui/core/Popover';
+import { css } from '@emotion/react';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import Popover from '@mui/material/Popover';
 
 // icons
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import CapacityBuildings from './CapacityBuildings';
+import IBuilding from '../../interfaces/IBuilding';
 
 export const Capacity: FC = () => {
-  const classes = useStyles();
-
   const [{ powerCapacity, resourcesCapacity }] = useContext();
 
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLSpanElement | null>(null);
   const [dialogTitle, setDialogTitle] = useState('');
-  const [dialogArray, setDialogArray] = useState([]);
+  const [dialogArray, setDialogArray] = useState<IBuilding[]>([]);
 
-  const handlePopoverOpen = (event, title, array) => {
-    setAnchorEl(event.target);
+  const handlePopoverOpen = (
+    event: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+    title: string,
+    array: IBuilding[],
+  ) => {
+    setAnchorEl(event.currentTarget);
     setDialogTitle(title);
     setDialogArray(array);
   };
@@ -42,9 +45,9 @@ export const Capacity: FC = () => {
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography>Capacity</Typography>
       </AccordionSummary>
-      <AccordionDetails className={classes.panelDetails}>
+      <AccordionDetails css={panelDetailsCss}>
         <Popover
-          className={classes.popover}
+          css={popoverCss}
           open={dialogOpen}
           anchorEl={anchorEl}
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -55,10 +58,10 @@ export const Capacity: FC = () => {
           <CapacityBuildings title={dialogTitle} buildings={dialogArray} />
         </Popover>
 
-        <div className={classes.capacity}>
-          <div className={classes.capacityText}>
+        <div css={capacityCss}>
+          <div css={capacityTextCss}>
             <Typography
-              className={classes.pointer}
+              css={pointerCss}
               onMouseOut={handlePopoverClose}
               onMouseOver={(e) =>
                 handlePopoverOpen(e, 'Power', powerCapacity.buildings)
@@ -68,9 +71,9 @@ export const Capacity: FC = () => {
             </Typography>
             <Typography>Power</Typography>
           </div>
-          <div className={classes.capacityText}>
+          <div css={capacityTextCss}>
             <Typography
-              className={classes.pointer}
+              css={pointerCss}
               onMouseOut={handlePopoverClose}
               onMouseOver={(e) =>
                 handlePopoverOpen(e, 'Resources', resourcesCapacity.buildings)
@@ -86,28 +89,30 @@ export const Capacity: FC = () => {
   );
 };
 
-const useStyles = makeStyles(() => ({
-  panelDetails: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  capacity: {
-    display: 'flex',
-    alignItems: 'center',
-    width: '100%',
-  },
-  capacityText: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    flexGrow: 1,
-  },
-  popover: {
-    pointerEvents: 'none',
-  },
-  pointer: {
-    cursor: 'default',
-  },
-}));
+const panelDetailsCss = css({
+  display: 'flex',
+  flexDirection: 'column',
+});
+
+const capacityCss = css({
+  display: 'flex',
+  alignItems: 'center',
+  width: '100%',
+});
+
+const capacityTextCss = css({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  flexGrow: 1,
+});
+
+const popoverCss = css({
+  pointerEvents: 'none',
+});
+
+const pointerCss = css({
+  cursor: 'default',
+});
 
 export default Capacity;

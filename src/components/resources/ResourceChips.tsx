@@ -1,11 +1,11 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useContext } from '../../context';
+import { FC, useEffect, useState } from 'react';
+import { useContext } from '../../context/context';
 
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import Chip from '@material-ui/core/Chip';
-import Typography from '@material-ui/core/Typography';
+import { css } from '@emotion/react';
+import { Theme } from '@mui/material/styles';
+import Avatar from '@mui/material/Avatar';
+import Chip from '@mui/material/Chip';
+import Typography from '@mui/material/Typography';
 
 import IIO from './../../interfaces/IIO';
 
@@ -16,16 +16,15 @@ interface IProps {
 }
 
 export const ResourceChips: FC<IProps> = ({ ios }) => {
-  const classes = useStyles();
   const [{ settings }] = useContext();
 
-  const [mappedIOs, setMappedIOs] = useState<any[]>([]);
+  const [mappedIOs, setMappedIOs] = useState<React.ReactNode[]>([]);
 
   useEffect(() => {
     setMappedIOs(
       ios
-        .sort((a: any, b: any) => {
-          return a.name - b.name;
+        .sort((a, b) => {
+          return a.name.localeCompare(b.name);
         })
         .map((io, index) => {
           let rate = io.rate;
@@ -41,11 +40,11 @@ export const ResourceChips: FC<IProps> = ({ ios }) => {
           return (
             <Chip
               key={index}
-              className={classes.chip}
+              css={chipCss}
               avatar={
                 <Avatar>
                   <div
-                    className={classes.avatar}
+                    css={avatarCss}
                     style={{
                       background: `url(${imageUrl}) no-repeat center center`,
                       backgroundSize: 'contain',
@@ -62,7 +61,7 @@ export const ResourceChips: FC<IProps> = ({ ios }) => {
           );
         }),
     );
-  }, [ios, settings, classes]);
+  }, [ios, settings]);
 
   return (
     <div>
@@ -75,14 +74,14 @@ export const ResourceChips: FC<IProps> = ({ ios }) => {
   );
 };
 
-const useStyles = makeStyles((theme: Theme) => ({
-  chip: {
+const chipCss = (theme: Theme) =>
+  css({
     marginRight: theme.spacing(),
-  },
-  avatar: {
-    height: '75%',
-    width: '75%',
-  },
-}));
+  });
+
+const avatarCss = css({
+  height: '75%',
+  width: '75%',
+});
 
 export default ResourceChips;

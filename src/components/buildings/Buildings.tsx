@@ -1,20 +1,18 @@
-import React, { FC } from 'react';
-import { useContext } from '../../context';
+import { FC, Fragment } from 'react';
+import { useContext } from '../../context/context';
 
 // components
 import BuildingsGrid from './BuildingsGrid';
 import BuildingsTable from './BuildingsTable';
 
-import DelayedLoader from './../common/DelayedLoader';
-
 export const Buildings: FC = () => {
   const [{ buildingsLayout }] = useContext();
 
   return (
-    <DelayedLoader>
+    <Fragment>
       {buildingsLayout === 'grid' && <BuildingsGrid />}
       {buildingsLayout === 'table' && <BuildingsTable />}
-    </DelayedLoader>
+    </Fragment>
   );
 };
 

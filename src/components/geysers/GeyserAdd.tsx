@@ -1,25 +1,26 @@
-import React, { FC, useState } from 'react';
-import { useContext } from '../../context';
+import { FC, useState } from 'react';
+import { useContext } from '../../context/context';
 
 // material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Chip from '@material-ui/core/Chip';
-import Avatar from '@material-ui/core/Avatar';
+import { css } from '@emotion/react';
+import { Theme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Chip from '@mui/material/Chip';
+import Avatar from '@mui/material/Avatar';
 
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 import IGeyserInput from './../../interfaces/IGeyserInput';
+import { IGeyserMaxPressure, IGeyserTemp } from '../../interfaces/IGeyser';
 
 const MENU_PROPS = {
   PaperProps: {
@@ -32,21 +33,23 @@ const MENU_PROPS = {
 };
 
 export const GeyserAdd: FC = () => {
-  const classes = useStyles();
   const [{ geysers }, { addGeyser }] = useContext();
 
   const [geyserName, setGeyserName] = useState('');
-  const [geyser, setGeyser] = useState<any>({
+  const [geyser, setGeyser] = useState<
+    IGeyserInput & { temp?: IGeyserTemp; maxPressure?: IGeyserMaxPressure }
+  >({
     name: '',
     amount: 0,
     activeDuration: 0,
     activeEvery: 0,
     eruptionDuration: 0,
     eruptionEvery: 0,
+    outputs: [],
   });
   const [isValid, setIsValid] = useState(false);
 
-  const handleSelectChange = (event) => {
+  const handleSelectChange = (event: SelectChangeEvent<string>) => {
     if (geysers && geysers.listing) {
       const geyser = geysers.listing.find((g) => g.name === event.target.value);
       if (geyser) {
@@ -64,7 +67,10 @@ export const GeyserAdd: FC = () => {
     }
   };
 
-  const handleTextFieldChange = (event, prop) => {
+  const handleTextFieldChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    prop: string,
+  ) => {
     const newGeyser: IGeyserInput = {
       ...geyser,
       [prop]: event.target.value,
@@ -107,11 +113,11 @@ export const GeyserAdd: FC = () => {
   };
 
   return (
-    <Card className={classes.card}>
-      <CardContent className={classes.cardContent}>
+    <Card css={cardCss}>
+      <CardContent css={cardContentCss}>
         <Grid container>
           <Grid item xs={12} md={6}>
-            <FormControl className={classes.geyserSelect}>
+            <FormControl css={geyserSelectCss}>
               <InputLabel htmlFor="geyser">Select a Geyser</InputLabel>
               <Select
                 displayEmpty
@@ -133,24 +139,24 @@ export const GeyserAdd: FC = () => {
               </Select>
             </FormControl>
             {geyserName !== '' && (
-              <Grid container className={classes.geyserInfo}>
+              <Grid container css={geyserInfoCss}>
                 <Grid item xs={12} md={6}>
-                  <Typography className={classes.title}>
+                  <Typography css={titleCss}>
                     <small>Temperature</small>
                     <br />
-                    {geyser.temp.value} {geyser.temp.unit}
+                    {geyser.temp?.value} {geyser.temp?.unit}
                   </Typography>
-                  <Typography className={classes.title}>
+                  <Typography css={titleCss}>
                     <small>Max Pressure</small>
                     <br />
-                    {geyser.maxPressure.value} {geyser.maxPressure.unit}
+                    {geyser.maxPressure?.value} {geyser.maxPressure?.unit}
                   </Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  <Typography className={classes.title}>
+                  <Typography css={titleCss}>
                     <small>Outputs</small>
                   </Typography>
-                  {geyser.outputs.map((output, i) => {
+                  {geyser.outputs.map((output, i: number) => {
                     const imageUrl =
                       '/images/resources/' +
                       output.name.toLowerCase().split(' ').join('-') +
@@ -162,7 +168,7 @@ export const GeyserAdd: FC = () => {
                         avatar={
                           <Avatar>
                             <div
-                              className={classes.avatar}
+                              css={avatarCss}
                               style={{ backgroundImage: `url(${imageUrl})` }}
                             />
                           </Avatar>
@@ -181,7 +187,7 @@ export const GeyserAdd: FC = () => {
                 <Grid item xs={12}>
                   <TextField
                     value={geyser.amount}
-                    className={classes.textField}
+                    css={textFieldCss}
                     margin="dense"
                     onChange={(e) => handleTextFieldChange(e, 'amount')}
                     label="Amount per eruption"
@@ -196,7 +202,7 @@ export const GeyserAdd: FC = () => {
                 <Grid item xs={12}>
                   <TextField
                     value={geyser.eruptionDuration}
-                    className={classes.textField}
+                    css={textFieldCss}
                     margin="dense"
                     onChange={(e) =>
                       handleTextFieldChange(e, 'eruptionDuration')
@@ -211,7 +217,7 @@ export const GeyserAdd: FC = () => {
                   />
                   <TextField
                     value={geyser.eruptionEvery}
-                    className={classes.textField}
+                    css={textFieldCss}
                     margin="dense"
                     onChange={(e) => handleTextFieldChange(e, 'eruptionEvery')}
                     label="Eruption every"
@@ -226,7 +232,7 @@ export const GeyserAdd: FC = () => {
                 <Grid item xs={12}>
                   <TextField
                     value={geyser.activeDuration}
-                    className={classes.textField}
+                    css={textFieldCss}
                     margin="dense"
                     onChange={(e) => handleTextFieldChange(e, 'activeDuration')}
                     label="Active duration"
@@ -239,7 +245,7 @@ export const GeyserAdd: FC = () => {
                   />
                   <TextField
                     value={geyser.activeEvery}
-                    className={classes.textField}
+                    css={textFieldCss}
                     margin="dense"
                     onChange={(e) => handleTextFieldChange(e, 'activeEvery')}
                     label="Active every"
@@ -257,12 +263,12 @@ export const GeyserAdd: FC = () => {
         </Grid>
       </CardContent>
       {geyserName !== '' && (
-        <CardActions className={classes.cardActions}>
+        <CardActions css={cardActionsCss}>
           <Button onClick={clearInputs} color="secondary">
             Clear
           </Button>
           {isValid && (
-            <Button variant="contained" color="primary" onClick={handleAdd}>
+            <Button variant="contained" onClick={handleAdd}>
               Add
             </Button>
           )}
@@ -272,37 +278,45 @@ export const GeyserAdd: FC = () => {
   );
 };
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {},
-  card: {
+const cardCss = (theme: Theme) =>
+  css({
     margin: theme.spacing(),
-  },
-  cardContent: {
-    flex: '1 0 auto',
-    display: 'flex',
-  },
-  cardActions: {
-    justifyContent: 'flex-end',
-  },
-  avatar: {
-    height: '75%',
-    width: '75%',
-    backgroundSize: 'contain',
-  },
-  geyserSelect: {
-    minWidth: 250,
-  },
-  geyserInfo: {
+  });
+
+const cardContentCss = css({
+  flex: '1 0 auto',
+  display: 'flex',
+});
+
+const cardActionsCss = css({
+  justifyContent: 'flex-end',
+});
+
+const avatarCss = css({
+  height: '75%',
+  width: '75%',
+  backgroundSize: 'contain',
+});
+
+const geyserSelectCss = css({
+  minWidth: 250,
+});
+
+const geyserInfoCss = (theme: Theme) =>
+  css({
     paddingTop: theme.spacing(),
     paddingBottom: theme.spacing(),
-  },
-  title: {
+  });
+
+const titleCss = (theme: Theme) =>
+  css({
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(),
-  },
-  textField: {
+  });
+
+const textFieldCss = (theme: Theme) =>
+  css({
     paddingRight: theme.spacing(),
-  },
-}));
+  });
 
 export default GeyserAdd;

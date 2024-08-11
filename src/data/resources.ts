@@ -1,4 +1,6 @@
-export const resources = [
+import { IResourceBase } from '../interfaces/IResource';
+
+export const resources: IResourceBase[] = [
   {
     name: 'Algae',
   },

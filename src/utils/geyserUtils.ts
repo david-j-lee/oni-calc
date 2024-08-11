@@ -45,7 +45,7 @@ export const clearGeyserInputs = (
 
 // --------------------------------------------------------------
 
-export function getGeysers(geysers: IGeyser[], inputs: IGeyserInput[]) {
+export function getGeysers(geysers: IGeyser[], inputs?: IGeyserInput[]) {
   if (inputs && inputs.length > 0) {
     return updateGeysersWithInputs(geysers, inputs);
   } else {
@@ -114,8 +114,9 @@ export function getGeyserOutputs(geysers: IGeysers, resourceName: string) {
             value: getExtendedValue(geyser),
             valueExtended: getExtendedValue(geyser),
           }))
-          // TODO: update any
-          .reduce((a: any, b) => a.concat(b))
+          // TODO: Something seems off here, need to check this.
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          .reduce((a: any, b) => a.concat(b), [])
       );
     })
     .filter((output) => output) as IIO[];

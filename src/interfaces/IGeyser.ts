@@ -7,12 +7,12 @@ export default interface IGeyser {
   outputs: IGeyserOutput[];
 }
 
-interface IGeyserTemp {
+export interface IGeyserTemp {
   value: number;
   unit: string;
 }
 
-interface IGeyserMaxPressure {
+export interface IGeyserMaxPressure {
   value: number;
   unit: string;
 }

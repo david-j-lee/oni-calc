@@ -1,21 +1,21 @@
-import React, { FC, useState } from 'react';
-import { useContext } from '../../context';
+import { FC, useState } from 'react';
+import { useContext } from '../../context/context';
 
 // material
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogActions from '@material-ui/core/DialogActions';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogActions from '@mui/material/DialogActions';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 
 // icons
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import ViewList from '@material-ui/icons/ViewList';
-import ViewModule from '@material-ui/icons/ViewModule';
-import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
-import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import ViewList from '@mui/icons-material/ViewList';
+import ViewModule from '@mui/icons-material/ViewModule';
+import VerticalAlignTopIcon from '@mui/icons-material/VerticalAlignTop';
+import VerticalAlignBottomIcon from '@mui/icons-material/VerticalAlignBottom';
 
 export const NavbarBuildings: FC = () => {
   const [
@@ -55,13 +55,10 @@ export const NavbarBuildings: FC = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
+          <Button onClick={handleClose}>Cancel</Button>
           <Button
             variant="contained"
             onClick={handleClearBuildingInputs}
-            color="primary"
             autoFocus
           >
             Confirm
