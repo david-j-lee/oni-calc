@@ -13,7 +13,7 @@ import { css } from '@emotion/react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 // components
-import Number from '../common/Number';
+import Number from '../ui/Number';
 import PowerBuildings from './PowerBuildings';
 import { Theme } from '@mui/material/styles';
 import IBuilding from '../../interfaces/IBuilding';

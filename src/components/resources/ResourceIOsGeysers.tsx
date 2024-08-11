@@ -8,7 +8,7 @@ import TableCell from '@mui/material/TableCell';
 
 import IResource from './../../interfaces/IResource';
 
-import Number from '../common/Number';
+import Number from '../ui/Number';
 
 interface IProps {
   resource: IResource;

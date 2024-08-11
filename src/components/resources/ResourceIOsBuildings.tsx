@@ -6,7 +6,7 @@ import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 
-import Number from '../common/Number';
+import Number from '../ui/Number';
 import IResource from './../../interfaces/IResource';
 
 interface IProps {

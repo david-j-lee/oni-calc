@@ -11,7 +11,7 @@ import TableCell from '@mui/material/TableCell';
 
 import IBuilding from '../../interfaces/IBuilding';
 
-import Number from '../common/Number';
+import Number from '../ui/Number';
 
 interface IProps {
   buildings: IBuilding[];

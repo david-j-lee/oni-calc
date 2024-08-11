@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import IBuilding from '../../interfaces/IBuilding';
 
 import ResourceChips from '../resources/ResourceChips';
-import Number from '../common/Number';
+import Number from '../ui/Number';
 
 interface IProps {
   building: IBuilding;

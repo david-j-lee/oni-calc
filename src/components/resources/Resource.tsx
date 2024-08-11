@@ -10,7 +10,7 @@ import Popover from '@mui/material/Popover';
 import IResource from './../../interfaces/IResource';
 
 import ResourceIOs from './ResourceIOs';
-import Number from '../common/Number';
+import Number from '../ui/Number';
 import Chip from '@mui/material/Chip';
 
 interface IProps {

@@ -82,7 +82,8 @@ export const Navbar: FC = memo(() => {
               <Route path="/geysers" element={<NavbarGeysers />} />
               <Route path="/food" element={<NavbarFood />} />
               <Route path="/buildings" element={<NavbarBuildings />} />
-              <Route path="/" element={<NavbarDupes />} />
+              <Route path="/dupes" element={<NavbarDupes />} />
+              <Route path="*" element={null} />
             </Routes>
             <ThemePicker />
           </div>

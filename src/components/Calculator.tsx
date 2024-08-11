@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, Outlet } from 'react-router-dom';
 import { useContext } from '../context/context';
 
 // material
@@ -15,18 +15,12 @@ import Resources from './resources/Resources';
 import Plants from './plants/Plants';
 import Capacity from './capacity/Capacity';
 
-import Dupes from './dupes/Dupes';
-import Buildings from './buildings/Buildings';
-import Food from './food/Food';
-import Geysers from './geysers/Geysers';
-import Settings from './settings/Settings';
-
 export const Calculator = () => {
   const location = useLocation();
   const [, { getData }] = useContext();
 
   const [tabIndex, setTabIndex] = useState(
-    location.pathname === '/settings'
+    location.pathname === '/'
       ? 0
       : location.pathname === '/dupes'
       ? 1
@@ -69,20 +63,14 @@ export const Calculator = () => {
           onChange={handleChange}
           variant="scrollable"
         >
-          <Tab label="Settings" component={Link} to="/settings" />
+          <Tab label="Settings" component={Link} to="/" />
           <Tab label="Dupes" component={Link} to="/dupes" />
           <Tab label="Buildings" component={Link} to="/buildings" />
           <Tab label="Food" component={Link} to="/food" />
           <Tab label="Geysers" component={Link} to="/geysers" />
         </Tabs>
         <div css={contentCss} className="styled-scrollbar">
-          <Routes>
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/dupes" element={<Dupes />} />
-            <Route path="/buildings" element={<Buildings />} />
-            <Route path="/food" element={<Food />} />
-            <Route path="/geysers" element={<Geysers />} />
-          </Routes>
+          <Outlet />
         </div>
       </Grid>
     </Grid>
@@ -94,7 +82,7 @@ const rootCss = (theme: Theme) =>
     height: '100vh',
     display: 'flex',
     [theme.breakpoints.down('xs')]: {
-      height: `calc(100vh - ${theme.spacing(8)}px)`,
+      height: `calc(100vh - ${theme.spacing(8)})`,
       display: 'block',
       overflowY: 'auto',
       marginTop: theme.spacing(8),
@@ -103,7 +91,7 @@ const rootCss = (theme: Theme) =>
 
 const leftSectionCss = (theme: Theme) =>
   css({
-    height: `calc(100% - ${theme.spacing(10)}px)`,
+    height: `calc(100% - ${theme.spacing(10)})`,
     flexGrow: 1,
     overflowY: 'auto',
     marginTop: theme.spacing(10),
@@ -118,7 +106,7 @@ const leftSectionCss = (theme: Theme) =>
 
 const rightSectionCss = (theme: Theme) =>
   css({
-    height: `calc(100% - ${theme.spacing(10)}px)`,
+    height: `calc(100% - ${theme.spacing(10)})`,
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
