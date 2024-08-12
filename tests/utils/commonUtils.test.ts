@@ -1,4 +1,6 @@
-const commonUtils = require('./commonUtils');
+import { describe, it, expect } from 'vitest';
+import * as commonUtils from '../../src/utils/commonUtils';
+import IIO from '../../src/interfaces/IIO';
 
 describe('getIOTotal', () => {
   describe('when given empty array', () => {
@@ -15,7 +17,7 @@ describe('getIOTotal', () => {
         { name: 'Test1', valueExtended: 25 },
         { name: 'Test2', valueExtended: 25 },
         { name: 'Test3', valueExtended: 50 },
-      ];
+      ] as IIO[];
       const result = 100;
       expect(commonUtils.getIOTotal(ios)).toEqual(result);
     });
@@ -23,7 +25,11 @@ describe('getIOTotal', () => {
 
   describe('when given array with no extended values', () => {
     it('should return a 0', () => {
-      const ios = [{ name: 'Test1' }, { name: 'Test2' }, { name: 'Test3' }];
+      const ios = [
+        { name: 'Test1' },
+        { name: 'Test2' },
+        { name: 'Test3' },
+      ] as IIO[];
       const result = 0;
       expect(commonUtils.getIOTotal(ios)).toEqual(result);
     });
@@ -33,7 +39,7 @@ describe('getIOTotal', () => {
 describe('getStandardIO', () => {
   describe('when given grams', () => {
     it('should return the same value', () => {
-      const io = { value: 100, unit: 'g', rate: 'per second' };
+      const io = { value: 100, unit: 'g', rate: 'per second' } as IIO;
       const result = { value: 100, unit: 'g', rate: 'per second' };
       expect(commonUtils.getStandardIO(io)).toEqual(result);
     });
@@ -41,7 +47,7 @@ describe('getStandardIO', () => {
 
   describe('when given kilograms', () => {
     it('should return the value in grams', () => {
-      const io = { value: 1, unit: 'kg', rate: 'per second' };
+      const io = { value: 1, unit: 'kg', rate: 'per second' } as IIO;
       const result = { value: 1000, unit: 'g', rate: 'per second' };
       expect(commonUtils.getStandardIO(io)).toEqual(result);
     });
@@ -49,7 +55,7 @@ describe('getStandardIO', () => {
 
   describe('when given milligrams', () => {
     it('should return the value in grams', () => {
-      const io = { value: 1000, unit: 'mg', rate: 'per second' };
+      const io = { value: 1000, unit: 'mg', rate: 'per second' } as IIO;
       const result = { value: 1, unit: 'g', rate: 'per second' };
       expect(commonUtils.getStandardIO(io)).toEqual(result);
     });
@@ -57,7 +63,7 @@ describe('getStandardIO', () => {
 
   describe('when given rate of per cycle', () => {
     it('should return the value in seconds', () => {
-      const io = { value: 600, unit: 'g', rate: 'per cycle' };
+      const io = { value: 600, unit: 'g', rate: 'per cycle' } as IIO;
       const result = { value: 1, unit: 'g', rate: 'per second' };
       expect(commonUtils.getStandardIO(io)).toEqual(result);
     });
@@ -65,7 +71,7 @@ describe('getStandardIO', () => {
 
   describe('when given unit of kgs and rate of per cycle', () => {
     it('should return the value grams per seconds', () => {
-      const io = { value: 600, unit: 'kg', rate: 'per cycle' };
+      const io = { value: 600, unit: 'kg', rate: 'per cycle' } as IIO;
       const result = { value: 1000, unit: 'g', rate: 'per second' };
       expect(commonUtils.getStandardIO(io)).toEqual(result);
     });
@@ -73,7 +79,7 @@ describe('getStandardIO', () => {
 
   describe('when given unit of NA', () => {
     it('should return a value of 0', () => {
-      const io = { value: 600, unit: 'NA', rate: 'per second' };
+      const io = { value: 600, unit: 'NA', rate: 'per second' } as IIO;
       const result = { value: 0, unit: 'g', rate: 'per second' };
       expect(commonUtils.getStandardIO(io)).toEqual(result);
     });
@@ -81,7 +87,7 @@ describe('getStandardIO', () => {
 
   describe('when given rate of NA', () => {
     it('should return a value of 0', () => {
-      const io = { value: 600, unit: 'kg', rate: 'NA' };
+      const io = { value: 600, unit: 'kg', rate: 'NA' } as IIO;
       const result = { value: 0, unit: 'g', rate: 'per second' };
       expect(commonUtils.getStandardIO(io)).toEqual(result);
     });

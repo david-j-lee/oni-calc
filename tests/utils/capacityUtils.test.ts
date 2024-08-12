@@ -1,4 +1,6 @@
-const capacityUtils = require('./capacityUtils');
+import { describe, it, expect } from 'vitest';
+import * as capacityUtils from '../../src/utils/capacityUtils';
+import IBuilding from '../../src/interfaces/IBuilding';
 
 describe('getResourcesCapacity', () => {
   describe('when given buildings with resource capacity', () => {
@@ -19,7 +21,7 @@ describe('getResourcesCapacity', () => {
           quantity: 3,
           capacity: { resources: { value: 100, unit: 'g' } },
         },
-      ];
+      ] as IBuilding[];
       const result = { value: 600, buildings: buildings };
       expect(capacityUtils.getResourcesCapacity(buildings)).toEqual(result);
     });
@@ -42,7 +44,7 @@ describe('getResourcesCapacity', () => {
           quantity: 3,
           capacity: { resources: {} },
         },
-      ];
+      ] as IBuilding[];
       const result = { value: 0, buildings: [] };
       expect(capacityUtils.getResourcesCapacity(buildings)).toEqual(result);
     });
@@ -68,7 +70,7 @@ describe('getPowerCapacity', () => {
           quantity: 3,
           capacity: { power: { value: 100, unit: 'g' } },
         },
-      ];
+      ] as IBuilding[];
       const result = { value: 600, buildings: buildings };
       expect(capacityUtils.getPowerCapacity(buildings)).toEqual(result);
     });
@@ -91,7 +93,7 @@ describe('getPowerCapacity', () => {
           quantity: 3,
           capacity: { resources: {} },
         },
-      ];
+      ] as IBuilding[];
       const result = { value: 0, buildings: [] };
       expect(capacityUtils.getPowerCapacity(buildings)).toEqual(result);
     });

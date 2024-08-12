@@ -8,7 +8,7 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 export default tseslint.config({
   extends: [js.configs.recommended, ...tseslint.configs.recommended],
   files: ['**/*.{ts,tsx}'],
-  ignores: ['dist', 'tests'],
+  ignores: ['dist'],
   languageOptions: {
     ecmaVersion: 2021,
     globals: globals.browser,

@@ -1,4 +1,6 @@
-const powerUtils = require('./powerUtils');
+import { describe, it, expect } from 'vitest';
+import * as powerUtils from '../../src/utils/powerUtils';
+import IBuilding from '../../src/interfaces/IBuilding';
 
 describe('getBuildingsPowerUsage', () => {
   describe('when given an empty array of buildings', () => {
@@ -18,7 +20,7 @@ describe('getBuildingsPowerUsage', () => {
           utilization: 100,
           power: { usage: 100, generation: 0, unit: 'W', rate: 'per second' },
         },
-      ];
+      ] as IBuilding[];
       const result = { value: 200, buildings: buildings };
       expect(powerUtils.getBuildingsPowerUsage(buildings)).toEqual(result);
     });
@@ -43,7 +45,7 @@ describe('getBuildingsPowerGeneration', () => {
           utilization: 100,
           power: { usage: 0, generation: 100, unit: 'W', rate: 'per second' },
         },
-      ];
+      ] as IBuilding[];
       const result = { value: 200, buildings: buildings };
       expect(powerUtils.getBuildingsPowerGeneration(buildings)).toEqual(result);
     });

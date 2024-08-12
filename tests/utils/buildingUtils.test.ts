@@ -1,7 +1,9 @@
+import { describe, it, expect } from 'vitest';
 import IBuilding from '../../src/interfaces/IBuilding';
 import IBuildingInput from '../../src/interfaces/IBuildingInput';
 
 import * as buildingUtils from '../../src/utils/buildingUtils';
+import IIO from '../../src/interfaces/IIO';
 
 const baseBuilding: IBuilding = {
   category: 'Base',
@@ -16,6 +18,9 @@ const baseBuilding: IBuilding = {
   outputs: [],
   quantity: 0,
   utilization: 0,
+  categoryImgUrl: '',
+  imgUrl: '',
+  wikiUrl: '',
 };
 
 const baseInput: IBuildingInput = {
@@ -190,7 +195,9 @@ describe('getBuildingsInputsForResource', () => {
           name: 'Testing',
           quantity: 7,
           utilization: 100,
-          inputs: [{ name: 'water', value: 10, unit: 'g', rate: 'per second' }],
+          inputs: [
+            { name: 'water', value: 10, unit: 'g', rate: 'per second' } as IIO,
+          ],
         },
       ];
       const resourceName = 'water';
@@ -228,7 +235,9 @@ describe('getBuildingsInputsForResource', () => {
           hasConsistentIO: false,
           quantity: 7,
           utilization: 100,
-          inputs: [{ name: 'water', value: 10, unit: 'g', rate: 'per second' }],
+          inputs: [
+            { name: 'water', value: 10, unit: 'g', rate: 'per second' } as IIO,
+          ],
         },
       ];
       const resourceName = 'fire';
@@ -273,6 +282,143 @@ describe('getBuildingsInputsForResource', () => {
       expect(
         buildingUtils.getBuildingsInputsForResource(buildings, resourceName),
       ).toEqual(result);
+    });
+  });
+});
+
+describe('setBuildingsLayout', () => {
+  describe('when given no layout value', () => {
+    it('should default to a grid layout', () => {
+      const layout = '' as 'grid';
+      const result = { buildingsLayout: 'grid' };
+      expect(buildingUtils.setBuildingsLayout(layout)).toEqual(result);
+    });
+  });
+
+  describe('when given grid layout', () => {
+    it('should return table layout', () => {
+      const layout = 'grid';
+      const result = { buildingsLayout: 'table' };
+      expect(buildingUtils.setBuildingsLayout(layout)).toEqual(result);
+    });
+  });
+
+  describe('when given table layout', () => {
+    it('should return grid layout', () => {
+      const layout = 'table';
+      const result = { buildingsLayout: 'grid' };
+      expect(buildingUtils.setBuildingsLayout(layout)).toEqual(result);
+    });
+  });
+});
+
+describe('sortBuildings', () => {
+  describe('when given empty array of buildings', () => {
+    it('should return empty array', () => {
+      const buildings = [];
+      const currentOrderBy = '';
+      const orderBy = '';
+      const order = '';
+      const result = {
+        buildings: [],
+        buildingsOrderBy: '',
+        buildingsOrder: 'desc',
+      };
+      expect(
+        buildingUtils.sortBuildings(buildings, currentOrderBy, orderBy, order),
+      ).toEqual(result);
+    });
+  });
+
+  describe('when given unordered list of buildings', () => {
+    it('should return ordered list of buildings', () => {
+      const buildings = [
+        { name: 'Testing3' },
+        { name: 'Testing1' },
+        { name: 'Testing2' },
+      ] as IBuilding[];
+      const currentOrderBy = '';
+      const orderBy = 'name';
+      const order = '';
+      const result = {
+        buildings: [
+          { name: 'Testing3' },
+          { name: 'Testing2' },
+          { name: 'Testing1' },
+        ],
+        buildingsOrderBy: 'name',
+        buildingsOrder: 'desc',
+      };
+      expect(
+        buildingUtils.sortBuildings(buildings, currentOrderBy, orderBy, order),
+      ).toEqual(result);
+    });
+  });
+});
+
+describe('setBuildingQuantity', () => {
+  describe('when given empty array of resources', () => {
+    it('should return empty array of resources', () => {
+      const resources = [];
+      const buildings = [];
+      const name = '';
+      const quantity = 0;
+      const result = {
+        resources: [],
+        buildings: [],
+        powerGeneration: { value: 0, buildings: [] },
+        powerUsage: { value: 0, buildings: [] },
+        powerCapacity: { value: 0, buildings: [] },
+        resourcesCapacity: { value: 0, buildings: [] },
+      };
+      expect(
+        buildingUtils.setBuildingQuantity(resources, buildings, name, quantity),
+      ).toEqual(result);
+    });
+  });
+});
+
+describe('setBuildingUtilization', () => {
+  describe('when given empty array of resources', () => {
+    it('should return empty array of resources', () => {
+      const resources = [];
+      const buildings = [];
+      const name = '';
+      const utilization = 0;
+      const result = {
+        resources: [],
+        buildings: [],
+        powerGeneration: { value: 0, buildings: [] },
+        powerUsage: { value: 0, buildings: [] },
+      };
+      expect(
+        buildingUtils.setBuildingUtilization(
+          resources,
+          buildings,
+          name,
+          utilization,
+        ),
+      ).toEqual(result);
+    });
+  });
+});
+
+describe('clearBuildingInputs', () => {
+  describe('when given an empty array of resources', () => {
+    it('should return empty array of resources', () => {
+      const resources = [];
+      const buildings = [];
+      const result = {
+        resources: [],
+        buildings: [],
+        powerGeneration: { value: 0, buildings: [] },
+        powerUsage: { value: 0, buildings: [] },
+        powerCapacity: { value: 0, buildings: [] },
+        resourcesCapacity: { value: 0, buildings: [] },
+      };
+      expect(buildingUtils.clearBuildingInputs(resources, buildings)).toEqual(
+        result,
+      );
     });
   });
 });
