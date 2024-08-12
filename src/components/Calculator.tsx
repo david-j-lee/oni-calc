@@ -15,22 +15,20 @@ import Resources from './resources/Resources';
 import Plants from './plants/Plants';
 import Capacity from './capacity/Capacity';
 
+const tabIndexMap = {
+  '/': 0,
+  '/dupes': 1,
+  '/buildings': 2,
+  '/food': 3,
+  '/geysers': 4,
+};
+
 export const Calculator = () => {
   const location = useLocation();
   const [, { getData }] = useContext();
 
   const [tabIndex, setTabIndex] = useState(
-    location.pathname === '/'
-      ? 0
-      : location.pathname === '/dupes'
-      ? 1
-      : location.pathname === '/buildings'
-      ? 2
-      : location.pathname === '/food'
-      ? 3
-      : location.pathname === '/geysers'
-      ? 4
-      : 0,
+    tabIndexMap[location.pathname as keyof typeof tabIndexMap] ?? 0,
   );
 
   useEffect(() => {

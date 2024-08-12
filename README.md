@@ -25,4 +25,3 @@ React, Material UI, and lots of oxygen.
 ## About this application
 
 Manage your power and resource consumption by specifying the amount of assets available to your colony.
-

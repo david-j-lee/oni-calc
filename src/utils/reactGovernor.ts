@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+// Copied from https://github.com/TechEmpower/react-governor with minor edits.
+
 import { Dispatch, useReducer, useState } from 'react';
 
 class Governor {
@@ -20,7 +24,7 @@ class Governor {
       (mw: (arg0: any, arg1: any) => any) => mw(initialState, dispatch),
     );
 
-    for (let actionKey in contract) {
+    for (const actionKey in contract) {
       if (typeof contract[actionKey] !== 'function') {
         throw new TypeError(
           `action is invalid: expected "function"; for "${typeof contract[
@@ -79,7 +83,7 @@ class Governor {
    * @param {function} createReducer
    * @param {string} actionKey
    */
-  createAction(createReducer: Function, actionKey: string) {
+  createAction(createReducer: any, actionKey: string) {
     this.actions[actionKey] = (...args: any) => {
       const reducerOrPromise = createReducer(...args, this.getState);
 
@@ -107,7 +111,7 @@ class Governor {
     newState = reducer(this.state);
 
     // middleware
-    for (let middleware of this.middlewares) {
+    for (const middleware of this.middlewares) {
       newState = middleware(actionKey, newState);
     }
 

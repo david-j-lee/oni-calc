@@ -3,11 +3,12 @@ import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 
 export default tseslint.config({
   extends: [js.configs.recommended, ...tseslint.configs.recommended],
   files: ['**/*.{ts,tsx}'],
-  ignores: ['dist', 'tests/**/*', 'src/utils/reactGovernor.ts'],
+  ignores: ['dist', 'tests'],
   languageOptions: {
     ecmaVersion: 2021,
     globals: globals.browser,
@@ -23,4 +24,5 @@ export default tseslint.config({
       { allowConstantExport: true },
     ],
   },
+  ...eslintPluginPrettierRecommended,
 });

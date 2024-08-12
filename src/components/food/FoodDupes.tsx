@@ -32,8 +32,8 @@ export const FoodDupes: FC = () => {
       totalCalories === 0 || !dupes.caloriesRequired
         ? ''
         : totalCalories >= dupes.caloriesRequired
-        ? surplusCss
-        : deficitCss,
+          ? surplusCss
+          : deficitCss,
     );
   }, [totalCalories, dupes]);
 

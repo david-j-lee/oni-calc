@@ -1,4 +1,4 @@
-import { IGameMode } from "./IGameMode";
+import { IGameMode } from './IGameMode';
 
 export default interface ISettings {
   gameMode: IGameMode;

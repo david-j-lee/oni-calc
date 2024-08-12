@@ -5,7 +5,6 @@ export interface ICapacityBase {
   resources?: ICapacityItem;
 }
 
-
 export default interface ICapacity {
   power: ICapacityItem;
   resources: ICapacityItem;

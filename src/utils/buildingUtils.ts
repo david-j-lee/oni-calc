@@ -125,8 +125,8 @@ function updateBuildingsWithInputs(
         utilization: input.utilization
           ? input.utilization
           : building.hasConsistentIO
-          ? 0
-          : 100,
+            ? 0
+            : 100,
       };
     }
   });

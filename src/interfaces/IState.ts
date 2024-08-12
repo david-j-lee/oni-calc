@@ -1,5 +1,3 @@
-import { Theme } from '@mui/material';
-
 import IBuilding from './IBuilding';
 import IDupes from './IDupes';
 import ISettings from './ISettings';
