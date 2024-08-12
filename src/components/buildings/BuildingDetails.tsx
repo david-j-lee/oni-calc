@@ -1,20 +1,16 @@
-import React, { FC, memo, useEffect, useState } from 'react';
-
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-
 import IBuilding from '../../interfaces/IBuilding';
-
 import ResourceChips from '../resources/ResourceChips';
-import Number from '../common/Number';
+import Number from '../ui/Number';
+import { css } from '@emotion/react';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC, Fragment, memo, useEffect, useState } from 'react';
 
 interface IProps {
   building: IBuilding;
 }
 
 export const BuildingDetails: FC<IProps> = memo(({ building }) => {
-  const classes = useStyles();
   const {
     category,
     categoryImgUrl,
@@ -37,50 +33,52 @@ export const BuildingDetails: FC<IProps> = memo(({ building }) => {
   }, [power.generation, power.unit, power.usage]);
 
   return (
-    <div className={classes.root}>
-      <div className={classes.heading}>
-        <div className={classes.imageWrapper}>
+    <div css={rootCss}>
+      <div css={headingCss}>
+        <div css={imageWrapperCss}>
           <div
-            className={classes.image}
+            css={imageCss}
             style={{
               background: `url(${imgUrl}) no-repeat center center`,
               backgroundSize: 'contain',
             }}
           />
         </div>
-        <div className={classes.headingContent}>
+        <div css={headingContentCss}>
           <Typography variant="h4" id="responsive-dialog-title">
             {name}
           </Typography>
-          <div className={classes.category}>
+          <div css={categoryCss}>
             <div
-              className={classes.categoryImage}
+              css={categoryImageCss}
               style={{
                 background: `url(${categoryImgUrl}) no-repeat center center`,
                 backgroundSize: 'contain',
               }}
             />
-            <Typography className={classes.category}>{category}</Typography>
+            <Typography css={categoryCss}>{category}</Typography>
           </div>
         </div>
       </div>
 
-      <div className={classes.content}>
-        {!netPower ? null : (<>
-          <Typography variant="body1" className={classes.title}>
-            <small>Power</small>
-          </Typography>
-          <Number value={netPower} suffix={powerSuffix} />
-        </>)}
-        {!capacity.power.value ? null : (
-          <Typography variant="body1" className={classes.title}>
+      <div css={contentCss}>
+        {Boolean(netPower) && (
+          <Fragment>
+            <Typography variant="body1" css={titleCss}>
+              <small>Power</small>
+            </Typography>
+            <Number value={netPower} suffix={powerSuffix} />
+          </Fragment>
+        )}
+        {Boolean(capacity.power.value) && (
+          <Typography variant="body1" css={titleCss}>
             <small>Power Capacity</small>
             <br />
             {capacity.power.value + ' ' + capacity.power.unit}
           </Typography>
         )}
-        {!capacity.resources.value ? null : (
-          <Typography variant="body1" className={classes.title}>
+        {Boolean(capacity.resources.value) && (
+          <Typography variant="body1" css={titleCss}>
             <small>Resource Capacity</small>
             <br />
             {capacity.resources.value.toLocaleString() +
@@ -88,66 +86,82 @@ export const BuildingDetails: FC<IProps> = memo(({ building }) => {
               capacity.resources.unit}
           </Typography>
         )}
-        {!inputs.length ? null : (<>
-          <Typography variant="subtitle1" className={classes.title}>
-            Inputs
-          </Typography>
-          <ResourceChips ios={inputs} />
-        </>)}
-        {!outputs.length ? null : (<>
-          <Typography variant="subtitle1" className={classes.title}>
-            Outputs
-          </Typography>
-          <ResourceChips ios={outputs} />
-        </>)}
+        {Boolean(inputs.length) && (
+          <Fragment>
+            <Typography variant="subtitle1" css={titleCss}>
+              Inputs
+            </Typography>
+            <ResourceChips ios={inputs} />
+          </Fragment>
+        )}
+        {Boolean(outputs.length) && (
+          <Fragment>
+            <Typography variant="subtitle1" css={titleCss}>
+              Outputs
+            </Typography>
+            <ResourceChips ios={outputs} />
+          </Fragment>
+        )}
       </div>
     </div>
   );
 });
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    minWidth: 400,
-  },
-  imageWrapper: {
+const rootCss = css({
+  minWidth: 400,
+});
+
+const imageWrapperCss = (theme: Theme) =>
+  css({
     padding: theme.spacing(2),
     backgroundColor: '#3E4357',
-  },
-  image: {
-    width: 160,
-    height: 160,
-  },
-  heading: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  headingContent: {
+  });
+
+const imageCss = css({
+  width: 160,
+  height: 160,
+});
+
+const headingCss = css({
+  display: 'flex',
+  flexWrap: 'wrap',
+});
+
+const headingContentCss = (theme: Theme) =>
+  css({
     paddingTop: theme.spacing(3),
     paddingRight: theme.spacing(3),
     paddingLeft: theme.spacing(3),
     paddingBottom: 0,
     width: 500 - 160,
     flexGrow: 1,
-  },
-  category: {
+  });
+
+const categoryCss = (theme: Theme) =>
+  css({
     display: 'flex',
     alignItems: 'center',
     paddingTop: theme.spacing(0.75),
-  },
-  categoryImage: {
+  });
+
+const categoryImageCss = (theme: Theme) =>
+  css({
     width: 25,
     height: 25,
     marginRight: theme.spacing(),
-  },
-  title: {
+  });
+
+const titleCss = (theme: Theme) =>
+  css({
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(),
-  },
-  content: {
+  });
+
+const contentCss = (theme: Theme) =>
+  css({
     paddingLeft: theme.spacing(3),
     paddingRight: theme.spacing(3),
     paddingBottom: theme.spacing(3),
-  },
-}));
+  });
 
 export default BuildingDetails;

@@ -1,25 +1,21 @@
-import React, { FC, memo } from 'react';
-import { useContext } from '../../context';
-
-// material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import Chip from '@material-ui/core/Chip';
-import Typography from '@material-ui/core/Typography';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
-
+import { useContext } from '../../context/useContext';
 import IGeyserInput from './../../interfaces/IGeyserInput';
+import { css } from '@emotion/react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Chip from '@mui/material/Chip';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC, memo } from 'react';
 
 interface IProps {
   geyser: IGeyserInput;
 }
 
 export const Geyser: FC<IProps> = memo(({ geyser }) => {
-  const classes = useStyles();
   const [, { deleteGeyser }] = useContext();
 
   const handleDelete = () => {
@@ -27,7 +23,7 @@ export const Geyser: FC<IProps> = memo(({ geyser }) => {
   };
 
   return (
-    <div className={classes.root}>
+    <div css={rootCss}>
       <Card>
         <CardContent>
           <Typography variant="subtitle1">{geyser.name}</Typography>
@@ -41,12 +37,12 @@ export const Geyser: FC<IProps> = memo(({ geyser }) => {
               return (
                 <Chip
                   key={i}
-                  className={classes.chip}
+                  css={chipCss}
                   label={[output.name, geyser.amount].join(' ') + ' g/s'}
                   avatar={
                     <Avatar>
                       <div
-                        className={classes.avatar}
+                        css={avatarCss}
                         style={{
                           background: `url(${imageUrl}) no-repeat center center`,
                           backgroundSize: 'contain',
@@ -66,31 +62,31 @@ export const Geyser: FC<IProps> = memo(({ geyser }) => {
             cycles
           </Typography>
         </CardContent>
-        <CardActions className={classes.cardActions}>
-          <Button color="primary" onClick={handleDelete}>
-            DELETE
-          </Button>
+        <CardActions css={cardActionsCss}>
+          <Button onClick={handleDelete}>DELETE</Button>
         </CardActions>
       </Card>
     </div>
   );
 });
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    height: '100%',
-  },
-  cardActions: {
-    justifyContent: 'flex-end',
-  },
-  chip: {
+const rootCss = css({
+  height: '100%',
+});
+
+const cardActionsCss = css({
+  justifyContent: 'flex-end',
+});
+
+const chipCss = (theme: Theme) =>
+  css({
     marginTop: theme.spacing(),
     marginBottom: theme.spacing(),
-  },
-  avatar: {
-    height: '75%',
-    width: '75%',
-  },
-}));
+  });
+
+const avatarCss = css({
+  height: '75%',
+  width: '75%',
+});
 
 export default Geyser;

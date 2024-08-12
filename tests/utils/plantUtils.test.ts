@@ -1,4 +1,5 @@
-const plantUtils = require('./plantUtils');
+import * as plantUtils from '../../src/utils/plantUtils';
+import { describe, it, expect } from 'vitest';
 
 describe('updatePlants', () => {
   describe('when given an empty array of plants', () => {

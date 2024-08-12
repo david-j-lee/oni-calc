@@ -1,14 +1,14 @@
-import IResource from './../interfaces/IResource';
-import IDupes from './../interfaces/IDupes';
 import IDupesInput from '../interfaces/IDupesInput';
-
-import { getGameModeValue } from './commonUtils';
-import { updateResourcesWithDupes } from './resourceUtils';
+import { IGameMode } from '../interfaces/IGameMode';
 import IIO from '../interfaces/IIO';
 import IDupeTrait from './../interfaces/IDupeTrait';
+import IDupes from './../interfaces/IDupes';
+import IResource from './../interfaces/IResource';
+import { getGameModeValue } from './commonUtils';
+import { updateResourcesWithDupes } from './resourceUtils';
 
 export const setDupesQuantity = (
-  gameMode: string,
+  gameMode: IGameMode,
   resources: IResource[],
   dupes: IDupes,
   quantity: number,
@@ -21,7 +21,7 @@ export const setDupesQuantity = (
 };
 
 export const setDupeTraitQuantity = (
-  gameMode: string,
+  gameMode: IGameMode,
   resources: IResource[],
   dupes: IDupes,
   name: string,
@@ -37,7 +37,7 @@ export const setDupeTraitQuantity = (
 export const setDupeWaste = (
   resources: IResource[],
   dupes: IDupes,
-  prop: string,
+  prop: dupesWastePropNames,
   value: number,
 ) => {
   const newDupes = getDupeWaste(dupes, prop, value);
@@ -57,7 +57,11 @@ export const clearDupeInputs = (resources: IResource[], dupes: IDupes) => {
 
 // ----------------------------------------------
 
-export function getDupes(gameMode: string, dupes: IDupes, inputs: IDupesInput) {
+export function getDupes(
+  gameMode: IGameMode,
+  dupes: IDupes,
+  inputs?: IDupesInput,
+) {
   if (inputs && inputs.traits) {
     return updateDupesWithInputs(gameMode, dupes, inputs);
   } else {
@@ -86,7 +90,7 @@ function getDupesWithDefaultInputs(dupes: IDupes) {
 }
 
 function updateDupesWithInputs(
-  gameMode: string,
+  gameMode: IGameMode,
   dupes: IDupes,
   inputs: IDupesInput,
 ) {
@@ -137,7 +141,7 @@ export function getDupesOutputsForResource(
 
 function getBaseIOForResource(
   dupes: IDupes,
-  type: string,
+  type: 'inputs' | 'outputs',
   resourceName: string,
 ) {
   return dupes[type]
@@ -151,7 +155,7 @@ function getBaseIOForResource(
 
 function getTraitsIOForResource(
   traits: IDupeTrait[],
-  type: string,
+  type: 'inputs' | 'outputs',
   resourceName: string,
 ) {
   const filteredTraits = traits.filter((trait) => trait.quantity > 0);
@@ -165,11 +169,20 @@ function getTraitsIOForResource(
         valueExtended: (io.value as number) * trait.quantity,
       })),
     )
-    .reduce((a, b) => a.concat(b))
+    .reduce((a, b) => a.concat(b), [])
     .filter((io: IIO) => io.name === resourceName);
 }
 
-const WASTE_PROPERTIES = [
+export type dupesWastePropNames =
+  | 'pollutedWaterValue'
+  | 'pollutedDirtValue'
+  | 'waterValue'
+  | 'dirtValue';
+
+export const DUPES_WASTE_PROPS: {
+  name: dupesWastePropNames;
+  title: string;
+}[] = [
   { name: 'pollutedWaterValue', title: 'Polluted Water' },
   { name: 'pollutedDirtValue', title: 'Polluted Dirt' },
   { name: 'waterValue', title: 'Water' },
@@ -178,20 +191,28 @@ const WASTE_PROPERTIES = [
 
 function getWasteIOForResource(
   dupes: IDupes,
-  type: string,
+  type: 'inputs' | 'outputs',
   resourceName: string,
 ) {
-  let arr: any = []; // TODO: Types
+  const arr: {
+    name: string;
+    value: number;
+    unit: string;
+    rate: string;
+    valueExtended: number;
+    dupe: { reference: string; quantity: number };
+  }[] = [];
 
-  WASTE_PROPERTIES.forEach((prop) => {
+  DUPES_WASTE_PROPS.forEach((prop) => {
+    const dupesValue = dupes[prop.name];
+
     const isValid =
       prop.title === resourceName &&
-      ((dupes[prop.name] < 0 && type === 'inputs') ||
-        (dupes[prop.name] > 0 && type === 'outputs'));
+      ((dupesValue < 0 && type === 'inputs') ||
+        (dupesValue > 0 && type === 'outputs'));
 
     if (isValid) {
-      const value =
-        type === 'inputs' ? -dupes[prop.name] / 600 : dupes[prop.name] / 600;
+      const value = type === 'inputs' ? -dupesValue / 600 : dupesValue / 600;
 
       arr.push({
         name: prop.title,
@@ -208,7 +229,7 @@ function getWasteIOForResource(
 }
 
 export function updateDupeQuantity(
-  gameMode: string,
+  gameMode: IGameMode,
   dupes: IDupes,
   quantity: number,
 ) {
@@ -228,7 +249,7 @@ export function updateDupeQuantity(
 }
 
 export function updateDupeTraitQuantity(
-  gameMode: string,
+  gameMode: IGameMode,
   dupes: IDupes,
   name: string,
   quantity: number,
@@ -252,10 +273,14 @@ export function updateDupeTraitQuantity(
   return newDupes;
 }
 
-export function getDupeWaste(dupes: IDupes, prop: string, value: number) {
+export function getDupeWaste(
+  dupes: IDupes,
+  prop: dupesWastePropNames,
+  value: number,
+) {
   const newDupes = { ...dupes };
 
-  if (prop === '') return newDupes;
+  if (!prop) return newDupes;
 
   newDupes[prop] = value;
 
@@ -263,21 +288,21 @@ export function getDupeWaste(dupes: IDupes, prop: string, value: number) {
   return newDupes;
 }
 
-export function getCaloriesRequired(gameMode: string, dupes: IDupes) {
+export function getCaloriesRequired(gameMode: IGameMode, dupes: IDupes) {
   return (
     getBaseCaloriesRequired(gameMode, dupes) +
     getTraitCaloriesRequired(dupes.traits)
   );
 }
 
-function getBaseCaloriesRequired(gameMode: string, dupes: IDupes) {
+function getBaseCaloriesRequired(gameMode: IGameMode, dupes: IDupes) {
   if (!dupes.inputs) return 0;
   const inputs = dupes.inputs.filter((input) => input.name === 'Food');
   if (inputs.length === 0) return 0;
 
   return inputs
     .map((input) => getGameModeValue(gameMode, input.value) * dupes.quantity)
-    .reduce((a, b) => a + b);
+    .reduce((a, b) => a + b, 0);
 }
 
 function getTraitCaloriesRequired(traits: IDupeTrait[]) {
@@ -285,7 +310,7 @@ function getTraitCaloriesRequired(traits: IDupeTrait[]) {
     .map((trait) =>
       trait.inputs.map((input) => ({ ...input, quantity: trait.quantity })),
     )
-    .reduce((a, b) => a.concat(b))
+    .reduce((a, b) => a.concat(b), [])
     .filter((input) => input.name === 'Food');
 
   if (inputs.length === 0) return 0;
@@ -294,7 +319,7 @@ function getTraitCaloriesRequired(traits: IDupeTrait[]) {
     inputs
       // TODO: confirm that no-sweat is 50% less
       .map((input) => (input.value as number) * input.quantity)
-      .reduce((a, b) => a + b)
+      .reduce((a, b) => a + b, 0)
   );
 }
 

@@ -1,36 +1,27 @@
-import React, { FC } from 'react';
-import { useContext } from '../../context';
-
-// material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-
-// components
-import DelayedLoader from '../common/DelayedLoader';
+import { useContext } from '../../context/useContext';
 import DupeQuantity from './DupeQuantity';
 import DupeTraits from './DupeTraits';
 import DupesWaste from './DupesWaste';
+import { css } from '@emotion/react';
+import { Theme } from '@mui/material/styles';
+import { FC } from 'react';
 
 export const Dupes: FC = () => {
-  const classes = useStyles();
   const [{ dupes }] = useContext();
 
   return (
-    <DelayedLoader>
-      <div className={classes.root}>
-        <DupeQuantity />
-        {dupes.quantity > 0 && <DupeTraits />}
-        {dupes.quantity > 0 && <DupesWaste />}
-      </div>
-    </DelayedLoader>
+    <div css={rootCss}>
+      <DupeQuantity />
+      {dupes.quantity > 0 && <DupeTraits />}
+      {dupes.quantity > 0 && <DupesWaste />}
+    </div>
   );
 };
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
+const rootCss = (theme: Theme) =>
+  css({
     paddingTop: theme.spacing(),
     paddingBottom: theme.spacing(),
-  },
-}));
+  });
 
 export default Dupes;

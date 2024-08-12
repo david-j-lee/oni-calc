@@ -1,39 +1,30 @@
-import React, { FC, useEffect, useState, useRef } from 'react';
-import { useContext } from '../../context';
-
-// material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Grid from '@material-ui/core/Grid';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-
-// icons
-import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
-import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
-import MoreVert from '@material-ui/icons/MoreVert';
-
-// components
-import DupeDetails from './DupeDetails';
+import { useContext } from '../../context/useContext';
 import { WIKI_LINK_PATH } from '../../utils/parseUtils';
+import DupeDetails from './DupeDetails';
+import { css } from '@emotion/react';
+import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
+import MoreVert from '@mui/icons-material/MoreVert';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC, useEffect, useState, useRef } from 'react';
 
 export const DupeQuantity: FC = () => {
-  const classes = useStyles();
-
   const [{ dupes }, { setDupesTotalQuantity }] = useContext();
 
   const [quantity, setQuantity] = useState(dupes.quantity || 0);
-  const [focused, setFocused] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const timer = useRef<any>(null);
+  const timer = useRef<number | null>(null);
 
   // open dialog
   const handleClickOpen = () => {
@@ -67,9 +58,8 @@ export const DupeQuantity: FC = () => {
     }
   };
 
-  const handleChange = (event) => {
-    let value = event.target.value;
-    value = Number(value);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let value = Number(event.target.value);
     if (value < 0) value = 0;
 
     setQuantity(value);
@@ -81,14 +71,6 @@ export const DupeQuantity: FC = () => {
     }, 500);
   };
 
-  const onBlur = () => {
-    setFocused(false);
-  };
-
-  const onFocus = () => {
-    setFocused(true);
-  };
-
   useEffect(() => {
     if (dupes.quantity !== null && dupes.quantity !== undefined) {
       setQuantity(dupes.quantity);
@@ -96,7 +78,7 @@ export const DupeQuantity: FC = () => {
   }, [dupes.quantity]);
 
   return (
-    <Grid container className={classes.root}>
+    <Grid container>
       <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
         <Dialog
           fullScreen={false}
@@ -106,26 +88,17 @@ export const DupeQuantity: FC = () => {
         >
           <DupeDetails details={dupes} />
           <DialogActions>
-            <Button
-              target="_blank"
-              href={`${WIKI_LINK_PATH}Duplicant`}
-              color="primary"
-            >
+            <Button target="_blank" href={`${WIKI_LINK_PATH}Duplicant`}>
               WIKI
             </Button>
-            <Button
-              variant="contained"
-              onClick={handleClose}
-              color="primary"
-              autoFocus
-            >
+            <Button variant="contained" onClick={handleClose} autoFocus>
               CLOSE
             </Button>
           </DialogActions>
         </Dialog>
-        <Card className={classes.card}>
-          <CardContent className={classes.cardContent}>
-            <Typography variant="h6" className={classes.cardContentTitle}>
+        <Card css={cardCss}>
+          <CardContent css={cardContentCss}>
+            <Typography variant="h6" css={cardContentTitleCss}>
               Total Dupes
             </Typography>
             <IconButton onClick={handleClickOpen} aria-label="More">
@@ -144,11 +117,8 @@ export const DupeQuantity: FC = () => {
               type="number"
               value={quantity}
               onChange={handleChange}
-              className={classes.quantity}
-              onFocus={onFocus}
-              onBlur={onBlur}
+              css={quantityCss}
               InputProps={{
-                disableUnderline: !focused,
                 inputProps: {
                   style: { textAlign: 'right', fontSize: '1.25rem' },
                   'aria-label': 'Dupe Quantity',
@@ -171,29 +141,32 @@ export const DupeQuantity: FC = () => {
   );
 };
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {},
-  card: {
+const cardCss = (theme: Theme) =>
+  css({
     margin: theme.spacing(),
     '& .MuiIconButton-colorPrimary': {
-      color: theme.palette.success[theme.palette.type],
+      color: theme.palette.success[theme.palette.mode],
       '&:hover': {
-        backgroundColor: theme.palette.success[theme.palette.type] + '14', //14 = 0.08 opacity from the default bg
-      }
-    }
-  },
-  cardContent: {
+        backgroundColor: theme.palette.success[theme.palette.mode] + '14', // 14 = 0.08 opacity from the default bg
+      },
+    },
+  });
+
+const cardContentCss = (theme: Theme) =>
+  css({
     flex: '1 0 auto',
     display: 'flex',
     paddingRight: theme.spacing(2),
-  },
-  cardContentTitle: {
-    flexGrow: 1,
-  },
-  quantity: {
+  });
+
+const cardContentTitleCss = css({
+  flexGrow: 1,
+});
+
+const quantityCss = (theme: Theme) =>
+  css({
     flexGrow: 1,
     marginRight: theme.spacing(),
-  },
-}));
+  });
 
 export default DupeQuantity;

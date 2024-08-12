@@ -1,17 +1,13 @@
-import React, { FC, useState } from 'react';
-import { useContext } from '../../context';
-
-// material
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogActions from '@material-ui/core/DialogActions';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-
-// icons
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import { useContext } from '../../context/useContext';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import { FC, useState } from 'react';
 
 export const NavbarGeysers: FC = () => {
   const [, { clearGeyserInputs }] = useContext();
@@ -39,13 +35,10 @@ export const NavbarGeysers: FC = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
+          <Button onClick={handleClose}>Cancel</Button>
           <Button
             variant="contained"
             onClick={handleClearGeyserInputs}
-            color="primary"
             autoFocus
           >
             Confirm

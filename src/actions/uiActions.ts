@@ -1,13 +1,14 @@
-// material
-import indigo from '@material-ui/core/colors/indigo';
-import red from '@material-ui/core/colors/red';
+import IState from '../interfaces/IState';
+import IThemeSaved from '../interfaces/IThemeSaved';
+import indigo from '@mui/material/colors/indigo';
+import red from '@mui/material/colors/red';
 
 export const uiActions = {
   getTheme() {
-    return state => {
-      let theme: any = {
+    return (state: IState) => {
+      let theme: IThemeSaved = {
         palette: {
-          type: 'dark',
+          mode: 'dark',
           primary: indigo,
           secondary: red,
           error: red,
@@ -17,11 +18,15 @@ export const uiActions = {
       const strTheme = localStorage.getItem('theme');
       if (strTheme) {
         try {
-          theme = JSON.parse(strTheme);
-          if (!theme && !theme.palette && !theme.palette.type) {
+          const savedTheme = JSON.parse(strTheme);
+          if (!savedTheme && !savedTheme.palette && !savedTheme.palette.type) {
             throw new Error('using old settings');
           }
-        } catch (e) {
+          if (savedTheme.palette?.type) {
+            savedTheme.palette.mode = savedTheme.palette.type;
+          }
+          theme = savedTheme;
+        } catch {
           localStorage.setItem('theme', JSON.stringify(theme));
         }
       }
@@ -31,8 +36,8 @@ export const uiActions = {
       };
     };
   },
-  setTheme(theme: any) {
-    return state => {
+  setTheme(theme: IThemeSaved) {
+    return (state: IState) => {
       localStorage.setItem('theme', JSON.stringify(theme));
       return {
         ...state,

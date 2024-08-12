@@ -1,36 +1,38 @@
-import React, { FC, memo, useState, useRef } from 'react';
-
-// material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import Popover from '@material-ui/core/Popover';
-
+import Number from '../ui/Number';
 import IResource from './../../interfaces/IResource';
-
 import ResourceIOs from './ResourceIOs';
-import Number from '../common/Number';
-import Chip from '@material-ui/core/Chip';
+import { css } from '@emotion/react';
+import Chip from '@mui/material/Chip';
+import Popover from '@mui/material/Popover';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
+import { Theme } from '@mui/material/styles';
+import { FC, memo, useState, useMemo } from 'react';
 
 interface IProps {
   resource: IResource;
 }
 
 export const Resource: FC<IProps> = memo(({ resource }) => {
-  const classes = useStyles();
-
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogType, setDialogType] = useState('');
 
-  //FIXME this ref seems to be stucking with the image, even when the resource name change (from hide/showing empty resources)
-  const imageUrl = useRef(
-    `/images/resources/${resource.name.toLowerCase().split(' ').join('-')}.png`,
+  const imageUrl = useMemo(
+    () =>
+      `/images/resources/${resource.name
+        .toLowerCase()
+        .split(' ')
+        .join('-')}.png`,
+    [resource],
   );
 
-  const handlePopoverOpen = (event, title, type) => {
-    setAnchorEl(event.target);
+  const handlePopoverOpen = (
+    event: React.MouseEvent<HTMLDivElement>,
+    title: string,
+    type: string,
+  ) => {
+    setAnchorEl(event.currentTarget);
     setDialogTitle(title);
     setDialogType(type);
   };
@@ -44,9 +46,9 @@ export const Resource: FC<IProps> = memo(({ resource }) => {
   const dialogOpen = !!anchorEl;
 
   return (
-    <TableRow className={classes.tableRow}>
+    <TableRow css={tableRowCss}>
       <Popover
-        className={classes.popover}
+        css={popoverCss}
         open={dialogOpen}
         anchorEl={anchorEl}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -61,24 +63,19 @@ export const Resource: FC<IProps> = memo(({ resource }) => {
         />
       </Popover>
 
-      <TableCell className={classes.tableCell}>
-        <div className={classes.resourceName}>
-          <div
-            className={classes.image}
-            style={{ backgroundImage: `url(${imageUrl.current})` }}
-          />
+      <TableCell css={tableCellCss}>
+        <div css={resourceNameCss}>
+          <div css={imageCss} style={{ backgroundImage: `url(${imageUrl})` }} />
           {resource.name}
-          {!resource.unitOfMeasure ? null :
-            <Chip
-              label={resource.unitOfMeasure}
-              size="small"
-            />}
+          {Boolean(resource.unitOfMeasure) && (
+            <Chip label={resource.unitOfMeasure} size="small" />
+          )}
         </div>
       </TableCell>
 
-      <TableCell align="right" className={classes.tableCell}>
+      <TableCell align="right" css={tableCellCss}>
         <div
-          className={resource.totalInput? classes.io : classes.emptyIo}
+          css={resource.totalInput ? ioCss : emptyIoCss}
           onMouseOver={(e) => handlePopoverOpen(e, 'Inputs', 'inputs')}
           onMouseOut={handlePopoverClose}
         >
@@ -86,9 +83,9 @@ export const Resource: FC<IProps> = memo(({ resource }) => {
         </div>
       </TableCell>
 
-      <TableCell align="right" className={classes.tableCell}>
+      <TableCell align="right" css={tableCellCss}>
         <div
-          className={resource.totalOutput? classes.io : classes.emptyIo}
+          css={resource.totalOutput ? ioCss : emptyIoCss}
           onMouseOver={(e) => handlePopoverOpen(e, 'Outputs', 'outputs')}
           onMouseOut={handlePopoverClose}
         >
@@ -96,9 +93,9 @@ export const Resource: FC<IProps> = memo(({ resource }) => {
         </div>
       </TableCell>
 
-      <TableCell align="right" className={classes.tableCell}>
+      <TableCell align="right" css={tableCellCss}>
         <div
-          className={resource.totalIO? classes.io : classes.emptyIo}
+          css={resource.totalIO ? ioCss : emptyIoCss}
           onMouseOver={(e) => handlePopoverOpen(e, 'Inputs or Outputs', 'both')}
           onMouseOut={handlePopoverClose}
         >
@@ -109,38 +106,46 @@ export const Resource: FC<IProps> = memo(({ resource }) => {
   );
 });
 
-const useStyles = makeStyles((theme: Theme) => ({
-  tableRow: {
-    height: 'inherit',
-  },
-  tableCell: {
+const tableRowCss = css({
+  height: 'inherit',
+});
+
+const tableCellCss = (theme: Theme) =>
+  css({
     padding: theme.spacing(),
-  },
-  resourceName: {
+  });
+
+const resourceNameCss = (theme: Theme) =>
+  css({
     display: 'flex',
     flexWrap: 'nowrap',
     alignItems: 'center',
     '& .MuiChip-root': {
       marginLeft: theme.spacing(),
-    }
-  },
-  image: {
+    },
+  });
+
+const imageCss = (theme: Theme) =>
+  css({
     height: 15,
     width: 15,
     backgroundSize: 'cover',
     marginRight: theme.spacing(),
     flexShrink: 0,
-  },
-  io: {
-    cursor: 'default',
-  },
-  emptyIo: {
+  });
+
+const ioCss = css({
+  cursor: 'default',
+});
+
+const emptyIoCss = (theme: Theme) =>
+  css({
     cursor: 'default',
     color: theme.palette.text.disabled,
-  },
-  popover: {
-    pointerEvents: 'none',
-  },
-}));
+  });
+
+const popoverCss = css({
+  pointerEvents: 'none',
+});
 
 export default Resource;

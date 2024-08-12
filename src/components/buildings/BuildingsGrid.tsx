@@ -1,21 +1,16 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useContext } from '../../context';
-
-// material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-
-// components
+import { useContext } from '../../context/useContext';
+import IBuildingsGrouped from '../../interfaces/IBuildingsGrouped';
 import BuildingsGridGroup from './BuildingsGridGroup';
+import { css } from '@emotion/react';
+import { Theme } from '@mui/material/styles';
+import { FC, useEffect, useState } from 'react';
 
 export const BuildingsGrid: FC = () => {
-  const classes = useStyles();
+  const [{ buildings, collapseBuildingPanels, collapseBuildingPanelsTrigger }] =
+    useContext();
 
-  const [
-    { buildings, collapseBuildingPanels, collapseBuildingPanelsTrigger },
-  ] = useContext();
-
-  const [groupedBuildings, setGroupedBuildings] = useState<object | null>(null);
+  const [groupedBuildings, setGroupedBuildings] =
+    useState<IBuildingsGrouped | null>(null);
 
   useEffect(() => {
     const grouped = buildings.reduce((acc, building) => {
@@ -34,12 +29,12 @@ export const BuildingsGrid: FC = () => {
         acc[normalizedName].buildings.push(building);
       }
       return acc;
-    }, {});
+    }, {} as IBuildingsGrouped);
     setGroupedBuildings(grouped);
   }, [buildings]);
 
   return (
-    <div className={classes.root}>
+    <div css={rootCss}>
       {groupedBuildings &&
         Object.values(groupedBuildings).map((group) => (
           <BuildingsGridGroup
@@ -53,12 +48,11 @@ export const BuildingsGrid: FC = () => {
   );
 };
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
+const rootCss = (theme: Theme) =>
+  css({
     marginTop: theme.spacing(),
     marginBottom: theme.spacing(2),
     padding: theme.spacing(0, 1),
-  },
-}));
+  });
 
 export default BuildingsGrid;

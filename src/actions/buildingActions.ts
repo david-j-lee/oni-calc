@@ -1,3 +1,4 @@
+import IState from '../interfaces/IState';
 import {
   clearBuildingInputs,
   setBuildingQuantity,
@@ -8,7 +9,7 @@ import {
 
 export const buildingActions = {
   setBuildingsLayout() {
-    return state => {
+    return (state: IState) => {
       return {
         ...state,
         ...setBuildingsLayout(state.buildingsLayout),
@@ -16,7 +17,7 @@ export const buildingActions = {
     };
   },
   collapseBuildingPanels() {
-    return state => {
+    return (state: IState) => {
       return {
         ...state,
         collapseBuildingPanels: true,
@@ -25,7 +26,7 @@ export const buildingActions = {
     };
   },
   expandBuildingPanels() {
-    return state => {
+    return (state: IState) => {
       return {
         ...state,
         collapseBuildingPanels: false,
@@ -34,7 +35,7 @@ export const buildingActions = {
     };
   },
   setBuildingQuantity(name: string, quantity: number) {
-    return state => {
+    return (state: IState) => {
       return {
         ...state,
         ...setBuildingQuantity(
@@ -47,7 +48,7 @@ export const buildingActions = {
     };
   },
   setBuildingUtilization(name: string, utilization: number) {
-    return state => {
+    return (state: IState) => {
       return {
         ...state,
         ...setBuildingUtilization(
@@ -60,7 +61,7 @@ export const buildingActions = {
     };
   },
   sortBuildings(key: string) {
-    return state => {
+    return (state: IState) => {
       return {
         ...state,
         ...sortBuildings(
@@ -73,7 +74,7 @@ export const buildingActions = {
     };
   },
   clearBuildingInputs() {
-    return state => {
+    return (state: IState) => {
       return {
         ...state,
         ...clearBuildingInputs(state.resources, state.buildings),

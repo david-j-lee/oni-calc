@@ -1,49 +1,42 @@
-import React, { FC, memo, useRef } from 'react';
-
-// material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-
-import IPlant from './../../interfaces/IPlant';
-
-// components
 import ResourceChips from '../resources/ResourceChips';
+import IPlant from './../../interfaces/IPlant';
+import { css } from '@emotion/react';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC, memo, useRef } from 'react';
 
 interface IProps {
   plant: IPlant;
 }
 
 export const PlantDetails: FC<IProps> = memo(({ plant }) => {
-  const classes = useStyles();
-
   const imgUrl = useRef(
     `/images/bio/${plant.name.toLowerCase().split(' ').join('-')}.png`,
   );
 
   return (
-    <div className={classes.root}>
-      <div className={classes.heading}>
+    <div>
+      <div css={headingCss}>
         <div
-          className={classes.image}
+          css={imageCss}
           style={{
             background: `#3E4357 url(${imgUrl.current}) no-repeat center center`,
             backgroundSize: 'contain',
           }}
         />
-        <div className={classes.headingContent}>
+        <div css={headingContentCss}>
           <Typography variant="h6">{plant.name}</Typography>
           <Grid container>
             <Grid item xs={6}>
-              <Typography variant="body1" className={classes.title}>
+              <Typography variant="body1" css={titleCss}>
                 <small>Growth Rate</small>
                 <br />
                 {plant.growthRate.value} {plant.growthRate.rate}
               </Typography>
             </Grid>
             <Grid item xs={6}>
-              <Typography variant="body1" className={classes.title}>
+              <Typography variant="body1" css={titleCss}>
                 <small>Yield</small>
                 <br />
                 {plant.yield}
@@ -52,8 +45,8 @@ export const PlantDetails: FC<IProps> = memo(({ plant }) => {
           </Grid>
         </div>
       </div>
-      <div className={classes.content}>
-        <Typography variant="subtitle1" className={classes.title}>
+      <div css={contentCss}>
+        <Typography variant="subtitle1" css={titleCss}>
           Inputs
         </Typography>
         <ResourceChips ios={plant.inputs} />
@@ -62,38 +55,37 @@ export const PlantDetails: FC<IProps> = memo(({ plant }) => {
   );
 });
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {},
-  heading: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  headingContent: {
+const headingCss = css({
+  display: 'flex',
+  flexWrap: 'wrap',
+});
+
+const headingContentCss = (theme: Theme) =>
+  css({
     paddingTop: theme.spacing(3),
     paddingRight: theme.spacing(3),
     paddingLeft: theme.spacing(3),
     paddingBottom: 0,
     width: 500 - 160,
     flexGrow: 1,
-  },
-  image: {
-    width: 120,
-    height: 120,
-  },
-  title: {
+  });
+
+const imageCss = css({
+  width: 120,
+  height: 120,
+});
+
+const titleCss = (theme: Theme) =>
+  css({
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(),
-  },
-  content: {
+  });
+
+const contentCss = (theme: Theme) =>
+  css({
     paddingLeft: theme.spacing(3),
     paddingRight: theme.spacing(3),
     paddingBottom: theme.spacing(3),
-  },
-  avatar: {
-    height: '100%',
-    width: '100%',
-    backgroundSize: 'contain',
-  },
-}));
+  });
 
 export default PlantDetails;

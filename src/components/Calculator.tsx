@@ -1,122 +1,91 @@
-import React, { FC, memo, useEffect, useState } from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
-import { useContext } from '../context';
-
-// material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-
-// components
+import { useContext } from '../context/useContext';
+import Capacity from './capacity/Capacity';
+import Plants from './plants/Plants';
 import Power from './power/Power';
 import Resources from './resources/Resources';
-import Plants from './plants/Plants';
-import Capacity from './capacity/Capacity';
+import { css } from '@emotion/react';
+import Grid from '@mui/material/Grid';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import { Theme } from '@mui/material/styles';
+import { useEffect, useState } from 'react';
+import { Link, useLocation, Outlet } from 'react-router-dom';
 
-import Dupes from './dupes/Dupes';
-import Buildings from './buildings/Buildings';
-import Food from './food/Food';
-import Geysers from './geysers/Geysers';
-import Settings from './settings/Settings';
+const tabIndexMap = {
+  '/': 0,
+  '/dupes': 1,
+  '/buildings': 2,
+  '/food': 3,
+  '/geysers': 4,
+};
 
-interface IProps {
-  location: any;
-}
-
-export const Calculator: FC<IProps> = memo(({ location }) => {
-  const classes = useStyles();
+export const Calculator = () => {
+  const location = useLocation();
   const [, { getData }] = useContext();
 
   const [tabIndex, setTabIndex] = useState(
-    location.pathname === '/settings'
-      ? 0
-      : location.pathname === '/dupes'
-      ? 1
-      : location.pathname === '/buildings'
-      ? 2
-      : location.pathname === '/food'
-      ? 3
-      : location.pathname === '/geysers'
-      ? 4
-      : 0,
+    tabIndexMap[location.pathname as keyof typeof tabIndexMap] ?? 0,
   );
 
   useEffect(() => {
     getData();
   }, [getData]);
 
-  const handleChange = (event, value) => {
+  const handleChange = (_event: React.SyntheticEvent, value: number) => {
     setTabIndex(value);
   };
 
   return (
-    <Grid container className={[classes.root, 'styled-scrollbar'].join(' ')}>
+    <Grid container css={rootCss} className="styled-scrollbar">
       <Grid
         item
         sm={6}
         md={5}
         lg={4}
-        className={['styled-scrollbar', classes.leftSection].join(' ')}
+        css={leftSectionCss}
+        className="styled-scrollbar"
       >
         <Power />
         <Resources />
         <Plants />
         <Capacity />
       </Grid>
-      <Grid item sm={6} md={7} lg={8} className={classes.rightSection}>
+      <Grid item sm={6} md={7} lg={8} css={rightSectionCss}>
         <Tabs
-          className={classes.tabs}
+          css={tabsCss}
           value={tabIndex}
           onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
           variant="scrollable"
         >
-          <Tab label="Settings" component={Link} to="/settings" />
+          <Tab label="Settings" component={Link} to="/" />
           <Tab label="Dupes" component={Link} to="/dupes" />
           <Tab label="Buildings" component={Link} to="/buildings" />
           <Tab label="Food" component={Link} to="/food" />
           <Tab label="Geysers" component={Link} to="/geysers" />
         </Tabs>
-        <div className={['styled-scrollbar', classes.content].join(' ')}>
-          <Switch>
-            <Route path="/geysers">
-              <Geysers />
-            </Route>
-            <Route path="/food">
-              <Food />
-            </Route>
-            <Route path="/buildings">
-              <Buildings />
-            </Route>
-            <Route path="/dupes">
-              <Dupes />
-            </Route>
-            <Route path="/">
-              <Settings />
-            </Route>
-          </Switch>
+        <div css={contentCss} className="styled-scrollbar">
+          <Outlet />
         </div>
       </Grid>
     </Grid>
   );
-});
+};
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
+const rootCss = (theme: Theme) =>
+  css({
     height: '100vh',
     display: 'flex',
     [theme.breakpoints.down('xs')]: {
-      height: `calc(100vh - ${theme.spacing(8)}px)`,
+      height: `calc(100vh - ${theme.spacing(8)})`,
       display: 'block',
       overflowY: 'auto',
       marginTop: theme.spacing(8),
     },
-  },
-  leftSection: {
-    height: `calc(100% - ${theme.spacing(10)}px)`,
+  });
+
+const leftSectionCss = (theme: Theme) =>
+  css({
+    height: `calc(100% - ${theme.spacing(10)})`,
     flexGrow: 1,
     overflowY: 'auto',
     marginTop: theme.spacing(10),
@@ -127,9 +96,11 @@ const useStyles = makeStyles((theme: Theme) => ({
       height: 'auto',
       marginTop: 0,
     },
-  },
-  rightSection: {
-    height: `calc(100% - ${theme.spacing(10)}px)`,
+  });
+
+const rightSectionCss = (theme: Theme) =>
+  css({
+    height: `calc(100% - ${theme.spacing(10)})`,
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
@@ -140,16 +111,19 @@ const useStyles = makeStyles((theme: Theme) => ({
       height: 'auto',
       marginTop: theme.spacing(),
     },
-  },
-  tabs: {
+  });
+
+const tabsCss = (theme: Theme) =>
+  css({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
-  },
-  content: {
+  });
+
+const contentCss = (theme: Theme) =>
+  css({
     padding: theme.spacing(1, 1, 0, 1),
     height: '100%',
     overflowY: 'auto',
-  },
-}));
+  });
 
 export default Calculator;

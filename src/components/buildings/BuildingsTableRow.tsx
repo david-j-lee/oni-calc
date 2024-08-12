@@ -1,51 +1,41 @@
-import React, { FC, memo, useState, useRef } from 'react';
-import { useContext } from '../../context';
-
-// material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import IconButton from '@material-ui/core/IconButton';
-import Popover from '@material-ui/core/Popover';
-import Slider from '@material-ui/core/Slider';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-
-// icons
-import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
-import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
-import MoreHoriz from '@material-ui/icons/MoreHoriz';
-
+import { useContext } from '../../context/useContext';
 import IBuilding from './../../interfaces/IBuilding';
-
-// component
 import BuildingDetails from './BuildingDetails';
+import { css } from '@emotion/react';
+import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
+import MoreHoriz from '@mui/icons-material/MoreHoriz';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import IconButton from '@mui/material/IconButton';
+import Popover from '@mui/material/Popover';
+import Slider from '@mui/material/Slider';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC, memo, useState, useRef } from 'react';
 
 interface IProps {
   building: IBuilding;
 }
 
 export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
-  const classes = useStyles();
-
   const [, { setBuildingUtilization, setBuildingQuantity }] = useContext();
 
   const [quantity, setQuantity] = useState(building.quantity);
-  const [focused, setFocused] = useState(false);
   const [utilization, setUtilization] = useState(building.utilization || 0);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
 
-  const timer = useRef<any>();
-  const utilizationTimer = useRef<any>();
+  const timer = useRef<number>();
+  const utilizationTimer = useRef<number>();
 
   // on hover
-  const handlePopoverOpen = (event) => {
-    setAnchorEl(event.target);
+  const handlePopoverOpen = (event: React.MouseEvent<HTMLDivElement>) => {
+    setAnchorEl(event.currentTarget);
   };
 
   const handlePopoverClose = () => {
@@ -62,7 +52,10 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
   };
 
   // utilization
-  const handleSliderChange = (event, value) => {
+  const handleSliderChange = (_event: Event, value: number | number[]) => {
+    if (value instanceof Array) {
+      return;
+    }
     setUtilization(value);
     if (utilizationTimer.current) {
       clearTimeout(utilizationTimer.current);
@@ -95,9 +88,9 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
     }
   };
 
-  const handleChange = (event) => {
-    let value = event.target.value;
-    value = Number(value);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const valueString = event.target.value;
+    let value = Number(valueString);
     if (value < 0) value = 0;
 
     setQuantity(value);
@@ -109,20 +102,12 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
     }, 500);
   };
 
-  const onBlur = () => {
-    setFocused(false);
-  };
-
-  const onFocus = () => {
-    setFocused(false);
-  };
-
   const popoverOpen = !!anchorEl;
 
   return (
     <TableRow>
       <Popover
-        className={classes.popover}
+        css={popoverCss}
         open={popoverOpen}
         anchorEl={anchorEl}
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
@@ -142,15 +127,10 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
         <div>
           <BuildingDetails building={building} />
           <DialogActions>
-            <Button target="_blank" href={building.wikiUrl} color="default">
+            <Button target="_blank" href={building.wikiUrl}>
               WIKI
             </Button>
-            <Button
-              variant="contained"
-              onClick={handleClose}
-              color="primary"
-              autoFocus
-            >
+            <Button variant="contained" onClick={handleClose} autoFocus>
               CLOSE
             </Button>
           </DialogActions>
@@ -158,9 +138,9 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
       </Dialog>
 
       <TableCell size="small">
-        <div className={classes.category}>
+        <div css={categoryCss}>
           <div
-            className={classes.categoryImg}
+            css={categoryImgCss}
             style={{
               background: `url(${building.categoryImgUrl}) no-repeat center center`,
               backgroundSize: 'contain',
@@ -171,9 +151,9 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
       </TableCell>
 
       <TableCell size="small">
-        <div className={classes.building}>
+        <div css={buildingCss}>
           <div
-            className={classes.buildingImg}
+            css={buildingImgCss}
             onMouseOver={handlePopoverOpen}
             onMouseOut={handlePopoverClose}
             style={{
@@ -187,25 +167,22 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
 
       <TableCell size="small">
         {!building.hasConsistentIO && building.quantity > 0 && (
-          <span className={classes.slider}>
+          <span css={sliderCss}>
             <Slider value={utilization} onChange={handleSliderChange} />
-            <Typography className={classes.sliderLabel}>
+            <Typography css={sliderLabelCss}>
               {utilization.toFixed(0) + '%'}
             </Typography>
           </span>
         )}
       </TableCell>
 
-      <TableCell align="right" className={classes.quantity} size="small">
+      <TableCell align="right" css={quantityCss} size="small">
         <TextField
           type="number"
           value={quantity}
           onChange={handleChange}
-          className={classes.quantity}
-          onFocus={onFocus}
-          onBlur={onBlur}
+          css={quantityCss}
           InputProps={{
-            disableUnderline: !focused,
             inputProps: {
               style: {
                 textAlign: 'right',
@@ -221,7 +198,7 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
       </TableCell>
 
       <TableCell size="small">
-        <div className={classes.actions}>
+        <div css={actionsCss}>
           <IconButton
             color="secondary"
             aria-label="Decrement"
@@ -245,58 +222,61 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
   );
 });
 
-const useStyles = makeStyles((theme: Theme) => ({
-  image: {
-    width: 40,
-    height: 40,
-    backgroundSize: 'cover',
-    marginRight: theme.spacing(),
-  },
-  categoryImg: {
+const categoryImgCss = (theme: Theme) =>
+  css({
     width: 25,
     height: 25,
     marginRight: theme.spacing(),
     cursor: 'default',
-  },
-  category: {
-    display: 'flex',
-    flexWrap: 'nowrap',
-    alignItems: 'center',
-    fontSize: '9pt',
-  },
-  buildingImg: {
+  });
+
+const categoryCss = css({
+  display: 'flex',
+  flexWrap: 'nowrap',
+  alignItems: 'center',
+  fontSize: '9pt',
+});
+
+const buildingImgCss = (theme: Theme) =>
+  css({
     width: 30,
     height: 30,
     marginRight: theme.spacing(),
     cursor: 'default',
-  },
-  building: {
-    display: 'flex',
-    flexWrap: 'nowrap',
-    alignItems: 'center',
-    fontSize: '12pt',
-  },
-  quantity: {
-    fontSize: '12pt',
-  },
-  actions: {
-    whiteSpace: 'nowrap',
-  },
-  slider: {
-    width: 150,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    whiteSpace: 'nowrap',
-  },
-  sliderLabel: {
+  });
+
+const buildingCss = css({
+  display: 'flex',
+  flexWrap: 'nowrap',
+  alignItems: 'center',
+  fontSize: '12pt',
+});
+
+const quantityCss = css({
+  fontSize: '12pt',
+});
+
+const actionsCss = css({
+  whiteSpace: 'nowrap',
+});
+
+const sliderCss = css({
+  width: 150,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  whiteSpace: 'nowrap',
+});
+
+const sliderLabelCss = (theme: Theme) =>
+  css({
     paddingLeft: theme.spacing(2),
     textAlign: 'right',
     width: 75,
-  },
-  popover: {
-    pointerEvents: 'none',
-  },
-}));
+  });
+
+const popoverCss = css({
+  pointerEvents: 'none',
+});
 
 export default BuildingsTableRow;

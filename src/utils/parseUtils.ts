@@ -1,44 +1,38 @@
-import IBuilding from '../interfaces/IBuilding';
+import IBuilding, { IBuildingBase } from '../interfaces/IBuilding';
 import IBuildingInput from '../interfaces/IBuildingInput';
-import ICapacity from '../interfaces/ICapacity';
-import ICapacityItem from '../interfaces/ICapacityItem';
-import IIO from '../interfaces/IIO';
-import IPower from '../interfaces/IPower';
+import ICapacity, { ICapacityBase } from '../interfaces/ICapacity';
+import ICapacityItem, { ICapacityItemBase } from '../interfaces/ICapacityItem';
+import IIO, { IIOBase } from '../interfaces/IIO';
+import IPower, { IPowerBase } from '../interfaces/IPower';
 
 const BUILDING_IMG_PATH = '/images/buildings/';
 const BUILDING_CATEGORY_PATH = '/images/building-categories/';
 export const WIKI_LINK_PATH = 'https://oxygennotincluded.wiki.gg/';
 
-export function parseBuildings(rawBuildings: any): IBuilding[] {
+export function parseBuildings(rawBuildings: IBuildingBase[]): IBuilding[] {
   if (rawBuildings.constructor === Array) {
-    return rawBuildings.map((building: any) => {
+    return rawBuildings.map((building) => {
       const parsedBuilding: IBuilding = {
         category: building.category || '',
         categoryImgUrl:
           BUILDING_CATEGORY_PATH +
-          building.category
-            .toLowerCase()
-            .split(' ')
-            .join('-') +
+          building.category.toLowerCase().split(' ').join('-') +
           '.png',
         name: building.name || '',
         imgUrl:
           BUILDING_IMG_PATH +
-          building.name
-            .toLowerCase()
-            .split(' ')
-            .join('-') +
+          building.name.toLowerCase().split(' ').join('-') +
           '.png',
-        wikiUrl: WIKI_LINK_PATH + building.name
-          .replace(/^(Domesticated|Wild) /, '')
-          .replace(' ', '_'),
+        wikiUrl:
+          WIKI_LINK_PATH +
+          building.name.replace(/^(Domesticated|Wild) /, '').replace(' ', '_'),
         capacity: parseCapacity(building.capacity),
         hasConsistentIO: building.hasConsistentIO || false,
         power: parsePower(building.power),
         inputs: parseIOs(building.inputs),
         outputs: parseIOs(building.outputs),
-        quantity: building.quantity || 0,
-        utilization: building.utilization || 0,
+        quantity: 0,
+        utilization: 0,
       };
       return parsedBuilding;
     });
@@ -47,46 +41,28 @@ export function parseBuildings(rawBuildings: any): IBuilding[] {
   }
 }
 
-export function parseBuildingInputs(rawInputs: any): IBuildingInput[] {
+export function parseBuildingInputs(
+  rawInputs: string | null,
+): IBuildingInput[] {
   if (rawInputs) {
+    let parsedInputs;
+
     try {
-      rawInputs = JSON.parse(rawInputs);
+      parsedInputs = JSON.parse(rawInputs as string);
     } catch (e) {
       localStorage.removeItem('buildings');
       throw e;
     }
 
-    return rawInputs.map((input: any) => parseBuildingInput(input));
+    return (parsedInputs as IBuildingInput[]).map((input) =>
+      parseBuildingInput(input),
+    );
   } else {
     return [];
   }
 }
 
-export function parseDupes(rawDupes: any) {
-  return rawDupes;
-}
-
-export function parseDupeInputs(inputs: any) {
-  return inputs;
-}
-
-export function parseGeysers(rawGeysers: any) {
-  return rawGeysers;
-}
-
-export function parseGeyserInputs(inputs: any) {
-  return inputs;
-}
-
-export function parseFood(rawFood: any) {
-  return rawFood;
-}
-
-export function parseFoodInputs(inputs: any) {
-  return inputs;
-}
-
-function parseBuildingInput(input: any): IBuildingInput {
+function parseBuildingInput(input: IBuildingInput): IBuildingInput {
   if (input) {
     return {
       name: input.name || '',
@@ -98,14 +74,14 @@ function parseBuildingInput(input: any): IBuildingInput {
   }
 }
 
-function parseCapacity(capacity: any): ICapacity {
+function parseCapacity(capacity?: ICapacityBase): ICapacity {
   return {
-    power: parseCapacityItem(capacity.power),
-    resources: parseCapacityItem(capacity.resources),
+    power: parseCapacityItem(capacity?.power),
+    resources: parseCapacityItem(capacity?.resources),
   };
 }
 
-function parseCapacityItem(item: any): ICapacityItem {
+function parseCapacityItem(item?: ICapacityItemBase): ICapacityItem {
   if (item) {
     return {
       value: item.value || 0,
@@ -116,7 +92,7 @@ function parseCapacityItem(item: any): ICapacityItem {
   }
 }
 
-function parsePower(power: any): IPower {
+function parsePower(power?: IPowerBase): IPower {
   if (power) {
     return {
       usage: power.usage || 0,
@@ -129,16 +105,19 @@ function parsePower(power: any): IPower {
   }
 }
 
-function parseIOs(inputs: any): IIO[] {
-  return inputs.map((input: any) => parseIO(input));
+function parseIOs(inputs?: IIOBase[]): IIO[] {
+  if (!inputs) {
+    return [];
+  }
+  return inputs.map((input) => parseIO(input));
 }
 
-function parseIO(input: any): IIO {
+function parseIO(input?: IIOBase): IIO {
   if (input) {
     return {
       name: input.name || '',
       value: input.value || 0,
-      valueExtended: input.value || 0,
+      valueExtended: typeof input.value === 'number' ? input.value : 0,
       unit: input.unit || '',
       rate: input.rate || '',
     };

@@ -1,31 +1,29 @@
-import React, { FC } from 'react';
-import { useContext } from '../../context';
-
-// material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableHead from '@material-ui/core/TableHead';
-import TableBody from '@material-ui/core/TableBody';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
-
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
+import { useContext } from '../../context/useContext';
 import IResource from './../../interfaces/IResource';
-
-// components
 import Resource from './Resource';
+import { css } from '@emotion/react';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import TableSortLabel from '@mui/material/TableSortLabel';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC } from 'react';
 
 export const Resources: FC = () => {
-  const classes = useStyles();
   const [
-    { settings: { hideEmpty }, resources, resourcesOrder, resourcesOrderBy },
+    {
+      settings: { hideEmpty },
+      resources,
+      resourcesOrder,
+      resourcesOrderBy,
+    },
     { sortResources },
   ] = useContext();
 
@@ -35,7 +33,9 @@ export const Resources: FC = () => {
 
   const mapResourceToElement = (resources: IResource[]) => {
     return resources
-      .filter((resource) => !hideEmpty || resource.totalInput || resource.totalOutput)
+      .filter(
+        (resource) => !hideEmpty || resource.totalInput || resource.totalOutput,
+      )
       .map((resource, i) => {
         return <Resource key={i} resource={resource} />;
       });
@@ -50,12 +50,12 @@ export const Resources: FC = () => {
     ];
     return (
       <TableHead>
-        <TableRow className={classes.tableRow}>
+        <TableRow css={tableRowCss}>
           {tableHeaders.map((header) => {
             return (
               <TableCell
                 key={header.id}
-                className={classes.tableCell}
+                css={tableCellCss}
                 align={header.numeric ? 'right' : 'left'}
               >
                 <TableSortLabel
@@ -78,9 +78,7 @@ export const Resources: FC = () => {
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography>Resources</Typography>
       </AccordionSummary>
-      <AccordionDetails
-        className={['styled-scrollbar', classes.accordionDetails].join(' ')}
-      >
+      <AccordionDetails css={accordionDetailsCss} className="styled-scrollbar">
         <Table>
           {getTableHeaders()}
           <TableBody>{mapResourceToElement(resources)}</TableBody>
@@ -90,17 +88,18 @@ export const Resources: FC = () => {
   );
 };
 
-const useStyles = makeStyles((theme: Theme) => ({
-  tableRow: {
-    height: 'inherit',
-  },
-  tableCell: {
+const tableRowCss = css({
+  height: 'inherit',
+});
+
+const tableCellCss = (theme: Theme) =>
+  css({
     padding: theme.spacing(),
-  },
-  accordionDetails: {
-    overflowX: 'auto',
-    overflowY: 'hidden',
-  },
-}));
+  });
+
+const accordionDetailsCss = css({
+  overflowX: 'auto',
+  overflowY: 'hidden',
+});
 
 export default Resources;

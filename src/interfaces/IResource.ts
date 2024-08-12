@@ -1,7 +1,10 @@
 import IIO from './IIO';
 
-export default interface IResource {
+export interface IResourceBase {
   name: string;
+}
+
+export default interface IResource extends IResourceBase {
   unitOfMeasure: string;
 
   totalIO: number;

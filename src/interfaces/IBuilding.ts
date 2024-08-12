@@ -1,18 +1,25 @@
-import ICapacity from './ICapacity';
-import IIO from './IIO';
-import IPower from './IPower';
+import ICapacity, { ICapacityBase } from './ICapacity';
+import IIO, { IIOBase } from './IIO';
+import IPower, { IPowerBase } from './IPower';
 
-export default interface IBuilding {
+export interface IBuildingBase {
   category: string;
-  categoryImgUrl: string;
   name: string;
+  capacity?: ICapacityBase;
+  hasConsistentIO: boolean;
+  power?: IPowerBase;
+  inputs?: IIOBase[];
+  outputs?: IIOBase[];
+}
+
+export default interface IBuilding extends IBuildingBase {
+  categoryImgUrl: string;
   imgUrl: string;
   wikiUrl: string;
+  quantity: number;
   capacity: ICapacity;
-  hasConsistentIO: boolean;
+  utilization: number;
   power: IPower;
   inputs: IIO[];
   outputs: IIO[];
-  quantity: number;
-  utilization: number;
 }

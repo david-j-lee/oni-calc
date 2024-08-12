@@ -1,22 +1,18 @@
-import React, { FC } from 'react';
-
-// material
-import { Theme } from '@material-ui/core/styles';
-import { makeStyles } from '@material-ui/styles';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import { css } from '@emotion/react';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC } from 'react';
 
 export const About: FC = () => {
-  const classes = useStyles();
-
   return (
-    <div className={classes.root}>
-      <div className={classes.content}>
+    <div css={rootCss}>
+      <div css={contentCss}>
         <Typography variant="h5">
-          About O<span className={classes.oniColor}>N</span>I{' '}
-          <span className={classes.onicColor}>C</span>alculator
+          About O<span css={oniColorCss}>N</span>I{' '}
+          <span css={onicColorCss}>C</span>alculator
         </Typography>
-        <div className={classes.section}>
+        <div css={sectionCss}>
           <Typography>
             ONIC is open source. Contributions are welcome!
           </Typography>
@@ -28,7 +24,7 @@ export const About: FC = () => {
             GitHub
           </Button>
         </div>
-        <div className={classes.section}>
+        <div css={sectionCss}>
           <Typography>If you want to buy me some coffee.</Typography>
           <Button
             variant="outlined"
@@ -39,13 +35,13 @@ export const About: FC = () => {
           </Button>
         </div>
       </div>
-      <div className={classes.footer}>ONIC</div>
+      <div>ONIC</div>
     </div>
   );
 };
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
+const rootCss = (theme: Theme) =>
+  css({
     padding: theme.spacing(),
     paddingTop: theme.spacing(10),
     maxWidth: 750,
@@ -53,27 +49,24 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: '100vh',
     display: 'flex',
     flexDirection: 'column',
-  },
-  actions: {
-    paddingTop: theme.spacing(2),
-  },
-  section: {
+  });
+
+const sectionCss = (theme: Theme) =>
+  css({
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
-  },
-  content: {
-    flexGrow: 1,
-  },
-  footer: {},
-  oniColor: {
-    color: '#FD6B6B',
-  },
-  onicColor: {
-    color: '#00E3E3',
-  },
-  link: {
-    color: theme.palette.text.primary,
-  },
-}));
+  });
+
+const contentCss = css({
+  flexGrow: 1,
+});
+
+const oniColorCss = css({
+  color: '#FD6B6B',
+});
+
+const onicColorCss = css({
+  color: '#00E3E3',
+});
 
 export default About;

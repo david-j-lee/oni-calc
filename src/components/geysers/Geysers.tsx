@@ -1,48 +1,41 @@
-import React, { FC } from 'react';
-import { useContext } from '../../context';
-
-// material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-
-// components
-import DelayedLoader from './../common/DelayedLoader';
-import GeyserAdd from './GeyserAdd';
+import { useContext } from '../../context/useContext';
 import Geyser from './Geyser';
+import GeyserAdd from './GeyserAdd';
+import { css } from '@emotion/react';
+import Grid from '@mui/material/Grid';
+import { Theme } from '@mui/material/styles';
+import { FC } from 'react';
 
 export const Geysers: FC = () => {
-  const classes = useStyles();
   const [{ geysers }] = useContext();
 
   return (
-    <DelayedLoader>
-      <div className={classes.root}>
-        <Grid container>
-          <Grid item xs={12}>
-            <GeyserAdd />
-          </Grid>
-          {geysers.inputted.map((geyser, i) => {
-            return (
-              <Grid key={i} item xs={12} lg={6} className={classes.geyser}>
-                <Geyser geyser={geyser} />
-              </Grid>
-            );
-          })}
+    <div css={rootCss}>
+      <Grid container>
+        <Grid item xs={12}>
+          <GeyserAdd />
         </Grid>
-      </div>
-    </DelayedLoader>
+        {geysers.inputted.map((geyser, i) => {
+          return (
+            <Grid key={i} item xs={12} lg={6} css={geyserCss}>
+              <Geyser geyser={geyser} />
+            </Grid>
+          );
+        })}
+      </Grid>
+    </div>
   );
 };
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
+const rootCss = (theme: Theme) =>
+  css({
     paddingTop: theme.spacing(),
     paddingBottom: theme.spacing(),
-  },
-  geyser: {
+  });
+
+const geyserCss = (theme: Theme) =>
+  css({
     padding: theme.spacing(),
-  },
-}));
+  });
 
 export default Geysers;

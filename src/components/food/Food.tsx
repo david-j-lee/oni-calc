@@ -1,32 +1,22 @@
-import React, { FC, memo } from 'react';
-
-// material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-
-// components
-import DelayedLoader from '../common/DelayedLoader';
 import FoodDupes from './FoodDupes';
 import FoodItems from './FoodItems';
+import { css } from '@emotion/react';
+import { Theme } from '@mui/material/styles';
+import { FC, memo } from 'react';
 
 export const Food: FC = memo(() => {
-  const classes = useStyles();
-
   return (
-    <DelayedLoader>
-      <div className={classes.root}>
-        <FoodDupes />
-        <FoodItems />
-      </div>
-    </DelayedLoader>
+    <div css={rootCss}>
+      <FoodDupes />
+      <FoodItems />
+    </div>
   );
 });
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
+const rootCss = (theme: Theme) =>
+  css({
     paddingTop: theme.spacing(),
     paddingBottom: theme.spacing(),
-  },
-}));
+  });
 
 export default Food;

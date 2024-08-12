@@ -1,9 +1,8 @@
-import IGameModeValue from '../interfaces/IGameModeValue';
 import IBuilding from '../interfaces/IBuilding';
+import IGameModeValue from '../interfaces/IGameModeValue';
 import IBuildingInput from './../interfaces/IBuildingInput';
 import IIO from './../interfaces/IIO';
 import IResource from './../interfaces/IResource';
-
 import { getPowerCapacity, getResourcesCapacity } from './capacityUtils';
 import { getSortedArray, getStandardIO } from './commonUtils';
 import {
@@ -12,7 +11,7 @@ import {
 } from './powerUtils';
 import { updateResourcesWithBuildings } from './resourceUtils';
 
-export const setBuildingsLayout = (layout) => {
+export const setBuildingsLayout = (layout: 'grid' | 'table') => {
   const newLayout = layout === 'grid' ? 'table' : 'grid';
   localStorage.setItem('layout', newLayout);
   return {
@@ -125,8 +124,8 @@ function updateBuildingsWithInputs(
         utilization: input.utilization
           ? input.utilization
           : building.hasConsistentIO
-          ? 0
-          : 100,
+            ? 0
+            : 100,
       };
     }
   });
@@ -168,7 +167,7 @@ function getBuildingsIOsForResource(
 
   return newBuildings
     .map((building) => getBuildingIOs(building, type, resourceName))
-    .reduce((a, b) => a.concat(b));
+    .reduce((a, b) => a.concat(b), []);
 }
 
 function getBuildingIOs(

@@ -1,17 +1,15 @@
-import React, { FC, memo } from 'react';
-
-import { Theme } from '@material-ui/core/styles';
-import { makeStyles } from '@material-ui/styles';
-import Typography from '@material-ui/core/Typography';
-import Table from '@material-ui/core/Table';
-import TableHead from '@material-ui/core/TableHead';
-import TableBody from '@material-ui/core/TableBody';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-
 import IBuilding from '../../interfaces/IBuilding';
-
-import Number from '../common/Number';
+import ICapacity from '../../interfaces/ICapacity';
+import Number from '../ui/Number';
+import { css } from '@emotion/react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC, memo } from 'react';
 
 interface IProps {
   buildings: IBuilding[];
@@ -19,12 +17,10 @@ interface IProps {
 }
 
 export const CapacityBuildings: FC<IProps> = memo(({ buildings, title }) => {
-  const classes = useStyles();
-
   return (
     <div>
       {buildings.length <= 0 ? (
-        <Typography className={classes.noBuildings}>
+        <Typography css={noBuildingsCss}>
           No {title.toLowerCase()} found
         </Typography>
       ) : (
@@ -45,10 +41,12 @@ export const CapacityBuildings: FC<IProps> = memo(({ buildings, title }) => {
               const value =
                 Math.round(
                   building.quantity *
-                    building.capacity[title.toLowerCase()].value *
+                    building.capacity[title.toLowerCase() as keyof ICapacity]
+                      .value *
                     100,
                 ) / 100;
-              const unit = building.capacity[title.toLowerCase()].unit;
+              const unit =
+                building.capacity[title.toLowerCase() as keyof ICapacity].unit;
               return (
                 <TableRow key={index}>
                   <TableCell size="small">{building.name}</TableCell>
@@ -68,16 +66,9 @@ export const CapacityBuildings: FC<IProps> = memo(({ buildings, title }) => {
   );
 });
 
-const useStyles = makeStyles((theme: Theme) => ({
-  noBuildings: {
+const noBuildingsCss = (theme: Theme) =>
+  css({
     padding: theme.spacing(),
-  },
-  positive: {
-    color: 'green',
-  },
-  negative: {
-    color: 'red',
-  },
-}));
+  });
 
 export default CapacityBuildings;

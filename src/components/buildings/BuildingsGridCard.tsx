@@ -1,48 +1,38 @@
-import React, { FC, memo, useRef, useState, useEffect } from 'react';
-import { useContext } from '../../context';
-
-// material
-import { Theme } from '@material-ui/core/styles';
-import { makeStyles } from '@material-ui/styles';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import IconButton from '@material-ui/core/IconButton';
-import Popover from '@material-ui/core/Popover';
-import Slider from '@material-ui/core/Slider';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-
-// icons
-import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
-import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
-import MoreVert from '@material-ui/icons/MoreVert';
-
+import { useContext } from '../../context/useContext';
 import IBuilding from './../../interfaces/IBuilding';
-
-// component
 import BuildingDetails from './BuildingDetails';
+import { css } from '@emotion/react';
+import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
+import MoreVert from '@mui/icons-material/MoreVert';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import IconButton from '@mui/material/IconButton';
+import Popover from '@mui/material/Popover';
+import Slider from '@mui/material/Slider';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC, memo, useRef, useState, useEffect } from 'react';
 
 interface IProps {
   building: IBuilding;
 }
 
 export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
-  const classes = useStyles();
-
   const [, { setBuildingQuantity, setBuildingUtilization }] = useContext();
 
   const [quantity, setQuantity] = useState(building.quantity || 0);
   const [utilization, setUtilization] = useState(building.utilization || 0);
-  const [focused, setFocused] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
 
-  const timer = useRef<any | null>(null);
-  const utilizationTimer = useRef<any | null>(null);
+  const timer = useRef<number | null>(null);
+  const utilizationTimer = useRef<number | null>(null);
   const rootRef = useRef(null);
 
   useEffect(() => {
@@ -50,8 +40,8 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
   }, [building.quantity]);
 
   // on hover
-  const handlePopoverOpen = (event) => {
-    setAnchorEl(event.target);
+  const handlePopoverOpen = (event: React.MouseEvent<HTMLDivElement>) => {
+    setAnchorEl(event.currentTarget);
   };
 
   const handlePopoverClose = () => {
@@ -68,7 +58,10 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
   };
 
   // utilization
-  const handleSliderChange = (event, value) => {
+  const handleSliderChange = (_event: Event, value: number | number[]) => {
+    if (value instanceof Array) {
+      return;
+    }
     setUtilization(value);
     if (utilizationTimer.current) {
       clearTimeout(utilizationTimer.current);
@@ -101,9 +94,9 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
     }
   };
 
-  const handleChange = (event) => {
-    let value = event.target.value;
-    value = Number(value);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const valueString = event.target.value;
+    let value = Number(valueString);
     if (value < 0) value = 0;
 
     setQuantity(value);
@@ -115,43 +108,30 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
     }, 500);
   };
 
-  const onBlur = () => {
-    setFocused(false);
-  };
-
-  const onFocus = () => {
-    setFocused(true);
-  };
-
   const popoverOpen = !!anchorEl;
 
   return (
-    <div className={classes.root} ref={rootRef}>
+    <div css={rootCss} ref={rootRef}>
       <Dialog
         fullScreen={false}
         open={dialogOpen}
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
       >
-        <div className={classes.dialog}>
+        <div css={dialogCss}>
           <BuildingDetails building={building} />
           <DialogActions>
-            <Button target="_blank" href={building.wikiUrl} color="default">
+            <Button target="_blank" href={building.wikiUrl}>
               WIKI
             </Button>
-            <Button
-              variant="contained"
-              onClick={handleClose}
-              color="primary"
-              autoFocus
-            >
+            <Button variant="contained" onClick={handleClose} autoFocus>
               CLOSE
             </Button>
           </DialogActions>
         </div>
       </Dialog>
       <Popover
-        className={classes.popover}
+        css={popoverCss}
         open={popoverOpen}
         onClose={handlePopoverClose}
         anchorEl={anchorEl}
@@ -161,14 +141,14 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
       >
         <BuildingDetails building={building} />
       </Popover>
-      <Card className={classes.card}>
+      <Card css={cardCss}>
         <div
-          className={classes.imgWrapper}
+          css={imgWrapperCss}
           onMouseOver={handlePopoverOpen}
           onMouseOut={handlePopoverClose}
         >
           <div
-            className={classes.img}
+            css={imgCss}
             style={{
               background: `url(${building.imgUrl}) no-repeat center center`,
               backgroundSize: 'contain',
@@ -176,12 +156,9 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
             title={building.name}
           />
         </div>
-        <div className={classes.details}>
-          <CardContent className={classes.cardContent}>
-            <Typography
-              variant="subtitle1"
-              className={classes.cardContentTitle}
-            >
+        <div css={detailsCss}>
+          <CardContent css={cardContentCss}>
+            <Typography variant="subtitle1" css={cardContentTitleCss}>
               {building.name}
             </Typography>
             {/* div is required to prevent button from stretch in height */}
@@ -191,16 +168,16 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
               </IconButton>
             </div>
           </CardContent>
-          <CardActions className={classes.actions}>
+          <CardActions css={actionsCss}>
             {!building.hasConsistentIO && quantity > 0 && (
-              <div className={classes.slider}>
+              <div css={sliderCss}>
                 <Slider value={utilization} onChange={handleSliderChange} />
-                <Typography className={classes.sliderLabel}>
+                <Typography css={sliderLabelCss}>
                   {utilization.toFixed(0) + '%'}
                 </Typography>
               </div>
             )}
-            <div className={classes.quantity}>
+            <div css={quantityCss}>
               <IconButton
                 color="secondary"
                 aria-label="Decrement"
@@ -212,11 +189,8 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
                 type="number"
                 value={quantity}
                 onChange={handleChange}
-                className={classes.quantityInput}
-                onFocus={onFocus}
-                onBlur={onBlur}
+                css={quantityInputCss}
                 InputProps={{
-                  disableUnderline: !focused,
                   inputProps: {
                     style: {
                       textAlign: 'right',
@@ -243,32 +217,39 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
   );
 });
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    height: '100%',
-  },
-  card: {
-    display: 'flex',
-    width: '100%',
-    height: '100%',
-  },
-  cardContent: {
+const rootCss = css({
+  height: '100%',
+});
+
+const cardCss = css({
+  display: 'flex',
+  width: '100%',
+  height: '100%',
+});
+
+const cardContentCss = (theme: Theme) =>
+  css({
     display: 'flex',
     paddingRight: theme.spacing(2),
     flexGrow: 1,
-  },
-  cardContentTitle: {
-    flexGrow: 1,
-  },
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-  },
-  imgWrapper: {
-    backgroundColor: '#3E4357',
-  },
-  img: {
+  });
+
+const cardContentTitleCss = css({
+  flexGrow: 1,
+});
+
+const detailsCss = css({
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+});
+
+const imgWrapperCss = css({
+  backgroundColor: '#3E4357',
+});
+
+const imgCss = (theme: Theme) =>
+  css({
     width: 40,
     height: '100%',
     margin: theme.spacing(),
@@ -276,54 +257,53 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundSize: 'contain',
     backgroundColor: '#3E4357',
     cursor: 'default',
-  },
-  actions: {
-    flexDirection: 'column',
-  },
-  quantity: {
+  });
+
+const actionsCss = css({
+  flexDirection: 'column',
+});
+
+const quantityCss = (theme: Theme) =>
+  css({
     display: 'flex',
     alignItems: 'center',
     '& .MuiIconButton-colorPrimary': {
-      color: theme.palette.success[theme.palette.type],
+      color: theme.palette.success[theme.palette.mode],
       '&:hover': {
-        backgroundColor: theme.palette.success[theme.palette.type] + '14', //14 = 0.08 opacity from the default bg
-      }
-    }
-  },
-  quantityInput: {
+        backgroundColor: theme.palette.success[theme.palette.mode] + '14', // 14 = 0.08 opacity from the default bg
+      },
+    },
+  });
+
+const quantityInputCss = (theme: Theme) =>
+  css({
     flexGrow: 1,
     marginRight: theme.spacing(),
     textAlign: 'right',
-  },
-  category: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  categoryImage: {
-    display: 'inline-block',
-    width: 15,
-    height: 15,
-    backgroundSize: 'cover',
-    marginRight: theme.spacing(),
-  },
-  slider: {
+  });
+
+const sliderCss = (theme: Theme) =>
+  css({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     padding: theme.spacing(0, 2),
-  },
-  sliderLabel: {
+  });
+
+const sliderLabelCss = (theme: Theme) =>
+  css({
     paddingLeft: theme.spacing(2),
     textAlign: 'right',
     width: 75,
-  },
-  dialog: {
-    maxWidth: 500,
-  },
-  popover: {
-    pointerEvents: 'none',
-  },
-}));
+  });
+
+const dialogCss = css({
+  maxWidth: 500,
+});
+
+const popoverCss = css({
+  pointerEvents: 'none',
+});
 
 export default BuildingsGridCard;

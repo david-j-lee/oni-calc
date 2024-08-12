@@ -1,41 +1,39 @@
-import React, { FC, memo, useState, useRef } from 'react';
-
-// material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import Popover from '@material-ui/core/Popover';
-
 import IPlant from './../../interfaces/IPlant';
-
-// component
-import PlantFood from './PlantFood';
 import PlantDetails from './PlantDetails';
+import PlantFood from './PlantFood';
+import { css } from '@emotion/react';
+import Popover from '@mui/material/Popover';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
+import { Theme } from '@mui/material/styles';
+import { FC, memo, useState, useRef } from 'react';
 
 interface IProps {
   plant: IPlant;
 }
 
 export const Plant: FC<IProps> = memo(({ plant }) => {
-  const classes = useStyles();
-  const [detailsAnchorEl, setDetailsAnchorEl] = useState(null);
-  const [foodAnchorEl, setFoodAnchorEl] = useState(null);
+  const [detailsAnchorEl, setDetailsAnchorEl] = useState<HTMLDivElement | null>(
+    null,
+  );
+  const [foodAnchorEl, setFoodAnchorEl] = useState<HTMLDivElement | null>(null);
 
   const imageUrl = useRef(
     `/images/bio/${plant.name.toLowerCase().split(' ').join('-')}.png`,
   );
 
-  const handleDetailsPopoverOpen = (event) => {
-    setDetailsAnchorEl(event.target);
+  const handleDetailsPopoverOpen = (
+    event: React.MouseEvent<HTMLDivElement>,
+  ) => {
+    setDetailsAnchorEl(event.currentTarget);
   };
 
   const handleDetailsPopoverClose = () => {
     setDetailsAnchorEl(null);
   };
 
-  const handleFoodPopoverOpen = (event) => {
-    setFoodAnchorEl(event.target);
+  const handleFoodPopoverOpen = (event: React.MouseEvent<HTMLDivElement>) => {
+    setFoodAnchorEl(event.currentTarget);
   };
 
   const handleFoodPopoverClose = () => {
@@ -46,9 +44,9 @@ export const Plant: FC<IProps> = memo(({ plant }) => {
   const foodDialogOpen = !!foodAnchorEl;
 
   return (
-    <TableRow className={classes.tableRow}>
+    <TableRow css={tableRowCss}>
       <Popover
-        className={classes.popover}
+        css={popoverCss}
         open={detailsDialogOpen}
         anchorEl={detailsAnchorEl}
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
@@ -59,7 +57,7 @@ export const Plant: FC<IProps> = memo(({ plant }) => {
         <PlantDetails plant={plant} />
       </Popover>
       <Popover
-        className={classes.popover}
+        css={popoverCss}
         open={foodDialogOpen}
         anchorEl={foodAnchorEl}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -70,14 +68,14 @@ export const Plant: FC<IProps> = memo(({ plant }) => {
         <PlantFood plant={plant} />
       </Popover>
 
-      <TableCell className={classes.tableCell}>
+      <TableCell css={tableCellCss}>
         <div
-          className={classes.plantName}
+          css={plantNameCss}
           onMouseOver={handleDetailsPopoverOpen}
           onMouseOut={handleDetailsPopoverClose}
         >
           <div
-            className={classes.image}
+            css={imageCss}
             style={{
               background: `url(${imageUrl.current}) no-repeat center center`,
               backgroundSize: 'contain',
@@ -86,9 +84,9 @@ export const Plant: FC<IProps> = memo(({ plant }) => {
           {plant.name}
         </div>
       </TableCell>
-      <TableCell align="right" className={classes.tableCell}>
+      <TableCell align="right" css={tableCellCss}>
         <div
-          className={plant.quantity? classes.quantity : classes.emptyQuantity}
+          css={plant.quantity ? quantityCss : emptyQuantityCss}
           onMouseOver={handleFoodPopoverOpen}
           onMouseOut={handleFoodPopoverClose}
         >
@@ -99,36 +97,43 @@ export const Plant: FC<IProps> = memo(({ plant }) => {
   );
 });
 
-const useStyles = makeStyles((theme: Theme) => ({
-  tableRow: {
-    height: 'inherit',
-  },
-  tableCell: {
+const tableRowCss = css({
+  height: 'inherit',
+});
+
+const tableCellCss = (theme: Theme) =>
+  css({
     padding: theme.spacing(),
-  },
-  plantName: {
-    display: 'flex',
-    flexWrap: 'nowrap',
-    alignItems: 'center',
-    cursor: 'default',
-  },
-  image: {
+  });
+
+const plantNameCss = css({
+  display: 'flex',
+  flexWrap: 'nowrap',
+  alignItems: 'center',
+  cursor: 'default',
+});
+
+const imageCss = (theme: Theme) =>
+  css({
     height: 20,
     width: 20,
     backgroundSize: '200%',
     backgroundPosition: 'center',
     marginRight: theme.spacing(),
-  },
-  quantity: {
-    cursor: 'default',
-  },
-  emptyQuantity: {
+  });
+
+const quantityCss = css({
+  cursor: 'default',
+});
+
+const emptyQuantityCss = (theme: Theme) =>
+  css({
     cursor: 'default',
     color: theme.palette.text.disabled,
-  },
-  popover: {
-    pointerEvents: 'none',
-  },
-}));
+  });
+
+const popoverCss = css({
+  pointerEvents: 'none',
+});
 
 export default Plant;

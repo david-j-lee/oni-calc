@@ -1,4 +1,6 @@
-export const food = [
+import { IFoodBase } from '../interfaces/IFood';
+
+export const food: IFoodBase[] = [
   {
     name: 'Barbeque',
     isRaw: false,
@@ -36,7 +38,12 @@ export const food = [
     quality: 3,
     requirements: [],
     inputs: [
-      { name: 'Pacu Fillet/Raw Shellfish', value: 1, unit: 'each', rate: 'per item' },
+      {
+        name: 'Pacu Fillet/Raw Shellfish',
+        value: 1,
+        unit: 'each',
+        rate: 'per item',
+      },
     ],
   },
   {
@@ -142,7 +149,7 @@ export const food = [
     calories: 1050,
     quality: 0,
     requirements: [],
-    inputs: [{ name: 'Mush Bar', value: 1, rate: 'per item' }],
+    inputs: [{ name: 'Mush Bar', value: 1, unit: 'each', rate: 'per item' }],
   },
   {
     name: 'Mushroom',
@@ -224,7 +231,7 @@ export const food = [
     calories: 1800,
     quality: -1,
     requirements: [],
-    inputs: [{ name: 'Meal Lice', value: 1, rate: 'per item' }],
+    inputs: [{ name: 'Meal Lice', value: 1, unit: 'each', rate: 'per item' }],
   },
   {
     name: 'Raw Shellfish',
@@ -276,7 +283,7 @@ export const food = [
     ],
   },
   {
-    name: "Tofu",
+    name: 'Tofu',
     isRaw: false,
     calories: 3600,
     quality: 2,

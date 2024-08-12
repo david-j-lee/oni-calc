@@ -1,9 +1,6 @@
-import React, { FC, memo } from 'react';
-
-// material
-import Typography from '@material-ui/core/Typography';
-
 import IGeyser from '../../interfaces/IGeyser';
+import Typography from '@mui/material/Typography';
+import { FC, memo } from 'react';
 
 interface IProps {
   geyser: IGeyser;

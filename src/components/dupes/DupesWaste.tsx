@@ -1,39 +1,33 @@
-import React, { FC } from 'react';
-import { useContext } from '../../context';
-
-// material
-import { makeStyles } from '@material-ui/styles';
-import { Theme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-
-// components
+import { useContext } from '../../context/useContext';
+import { DUPES_WASTE_PROPS } from '../../utils/dupeUtils';
 import DupesWasteInput from './DupesWasteInput';
-
-const DUPES_WASTE_PROPS = [
-  { name: 'pollutedWaterValue', title: 'Polluted Water' },
-  { name: 'pollutedDirtValue', title: 'Polluted Dirt' },
-  { name: 'waterValue', title: 'Water' },
-  { name: 'dirtValue', title: 'Dirt' },
-];
+import { css } from '@emotion/react';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC } from 'react';
 
 export const DupesWaste: FC = () => {
-  const classes = useStyles();
   const [{ dupes }] = useContext();
 
   return (
-    <Grid container className={classes.root}>
+    <Grid container>
       <Grid item xs={12}>
-        <Typography className={classes.title}>Waste</Typography>
+        <Typography css={titleCss}>Waste</Typography>
       </Grid>
       {DUPES_WASTE_PROPS.map((prop, i) => {
         return (
           <Grid key={i} item xs={12} sm={12} md={6} lg={4} xl={3}>
-            <Card className={classes.card}>
+            <Card css={cardCss}>
               <CardContent>
-                <DupesWasteInput prop={{ ...prop, value: dupes[prop.name] }} />
+                <DupesWasteInput
+                  prop={{
+                    ...prop,
+                    value: dupes[prop.name],
+                  }}
+                />
               </CardContent>
             </Card>
           </Grid>
@@ -43,15 +37,15 @@ export const DupesWaste: FC = () => {
   );
 };
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {},
-  title: {
+const titleCss = (theme: Theme) =>
+  css({
     padding: theme.spacing(),
     paddingTop: theme.spacing(2),
-  },
-  card: {
+  });
+
+const cardCss = (theme: Theme) =>
+  css({
     margin: theme.spacing(),
-  },
-}));
+  });
 
 export default DupesWaste;

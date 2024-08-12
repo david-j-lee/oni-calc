@@ -1,16 +1,12 @@
-import React, { FC } from 'react';
-import { useContext } from '../../context';
-
-// material
-import Table from '@material-ui/core/Table';
-import TableHead from '@material-ui/core/TableHead';
-import TableBody from '@material-ui/core/TableBody';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-
-// component
+import { useContext } from '../../context/useContext';
 import BuildingsTableRow from './BuildingsTableRow';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import TableSortLabel from '@mui/material/TableSortLabel';
+import { FC } from 'react';
 
 const TABLE_HEADERS = [
   { id: 'category', label: 'Category', numeric: false },

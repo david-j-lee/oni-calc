@@ -1,32 +1,30 @@
-import React, { FC, useState } from 'react';
-import { useContext } from '../../context';
-
-// material
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
-import Popover from '@material-ui/core/Popover';
-import { makeStyles } from '@material-ui/styles';
-
-// icons
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
-// components
-import Number from '../common/Number';
+import { useContext } from '../../context/useContext';
+import IBuilding from '../../interfaces/IBuilding';
+import Number from '../ui/Number';
 import PowerBuildings from './PowerBuildings';
-import { Theme } from '@material-ui/core/styles';
+import { css } from '@emotion/react';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Popover from '@mui/material/Popover';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC, useState } from 'react';
 
 export const Power: FC = () => {
-  const classes = useStyles();
   const [{ powerGeneration, powerUsage }] = useContext();
 
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLSpanElement | null>(null);
   const [dialogTitle, setDialogTitle] = useState('');
-  const [dialogArray, setDialogArray] = useState([]);
+  const [dialogArray, setDialogArray] = useState<IBuilding[]>([]);
 
-  const handlePopoverOpen = (event, title, array) => {
-    setAnchorEl(event.target);
+  const handlePopoverOpen = (
+    event: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+    title: string,
+    array: IBuilding[],
+  ) => {
+    setAnchorEl(event.currentTarget);
     setDialogTitle(title);
     setDialogArray(array);
   };
@@ -44,11 +42,9 @@ export const Power: FC = () => {
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography>Power</Typography>
       </AccordionSummary>
-      <AccordionDetails
-        className={['styled-scrollbar', classes.accordionDetails].join(' ')}
-      >
+      <AccordionDetails css={accordionDetailsCss} className="styled-scrollbar">
         <Popover
-          className={classes.popover}
+          css={popoverCss}
           open={dialogOpen}
           anchorEl={anchorEl}
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -59,10 +55,10 @@ export const Power: FC = () => {
           <PowerBuildings title={dialogTitle} buildings={dialogArray} />
         </Popover>
 
-        <div className={classes.power}>
-          <div className={classes.powerText}>
+        <div css={powerCss}>
+          <div css={powerTextCss}>
             <Typography
-              className={classes.value}
+              css={valueCss}
               onMouseOut={handlePopoverClose}
               onMouseOver={(e) =>
                 handlePopoverOpen(e, 'Generation', powerGeneration.buildings)
@@ -73,11 +69,11 @@ export const Power: FC = () => {
             <Typography>Generated</Typography>
           </div>
 
-          <Typography variant="h2">-</Typography>
+          <Typography variant="h5">-</Typography>
 
-          <div className={classes.powerText}>
+          <div css={powerTextCss}>
             <Typography
-              className={classes.value}
+              css={valueCss}
               onMouseOut={handlePopoverClose}
               onMouseOver={(e) =>
                 handlePopoverOpen(e, 'Usage', powerUsage.buildings)
@@ -88,11 +84,11 @@ export const Power: FC = () => {
             <Typography>Used</Typography>
           </div>
 
-          <Typography variant="h2">=</Typography>
+          <Typography variant="h5">=</Typography>
 
-          <div className={classes.powerText}>
+          <div css={powerTextCss}>
             <div
-              className={classes.value}
+              css={valueCss}
               onMouseOut={handlePopoverClose}
               onMouseOver={(e) =>
                 handlePopoverOpen(
@@ -115,30 +111,33 @@ export const Power: FC = () => {
   );
 };
 
-const useStyles = makeStyles((theme: Theme) => ({
-  power: {
-    display: 'flex',
-    alignItems: 'center',
-    width: '100%',
-  },
-  powerText: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    flexGrow: 1,
-  },
-  popover: {
-    pointerEvents: 'none',
-  },
-  value: {
+const powerCss = css({
+  display: 'flex',
+  alignItems: 'center',
+  width: '100%',
+});
+
+const powerTextCss = css({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  flexGrow: 1,
+});
+
+const popoverCss = css({
+  pointerEvents: 'none',
+});
+
+const valueCss = (theme: Theme) =>
+  css({
     cursor: 'default',
     whiteSpace: 'nowrap',
     padding: theme.spacing(),
-  },
-  accordionDetails: {
-    overflowX: 'auto',
-    overflowY: 'hidden',
-  },
-}));
+  });
+
+const accordionDetailsCss = css({
+  overflowX: 'auto',
+  overflowY: 'hidden',
+});
 
 export default Power;

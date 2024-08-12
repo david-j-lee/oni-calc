@@ -1,4 +1,6 @@
+import { IGameMode } from './IGameMode';
+
 export default interface ISettings {
-  gameMode: string;
+  gameMode: IGameMode;
   hideEmpty: boolean;
 }

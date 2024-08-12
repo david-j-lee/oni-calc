@@ -1,22 +1,24 @@
+import { IGameMode } from '../interfaces/IGameMode';
+import IState from '../interfaces/IState';
 import { getCaloriesRequired } from '../utils/dupeUtils';
 
 export const settingsActions = {
   toggleHideEmpty() {
-    return state => {
+    return (state: IState) => {
       const settings = {
         ...state.settings,
         hideEmpty: !state.settings.hideEmpty,
-      }
+      };
       localStorage.setItem('settings', JSON.stringify(settings)); //TODO dry
-      return { ...state, settings }
-    }
+      return { ...state, settings };
+    };
   },
-  setGameMode(gameMode: string) {
-    return state => {
+  setGameMode(gameMode: IGameMode) {
+    return (state: IState) => {
       const settings = {
         ...state.settings,
         gameMode,
-      }
+      };
       localStorage.setItem('settings', JSON.stringify(settings));
       return {
         ...state,

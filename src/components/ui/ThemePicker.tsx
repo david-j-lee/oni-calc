@@ -1,46 +1,39 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useContext } from '../../context';
-
-// material
-import { Theme } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import ButtonBase from '@material-ui/core/ButtonBase';
-import IconButton from '@material-ui/core/IconButton';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
-import Dialog from '@material-ui/core/Dialog';
-import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/styles';
-
-import Brightness2 from '@material-ui/icons/Brightness2';
-import BrightnessHigh from '@material-ui/icons/BrightnessHigh';
-
-// material icons
-import Check from '@material-ui/icons/Check';
-import ColorLens from '@material-ui/icons/ColorLens';
-
-// material colors
-import red from '@material-ui/core/colors/red';
-import pink from '@material-ui/core/colors/pink';
-import purple from '@material-ui/core/colors/purple';
-import deepPurple from '@material-ui/core/colors/deepPurple';
-import indigo from '@material-ui/core/colors/indigo';
-import blue from '@material-ui/core/colors/blue';
-import lightBlue from '@material-ui/core/colors/lightBlue';
-import cyan from '@material-ui/core/colors/cyan';
-import teal from '@material-ui/core/colors/teal';
-import green from '@material-ui/core/colors/green';
-import lightGreen from '@material-ui/core/colors/lightGreen';
-import lime from '@material-ui/core/colors/lime';
-import yellow from '@material-ui/core/colors/yellow';
-import amber from '@material-ui/core/colors/amber';
-import orange from '@material-ui/core/colors/orange';
-import deepOrange from '@material-ui/core/colors/deepOrange';
-import brown from '@material-ui/core/colors/brown';
-import grey from '@material-ui/core/colors/grey';
-import blueGrey from '@material-ui/core/colors/blueGrey';
+import { useContext } from '../../context/useContext';
+import { css } from '@emotion/react';
+import Brightness2 from '@mui/icons-material/Brightness2';
+import BrightnessHigh from '@mui/icons-material/BrightnessHigh';
+import Check from '@mui/icons-material/Check';
+import ColorLens from '@mui/icons-material/ColorLens';
+import Button from '@mui/material/Button';
+import ButtonBase from '@mui/material/ButtonBase';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import amber from '@mui/material/colors/amber';
+import blue from '@mui/material/colors/blue';
+import blueGrey from '@mui/material/colors/blueGrey';
+import brown from '@mui/material/colors/brown';
+import cyan from '@mui/material/colors/cyan';
+import deepOrange from '@mui/material/colors/deepOrange';
+import deepPurple from '@mui/material/colors/deepPurple';
+import green from '@mui/material/colors/green';
+import grey from '@mui/material/colors/grey';
+import indigo from '@mui/material/colors/indigo';
+import lightBlue from '@mui/material/colors/lightBlue';
+import lightGreen from '@mui/material/colors/lightGreen';
+import lime from '@mui/material/colors/lime';
+import orange from '@mui/material/colors/orange';
+import pink from '@mui/material/colors/pink';
+import purple from '@mui/material/colors/purple';
+import red from '@mui/material/colors/red';
+import teal from '@mui/material/colors/teal';
+import yellow from '@mui/material/colors/yellow';
+import { Theme } from '@mui/material/styles';
+import { FC, useEffect, useState } from 'react';
 
 const COLORS = [
   red,
@@ -65,25 +58,46 @@ const COLORS = [
 ];
 
 export const ThemePicker: FC = () => {
-  const classes = useStyles();
   const [{ theme }, { setTheme }] = useContext();
 
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [selection, setSelection] = useState('primary');
+  const [selection, setSelection] = useState<'primary' | 'secondary'>(
+    'primary',
+  );
   const [color1, setColor1] = useState(theme && theme.palette.primary);
   const [color2, setColor2] = useState(theme && theme.palette.secondary);
 
   const changeType = () => {
-    let newTheme = { ...theme };
-    const newType = newTheme.palette.type === 'light' ? 'dark' : 'light';
+    if (theme == null) {
+      return;
+    }
+
+    const newTheme = { ...theme };
+
+    if (!newTheme.palette) {
+      return;
+    }
+
+    const newType = newTheme.palette?.mode === 'light' ? 'dark' : 'light';
 
     // set theme
-    newTheme.palette.type = newType;
+    newTheme.palette.mode = newType;
     setTheme(newTheme);
   };
 
-  const changeColors = (primary, secondary) => {
-    let newTheme = { ...theme };
+  const changeColors = (
+    primary: { [key: number]: string },
+    secondary: { [key: number]: string },
+  ) => {
+    if (!theme) {
+      return;
+    }
+
+    const newTheme = { ...theme };
+
+    if (!newTheme.palette) {
+      return;
+    }
 
     // set new colors
     newTheme.palette.primary = primary;
@@ -100,7 +114,7 @@ export const ThemePicker: FC = () => {
     setDialogOpen(false);
   };
 
-  const selectColor = (color) => {
+  const selectColor = (color: { [key: number]: string }) => {
     switch (selection) {
       case 'primary':
         setColor1(color);
@@ -147,17 +161,14 @@ export const ThemePicker: FC = () => {
         onClose={handleClose}
         classes={{ paper: 'colors-dialog' }}
       >
-        <DialogTitle id="theme-picker-dialog" className={classes.dialogTitle}>
-          Change Theme
-        </DialogTitle>
+        <DialogTitle id="theme-picker-dialog">Change Theme</DialogTitle>
         <DialogContent>
-          <div className={classes.dialogContent}>
+          <div css={dialogContentCss}>
             <div>
-              {theme && theme.palette.type === 'light' ? (
+              {theme && theme.palette.mode === 'light' ? (
                 <Button
                   onClick={changeType}
                   variant="contained"
-                  color="primary"
                   startIcon={<BrightnessHigh />}
                 >
                   Light Theme
@@ -166,25 +177,24 @@ export const ThemePicker: FC = () => {
                 <Button
                   onClick={changeType}
                   variant="contained"
-                  color="primary"
                   startIcon={<Brightness2 />}
                 >
                   Dark Theme
                 </Button>
               )}
             </div>
-            <div className={classes.selector}>
+            <div css={selectorCss}>
               <ButtonBase
                 onClick={() => setSelection('primary')}
-                className={classes.colorPreviewSelector}
+                css={colorPreviewSelectorCss}
               >
                 <div
-                  className={classes.colorPreviewSelectorIcon}
+                  css={colorPreviewSelectorIconCss}
                   style={{ backgroundColor: color1 ? color1[500] : '' }}
                 />
                 {color1 && selection === 'primary' && (
                   <div
-                    className={classes.active}
+                    css={activeCss}
                     style={{ border: `5px solid ${color1[900]}` }}
                   >
                     <Check style={{ color: color1[900] }} />
@@ -192,24 +202,24 @@ export const ThemePicker: FC = () => {
                 )}
               </ButtonBase>
               <Typography
-                className={classes.title}
+                css={titleCss}
                 onClick={() => setSelection('primary')}
               >
                 Primary
               </Typography>
             </div>
-            <div className={classes.selector}>
+            <div css={selectorCss}>
               <ButtonBase
                 onClick={() => setSelection('secondary')}
-                className={classes.colorPreviewSelector}
+                css={colorPreviewSelectorCss}
               >
                 <div
-                  className={classes.colorPreviewSelectorIcon}
+                  css={colorPreviewSelectorIconCss}
                   style={{ backgroundColor: color2 ? color2[500] : '' }}
                 />
                 {color2 && selection === 'secondary' && (
                   <div
-                    className={classes.active}
+                    css={activeCss}
                     style={{ border: `5px solid ${color2[900]}` }}
                   >
                     <Check style={{ color: color2[900] }} />
@@ -217,21 +227,21 @@ export const ThemePicker: FC = () => {
                 )}
               </ButtonBase>
               <Typography
-                className={classes.title}
+                css={titleCss}
                 onClick={() => setSelection('secondary')}
               >
                 Secondary
               </Typography>
             </div>
 
-            <div className={classes.colorPreviews}>
+            <div css={colorPreviewsCss}>
               {COLORS.map((color, i) => {
                 return (
-                  <div key={i} className={classes.colorPreview}>
+                  <div key={i} css={colorPreviewCss}>
                     <ButtonBase
                       onClick={() => selectColor(color)}
                       style={{ backgroundColor: color[500] }}
-                      className={classes.colorPreviewButton}
+                      css={colorPreviewButtonCss}
                     />
                   </div>
                 );
@@ -240,7 +250,7 @@ export const ThemePicker: FC = () => {
           </div>
         </DialogContent>
         <DialogActions>
-          <div className={classes.grow} />
+          <div css={growCss} />
           <Button onClick={handleClose} color="secondary" variant="text">
             Close
           </Button>
@@ -253,66 +263,67 @@ export const ThemePicker: FC = () => {
 const SIZE = 40;
 const SPACING = 1;
 
-const useStyles = makeStyles((theme: Theme) => ({
-  dialogTitle: {},
-  dialogContent: {
+const dialogContentCss = (theme: Theme) =>
+  css({
     maxWidth: (SIZE + SPACING * 2) * 4,
     margin: theme.spacing(0, 4),
+  });
+
+const colorPreviewsCss = css({
+  display: 'flex',
+  flexWrap: 'wrap',
+});
+
+const colorPreviewCss = css({
+  padding: SPACING,
+});
+
+const colorPreviewButtonCss = css({
+  height: SIZE,
+  width: SIZE,
+  transition: 'all 300ms ease',
+  '&:hover': {
+    borderRadius: '100%',
   },
-  colorPreviews: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  colorPreview: {
-    padding: SPACING,
-  },
-  colorPreviewButton: {
-    height: SIZE,
-    width: SIZE,
-    transition: 'all 300ms ease',
-    '&:hover': {
-      borderRadius: '100%',
-    },
-  },
-  selectedColors: {
-    paddingTop: theme.spacing(2),
-    display: 'flex',
-    flexWrap: 'nowrap',
-  },
-  selectedColor: {
-    width: SIZE,
-  },
-  selector: {
+});
+
+const selectorCss = (theme: Theme) =>
+  css({
     display: 'flex',
     flexWrap: 'nowrap',
     alignItems: 'center',
     margin: theme.spacing(2, 0),
-  },
-  colorPreviewSelector: {
+  });
+
+const colorPreviewSelectorCss = (theme: Theme) =>
+  css({
     marginRight: theme.spacing(1),
-  },
-  colorPreviewSelectorIcon: {
-    height: SIZE,
-    width: SIZE,
-  },
-  title: {
-    cursor: 'pointer',
-    width: '100%',
-  },
-  active: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    transition: 'all 300ms ease',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  grow: {
-    flexGrow: 1,
-  },
-}));
+  });
+
+const colorPreviewSelectorIconCss = css({
+  height: SIZE,
+  width: SIZE,
+});
+
+const titleCss = css({
+  cursor: 'pointer',
+  width: '100%',
+});
+
+const activeCss = css({
+  position: 'absolute',
+  top: 0,
+  bottom: 0,
+  left: 0,
+  right: 0,
+  transition: 'all 300ms ease',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+});
+
+const growCss = css({
+  flexGrow: 1,
+});
 
 export default ThemePicker;

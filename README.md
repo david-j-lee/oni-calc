@@ -12,129 +12,16 @@ Special thanks to [u/kthulu666](https://www.reddit.com/user/Kthulu666) who start
 
 ## What is under the hood
 
-Reactjs, Redux, Material UI, and lots of oxygen.
+React, Material UI, and lots of oxygen.
 
 ---
 
 ## Running this application
 
-This application requires nodejs. To run this application run `npm install` in the root directory in your terminal of choice. Then run `npm start` in the terminal.
+- Requires node v20+
 
 ---
 
 ## About this application
 
 Manage your power and resource consumption by specifying the amount of assets available to your colony.
-
-### Tracked Resources
-
-* Algae
-* Carbon Dioxide
-* Chlorine
-* Clay
-* Coal
-* Crude Oil
-* Dirt
-* Fertilizer
-* Hydrogen
-* Magma
-* Natural Gas
-* Oxygen
-* Petroleum
-* Polluted Dirt
-* Polluted Oxygen
-* Polluted Water
-* Sand
-* Slime
-* Steam
-* Water
-
-### Supported Buildings
-
-* Base
-  * Mechanized Airlock
-  * Smart Storage Compactor
-  * Storage Compactor
-  * Transit Tube Access
-* Oxygen
-  * Algae Deoxydizer
-  * Algae Terrarium
-  * Carbon Skimmer
-  * Deodorizer
-  * Electrolyzer
-* Power
-  * Battery
-  * Coal Generator
-  * Hydrogen Generator
-  * Manual Generator
-  * Natural Gas Generator
-  * Petroleum Generator
-  * Smart Battery
-  * Solar Panel
-  * Steam Turbine
-  * Tiny Battery
-* Refinement
-  * Algae Distiller
-  * Compost
-  * Fertilizer Synthesizer
-  * Glass Forge
-  * Kiln
-  * Metal Refinery
-  * Oil Refinery
-  * Polymer Press
-  * Rock Granulator
-  * Water Sieve
-* Medicine
-  * Pharma Chamber
-* Furniture
-  * Ceiling Light
-  * Lamp
-  * Massage Table
-* Food
-  * Electric Grill
-  * Incubator
-  * Microbe Musher
-  * Refrigerator
-* Plumbing
-  * Liquid Filter
-  * Liquid Pump
-  * Liquid Shutoff
-  * Mini Liquid Pump
-* Ventilation
-  * Gas Filter
-  * Gas Pump
-  * Gas Shutoff
-  * Mini Gas Pump
-* Stations
-  * Exosuit Checkpoint
-  * Exosuit Dock
-  * Exosuit Forge
-  * Farm Station
-  * Grooming Station
-  * Power Control Station
-  * Research Station
-  * Super Computer
-  * Textile Loom
-* Utilities
-  * Liquid Tepidizer
-  * Oil Well
-  * Space Heater
-  * Thermo Aquatuner
-  * Thermo Regulator
-
-### Supported Units
-
-* Resources
-  * Values
-    * mg
-    * g
-    * kg
-  * Rates
-    * per second
-* Power
-  * W
-* Capacity
-  * Resources
-    * g
-  * Power
-    * kJ
