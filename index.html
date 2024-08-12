@@ -1,11 +1,56 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-60339937-4"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+      gtag('config', 'UA-60339937-4');
+    </script>
+
+    <!-- sentry.io -->
+    <script
+      src="https://cdn.ravenjs.com/3.24.0/raven.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      Raven.config(
+        'https://64a876e4c16946e9ab5b268e13d887cd@sentry.io/1247817',
+        {
+          release: '0-0-0',
+          environment: 'development-test',
+        },
+      ).install();
+    </script>
+
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta
+      name="description"
+      content="Oxygen not Included calculator. Plan out your base and monitor power and resource levels."
+    />
+    <meta
+      name="keywords"
+      content="Oxygen not Included,ONI,Power Generation,Power Usage,Resource,Forecast,Plan"
+    />
+    <meta name="author" content="David Joseph Lee" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="theme-color" content="#000000" />
+    <title>ONI Calculator</title>
   </head>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
