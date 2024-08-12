@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "format-fix": "prettier . --ignore-path=.gitignore --write \"**/*.{tsx,ts}\"",
     "preview": "vite preview",
-    "publish": "npm run build && aws s3 sync build/ s3://onicalc.com && npm run image-cache",
+    "publish": "npm run build && aws s3 sync dist/ s3://onicalc.com",
     "image-cache": "aws s3 cp s3://onicalc.com/images/ s3://onicalc.com/images/ --recursive --metadata-directive REPLACE --expires 2028-01-01T00:00:00Z --acl public-read --cache-control max-age=31536000,s-maxage=31536000,public",
     "static-cache": "aws s3 cp s3://onicalc.com/static/ s3://onicalc.com/static/ --recursive --metadata-directive REPLACE --expires 2028-01-01T00:00:00Z --acl public-read --cache-control max-age=31536000,s-maxage=31536000,public",
     "test": "vitest"
