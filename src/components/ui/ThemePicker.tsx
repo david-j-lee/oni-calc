@@ -1,46 +1,39 @@
-import { FC, useEffect, useState } from 'react';
 import { useContext } from '../../context/context';
-
-// material
 import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import ButtonBase from '@mui/material/ButtonBase';
-import IconButton from '@mui/material/IconButton';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import Dialog from '@mui/material/Dialog';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
-
 import Brightness2 from '@mui/icons-material/Brightness2';
 import BrightnessHigh from '@mui/icons-material/BrightnessHigh';
-
-// material icons
 import Check from '@mui/icons-material/Check';
 import ColorLens from '@mui/icons-material/ColorLens';
-
-// material colors
-import red from '@mui/material/colors/red';
-import pink from '@mui/material/colors/pink';
-import purple from '@mui/material/colors/purple';
-import deepPurple from '@mui/material/colors/deepPurple';
-import indigo from '@mui/material/colors/indigo';
+import Button from '@mui/material/Button';
+import ButtonBase from '@mui/material/ButtonBase';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import amber from '@mui/material/colors/amber';
 import blue from '@mui/material/colors/blue';
-import lightBlue from '@mui/material/colors/lightBlue';
+import blueGrey from '@mui/material/colors/blueGrey';
+import brown from '@mui/material/colors/brown';
 import cyan from '@mui/material/colors/cyan';
-import teal from '@mui/material/colors/teal';
+import deepOrange from '@mui/material/colors/deepOrange';
+import deepPurple from '@mui/material/colors/deepPurple';
 import green from '@mui/material/colors/green';
+import grey from '@mui/material/colors/grey';
+import indigo from '@mui/material/colors/indigo';
+import lightBlue from '@mui/material/colors/lightBlue';
 import lightGreen from '@mui/material/colors/lightGreen';
 import lime from '@mui/material/colors/lime';
-import yellow from '@mui/material/colors/yellow';
-import amber from '@mui/material/colors/amber';
 import orange from '@mui/material/colors/orange';
-import deepOrange from '@mui/material/colors/deepOrange';
-import brown from '@mui/material/colors/brown';
-import grey from '@mui/material/colors/grey';
-import blueGrey from '@mui/material/colors/blueGrey';
+import pink from '@mui/material/colors/pink';
+import purple from '@mui/material/colors/purple';
+import red from '@mui/material/colors/red';
+import teal from '@mui/material/colors/teal';
+import yellow from '@mui/material/colors/yellow';
+import { Theme } from '@mui/material/styles';
+import { FC, useEffect, useState } from 'react';
 
 const COLORS = [
   red,

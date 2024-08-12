@@ -1,11 +1,11 @@
 import IBuilding from './IBuilding';
-import IDupes from './IDupes';
-import ISettings from './ISettings';
 import IBuildingAggregate from './IBuildingAggregate';
+import IDupes from './IDupes';
 import IFood from './IFood';
-import IPlant from './IPlant';
 import IGeysers from './IGeysers';
+import IPlant from './IPlant';
 import IResource from './IResource';
+import ISettings from './ISettings';
 import IThemeSaved from './IThemeSaved';
 
 export default interface IState {

@@ -1,8 +1,7 @@
-import { FC, memo, useEffect, useState } from 'react';
-
 import { css, SerializedStyles } from '@emotion/react';
-import { Variant } from '@mui/material/styles/createTypography';
 import Typography from '@mui/material/Typography';
+import { Variant } from '@mui/material/styles/createTypography';
+import { FC, memo, useEffect, useState } from 'react';
 
 interface IProps {
   value: number;

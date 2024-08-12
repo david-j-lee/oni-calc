@@ -1,17 +1,14 @@
-import { FC, memo } from 'react';
-
-import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import Table from '@mui/material/Table';
-import TableHead from '@mui/material/TableHead';
-import TableBody from '@mui/material/TableBody';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
-
 import IBuilding from '../../interfaces/IBuilding';
-
 import Number from '../ui/Number';
+import { css } from '@emotion/react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC, memo } from 'react';
 
 interface IProps {
   buildings: IBuilding[];

@@ -1,13 +1,9 @@
-import { FC, useEffect, useState } from 'react';
 import { useContext } from '../../context/context';
-
-// material
+import IBuildingsGrouped from '../../interfaces/IBuildingsGrouped';
+import BuildingsGridGroup from './BuildingsGridGroup';
 import { css } from '@emotion/react';
 import { Theme } from '@mui/material/styles';
-
-// components
-import BuildingsGridGroup from './BuildingsGridGroup';
-import IBuildingsGrouped from '../../interfaces/IBuildingsGrouped';
+import { FC, useEffect, useState } from 'react';
 
 export const BuildingsGrid: FC = () => {
   const [{ buildings, collapseBuildingPanels, collapseBuildingPanelsTrigger }] =

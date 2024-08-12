@@ -1,26 +1,22 @@
-import { FC, useState } from 'react';
 import { useContext } from '../../context/context';
-
-// material
-import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Chip from '@mui/material/Chip';
-import Avatar from '@mui/material/Avatar';
-
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-
-import IGeyserInput from './../../interfaces/IGeyserInput';
 import { IGeyserMaxPressure, IGeyserTemp } from '../../interfaces/IGeyser';
+import IGeyserInput from './../../interfaces/IGeyserInput';
+import { css } from '@emotion/react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Chip from '@mui/material/Chip';
+import FormControl from '@mui/material/FormControl';
+import Grid from '@mui/material/Grid';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC, useState } from 'react';
 
 const MENU_PROPS = {
   PaperProps: {

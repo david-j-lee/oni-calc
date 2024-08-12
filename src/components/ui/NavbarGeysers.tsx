@@ -1,17 +1,13 @@
-import { FC, useState } from 'react';
 import { useContext } from '../../context/context';
-
-// material
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-
-// icons
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { FC, useState } from 'react';
 
 export const NavbarGeysers: FC = () => {
   const [, { clearGeyserInputs }] = useContext();

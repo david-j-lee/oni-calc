@@ -1,14 +1,10 @@
-import { FC } from 'react';
 import { useContext } from '../../context/context';
-
-// material
-import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-
-// components
 import FoodItem from './FoodItem';
+import { css } from '@emotion/react';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC } from 'react';
 
 export const FoodItems: FC = () => {
   const [{ food }] = useContext();

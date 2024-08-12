@@ -1,8 +1,5 @@
-import { FC, useMemo } from 'react';
 import { useContext } from '../../context/context';
-
-// material
-import { Theme } from '@mui/material/styles';
+import IGameModeValue from './../../interfaces/IGameModeValue';
 import { css } from '@emotion/react';
 import ButtonBase from '@mui/material/ButtonBase';
 import Card from '@mui/material/Card';
@@ -10,9 +7,8 @@ import CardContent from '@mui/material/CardContent';
 import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-
-// components
-import IGameModeValue from './../../interfaces/IGameModeValue';
+import { Theme } from '@mui/material/styles';
+import { FC, useMemo } from 'react';
 
 export const Settings: FC = () => {
   const [{ settings, dupes }, { setGameMode, toggleHideEmpty }] = useContext();

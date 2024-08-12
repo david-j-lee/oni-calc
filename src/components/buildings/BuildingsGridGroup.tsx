@@ -1,21 +1,15 @@
-import { FC, memo, useEffect, useState } from 'react';
-
-// material
-import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-
-// icons
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
-// components
-import BuildingsGridCard from './BuildingsGridCard';
 import IBuilding from '../../interfaces/IBuilding';
 import { IBuildingsGroupedItem } from '../../interfaces/IBuildingsGrouped';
+import BuildingsGridCard from './BuildingsGridCard';
+import { css } from '@emotion/react';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC, memo, useEffect, useState } from 'react';
 
 interface IProps {
   group: IBuildingsGroupedItem;

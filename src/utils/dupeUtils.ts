@@ -1,12 +1,11 @@
-import IResource from './../interfaces/IResource';
-import IDupes from './../interfaces/IDupes';
 import IDupesInput from '../interfaces/IDupesInput';
-
-import { getGameModeValue } from './commonUtils';
-import { updateResourcesWithDupes } from './resourceUtils';
+import { IGameMode } from '../interfaces/IGameMode';
 import IIO from '../interfaces/IIO';
 import IDupeTrait from './../interfaces/IDupeTrait';
-import { IGameMode } from '../interfaces/IGameMode';
+import IDupes from './../interfaces/IDupes';
+import IResource from './../interfaces/IResource';
+import { getGameModeValue } from './commonUtils';
+import { updateResourcesWithDupes } from './resourceUtils';
 
 export const setDupesQuantity = (
   gameMode: IGameMode,

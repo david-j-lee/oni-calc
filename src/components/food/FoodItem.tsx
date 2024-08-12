@@ -1,31 +1,24 @@
-import { FC, memo, useEffect, useState, useRef } from 'react';
 import { useContext } from '../../context/context';
-
-// material
+import { WIKI_LINK_PATH } from '../../utils/parseUtils';
+import IFood from './../../interfaces/IFood';
+import FoodItemDetails from './FoodItemDetails';
 import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
-import Popover from '@mui/material/Popover';
-import TextField from '@mui/material/TextField';
-
-// icons
 import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
 import MoreVert from '@mui/icons-material/MoreVert';
-
-import IFood from './../../interfaces/IFood';
-
-// components
-import FoodItemDetails from './FoodItemDetails';
-import { WIKI_LINK_PATH } from '../../utils/parseUtils';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import IconButton from '@mui/material/IconButton';
+import Popover from '@mui/material/Popover';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC, memo, useEffect, useState, useRef } from 'react';
 
 interface IProps {
   item: IFood;

@@ -1,5 +1,5 @@
-import IGameModeValue from '../interfaces/IGameModeValue';
 import { IGameMode } from '../interfaces/IGameMode';
+import IGameModeValue from '../interfaces/IGameModeValue';
 import IIO from '../interfaces/IIO';
 
 export function getGameModeValue(

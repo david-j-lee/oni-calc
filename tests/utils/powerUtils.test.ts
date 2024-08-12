@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import * as powerUtils from '../../src/utils/powerUtils';
 import IBuilding from '../../src/interfaces/IBuilding';
+import * as powerUtils from '../../src/utils/powerUtils';
+import { describe, it, expect } from 'vitest';
 
 describe('getBuildingsPowerUsage', () => {
   describe('when given an empty array of buildings', () => {

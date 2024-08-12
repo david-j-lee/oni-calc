@@ -1,17 +1,12 @@
-import { FC, Fragment, memo, useRef } from 'react';
-
-// material
+import ResourceChips from '../resources/ResourceChips';
+import IFood from './../../interfaces/IFood';
 import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 import Grid from '@mui/material/Grid';
-import Avatar from '@mui/material/Avatar';
-
-import IFood from './../../interfaces/IFood';
-
-// components
-import ResourceChips from '../resources/ResourceChips';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC, Fragment, memo, useRef } from 'react';
 
 interface IProps {
   item: IFood;

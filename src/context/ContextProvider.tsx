@@ -1,8 +1,7 @@
-import React from 'react';
-import { useGovernor } from '../utils/reactGovernor';
-
-import IState from '../interfaces/IState';
 import { actionsContract, initialState } from '../context/context';
+import IState from '../interfaces/IState';
+import { useGovernor } from '../utils/reactGovernor';
+import React from 'react';
 
 export const Context = React.createContext<[IState, typeof actionsContract]>([
   initialState,

@@ -1,13 +1,10 @@
-import { FC, Fragment, memo, useEffect, useState } from 'react';
-
-import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-
 import IBuilding from '../../interfaces/IBuilding';
-
 import ResourceChips from '../resources/ResourceChips';
 import Number from '../ui/Number';
+import { css } from '@emotion/react';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC, Fragment, memo, useEffect, useState } from 'react';
 
 interface IProps {
   building: IBuilding;

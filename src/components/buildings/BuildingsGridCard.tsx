@@ -1,9 +1,10 @@
-import { FC, memo, useRef, useState, useEffect } from 'react';
 import { useContext } from '../../context/context';
-
-// material
+import IBuilding from './../../interfaces/IBuilding';
+import BuildingDetails from './BuildingDetails';
 import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
+import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
+import MoreVert from '@mui/icons-material/MoreVert';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -15,16 +16,8 @@ import Popover from '@mui/material/Popover';
 import Slider from '@mui/material/Slider';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-
-// icons
-import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
-import MoreVert from '@mui/icons-material/MoreVert';
-
-import IBuilding from './../../interfaces/IBuilding';
-
-// component
-import BuildingDetails from './BuildingDetails';
+import { Theme } from '@mui/material/styles';
+import { FC, memo, useRef, useState, useEffect } from 'react';
 
 interface IProps {
   building: IBuilding;

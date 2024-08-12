@@ -1,14 +1,9 @@
-import { FC, memo } from 'react';
-
-// material
+import IDupes from '../../interfaces/IDupes';
+import ResourceChips from '../resources/ResourceChips';
+import { css } from '@emotion/react';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
-import { css } from '@emotion/react';
-
-import IDupes from '../../interfaces/IDupes';
-
-// components
-import ResourceChips from '../resources/ResourceChips';
+import { FC, memo } from 'react';
 
 interface IProps {
   details: IDupes;

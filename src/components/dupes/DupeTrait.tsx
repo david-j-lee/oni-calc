@@ -1,28 +1,22 @@
-import { FC, useState, useRef, useEffect } from 'react';
 import { useContext } from '../../context/context';
-
-// material
+import { WIKI_LINK_PATH } from '../../utils/parseUtils';
+import IDupeTrait from './../../interfaces/IDupeTrait';
+import DupeTraitDetails from './DupeTraitDetails';
 import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import TextField from '@mui/material/TextField';
-
-// icons
 import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
 import MoreVert from '@mui/icons-material/MoreVert';
-
-// components
-import DupeTraitDetails from './DupeTraitDetails';
-import IDupeTrait from './../../interfaces/IDupeTrait';
-import { WIKI_LINK_PATH } from '../../utils/parseUtils';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import IconButton from '@mui/material/IconButton';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC, useState, useRef, useEffect } from 'react';
 
 interface IProps {
   trait: IDupeTrait;

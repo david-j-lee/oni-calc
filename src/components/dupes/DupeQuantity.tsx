@@ -1,28 +1,22 @@
-import { FC, useEffect, useState, useRef } from 'react';
 import { useContext } from '../../context/context';
-
-// material
+import { WIKI_LINK_PATH } from '../../utils/parseUtils';
+import DupeDetails from './DupeDetails';
 import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Grid from '@mui/material/Grid';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-
-// icons
 import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
 import MoreVert from '@mui/icons-material/MoreVert';
-
-// components
-import DupeDetails from './DupeDetails';
-import { WIKI_LINK_PATH } from '../../utils/parseUtils';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC, useEffect, useState, useRef } from 'react';
 
 export const DupeQuantity: FC = () => {
   const [{ dupes }, { setDupesTotalQuantity }] = useContext();

@@ -1,18 +1,15 @@
-import { FC, memo } from 'react';
 import { useContext } from '../../context/context';
-
-// material
+import IGeyserInput from './../../interfaces/IGeyserInput';
 import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-
-import IGeyserInput from './../../interfaces/IGeyserInput';
+import { Theme } from '@mui/material/styles';
+import { FC, memo } from 'react';
 
 interface IProps {
   geyser: IGeyserInput;

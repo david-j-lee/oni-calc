@@ -1,26 +1,20 @@
-import { FC } from 'react';
 import { useContext } from '../../context/context';
-
-// material
-import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableHead from '@mui/material/TableHead';
-import TableBody from '@mui/material/TableBody';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
 import IResource from './../../interfaces/IResource';
-
-// components
 import Resource from './Resource';
+import { css } from '@emotion/react';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import TableSortLabel from '@mui/material/TableSortLabel';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC } from 'react';
 
 export const Resources: FC = () => {
   const [

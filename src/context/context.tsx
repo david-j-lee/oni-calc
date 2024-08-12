@@ -1,16 +1,15 @@
-import React from 'react';
-import IState from '../interfaces/IState';
-import { Context } from './ContextProvider';
-
 import { buildingActions } from '../actions/buildingActions';
 import { calculatorActions } from '../actions/calculatorActions';
 import { dupeActions } from '../actions/dupeActions';
 import { foodActions } from '../actions/foodActions';
 import { geyserActions } from '../actions/geyserActions';
-import { resourceActions } from '../actions/resourceActions';
 import { plantActions } from '../actions/plantActions';
+import { resourceActions } from '../actions/resourceActions';
 import { settingsActions } from '../actions/settingsActions';
 import { uiActions } from '../actions/uiActions';
+import IState from '../interfaces/IState';
+import { Context } from './ContextProvider';
+import React from 'react';
 
 export const initialState: IState = {
   tabIndex: 0,

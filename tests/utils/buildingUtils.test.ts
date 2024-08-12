@@ -1,9 +1,8 @@
-import { describe, it, expect } from 'vitest';
 import IBuilding from '../../src/interfaces/IBuilding';
 import IBuildingInput from '../../src/interfaces/IBuildingInput';
-
-import * as buildingUtils from '../../src/utils/buildingUtils';
 import IIO from '../../src/interfaces/IIO';
+import * as buildingUtils from '../../src/utils/buildingUtils';
+import { describe, it, expect } from 'vitest';
 
 const baseBuilding: IBuilding = {
   category: 'Base',

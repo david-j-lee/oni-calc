@@ -1,15 +1,12 @@
-import { FC, useEffect, useState } from 'react';
 import { useContext } from '../../context/context';
-
+import IIO from './../../interfaces/IIO';
+import { getGameModeValue } from './../../utils/commonUtils';
 import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
-
-import IIO from './../../interfaces/IIO';
-
-import { getGameModeValue } from './../../utils/commonUtils';
+import { Theme } from '@mui/material/styles';
+import { FC, useEffect, useState } from 'react';
 
 interface IProps {
   ios: IIO[];

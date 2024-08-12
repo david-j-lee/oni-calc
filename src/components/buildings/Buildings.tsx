@@ -1,9 +1,7 @@
-import { FC, Fragment } from 'react';
 import { useContext } from '../../context/context';
-
-// components
 import BuildingsGrid from './BuildingsGrid';
 import BuildingsTable from './BuildingsTable';
+import { FC, Fragment } from 'react';
 
 export const Buildings: FC = () => {
   const [{ buildingsLayout }] = useContext();

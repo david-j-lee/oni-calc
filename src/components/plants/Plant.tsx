@@ -1,17 +1,12 @@
-import { FC, memo, useState, useRef } from 'react';
-
-// material
-import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
-import Popover from '@mui/material/Popover';
-
 import IPlant from './../../interfaces/IPlant';
-
-// component
-import PlantFood from './PlantFood';
 import PlantDetails from './PlantDetails';
+import PlantFood from './PlantFood';
+import { css } from '@emotion/react';
+import Popover from '@mui/material/Popover';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
+import { Theme } from '@mui/material/styles';
+import { FC, memo, useState, useRef } from 'react';
 
 interface IProps {
   plant: IPlant;

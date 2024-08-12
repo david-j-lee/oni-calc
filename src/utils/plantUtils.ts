@@ -1,8 +1,7 @@
 import IFood from '../interfaces/IFood';
 import IIO from '../interfaces/IIO';
-import IPlantRequirement from './../interfaces/IPlantRequirement';
 import IPlant, { IPlantBase } from './../interfaces/IPlant';
-
+import IPlantRequirement from './../interfaces/IPlantRequirement';
 import { getSortedArray, getStandardIO } from './commonUtils';
 
 export const sortPlants = (

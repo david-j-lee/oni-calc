@@ -1,12 +1,9 @@
-import { FC, Fragment, memo } from 'react';
-
-import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-
 import IDupeTrait from '../../interfaces/IDupeTrait';
-
 import ResourceChips from '../resources/ResourceChips';
+import { css } from '@emotion/react';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC, Fragment, memo } from 'react';
 
 interface IProps {
   trait: IDupeTrait;

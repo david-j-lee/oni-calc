@@ -1,24 +1,18 @@
-import { FC, memo } from 'react';
-import { Routes, Link, Route } from 'react-router-dom';
-
-// material
-import { css, Theme } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
-
-// icons
-import HomeIcon from '@mui/icons-material/Home';
-import HelpIcon from '@mui/icons-material/Help';
-
-// components
-import NavbarDupes from './NavbarDupes';
 import NavbarBuildings from './NavbarBuildings';
+import NavbarDupes from './NavbarDupes';
 import NavbarFood from './NavbarFood';
 import NavbarGeysers from './NavbarGeysers';
 import ThemePicker from './ThemePicker';
+import HelpIcon from '@mui/icons-material/Help';
+import HomeIcon from '@mui/icons-material/Home';
+import AppBar from '@mui/material/AppBar';
+import IconButton from '@mui/material/IconButton';
+import Toolbar from '@mui/material/Toolbar';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import { css, Theme } from '@mui/material/styles';
+import { FC, memo } from 'react';
+import { Routes, Link, Route } from 'react-router-dom';
 
 const rootCss = css({
   flexGrow: 1,

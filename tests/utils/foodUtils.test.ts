@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest';
-import * as foodUtils from '../../src/utils/foodUtils';
 import IFood, { IFoodBase } from '../../src/interfaces/IFood';
 import IFoodInput from '../../src/interfaces/IFoodInput';
+import * as foodUtils from '../../src/utils/foodUtils';
+import { describe, it, expect } from 'vitest';
 
 describe('getFood', () => {
   describe('when given empty array of food', () => {

@@ -1,11 +1,16 @@
 // json data
+import { initialState } from '../context/context';
 import { buildings } from '../data/buildings';
 import { dupes } from '../data/dupes';
 import { food } from '../data/food';
 import { geysers } from '../data/geysers';
 import { plants } from '../data/plants';
 import { resources } from '../data/resources';
-
+import IDupeInput from '../interfaces/IDupeInput';
+import IDupes from '../interfaces/IDupes';
+import IFoodInput from '../interfaces/IFoodInput';
+import IGeyserInput from '../interfaces/IGeyserInput';
+import ISettings from '../interfaces/ISettings';
 // utils
 import { getBuildings } from '../utils/buildingUtils';
 import { getPowerCapacity, getResourcesCapacity } from '../utils/capacityUtils';
@@ -19,14 +24,7 @@ import {
   getBuildingsPowerUsage,
 } from '../utils/powerUtils';
 import { updateResources } from '../utils/resourceUtils';
-import { initialState } from '../context/context';
-
-import IDupes from '../interfaces/IDupes';
 import IState from './../interfaces/IState';
-import ISettings from '../interfaces/ISettings';
-import IDupeInput from '../interfaces/IDupeInput';
-import IFoodInput from '../interfaces/IFoodInput';
-import IGeyserInput from '../interfaces/IGeyserInput';
 
 // TODO: Refactor
 export const calculatorActions = {

@@ -1,10 +1,8 @@
-import { FC } from 'react';
-
-// material
 import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC } from 'react';
 
 export const About: FC = () => {
   return (

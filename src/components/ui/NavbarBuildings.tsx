@@ -1,21 +1,17 @@
-import { FC, useState } from 'react';
 import { useContext } from '../../context/context';
-
-// material
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogActions from '@mui/material/DialogActions';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-
-// icons
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import VerticalAlignBottomIcon from '@mui/icons-material/VerticalAlignBottom';
+import VerticalAlignTopIcon from '@mui/icons-material/VerticalAlignTop';
 import ViewList from '@mui/icons-material/ViewList';
 import ViewModule from '@mui/icons-material/ViewModule';
-import VerticalAlignTopIcon from '@mui/icons-material/VerticalAlignTop';
-import VerticalAlignBottomIcon from '@mui/icons-material/VerticalAlignBottom';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import { FC, useState } from 'react';
 
 export const NavbarBuildings: FC = () => {
   const [

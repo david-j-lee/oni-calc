@@ -1,14 +1,10 @@
-import { FC } from 'react';
 import { useContext } from '../../context/context';
-
-// material
-import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-import Grid from '@mui/material/Grid';
-
-// components
-import GeyserAdd from './GeyserAdd';
 import Geyser from './Geyser';
+import GeyserAdd from './GeyserAdd';
+import { css } from '@emotion/react';
+import Grid from '@mui/material/Grid';
+import { Theme } from '@mui/material/styles';
+import { FC } from 'react';
 
 export const Geysers: FC = () => {
   const [{ geysers }] = useContext();

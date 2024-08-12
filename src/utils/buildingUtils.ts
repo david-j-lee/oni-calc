@@ -1,9 +1,8 @@
-import IGameModeValue from '../interfaces/IGameModeValue';
 import IBuilding from '../interfaces/IBuilding';
+import IGameModeValue from '../interfaces/IGameModeValue';
 import IBuildingInput from './../interfaces/IBuildingInput';
 import IIO from './../interfaces/IIO';
 import IResource from './../interfaces/IResource';
-
 import { getPowerCapacity, getResourcesCapacity } from './capacityUtils';
 import { getSortedArray, getStandardIO } from './commonUtils';
 import {

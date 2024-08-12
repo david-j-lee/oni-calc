@@ -1,17 +1,13 @@
-import { FC, memo, useState, useMemo } from 'react';
-
-// material
-import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
-import Popover from '@mui/material/Popover';
-
-import IResource from './../../interfaces/IResource';
-
-import ResourceIOs from './ResourceIOs';
 import Number from '../ui/Number';
+import IResource from './../../interfaces/IResource';
+import ResourceIOs from './ResourceIOs';
+import { css } from '@emotion/react';
 import Chip from '@mui/material/Chip';
+import Popover from '@mui/material/Popover';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
+import { Theme } from '@mui/material/styles';
+import { FC, memo, useState, useMemo } from 'react';
 
 interface IProps {
   resource: IResource;

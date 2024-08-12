@@ -1,17 +1,13 @@
-import { FC } from 'react';
 import { useContext } from '../../context/context';
-
-// material
+import { DUPES_WASTE_PROPS } from '../../utils/dupeUtils';
+import DupesWasteInput from './DupesWasteInput';
 import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-
-// components
-import DupesWasteInput from './DupesWasteInput';
-import { DUPES_WASTE_PROPS } from '../../utils/dupeUtils';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC } from 'react';
 
 export const DupesWaste: FC = () => {
   const [{ dupes }] = useContext();

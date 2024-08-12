@@ -1,8 +1,8 @@
-import { describe, it, expect } from 'vitest';
-import * as geyserUtils from '../../src/utils/geyserUtils';
 import IGeyser from '../../src/interfaces/IGeyser';
 import IGeyserInput from '../../src/interfaces/IGeyserInput';
 import IGeysers from '../../src/interfaces/IGeysers';
+import * as geyserUtils from '../../src/utils/geyserUtils';
+import { describe, it, expect } from 'vitest';
 
 describe('getGeysers', () => {
   describe('when given an empty array of geysers', () => {

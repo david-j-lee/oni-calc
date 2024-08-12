@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest';
-import * as dupeUtils from '../../src/utils/dupeUtils';
 import IDupes from '../../src/interfaces/IDupes';
 import IDupesInput from '../../src/interfaces/IDupesInput';
+import * as dupeUtils from '../../src/utils/dupeUtils';
+import { describe, it, expect } from 'vitest';
 
 describe('getDupes', () => {
   describe('when given empty object for dupes', () => {

@@ -1,11 +1,10 @@
+import IFood, { IFoodBase } from '../interfaces/IFood';
+import IGameModeValue from '../interfaces/IGameModeValue';
+import IPlant from '../interfaces/IPlant';
 import IFoodInput from './../interfaces/IFoodInput';
 import IResource from './../interfaces/IResource';
-import IPlant from '../interfaces/IPlant';
-import IFood, { IFoodBase } from '../interfaces/IFood';
-
 import { updatePlants } from './plantUtils';
 import { updateResourcesWithFoodAndPlants } from './resourceUtils';
-import IGameModeValue from '../interfaces/IGameModeValue';
 
 export const setFoodQuantity = (
   resources: IResource[],

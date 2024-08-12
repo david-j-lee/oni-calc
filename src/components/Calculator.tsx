@@ -1,19 +1,15 @@
-import { useEffect, useState } from 'react';
-import { Link, useLocation, Outlet } from 'react-router-dom';
 import { useContext } from '../context/context';
-
-// material
-import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-import Grid from '@mui/material/Grid';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-
-// components
+import Capacity from './capacity/Capacity';
+import Plants from './plants/Plants';
 import Power from './power/Power';
 import Resources from './resources/Resources';
-import Plants from './plants/Plants';
-import Capacity from './capacity/Capacity';
+import { css } from '@emotion/react';
+import Grid from '@mui/material/Grid';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import { Theme } from '@mui/material/styles';
+import { useEffect, useState } from 'react';
+import { Link, useLocation, Outlet } from 'react-router-dom';
 
 const tabIndexMap = {
   '/': 0,

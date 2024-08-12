@@ -1,17 +1,13 @@
-import { FC, Fragment, memo } from 'react';
-
-import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-
 import IResource from './../../interfaces/IResource';
-
-// components
-import ResourceIOsDupes from './ResourceIOsDupes';
 import ResourceIOsBuildings from './ResourceIOsBuildings';
+import ResourceIOsDupes from './ResourceIOsDupes';
 import ResourceIOsFood from './ResourceIOsFood';
-import ResourceIOsPlants from './ResourceIOsPlants';
 import ResourceIOsGeysers from './ResourceIOsGeysers';
+import ResourceIOsPlants from './ResourceIOsPlants';
+import { css } from '@emotion/react';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC, Fragment, memo } from 'react';
 
 interface IProps {
   title: string;

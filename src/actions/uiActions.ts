@@ -1,8 +1,7 @@
-// material
-import indigo from '@mui/material/colors/indigo';
-import red from '@mui/material/colors/red';
 import IState from '../interfaces/IState';
 import IThemeSaved from '../interfaces/IThemeSaved';
+import indigo from '@mui/material/colors/indigo';
+import red from '@mui/material/colors/red';
 
 export const uiActions = {
   getTheme() {

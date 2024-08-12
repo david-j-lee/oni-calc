@@ -1,8 +1,8 @@
 import IBuilding from './IBuilding';
-import IIOReference from './IIOReference';
 import IFood from './IFood';
-import IPlant from './IPlant';
 import IGameModeValue from './IGameModeValue';
+import IIOReference from './IIOReference';
+import IPlant from './IPlant';
 
 export interface IIOBase {
   name: string;

@@ -1,30 +1,25 @@
 import IBuilding from '../interfaces/IBuilding';
-import IDupes from './../interfaces/IDupes';
 import IFood from '../interfaces/IFood';
+import IGeysers from '../interfaces/IGeysers';
+import IIO from '../interfaces/IIO';
+import IDupes from './../interfaces/IDupes';
 import IPlant from './../interfaces/IPlant';
 import IResource, { IResourceBase } from './../interfaces/IResource';
-
-import {
-  getPlantsInputsForResource,
-  getPlantsOutputsForResource,
-} from './plantUtils';
-
-import {
-  getDupesInputsForResource,
-  getDupesOutputsForResource,
-} from './dupeUtils';
-
 import {
   getBuildingsInputsForResource,
   getBuildingsOutputsForResource,
 } from './buildingUtils';
-
-import { getFoodInputsForResource } from './foodUtils';
-
 import { getIOTotal, getSortedArray } from './commonUtils';
+import {
+  getDupesInputsForResource,
+  getDupesOutputsForResource,
+} from './dupeUtils';
+import { getFoodInputsForResource } from './foodUtils';
 import { getGeyserOutputs } from './geyserUtils';
-import IGeysers from '../interfaces/IGeysers';
-import IIO from '../interfaces/IIO';
+import {
+  getPlantsInputsForResource,
+  getPlantsOutputsForResource,
+} from './plantUtils';
 
 export const sortResources = (
   resources: IResource[],

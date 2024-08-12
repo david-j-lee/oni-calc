@@ -1,5 +1,5 @@
-import IIO, { IIOBase } from './IIO';
 import IFoodRequirement from './IFoodRequirement';
+import IIO, { IIOBase } from './IIO';
 
 export interface IFoodBase {
   name: string;

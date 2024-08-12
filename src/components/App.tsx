@@ -1,20 +1,17 @@
-import { FC, useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
-
-// material
-import { ThemeProvider, createTheme, css } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-
 import { useContext } from '../context/context';
-import PageNotFound from './PageNotFound';
-import Navbar from './ui/Navbar';
 import About from './About';
 import Calculator from './Calculator';
-import Dupes from './dupes/Dupes';
+import PageNotFound from './PageNotFound';
 import Buildings from './buildings/Buildings';
+import Dupes from './dupes/Dupes';
 import Food from './food/Food';
 import Geysers from './geysers/Geysers';
 import Settings from './settings/Settings';
+import Navbar from './ui/Navbar';
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider, createTheme, css } from '@mui/material/styles';
+import { FC, useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
 export const App: FC = () => {
   const [state, { getTheme }] = useContext();

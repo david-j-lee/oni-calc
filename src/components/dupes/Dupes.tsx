@@ -1,14 +1,10 @@
-import { FC } from 'react';
 import { useContext } from '../../context/context';
-
-// material
-import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-
-// components
 import DupeQuantity from './DupeQuantity';
 import DupeTraits from './DupeTraits';
 import DupesWaste from './DupesWaste';
+import { css } from '@emotion/react';
+import { Theme } from '@mui/material/styles';
+import { FC } from 'react';
 
 export const Dupes: FC = () => {
   const [{ dupes }] = useContext();

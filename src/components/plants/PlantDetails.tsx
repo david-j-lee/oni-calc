@@ -1,15 +1,10 @@
-import { FC, memo, useRef } from 'react';
-
-// material
-import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-
-import IPlant from './../../interfaces/IPlant';
-
-// components
 import ResourceChips from '../resources/ResourceChips';
+import IPlant from './../../interfaces/IPlant';
+import { css } from '@emotion/react';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC, memo, useRef } from 'react';
 
 interface IProps {
   plant: IPlant;

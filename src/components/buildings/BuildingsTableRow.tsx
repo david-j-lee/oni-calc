@@ -1,29 +1,22 @@
-import { FC, memo, useState, useRef } from 'react';
 import { useContext } from '../../context/context';
-
-// material
+import IBuilding from './../../interfaces/IBuilding';
+import BuildingDetails from './BuildingDetails';
 import { css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
+import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
+import MoreHoriz from '@mui/icons-material/MoreHoriz';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
 import Slider from '@mui/material/Slider';
-import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-
-// icons
-import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
-import MoreHoriz from '@mui/icons-material/MoreHoriz';
-
-import IBuilding from './../../interfaces/IBuilding';
-
-// component
-import BuildingDetails from './BuildingDetails';
+import { Theme } from '@mui/material/styles';
+import { FC, memo, useState, useRef } from 'react';
 
 interface IProps {
   building: IBuilding;

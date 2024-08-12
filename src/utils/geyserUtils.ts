@@ -1,10 +1,9 @@
-import IGeyser from './../interfaces/IGeyser';
-import IGeysers from '../interfaces/IGeysers';
 import IGeyserInput from '../interfaces/IGeyserInput';
-import IResource from './../interfaces/IResource';
-
-import { updateResourcesWithGeysers } from './resourceUtils';
+import IGeysers from '../interfaces/IGeysers';
 import IIO from '../interfaces/IIO';
+import IGeyser from './../interfaces/IGeyser';
+import IResource from './../interfaces/IResource';
+import { updateResourcesWithGeysers } from './resourceUtils';
 
 export const addGeyser = (
   resources: IResource[],

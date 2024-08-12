@@ -1,22 +1,16 @@
-import { FC, useState } from 'react';
 import { useContext } from '../../context/context';
-
-// material
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import Popover from '@mui/material/Popover';
-import { css } from '@emotion/react';
-
-// icons
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
-// components
+import IBuilding from '../../interfaces/IBuilding';
 import Number from '../ui/Number';
 import PowerBuildings from './PowerBuildings';
+import { css } from '@emotion/react';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Popover from '@mui/material/Popover';
+import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
-import IBuilding from '../../interfaces/IBuilding';
+import { FC, useState } from 'react';
 
 export const Power: FC = () => {
   const [{ powerGeneration, powerUsage }] = useContext();

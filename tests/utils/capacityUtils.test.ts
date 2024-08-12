@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import * as capacityUtils from '../../src/utils/capacityUtils';
 import IBuilding from '../../src/interfaces/IBuilding';
+import * as capacityUtils from '../../src/utils/capacityUtils';
+import { describe, it, expect } from 'vitest';
 
 describe('getResourcesCapacity', () => {
   describe('when given buildings with resource capacity', () => {

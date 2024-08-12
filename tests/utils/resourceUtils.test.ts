@@ -1,8 +1,8 @@
-import { describe, it, expect } from 'vitest';
-import * as resourceUtils from '../../src/utils/resourceUtils';
-import IResource from '../../src/interfaces/IResource';
 import IDupes from '../../src/interfaces/IDupes';
 import IGeysers from '../../src/interfaces/IGeysers';
+import IResource from '../../src/interfaces/IResource';
+import * as resourceUtils from '../../src/utils/resourceUtils';
+import { describe, it, expect } from 'vitest';
 
 describe('getClearedResources', () => {
   describe('when given an empty array of resources', () => {

@@ -1,13 +1,11 @@
-import { FC, memo } from 'react';
-
-import Table from '@mui/material/Table';
-import TableHead from '@mui/material/TableHead';
-import TableBody from '@mui/material/TableBody';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
-
 import Number from '../ui/Number';
 import IResource from './../../interfaces/IResource';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import { FC, memo } from 'react';
 
 interface IProps {
   resource: IResource;

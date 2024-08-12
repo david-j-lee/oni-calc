@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 // Copied from https://github.com/TechEmpower/react-governor with minor edits.
-
 import { Dispatch, useReducer, useState } from 'react';
 
 class Governor {

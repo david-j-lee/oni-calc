@@ -1,13 +1,11 @@
-import { FC, useEffect, useState } from 'react';
 import { useContext } from '../../context/context';
-
-// material
 import { SerializedStyles, css } from '@emotion/react';
-import { Theme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { FC, useEffect, useState } from 'react';
 
 export const FoodDupes: FC = () => {
   const [{ dupes, food }] = useContext();

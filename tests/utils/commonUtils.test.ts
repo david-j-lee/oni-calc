@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import * as commonUtils from '../../src/utils/commonUtils';
 import IIO from '../../src/interfaces/IIO';
+import * as commonUtils from '../../src/utils/commonUtils';
+import { describe, it, expect } from 'vitest';
 
 describe('getIOTotal', () => {
   describe('when given empty array', () => {
