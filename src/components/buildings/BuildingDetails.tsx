@@ -65,7 +65,7 @@ export const BuildingDetails: FC<IProps> = memo(({ building }) => {
       </div>
 
       <div css={contentCss}>
-        {!netPower ? null : (
+        {Boolean(netPower) && (
           <Fragment>
             <Typography variant="body1" css={titleCss}>
               <small>Power</small>
@@ -73,14 +73,14 @@ export const BuildingDetails: FC<IProps> = memo(({ building }) => {
             <Number value={netPower} suffix={powerSuffix} />
           </Fragment>
         )}
-        {!capacity.power.value ? null : (
+        {Boolean(capacity.power.value) && (
           <Typography variant="body1" css={titleCss}>
             <small>Power Capacity</small>
             <br />
             {capacity.power.value + ' ' + capacity.power.unit}
           </Typography>
         )}
-        {!capacity.resources.value ? null : (
+        {Boolean(capacity.resources.value) && (
           <Typography variant="body1" css={titleCss}>
             <small>Resource Capacity</small>
             <br />
@@ -89,7 +89,7 @@ export const BuildingDetails: FC<IProps> = memo(({ building }) => {
               capacity.resources.unit}
           </Typography>
         )}
-        {!inputs.length ? null : (
+        {Boolean(inputs.length) && (
           <Fragment>
             <Typography variant="subtitle1" css={titleCss}>
               Inputs
@@ -97,7 +97,7 @@ export const BuildingDetails: FC<IProps> = memo(({ building }) => {
             <ResourceChips ios={inputs} />
           </Fragment>
         )}
-        {!outputs.length ? null : (
+        {Boolean(outputs.length) && (
           <Fragment>
             <Typography variant="subtitle1" css={titleCss}>
               Outputs

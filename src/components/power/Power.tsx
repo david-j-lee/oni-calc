@@ -75,7 +75,7 @@ export const Power: FC = () => {
             <Typography>Generated</Typography>
           </div>
 
-          <Typography variant="h2">-</Typography>
+          <Typography variant="h5">-</Typography>
 
           <div css={powerTextCss}>
             <Typography
@@ -90,7 +90,7 @@ export const Power: FC = () => {
             <Typography>Used</Typography>
           </div>
 
-          <Typography variant="h2">=</Typography>
+          <Typography variant="h5">=</Typography>
 
           <div css={powerTextCss}>
             <div

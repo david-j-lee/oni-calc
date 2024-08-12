@@ -16,7 +16,7 @@ export const DupeTraitDetails: FC<IProps> = memo(({ trait }) => {
   return (
     <div css={rootCss}>
       <Typography variant="h6">{trait.name}</Typography>
-      {!trait.inputs.length ? null : (
+      {Boolean(trait.inputs.length) && (
         <Fragment>
           <Typography variant="subtitle1" css={titleCss}>
             Inputs
@@ -24,7 +24,7 @@ export const DupeTraitDetails: FC<IProps> = memo(({ trait }) => {
           <ResourceChips ios={trait.inputs} />
         </Fragment>
       )}
-      {!trait.outputs.length ? null : (
+      {Boolean(trait.outputs.length) && (
         <Fragment>
           <Typography variant="subtitle1" css={titleCss}>
             Outputs

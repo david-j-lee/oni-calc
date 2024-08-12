@@ -27,7 +27,7 @@ export function getIOTotal(ios: IIO[]) {
   return ios.map((io) => io.valueExtended || 0).reduce((a, b) => a + b, 0);
 }
 
-export function getStandardIO(io: IIO) {
+export function getStandardIO(io: IIO): IIO {
   const standardUnit = 'g';
   const standardRate = 'per second';
 

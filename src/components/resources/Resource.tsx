@@ -1,4 +1,4 @@
-import { FC, memo, useState, useRef } from 'react';
+import { FC, memo, useState, useMemo } from 'react';
 
 // material
 import { css } from '@emotion/react';
@@ -22,9 +22,13 @@ export const Resource: FC<IProps> = memo(({ resource }) => {
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogType, setDialogType] = useState('');
 
-  //FIXME this ref seems to be stucking with the image, even when the resource name change (from hide/showing empty resources)
-  const imageUrl = useRef(
-    `/images/resources/${resource.name.toLowerCase().split(' ').join('-')}.png`,
+  const imageUrl = useMemo(
+    () =>
+      `/images/resources/${resource.name
+        .toLowerCase()
+        .split(' ')
+        .join('-')}.png`,
+    [resource],
   );
 
   const handlePopoverOpen = (
@@ -65,12 +69,9 @@ export const Resource: FC<IProps> = memo(({ resource }) => {
 
       <TableCell css={tableCellCss}>
         <div css={resourceNameCss}>
-          <div
-            css={imageCss}
-            style={{ backgroundImage: `url(${imageUrl.current})` }}
-          />
+          <div css={imageCss} style={{ backgroundImage: `url(${imageUrl})` }} />
           {resource.name}
-          {!resource.unitOfMeasure ? null : (
+          {Boolean(resource.unitOfMeasure) && (
             <Chip label={resource.unitOfMeasure} size="small" />
           )}
         </div>
