@@ -1,4 +1,4 @@
-import { useContext } from '../context/context';
+import { useContext } from '../context/useContext';
 import Capacity from './capacity/Capacity';
 import Plants from './plants/Plants';
 import Power from './power/Power';

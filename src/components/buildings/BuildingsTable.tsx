@@ -1,4 +1,4 @@
-import { useContext } from '../../context/context';
+import { useContext } from '../../context/useContext';
 import BuildingsTableRow from './BuildingsTableRow';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';

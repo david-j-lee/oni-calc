@@ -1,4 +1,4 @@
-import { useContext } from '../../context/context';
+import { useContext } from '../../context/useContext';
 import { IGeyserMaxPressure, IGeyserTemp } from '../../interfaces/IGeyser';
 import IGeyserInput from './../../interfaces/IGeyserInput';
 import { css } from '@emotion/react';

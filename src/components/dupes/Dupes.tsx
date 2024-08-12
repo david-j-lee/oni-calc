@@ -1,4 +1,4 @@
-import { useContext } from '../../context/context';
+import { useContext } from '../../context/useContext';
 import DupeQuantity from './DupeQuantity';
 import DupeTraits from './DupeTraits';
 import DupesWaste from './DupesWaste';

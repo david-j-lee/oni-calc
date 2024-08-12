@@ -1,4 +1,4 @@
-import { useContext } from '../context/context';
+import { useContext } from '../context/useContext';
 import About from './About';
 import Calculator from './Calculator';
 import PageNotFound from './PageNotFound';

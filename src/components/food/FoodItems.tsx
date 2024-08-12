@@ -1,4 +1,4 @@
-import { useContext } from '../../context/context';
+import { useContext } from '../../context/useContext';
 import FoodItem from './FoodItem';
 import { css } from '@emotion/react';
 import Grid from '@mui/material/Grid';

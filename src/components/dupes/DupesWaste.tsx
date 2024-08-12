@@ -1,4 +1,4 @@
-import { useContext } from '../../context/context';
+import { useContext } from '../../context/useContext';
 import { DUPES_WASTE_PROPS } from '../../utils/dupeUtils';
 import DupesWasteInput from './DupesWasteInput';
 import { css } from '@emotion/react';

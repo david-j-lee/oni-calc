@@ -1,4 +1,4 @@
-import { useContext } from '../../context/context';
+import { useContext } from '../../context/useContext';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import VerticalAlignBottomIcon from '@mui/icons-material/VerticalAlignBottom';
 import VerticalAlignTopIcon from '@mui/icons-material/VerticalAlignTop';

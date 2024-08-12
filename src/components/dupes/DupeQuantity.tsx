@@ -1,4 +1,4 @@
-import { useContext } from '../../context/context';
+import { useContext } from '../../context/useContext';
 import { WIKI_LINK_PATH } from '../../utils/parseUtils';
 import DupeDetails from './DupeDetails';
 import { css } from '@emotion/react';

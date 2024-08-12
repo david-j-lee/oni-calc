@@ -1,4 +1,4 @@
-import { useContext } from '../../context/context';
+import { useContext } from '../../context/useContext';
 import IBuilding from '../../interfaces/IBuilding';
 import Number from '../ui/Number';
 import PowerBuildings from './PowerBuildings';

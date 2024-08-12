@@ -1,4 +1,4 @@
-import { useContext } from '../../context/context';
+import { useContext } from '../../context/useContext';
 import IGeyserInput from './../../interfaces/IGeyserInput';
 import { css } from '@emotion/react';
 import Avatar from '@mui/material/Avatar';

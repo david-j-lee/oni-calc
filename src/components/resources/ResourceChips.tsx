@@ -1,4 +1,4 @@
-import { useContext } from '../../context/context';
+import { useContext } from '../../context/useContext';
 import IIO from './../../interfaces/IIO';
 import { getGameModeValue } from './../../utils/commonUtils';
 import { css } from '@emotion/react';

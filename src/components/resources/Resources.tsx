@@ -1,4 +1,4 @@
-import { useContext } from '../../context/context';
+import { useContext } from '../../context/useContext';
 import IResource from './../../interfaces/IResource';
 import Resource from './Resource';
 import { css } from '@emotion/react';

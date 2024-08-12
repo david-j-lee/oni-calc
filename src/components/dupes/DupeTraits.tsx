@@ -1,4 +1,4 @@
-import { useContext } from '../../context/context';
+import { useContext } from '../../context/useContext';
 import DupeTrait from './DupeTrait';
 import { css } from '@emotion/react';
 import Grid from '@mui/material/Grid';

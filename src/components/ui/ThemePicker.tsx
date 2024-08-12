@@ -1,4 +1,4 @@
-import { useContext } from '../../context/context';
+import { useContext } from '../../context/useContext';
 import { css } from '@emotion/react';
 import Brightness2 from '@mui/icons-material/Brightness2';
 import BrightnessHigh from '@mui/icons-material/BrightnessHigh';

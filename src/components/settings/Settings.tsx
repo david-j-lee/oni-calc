@@ -1,4 +1,4 @@
-import { useContext } from '../../context/context';
+import { useContext } from '../../context/useContext';
 import IGameModeValue from './../../interfaces/IGameModeValue';
 import { css } from '@emotion/react';
 import ButtonBase from '@mui/material/ButtonBase';

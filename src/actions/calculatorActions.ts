@@ -1,5 +1,4 @@
-// json data
-import { initialState } from '../context/context';
+import { initialState } from '../context/initialState';
 import { buildings } from '../data/buildings';
 import { dupes } from '../data/dupes';
 import { food } from '../data/food';
@@ -11,7 +10,6 @@ import IDupes from '../interfaces/IDupes';
 import IFoodInput from '../interfaces/IFoodInput';
 import IGeyserInput from '../interfaces/IGeyserInput';
 import ISettings from '../interfaces/ISettings';
-// utils
 import { getBuildings } from '../utils/buildingUtils';
 import { getPowerCapacity, getResourcesCapacity } from '../utils/capacityUtils';
 import { getDupes } from '../utils/dupeUtils';

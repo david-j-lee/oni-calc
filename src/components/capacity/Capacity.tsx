@@ -1,4 +1,4 @@
-import { useContext } from '../../context/context';
+import { useContext } from '../../context/useContext';
 import IBuilding from '../../interfaces/IBuilding';
 import CapacityBuildings from './CapacityBuildings';
 import { css } from '@emotion/react';

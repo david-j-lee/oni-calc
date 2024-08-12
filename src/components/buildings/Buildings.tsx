@@ -1,4 +1,4 @@
-import { useContext } from '../../context/context';
+import { useContext } from '../../context/useContext';
 import BuildingsGrid from './BuildingsGrid';
 import BuildingsTable from './BuildingsTable';
 import { FC, Fragment } from 'react';

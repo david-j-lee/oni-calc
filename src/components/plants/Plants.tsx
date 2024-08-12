@@ -1,4 +1,4 @@
-import { useContext } from '../../context/context';
+import { useContext } from '../../context/useContext';
 import Plant from './Plant';
 import { css } from '@emotion/react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';

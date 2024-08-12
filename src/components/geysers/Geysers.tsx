@@ -1,4 +1,4 @@
-import { useContext } from '../../context/context';
+import { useContext } from '../../context/useContext';
 import Geyser from './Geyser';
 import GeyserAdd from './GeyserAdd';
 import { css } from '@emotion/react';
