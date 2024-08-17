@@ -13,7 +13,7 @@ const TABLE_HEADERS = [
   { id: 'name', label: 'Building', numeric: false },
   { id: 'utilization', label: 'Utilization', numeric: true },
   { id: 'quantity', label: 'Quantity', numeric: true },
-  { id: 'actions', label: 'Actions', numeric: false },
+  { id: 'actions', label: '', numeric: false },
 ];
 
 export const BuildingsTable: FC = () => {

@@ -1,9 +1,8 @@
 import { useContext } from '../../context/useContext';
+import NumberInput from '../ui/NumberInput';
 import IBuilding from './../../interfaces/IBuilding';
 import BuildingDetails from './BuildingDetails';
 import { css } from '@emotion/react';
-import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
 import MoreHoriz from '@mui/icons-material/MoreHoriz';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -13,7 +12,6 @@ import Popover from '@mui/material/Popover';
 import Slider from '@mui/material/Slider';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
 import { FC, memo, useState, useRef } from 'react';
@@ -177,46 +175,26 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
       </TableCell>
 
       <TableCell align="right" css={quantityCss} size="small">
-        <TextField
-          type="number"
+        <NumberInput
+          label="Building Quantity"
           value={quantity}
           onChange={handleChange}
-          css={quantityCss}
+          decrement={decrement}
+          increment={increment}
           InputProps={{
             inputProps: {
               style: {
-                textAlign: 'right',
                 maxWidth: '100px',
-                fontSize: '1.25rem',
               },
-              'aria-label': 'Building Quantity',
             },
           }}
-        >
-          {quantity}
-        </TextField>
+        />
       </TableCell>
 
       <TableCell size="small">
-        <div css={actionsCss}>
-          <IconButton
-            color="secondary"
-            aria-label="Decrement"
-            onClick={decrement}
-          >
-            <ArrowDropDown />
-          </IconButton>
-          <IconButton
-            color="primary"
-            aria-label="Increment"
-            onClick={increment}
-          >
-            <ArrowDropUp />
-          </IconButton>
-          <IconButton onClick={handleClickOpen} aria-label="More">
-            <MoreHoriz />
-          </IconButton>
-        </div>
+        <IconButton onClick={handleClickOpen} aria-label="More">
+          <MoreHoriz />
+        </IconButton>
       </TableCell>
     </TableRow>
   );
@@ -254,10 +232,6 @@ const buildingCss = css({
 
 const quantityCss = css({
   fontSize: '12pt',
-});
-
-const actionsCss = css({
-  whiteSpace: 'nowrap',
 });
 
 const sliderCss = css({

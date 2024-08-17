@@ -1,20 +1,17 @@
 import { useContext } from '../../context/useContext';
+import DialogCloseIconButton from '../ui/DialogCloseIconButton';
+import NumberInput from '../ui/NumberInput';
 import IBuilding from './../../interfaces/IBuilding';
 import BuildingDetails from './BuildingDetails';
 import { css } from '@emotion/react';
-import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
 import MoreVert from '@mui/icons-material/MoreVert';
-import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
 import Slider from '@mui/material/Slider';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
 import { FC, memo, useRef, useState, useEffect } from 'react';
@@ -118,17 +115,8 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
       >
-        <div css={dialogCss}>
-          <BuildingDetails building={building} />
-          <DialogActions>
-            <Button target="_blank" href={building.wikiUrl}>
-              WIKI
-            </Button>
-            <Button variant="contained" onClick={handleClose} autoFocus>
-              CLOSE
-            </Button>
-          </DialogActions>
-        </div>
+        <DialogCloseIconButton close={handleClose} />
+        <BuildingDetails building={building} showWiki />
       </Dialog>
       <Popover
         css={popoverCss}
@@ -171,44 +159,22 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
           <CardActions css={actionsCss}>
             {!building.hasConsistentIO && quantity > 0 && (
               <div css={sliderCss}>
-                <Slider value={utilization} onChange={handleSliderChange} />
-                <Typography css={sliderLabelCss}>
-                  {utilization.toFixed(0) + '%'}
-                </Typography>
+                <Slider
+                  value={utilization}
+                  onChange={handleSliderChange}
+                  valueLabelFormat={(number) => number.toFixed(0) + '%'}
+                  valueLabelDisplay="auto"
+                />
               </div>
             )}
             <div css={quantityCss}>
-              <IconButton
-                color="secondary"
-                aria-label="Decrement"
-                onClick={decrement}
-              >
-                <ArrowDropDown />
-              </IconButton>
-              <TextField
-                type="number"
+              <NumberInput
+                label="Building Quantity"
                 value={quantity}
                 onChange={handleChange}
-                css={quantityInputCss}
-                InputProps={{
-                  inputProps: {
-                    style: {
-                      textAlign: 'right',
-                      fontSize: '1.25rem',
-                    },
-                    'aria-label': 'Building Quantity',
-                  },
-                }}
-              >
-                {quantity}
-              </TextField>
-              <IconButton
-                color="primary"
-                aria-label="Increment"
-                onClick={increment}
-              >
-                <ArrowDropUp />
-              </IconButton>
+                decrement={decrement}
+                increment={increment}
+              />
             </div>
           </CardActions>
         </div>
@@ -275,32 +241,14 @@ const quantityCss = (theme: Theme) =>
     },
   });
 
-const quantityInputCss = (theme: Theme) =>
-  css({
-    flexGrow: 1,
-    marginRight: theme.spacing(),
-    textAlign: 'right',
-  });
-
 const sliderCss = (theme: Theme) =>
   css({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: theme.spacing(0, 2),
+    padding: theme.spacing(0, 1, 1, 1),
   });
-
-const sliderLabelCss = (theme: Theme) =>
-  css({
-    paddingLeft: theme.spacing(2),
-    textAlign: 'right',
-    width: 75,
-  });
-
-const dialogCss = css({
-  maxWidth: 500,
-});
 
 const popoverCss = css({
   pointerEvents: 'none',

@@ -189,6 +189,7 @@ export const GeyserAdd: FC = () => {
                     label="Amount per eruption"
                     helperText="g/s"
                     type="number"
+                    variant="standard"
                     inputProps={{
                       style: { textAlign: 'right' },
                       'aria-label': 'Geyser Amount Per Eruption',
@@ -206,6 +207,7 @@ export const GeyserAdd: FC = () => {
                     label="Eruption duration"
                     helperText="seconds"
                     type="number"
+                    variant="standard"
                     inputProps={{
                       style: { textAlign: 'right' },
                       'aria-label': 'Geyser Eruption Duration',
@@ -219,6 +221,7 @@ export const GeyserAdd: FC = () => {
                     label="Eruption every"
                     helperText="seconds"
                     type="number"
+                    variant="standard"
                     inputProps={{
                       style: { textAlign: 'right' },
                       'aria-label': 'Geyser Eruption Every',
@@ -234,6 +237,7 @@ export const GeyserAdd: FC = () => {
                     label="Active duration"
                     helperText="cycles"
                     type="number"
+                    variant="standard"
                     inputProps={{
                       style: { textAlign: 'right' },
                       'aria-label': 'Geyser Active Duration',
@@ -247,6 +251,7 @@ export const GeyserAdd: FC = () => {
                     label="Active every"
                     helperText="cycles"
                     type="number"
+                    variant="standard"
                     inputProps={{
                       style: { textAlign: 'right' },
                       'aria-label': 'Geyser Active Every',
