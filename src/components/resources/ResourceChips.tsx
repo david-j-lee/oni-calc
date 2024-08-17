@@ -74,6 +74,7 @@ export const ResourceChips: FC<IProps> = ({ ios }) => {
 const chipCss = (theme: Theme) =>
   css({
     marginRight: theme.spacing(),
+    marginBottom: theme.spacing(),
   });
 
 const avatarCss = css({

@@ -1,24 +1,19 @@
 import { useContext } from '../../context/useContext';
-import { WIKI_LINK_PATH } from '../../utils/parseUtils';
+import DialogCloseIconButton from '../ui/DialogCloseIconButton';
+import NumberInput from '../ui/NumberInput';
 import IFood from './../../interfaces/IFood';
 import FoodItemDetails from './FoodItemDetails';
 import { css } from '@emotion/react';
-import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
 import MoreVert from '@mui/icons-material/MoreVert';
-import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
-import { FC, memo, useEffect, useState, useRef } from 'react';
+import { FC, memo, useEffect, useState, useRef, useMemo } from 'react';
 
 interface IProps {
   item: IFood;
@@ -33,10 +28,10 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
 
   const timer = useRef<number | null>(null);
 
-  const wikiLink = useRef(WIKI_LINK_PATH + item.name.split(' ').join('_'));
-
-  const imgUrl = useRef(
-    `/images/resources/${item.name.toLowerCase().replaceAll(/[ ']/g, '-')}.png`,
+  const imgUrl = useMemo(
+    () =>
+      `/images/resources/${item.name.toLowerCase().replaceAll(/[ ']/g, '-')}.png`,
+    [item],
   );
 
   useEffect(() => {
@@ -107,15 +102,8 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
       >
-        <FoodItemDetails item={item} />
-        <DialogActions>
-          <Button target="_blank" href={wikiLink.current}>
-            WIKI
-          </Button>
-          <Button variant="contained" onClick={handleClose} autoFocus>
-            CLOSE
-          </Button>
-        </DialogActions>
+        <DialogCloseIconButton close={handleClose} />
+        <FoodItemDetails item={item} showWiki={true} />
       </Dialog>
       <Popover
         css={popoverCss}
@@ -129,13 +117,20 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
         <FoodItemDetails item={item} />
       </Popover>
       <Card css={cardCss}>
-        <CardMedia
-          css={coverCss}
-          image={imgUrl.current}
-          title={item.name}
+        <div
+          css={imgWrapperCss}
           onMouseOver={handlePopoverOpen}
           onMouseOut={handlePopoverClose}
-        />
+        >
+          <div
+            css={imgCss}
+            style={{
+              background: `url(${imgUrl}) no-repeat center center`,
+              backgroundSize: 'contain',
+            }}
+            title={item.name}
+          />
+        </div>
         <div css={detailsCss}>
           <CardContent css={cardContentCss}>
             <Typography variant="subtitle1" css={cardContentTitleCss}>
@@ -146,37 +141,13 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
             </IconButton>
           </CardContent>
           <CardActions>
-            <IconButton
-              color="secondary"
-              aria-label="Decrement"
-              onClick={decrement}
-            >
-              <ArrowDropDown />
-            </IconButton>
-            <TextField
-              type="number"
+            <NumberInput
+              label="Food Quantity"
               value={quantity}
               onChange={handleChange}
-              css={quantityCss}
-              InputProps={{
-                inputProps: {
-                  style: {
-                    textAlign: 'right',
-                    fontSize: '1.25rem',
-                  },
-                },
-                'aria-label': 'Food Quantity',
-              }}
-            >
-              {quantity}
-            </TextField>
-            <IconButton
-              color="primary"
-              aria-label="Increment"
-              onClick={increment}
-            >
-              <ArrowDropUp />
-            </IconButton>
+              decrement={decrement}
+              increment={increment}
+            />
           </CardActions>
         </div>
       </Card>
@@ -218,18 +189,19 @@ const detailsCss = (theme: Theme) =>
     },
   });
 
-const coverCss = css({
-  width: 60,
-  backgroundSize: 'contain',
+const imgWrapperCss = css({
   backgroundColor: '#3E4357',
-  cursor: 'default',
 });
 
-const quantityCss = (theme: Theme) =>
+const imgCss = (theme: Theme) =>
   css({
-    flexGrow: 1,
-    marginRight: theme.spacing(),
-    textAlign: 'right',
+    width: 40,
+    height: '100%',
+    margin: theme.spacing(),
+    pointerEvents: 'none',
+    backgroundSize: 'contain',
+    backgroundColor: '#3E4357',
+    cursor: 'default',
   });
 
 const popoverCss = css({

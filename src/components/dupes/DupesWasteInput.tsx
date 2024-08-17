@@ -60,7 +60,6 @@ export const DupesWasteInput: FC<IProps> = memo(({ prop }) => {
           value={value}
           onChange={handleChange}
           helperText="g/cycle/dupe"
-          margin="none"
           fullWidth
         />
       </Grid>

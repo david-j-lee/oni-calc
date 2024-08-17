@@ -1,19 +1,15 @@
 import { useContext } from '../../context/useContext';
-import { WIKI_LINK_PATH } from '../../utils/parseUtils';
+import DialogCloseIconButton from '../ui/DialogCloseIconButton';
+import NumberInput from '../ui/NumberInput';
 import IDupeTrait from './../../interfaces/IDupeTrait';
 import DupeTraitDetails from './DupeTraitDetails';
 import { css } from '@emotion/react';
-import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
 import MoreVert from '@mui/icons-material/MoreVert';
-import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
 import { FC, useState, useRef, useEffect } from 'react';
@@ -89,15 +85,8 @@ export const DupeTrait: FC<IProps> = ({ trait }) => {
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
       >
+        <DialogCloseIconButton close={handleClose} />
         <DupeTraitDetails trait={trait} />
-        <DialogActions>
-          <Button target="_blank" href={`${WIKI_LINK_PATH}Duplicant#Traits`}>
-            WIKI
-          </Button>
-          <Button variant="contained" onClick={handleClose} autoFocus>
-            CLOSE
-          </Button>
-        </DialogActions>
       </Dialog>
       <Card>
         <CardContent css={cardContentCss}>
@@ -109,34 +98,13 @@ export const DupeTrait: FC<IProps> = ({ trait }) => {
           </IconButton>
         </CardContent>
         <CardActions>
-          <IconButton
-            color="secondary"
-            aria-label="Decrement"
-            onClick={decrement}
-          >
-            <ArrowDropDown />
-          </IconButton>
-          <TextField
-            type="number"
+          <NumberInput
+            label="Dupe Trait Quantity"
             value={quantity}
             onChange={handleChange}
-            css={quantityCss}
-            InputProps={{
-              inputProps: {
-                style: { textAlign: 'right', fontSize: '1.25rem' },
-                'aria-label': 'Dupe Trait Quantity',
-              },
-            }}
-          >
-            {quantity}
-          </TextField>
-          <IconButton
-            color="primary"
-            aria-label="Increment"
-            onClick={increment}
-          >
-            <ArrowDropUp />
-          </IconButton>
+            decrement={decrement}
+            increment={increment}
+          />
         </CardActions>
       </Card>
     </div>
@@ -164,12 +132,5 @@ const cardContentCss = (theme: Theme) =>
 const cardContentTitleCss = css({
   flexGrow: 1,
 });
-
-const quantityCss = (theme: Theme) =>
-  css({
-    flexGrow: 1,
-    marginRight: theme.spacing(),
-    textAlign: 'right',
-  });
 
 export default DupeTrait;
