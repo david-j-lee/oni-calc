@@ -1,8 +1,8 @@
 import IDupeTrait from '../../interfaces/IDupeTrait';
 import { WIKI_LINK_PATH } from '../../utils/parseUtils';
 import ResourceChips from '../resources/ResourceChips';
-import ResourceDetailSection from '../ui/ResourceDetailSection';
-import ResourceDetailsBase from '../ui/ResourceDetailsBase';
+import DetailsBase from '../ui/DetailsBase';
+import DetailsSection from '../ui/DetailsSection';
 import { FC, memo } from 'react';
 
 interface IProps {
@@ -11,22 +11,22 @@ interface IProps {
 
 export const DupeTraitDetails: FC<IProps> = memo(({ trait }) => {
   return (
-    <ResourceDetailsBase
+    <DetailsBase
       title={trait.name}
       wikiUrl={`${WIKI_LINK_PATH}Duplicant#Traits`}
       showWiki
     >
       {Boolean(trait.inputs.length) && (
-        <ResourceDetailSection title="Inputs">
+        <DetailsSection title="Inputs">
           <ResourceChips ios={trait.inputs} />
-        </ResourceDetailSection>
+        </DetailsSection>
       )}
       {Boolean(trait.outputs.length) && (
-        <ResourceDetailSection title="Outputs">
+        <DetailsSection title="Outputs">
           <ResourceChips ios={trait.outputs} />
-        </ResourceDetailSection>
+        </DetailsSection>
       )}
-    </ResourceDetailsBase>
+    </DetailsBase>
   );
 });
 

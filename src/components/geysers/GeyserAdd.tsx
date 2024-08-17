@@ -1,64 +1,56 @@
 import { useContext } from '../../context/useContext';
-import { IGeyserMaxPressure, IGeyserTemp } from '../../interfaces/IGeyser';
+import IGeyser, {
+  IGeyserMaxPressure,
+  IGeyserTemp,
+} from '../../interfaces/IGeyser';
+import DetailsSection from '../ui/DetailsSection';
 import IGeyserInput from './../../interfaces/IGeyserInput';
+import GeyserOptions from './GeyserOptions';
 import { css } from '@emotion/react';
+import { Add, Clear } from '@mui/icons-material';
+import { Stack, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Chip from '@mui/material/Chip';
-import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
 import { FC, useState } from 'react';
 
-const MENU_PROPS = {
-  PaperProps: {
-    style: {
-      maxHeight: 48 * 4.5 + 8,
-      width: 250,
-      transform: 'translate3d(0, 0, 0)', // issue with scrollbar not working on second attempt
-    },
-  },
+const defaultGeyser = {
+  name: '',
+  amount: 0,
+  activeDuration: 0,
+  activeEvery: 0,
+  eruptionDuration: 0,
+  eruptionEvery: 0,
+  outputs: [],
 };
 
 export const GeyserAdd: FC = () => {
   const [{ geysers }, { addGeyser }] = useContext();
 
-  const [geyserName, setGeyserName] = useState('');
   const [geyser, setGeyser] = useState<
     IGeyserInput & { temp?: IGeyserTemp; maxPressure?: IGeyserMaxPressure }
-  >({
-    name: '',
-    amount: 0,
-    activeDuration: 0,
-    activeEvery: 0,
-    eruptionDuration: 0,
-    eruptionEvery: 0,
-    outputs: [],
-  });
+  >({ ...defaultGeyser });
   const [isValid, setIsValid] = useState(false);
 
-  const handleSelectChange = (event: SelectChangeEvent<string>) => {
-    if (geysers && geysers.listing) {
-      const geyser = geysers.listing.find((g) => g.name === event.target.value);
-      if (geyser) {
+  const handleSelectChange = (selectedGeyser: IGeyser) => {
+    if (geysers && geysers.listing && selectedGeyser) {
+      if (selectedGeyser?.name === geyser?.name) {
+        setGeyser({ ...defaultGeyser });
+      } else {
         setGeyser({
-          ...geyser,
+          ...selectedGeyser,
           amount: 0,
           eruptionDuration: 0,
           eruptionEvery: 0,
           activeDuration: 0,
           activeEvery: 0,
         });
-        // TODO: Confirm this is working correctly.
-        setGeyserName(event.target.value);
       }
     }
   };
@@ -111,47 +103,23 @@ export const GeyserAdd: FC = () => {
   return (
     <Card css={cardCss}>
       <CardContent css={cardContentCss}>
-        <Grid container>
-          <Grid item xs={12} md={6}>
-            <FormControl css={geyserSelectCss}>
-              <InputLabel htmlFor="geyser">Select a Geyser</InputLabel>
-              <Select
-                displayEmpty
-                MenuProps={MENU_PROPS}
-                value={geyserName}
-                onChange={handleSelectChange}
-                inputProps={{
-                  name: 'geyserName',
-                  id: 'geyserName',
-                }}
-              >
-                {geysers.listing.map((g, i) => {
-                  return (
-                    <MenuItem key={i} value={g.name}>
-                      {g.name}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
-            {geyserName !== '' && (
-              <Grid container css={geyserInfoCss}>
-                <Grid item xs={12} md={6}>
-                  <Typography css={titleCss}>
-                    <small>Temperature</small>
-                    <br />
-                    {geyser.temp?.value} {geyser.temp?.unit}
-                  </Typography>
-                  <Typography css={titleCss}>
-                    <small>Max Pressure</small>
-                    <br />
-                    {geyser.maxPressure?.value} {geyser.maxPressure?.unit}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <Typography css={titleCss}>
-                    <small>Outputs</small>
-                  </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <GeyserOptions
+              selectedGeyserName={geyser.name}
+              select={handleSelectChange}
+            />
+          </Grid>
+          {Boolean(geyser.name) && (
+            <Grid item xs={12} sm={6} md={4} lg="auto">
+              <Stack spacing={1}>
+                <DetailsSection title="Temperature" noMargins>
+                  {geyser.temp?.value} {geyser.temp?.unit}
+                </DetailsSection>
+                <DetailsSection title="Max Pressure" noMargins>
+                  {geyser.maxPressure?.value} {geyser.maxPressure?.unit}
+                </DetailsSection>
+                <DetailsSection title="Outputs" noMargins>
                   {geyser.outputs.map((output, i: number) => {
                     const imageUrl =
                       '/images/resources/' +
@@ -173,108 +141,114 @@ export const GeyserAdd: FC = () => {
                       />
                     );
                   })}
-                </Grid>
-              </Grid>
-            )}
-          </Grid>
-          {geyserName !== '' && (
-            <Grid item xs={12} md={6}>
-              <Grid container>
-                <Grid item xs={12}>
-                  <TextField
-                    value={geyser.amount}
-                    css={textFieldCss}
-                    margin="dense"
-                    onChange={(e) => handleTextFieldChange(e, 'amount')}
-                    label="Amount per eruption"
-                    helperText="g/s"
-                    type="number"
-                    variant="standard"
-                    inputProps={{
-                      style: { textAlign: 'right' },
-                      'aria-label': 'Geyser Amount Per Eruption',
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    value={geyser.eruptionDuration}
-                    css={textFieldCss}
-                    margin="dense"
-                    onChange={(e) =>
-                      handleTextFieldChange(e, 'eruptionDuration')
-                    }
-                    label="Eruption duration"
-                    helperText="seconds"
-                    type="number"
-                    variant="standard"
-                    inputProps={{
-                      style: { textAlign: 'right' },
-                      'aria-label': 'Geyser Eruption Duration',
-                    }}
-                  />
-                  <TextField
-                    value={geyser.eruptionEvery}
-                    css={textFieldCss}
-                    margin="dense"
-                    onChange={(e) => handleTextFieldChange(e, 'eruptionEvery')}
-                    label="Eruption every"
-                    helperText="seconds"
-                    type="number"
-                    variant="standard"
-                    inputProps={{
-                      style: { textAlign: 'right' },
-                      'aria-label': 'Geyser Eruption Every',
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    value={geyser.activeDuration}
-                    css={textFieldCss}
-                    margin="dense"
-                    onChange={(e) => handleTextFieldChange(e, 'activeDuration')}
-                    label="Active duration"
-                    helperText="cycles"
-                    type="number"
-                    variant="standard"
-                    inputProps={{
-                      style: { textAlign: 'right' },
-                      'aria-label': 'Geyser Active Duration',
-                    }}
-                  />
-                  <TextField
-                    value={geyser.activeEvery}
-                    css={textFieldCss}
-                    margin="dense"
-                    onChange={(e) => handleTextFieldChange(e, 'activeEvery')}
-                    label="Active every"
-                    helperText="cycles"
-                    type="number"
-                    variant="standard"
-                    inputProps={{
-                      style: { textAlign: 'right' },
-                      'aria-label': 'Geyser Active Every',
-                    }}
-                  />
-                </Grid>
-              </Grid>
+                </DetailsSection>
+              </Stack>
+            </Grid>
+          )}
+          {Boolean(geyser.name) && (
+            <Grid item xs={12} sm={6} md={8} lg="auto">
+              <Card variant="outlined">
+                <CardContent>
+                  <Typography variant="h5" css={addTitleCss}>
+                    Add a {geyser.name}
+                  </Typography>
+                  <Stack>
+                    <div>
+                      <TextField
+                        value={geyser.amount}
+                        css={textFieldCss}
+                        margin="dense"
+                        onChange={(e) => handleTextFieldChange(e, 'amount')}
+                        label="Amount per eruption"
+                        helperText="g/s"
+                        type="number"
+                        inputProps={{
+                          style: { textAlign: 'right' },
+                          'aria-label': 'Geyser Amount Per Eruption',
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <TextField
+                        value={geyser.eruptionDuration}
+                        css={textFieldCss}
+                        margin="dense"
+                        onChange={(e) =>
+                          handleTextFieldChange(e, 'eruptionDuration')
+                        }
+                        label="Eruption duration"
+                        helperText="seconds"
+                        type="number"
+                        inputProps={{
+                          style: { textAlign: 'right' },
+                          'aria-label': 'Geyser Eruption Duration',
+                        }}
+                      />
+                      <TextField
+                        value={geyser.eruptionEvery}
+                        css={textFieldCss}
+                        margin="dense"
+                        onChange={(e) =>
+                          handleTextFieldChange(e, 'eruptionEvery')
+                        }
+                        label="Eruption every"
+                        helperText="seconds"
+                        type="number"
+                        inputProps={{
+                          style: { textAlign: 'right' },
+                          'aria-label': 'Geyser Eruption Every',
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <TextField
+                        value={geyser.activeDuration}
+                        css={textFieldCss}
+                        margin="dense"
+                        onChange={(e) =>
+                          handleTextFieldChange(e, 'activeDuration')
+                        }
+                        label="Active duration"
+                        helperText="cycles"
+                        type="number"
+                        inputProps={{
+                          style: { textAlign: 'right' },
+                          'aria-label': 'Geyser Active Duration',
+                        }}
+                      />
+                      <TextField
+                        value={geyser.activeEvery}
+                        css={textFieldCss}
+                        margin="dense"
+                        onChange={(e) =>
+                          handleTextFieldChange(e, 'activeEvery')
+                        }
+                        label="Active every"
+                        helperText="cycles"
+                        type="number"
+                        inputProps={{
+                          style: { textAlign: 'right' },
+                          'aria-label': 'Geyser Active Every',
+                        }}
+                      />
+                    </div>
+                  </Stack>
+                </CardContent>
+                <CardActions css={cardActionsCss}>
+                  <Button onClick={clearInputs} color="secondary">
+                    <Clear /> Clear
+                  </Button>
+                  {isValid && (
+                    <Button variant="contained" onClick={handleAdd}>
+                      <Add /> Add
+                    </Button>
+                  )}
+                </CardActions>
+              </Card>
             </Grid>
           )}
         </Grid>
       </CardContent>
-      {geyserName !== '' && (
-        <CardActions css={cardActionsCss}>
-          <Button onClick={clearInputs} color="secondary">
-            Clear
-          </Button>
-          {isValid && (
-            <Button variant="contained" onClick={handleAdd}>
-              Add
-            </Button>
-          )}
-        </CardActions>
-      )}
     </Card>
   );
 };
@@ -299,20 +273,9 @@ const avatarCss = css({
   backgroundSize: 'contain',
 });
 
-const geyserSelectCss = css({
-  minWidth: 250,
-});
-
-const geyserInfoCss = (theme: Theme) =>
+const addTitleCss = (theme: Theme) =>
   css({
-    paddingTop: theme.spacing(),
-    paddingBottom: theme.spacing(),
-  });
-
-const titleCss = (theme: Theme) =>
-  css({
-    paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(),
+    marginBottom: theme.spacing(2),
   });
 
 const textFieldCss = (theme: Theme) =>

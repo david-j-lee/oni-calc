@@ -7,12 +7,12 @@ type Props = {
   imgUrl?: string;
   preTitle?: React.ReactNode;
   title: string;
-  wikiUrl: string;
-  showWiki: boolean;
+  wikiUrl?: string;
+  showWiki?: boolean;
   children: React.ReactNode;
 };
 
-export const ResourceDetailsBase = ({
+export const DetailsBase = ({
   imgUrl,
   preTitle,
   title,
@@ -47,7 +47,7 @@ export const ResourceDetailsBase = ({
               >
                 {title}
               </Typography>
-              {showWiki && (
+              {wikiUrl && showWiki && (
                 <Button variant="outlined" target="_blank" href={wikiUrl}>
                   WIKI
                 </Button>
@@ -96,4 +96,4 @@ const titleCss = (theme: Theme) =>
     paddingBottom: theme.spacing(),
   });
 
-export default ResourceDetailsBase;
+export default DetailsBase;

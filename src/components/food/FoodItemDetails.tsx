@@ -1,7 +1,7 @@
 import { WIKI_LINK_PATH } from '../../utils/parseUtils';
 import ResourceChips from '../resources/ResourceChips';
-import ResourceDetailSection from '../ui/ResourceDetailSection';
-import ResourceDetailsBase from '../ui/ResourceDetailsBase';
+import DetailsBase from '../ui/DetailsBase';
+import DetailsSection from '../ui/DetailsSection';
 import IFood from './../../interfaces/IFood';
 import { css } from '@emotion/react';
 import Avatar from '@mui/material/Avatar';
@@ -26,20 +26,16 @@ export const FoodItemDetail: FC<IProps> = memo(({ item, showWiki }) => {
   );
 
   return (
-    <ResourceDetailsBase
+    <DetailsBase
       imgUrl={imgUrl}
       title={item.name}
       wikiUrl={wikiUrl}
       showWiki={showWiki ?? false}
     >
-      <ResourceDetailSection title="Calories">
-        {item.calories}
-      </ResourceDetailSection>
-      <ResourceDetailSection title="Quality">
-        {item.quality}
-      </ResourceDetailSection>
+      <DetailsSection title="Calories">{item.calories}</DetailsSection>
+      <DetailsSection title="Quality">{item.quality}</DetailsSection>
       {item.requirements.length > 0 && (
-        <ResourceDetailSection title="Requirements">
+        <DetailsSection title="Requirements">
           {item.requirements.map((requirement, i) => {
             const reqImgUrl = `/images/bio/${requirement.name
               .toLowerCase()
@@ -61,14 +57,14 @@ export const FoodItemDetail: FC<IProps> = memo(({ item, showWiki }) => {
               />
             );
           })}
-        </ResourceDetailSection>
+        </DetailsSection>
       )}
       {item.inputs.length > 0 && (
-        <ResourceDetailSection title="Inputs">
+        <DetailsSection title="Inputs">
           <ResourceChips ios={item.inputs} />
-        </ResourceDetailSection>
+        </DetailsSection>
       )}
-    </ResourceDetailsBase>
+    </DetailsBase>
   );
 });
 
