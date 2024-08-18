@@ -29,10 +29,15 @@ export const ResourceChips: FC<IProps> = ({ ios }) => {
             rate = io.rate.replace('per ', '/').replace('second', 's');
           }
 
-          const imageUrl = `/images/resources/${io.name
+          const imgUrl = `/images/resources/${io.name
             .toLowerCase()
             .split(' ')
             .join('-')}.png`;
+
+          const backgroundImgCss = css({
+            background: `url(${imgUrl}) no-repeat center center`,
+            backgroundSize: 'contain',
+          });
 
           return (
             <Chip
@@ -40,13 +45,7 @@ export const ResourceChips: FC<IProps> = ({ ios }) => {
               css={chipCss}
               avatar={
                 <Avatar>
-                  <div
-                    css={avatarCss}
-                    style={{
-                      background: `url(${imageUrl}) no-repeat center center`,
-                      backgroundSize: 'contain',
-                    }}
-                  />
+                  <div css={[avatarCss, backgroundImgCss]} />
                 </Avatar>
               }
               label={[

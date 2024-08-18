@@ -16,57 +16,61 @@ interface IProps {
 }
 
 export const PowerBuildings: FC<IProps> = memo(({ buildings, title }) => {
+  if (!title) {
+    return null;
+  }
+
+  if (title && buildings.length === 0) {
+    return (
+      <Typography css={noBuildingsCss}>
+        No {title.toLowerCase()} found
+      </Typography>
+    );
+  }
+
   return (
-    <div>
-      {buildings.length <= 0 ? (
-        <Typography css={noBuildingsCss}>
-          No {title.toLowerCase()} found
-        </Typography>
-      ) : (
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell size="small">Building</TableCell>
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell size="small">Building</TableCell>
+          <TableCell align="right" size="small">
+            Quantity
+          </TableCell>
+          <TableCell align="right" size="small">
+            Utilization
+          </TableCell>
+          <TableCell align="right" size="small">
+            Total {title}
+          </TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {buildings.map((building, index) => {
+          const value =
+            Math.round(
+              ((building.quantity * building.utilization) / 100.0) *
+                (building.power.generation - building.power.usage) *
+                100.0,
+            ) / 100.0;
+          const unit = building.power.unit;
+
+          return (
+            <TableRow key={index}>
+              <TableCell size="small">{building.name}</TableCell>
               <TableCell align="right" size="small">
-                Quantity
+                {building.quantity}
               </TableCell>
               <TableCell align="right" size="small">
-                Utilization
+                {building.utilization}%
               </TableCell>
               <TableCell align="right" size="small">
-                Total {title}
+                <Number value={value} suffix={' ' + unit} />
               </TableCell>
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {buildings.map((building, index) => {
-              const value =
-                Math.round(
-                  ((building.quantity * building.utilization) / 100.0) *
-                    (building.power.generation - building.power.usage) *
-                    100.0,
-                ) / 100.0;
-              const unit = building.power.unit;
-
-              return (
-                <TableRow key={index}>
-                  <TableCell size="small">{building.name}</TableCell>
-                  <TableCell align="right" size="small">
-                    {building.quantity}
-                  </TableCell>
-                  <TableCell align="right" size="small">
-                    {building.utilization}%
-                  </TableCell>
-                  <TableCell align="right" size="small">
-                    <Number value={value} suffix={' ' + unit} />
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      )}
-    </div>
+          );
+        })}
+      </TableBody>
+    </Table>
   );
 });
 

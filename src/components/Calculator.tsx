@@ -8,7 +8,7 @@ import Grid from '@mui/material/Grid';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import { Theme } from '@mui/material/styles';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, useLocation, Outlet } from 'react-router-dom';
 
 const tabIndexMap = {
@@ -31,9 +31,12 @@ export const Calculator = () => {
     getData();
   }, [getData]);
 
-  const handleChange = (_event: React.SyntheticEvent, value: number) => {
-    setTabIndex(value);
-  };
+  const handleChange = useCallback(
+    (_event: React.SyntheticEvent, value: number) => {
+      setTabIndex(value);
+    },
+    [],
+  );
 
   return (
     <Grid container css={rootCss} className="styled-scrollbar">

@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import { Button, Grid, Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
+import { useMemo } from 'react';
 
 type Props = {
   imgUrl?: string;
@@ -20,19 +21,22 @@ export const DetailsBase = ({
   showWiki,
   children,
 }: Props) => {
+  const backgroundImgCss = useMemo(
+    () =>
+      css({
+        background: `url(${imgUrl}) no-repeat center center`,
+        backgroundSize: 'contain',
+      }),
+    [imgUrl],
+  );
+
   return (
     <div css={rootCss}>
       <Grid container>
         {Boolean(imgUrl) && (
           <Grid item md={3}>
             <div css={imageWrapperCss}>
-              <div
-                css={imageCss}
-                style={{
-                  background: `url(${imgUrl}) no-repeat center center`,
-                  backgroundSize: 'contain',
-                }}
-              />
+              <div css={[imageCss, backgroundImgCss]} />
             </div>
           </Grid>
         )}

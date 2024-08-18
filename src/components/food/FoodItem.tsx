@@ -13,7 +13,15 @@ import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
-import { FC, memo, useEffect, useState, useRef, useMemo } from 'react';
+import {
+  FC,
+  memo,
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+  useCallback,
+} from 'react';
 
 interface IProps {
   item: IFood;
@@ -28,36 +36,41 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
 
   const timer = useRef<number | null>(null);
 
-  const imgUrl = useMemo(
-    () =>
-      `/images/resources/${item.name.toLowerCase().replaceAll(/[ ']/g, '-')}.png`,
-    [item],
-  );
+  const backgroundImgCss = useMemo(() => {
+    const imgUrl = `/images/resources/${item.name.toLowerCase().replaceAll(/[ ']/g, '-')}.png`;
+    return css({
+      background: `url(${imgUrl}) no-repeat center center`,
+      backgroundSize: 'contain',
+    });
+  }, [item.name]);
 
   useEffect(() => {
     setQuantity(item.quantity);
   }, [item.quantity]);
 
   // on hover
-  const handlePopoverOpen = (event: React.MouseEvent<HTMLDivElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const handlePopoverOpen = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      setAnchorEl(event.currentTarget);
+    },
+    [],
+  );
 
-  const handlePopoverClose = () => {
+  const handlePopoverClose = useCallback(() => {
     setAnchorEl(null);
-  };
+  }, []);
 
   // open dialog
-  const handleClickOpen = () => {
+  const handleClickOpen = useCallback(() => {
     setDialogOpen(true);
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setDialogOpen(false);
-  };
+  }, []);
 
   // change quantities
-  const increment = () => {
+  const increment = useCallback(() => {
     setQuantity(quantity + 1);
     if (timer.current) {
       clearTimeout(timer.current);
@@ -65,9 +78,9 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
     timer.current = setTimeout(() => {
       setFoodQuantity(item.name, quantity + 1);
     }, 500);
-  };
+  }, [item.name, quantity, setFoodQuantity]);
 
-  const decrement = () => {
+  const decrement = useCallback(() => {
     if (quantity > 0) {
       setQuantity(quantity - 1);
       if (timer.current) {
@@ -77,22 +90,23 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
         setFoodQuantity(item.name, quantity - 1);
       }, 500);
     }
-  };
+  }, [item.name, quantity, setFoodQuantity]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value = Number(event.target.value);
-    if (value < 0) value = 0;
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      let value = Number(event.target.value);
+      if (value < 0) value = 0;
 
-    setQuantity(value);
-    if (timer.current) {
-      clearTimeout(timer.current);
-    }
-    timer.current = setTimeout(() => {
-      setFoodQuantity(item.name, value);
-    }, 500);
-  };
-
-  const popoverOpen = !!anchorEl;
+      setQuantity(value);
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+      timer.current = setTimeout(() => {
+        setFoodQuantity(item.name, value);
+      }, 500);
+    },
+    [item.name, setFoodQuantity],
+  );
 
   return (
     <div css={rootCss}>
@@ -107,7 +121,7 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
       </Dialog>
       <Popover
         css={popoverCss}
-        open={popoverOpen}
+        open={Boolean(anchorEl)}
         anchorEl={anchorEl}
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'left' }}
@@ -122,14 +136,7 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
           onMouseOver={handlePopoverOpen}
           onMouseOut={handlePopoverClose}
         >
-          <div
-            css={imgCss}
-            style={{
-              background: `url(${imgUrl}) no-repeat center center`,
-              backgroundSize: 'contain',
-            }}
-            title={item.name}
-          />
+          <div css={[imgCss, backgroundImgCss]} title={item.name} />
         </div>
         <div css={detailsCss}>
           <CardContent css={cardContentCss}>
@@ -199,7 +206,6 @@ const imgCss = (theme: Theme) =>
     height: '100%',
     margin: theme.spacing(),
     pointerEvents: 'none',
-    backgroundSize: 'contain',
     backgroundColor: '#3E4357',
     cursor: 'default',
   });

@@ -6,7 +6,7 @@ import Number from '../ui/Number';
 import { css } from '@emotion/react';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
-import { FC, Fragment, memo, useEffect, useState } from 'react';
+import { FC, Fragment, memo, useEffect, useMemo, useState } from 'react';
 
 interface IProps {
   building: IBuilding;
@@ -28,6 +28,15 @@ export const BuildingDetails: FC<IProps> = memo(({ building, showWiki }) => {
   const [netPower, setNetPower] = useState(0);
   const [powerSuffix, setPowerSuffix] = useState<string | null>(null);
 
+  const backgroundImgCss = useMemo(
+    () =>
+      css({
+        background: `url(${categoryImgUrl}) no-repeat center center`,
+        backgroundSize: 'contain',
+      }),
+    [categoryImgUrl],
+  );
+
   useEffect(() => {
     setNetPower((power.generation || 0) - (power.usage || 0));
     setPowerSuffix(
@@ -40,13 +49,7 @@ export const BuildingDetails: FC<IProps> = memo(({ building, showWiki }) => {
       imgUrl={imgUrl}
       preTitle={
         <Fragment>
-          <div
-            css={categoryImageCss}
-            style={{
-              background: `url(${categoryImgUrl}) no-repeat center center`,
-              backgroundSize: 'contain',
-            }}
-          />
+          <div css={[categoryImageCss, backgroundImgCss]} />
           <Typography>{category}</Typography>
         </Fragment>
       }

@@ -11,7 +11,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import { FC, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 
 export const NavbarBuildings: FC = () => {
   const [
@@ -26,18 +26,18 @@ export const NavbarBuildings: FC = () => {
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = useCallback(() => {
     setDialogOpen(true);
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setDialogOpen(false);
-  };
+  }, []);
 
-  const handleClearBuildingInputs = () => {
+  const handleClearBuildingInputs = useCallback(() => {
     clearBuildingInputs();
     setDialogOpen(false);
-  };
+  }, [clearBuildingInputs]);
 
   const buildingLayoutTooltipTitle =
     'Set to ' + (buildingsLayout === 'grid' ? 'table' : 'grid') + ' layout';

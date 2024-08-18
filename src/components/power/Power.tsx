@@ -10,7 +10,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
-import { FC, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 
 export const Power: FC = () => {
   const [{ powerGeneration, powerUsage }] = useContext();
@@ -19,23 +19,24 @@ export const Power: FC = () => {
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogArray, setDialogArray] = useState<IBuilding[]>([]);
 
-  const handlePopoverOpen = (
-    event: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-    title: string,
-    array: IBuilding[],
-  ) => {
-    setAnchorEl(event.currentTarget);
-    setDialogTitle(title);
-    setDialogArray(array);
-  };
+  const handlePopoverOpen = useCallback(
+    (
+      event: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+      title: string,
+      array: IBuilding[],
+    ) => {
+      setAnchorEl(event.currentTarget);
+      setDialogTitle(title);
+      setDialogArray(array);
+    },
+    [],
+  );
 
-  const handlePopoverClose = () => {
+  const handlePopoverClose = useCallback(() => {
     setAnchorEl(null);
     setDialogTitle('');
     setDialogArray([]);
-  };
-
-  const dialogOpen = !!anchorEl;
+  }, []);
 
   return (
     <Accordion defaultExpanded>
@@ -45,7 +46,7 @@ export const Power: FC = () => {
       <AccordionDetails css={accordionDetailsCss} className="styled-scrollbar">
         <Popover
           css={popoverCss}
-          open={dialogOpen}
+          open={Boolean(anchorEl)}
           anchorEl={anchorEl}
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
           transformOrigin={{ vertical: 'top', horizontal: 'left' }}

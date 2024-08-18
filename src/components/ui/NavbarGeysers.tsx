@@ -7,24 +7,24 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import { FC, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 
 export const NavbarGeysers: FC = () => {
   const [, { clearGeyserInputs }] = useContext();
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = useCallback(() => {
     setDialogOpen(true);
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setDialogOpen(false);
-  };
+  }, []);
 
-  const handleClearGeyserInputs = () => {
+  const handleClearGeyserInputs = useCallback(() => {
     clearGeyserInputs();
     setDialogOpen(false);
-  };
+  }, [clearGeyserInputs]);
 
   return (
     <div>

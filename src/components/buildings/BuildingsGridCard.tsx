@@ -14,7 +14,15 @@ import Popover from '@mui/material/Popover';
 import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
-import { FC, memo, useRef, useState, useEffect } from 'react';
+import {
+  FC,
+  memo,
+  useRef,
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+} from 'react';
 
 interface IProps {
   building: IBuilding;
@@ -30,46 +38,60 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
 
   const timer = useRef<number | null>(null);
   const utilizationTimer = useRef<number | null>(null);
-  const rootRef = useRef(null);
+
+  const backgroundImgCss = useMemo(
+    () =>
+      css({
+        background: `url(${building.imgUrl}) no-repeat center center`,
+        backgroundSize: 'contain',
+      }),
+    [building.imgUrl],
+  );
 
   useEffect(() => {
     setQuantity(building.quantity);
   }, [building.quantity]);
 
   // on hover
-  const handlePopoverOpen = (event: React.MouseEvent<HTMLDivElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const handlePopoverOpen = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      setAnchorEl(event.currentTarget);
+    },
+    [],
+  );
 
-  const handlePopoverClose = () => {
+  const handlePopoverClose = useCallback(() => {
     setAnchorEl(null);
-  };
+  }, []);
 
   // open dialog
-  const handleClickOpen = () => {
+  const handleClickOpen = useCallback(() => {
     setDialogOpen(true);
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setDialogOpen(false);
-  };
+  }, []);
 
   // utilization
-  const handleSliderChange = (_event: Event, value: number | number[]) => {
-    if (value instanceof Array) {
-      return;
-    }
-    setUtilization(value);
-    if (utilizationTimer.current) {
-      clearTimeout(utilizationTimer.current);
-    }
-    utilizationTimer.current = setTimeout(() => {
-      setBuildingUtilization(building.name, Math.round(value));
-    }, 500);
-  };
+  const handleSliderChange = useCallback(
+    (_event: Event, value: number | number[]) => {
+      if (value instanceof Array) {
+        return;
+      }
+      setUtilization(value);
+      if (utilizationTimer.current) {
+        clearTimeout(utilizationTimer.current);
+      }
+      utilizationTimer.current = setTimeout(() => {
+        setBuildingUtilization(building.name, Math.round(value));
+      }, 500);
+    },
+    [building.name, setBuildingUtilization],
+  );
 
   // change quantities
-  const increment = () => {
+  const increment = useCallback(() => {
     setQuantity(quantity + 1);
     if (timer.current) {
       clearTimeout(timer.current);
@@ -77,9 +99,9 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
     timer.current = setTimeout(() => {
       setBuildingQuantity(building.name, quantity + 1);
     }, 500);
-  };
+  }, [building.name, quantity, setBuildingQuantity]);
 
-  const decrement = () => {
+  const decrement = useCallback(() => {
     if (quantity > 0) {
       setQuantity(quantity - 1);
       if (timer.current) {
@@ -89,26 +111,27 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
         setBuildingQuantity(building.name, quantity - 1);
       }, 500);
     }
-  };
+  }, [building.name, quantity, setBuildingQuantity]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const valueString = event.target.value;
-    let value = Number(valueString);
-    if (value < 0) value = 0;
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const valueString = event.target.value;
+      let value = Number(valueString);
+      if (value < 0) value = 0;
 
-    setQuantity(value);
-    if (timer.current) {
-      clearTimeout(timer.current);
-    }
-    timer.current = setTimeout(() => {
-      setBuildingQuantity(building.name, value);
-    }, 500);
-  };
-
-  const popoverOpen = !!anchorEl;
+      setQuantity(value);
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+      timer.current = setTimeout(() => {
+        setBuildingQuantity(building.name, value);
+      }, 500);
+    },
+    [building.name, setBuildingQuantity],
+  );
 
   return (
-    <div css={rootCss} ref={rootRef}>
+    <div css={rootCss}>
       <Dialog
         fullScreen={false}
         open={dialogOpen}
@@ -120,7 +143,7 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
       </Dialog>
       <Popover
         css={popoverCss}
-        open={popoverOpen}
+        open={Boolean(anchorEl)}
         onClose={handlePopoverClose}
         anchorEl={anchorEl}
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
@@ -135,14 +158,7 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
           onMouseOver={handlePopoverOpen}
           onMouseOut={handlePopoverClose}
         >
-          <div
-            css={imgCss}
-            style={{
-              background: `url(${building.imgUrl}) no-repeat center center`,
-              backgroundSize: 'contain',
-            }}
-            title={building.name}
-          />
+          <div css={[imgCss, backgroundImgCss]} title={building.name} />
         </div>
         <div css={detailsCss}>
           <CardContent css={cardContentCss}>
@@ -220,7 +236,6 @@ const imgCss = (theme: Theme) =>
     height: '100%',
     margin: theme.spacing(),
     pointerEvents: 'none',
-    backgroundSize: 'contain',
     backgroundColor: '#3E4357',
     cursor: 'default',
   });

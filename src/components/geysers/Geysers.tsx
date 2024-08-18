@@ -15,13 +15,15 @@ export const Geysers: FC = () => {
         <Grid item xs={12}>
           <GeyserAdd />
         </Grid>
-        {geysers.inputted.map((geyser, i) => {
-          return (
-            <Grid key={i} item xs={12} lg={6} css={geyserCss}>
-              <Geyser geyser={geyser} />
-            </Grid>
-          );
-        })}
+        {geysers.inputted
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .map((geyser, i) => {
+            return (
+              <Grid key={i} item xs={12} lg={6} css={geyserCss}>
+                <Geyser geyser={geyser} />
+              </Grid>
+            );
+          })}
       </Grid>
     </div>
   );

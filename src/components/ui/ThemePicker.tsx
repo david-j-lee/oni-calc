@@ -33,7 +33,7 @@ import red from '@mui/material/colors/red';
 import teal from '@mui/material/colors/teal';
 import yellow from '@mui/material/colors/yellow';
 import { Theme } from '@mui/material/styles';
-import { FC, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 
 const COLORS = [
   red,
@@ -67,7 +67,7 @@ export const ThemePicker: FC = () => {
   const [color1, setColor1] = useState(theme && theme.palette.primary);
   const [color2, setColor2] = useState(theme && theme.palette.secondary);
 
-  const changeType = () => {
+  const changeType = useCallback(() => {
     if (theme == null) {
       return;
     }
@@ -83,55 +83,61 @@ export const ThemePicker: FC = () => {
     // set theme
     newTheme.palette.mode = newType;
     setTheme(newTheme);
-  };
+  }, [theme, setTheme]);
 
-  const changeColors = (
-    primary: { [key: number]: string },
-    secondary: { [key: number]: string },
-  ) => {
-    if (!theme) {
-      return;
-    }
+  const changeColors = useCallback(
+    (
+      primary: { [key: number]: string },
+      secondary: { [key: number]: string },
+    ) => {
+      if (!theme) {
+        return;
+      }
 
-    const newTheme = { ...theme };
+      const newTheme = { ...theme };
 
-    if (!newTheme.palette) {
-      return;
-    }
+      if (!newTheme.palette) {
+        return;
+      }
 
-    // set new colors
-    newTheme.palette.primary = primary;
-    newTheme.palette.secondary = secondary;
+      // set new colors
+      newTheme.palette.primary = primary;
+      newTheme.palette.secondary = secondary;
 
-    setTheme(newTheme);
-  };
+      setTheme(newTheme);
+    },
+    [theme, setTheme],
+  );
 
-  const handleDialogOpen = () => {
+  const handleDialogOpen = useCallback(() => {
     setDialogOpen(true);
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setDialogOpen(false);
-  };
+  }, []);
 
-  const selectColor = (color: { [key: number]: string }) => {
-    switch (selection) {
-      case 'primary':
-        setColor1(color);
-        if (color2) {
-          changeColors(color, color2);
-        }
-        break;
-      case 'secondary':
-        setColor2(color);
-        if (color1) {
-          changeColors(color1, color);
-        }
-        break;
-      default:
-        break;
-    }
-  };
+  const selectColor = useCallback(
+    (color: { [key: number]: string }) => {
+      switch (selection) {
+        case 'primary':
+          setColor1(color);
+          if (color2) {
+            changeColors(color, color2);
+          }
+          break;
+        case 'secondary':
+          setColor2(color);
+          if (color1) {
+            changeColors(color1, color);
+          }
+          break;
+        default:
+          break;
+      }
+    },
+    [color1, color2, selection, changeColors],
+  );
 
   useEffect(() => {
     if (theme && theme.palette) {

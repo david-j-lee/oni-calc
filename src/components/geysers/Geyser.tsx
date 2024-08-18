@@ -9,7 +9,7 @@ import CardContent from '@mui/material/CardContent';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
-import { FC, memo, useMemo } from 'react';
+import { FC, memo, useCallback, useMemo } from 'react';
 
 interface IProps {
   geyser: IGeyserInput;
@@ -18,91 +18,82 @@ interface IProps {
 export const Geyser: FC<IProps> = memo(({ geyser }) => {
   const [, { deleteGeyser }] = useContext();
 
-  const imgUrl = useMemo(
-    () =>
-      `/images/geysers/${geyser.name.toLowerCase().replaceAll(/[ ']/g, '-')}.webp`,
-    [],
-  );
+  const backgroundImgCss = useMemo(() => {
+    const imgUrl = `/images/geysers/${geyser.name.toLowerCase().replaceAll(/[ ']/g, '-')}.webp`;
+    return css({
+      background: `url(${imgUrl}) no-repeat center center`,
+      backgroundSize: 'contain',
+    });
+  }, [geyser.name]);
 
-  const handleDelete = () => {
+  const handleDelete = useCallback(() => {
     deleteGeyser(geyser);
-  };
+  }, [geyser, deleteGeyser]);
 
   return (
-    <div css={rootCss}>
-      <Card>
-        <Grid container>
-          <Grid item md={3}>
-            <div css={imageWrapperCss}>
-              <div
-                css={imageCss}
-                style={{
-                  background: `url(${imgUrl}) no-repeat center center`,
-                  backgroundSize: 'contain',
-                }}
-              />
-            </div>
-          </Grid>
-          <Grid item md={9}>
-            <CardContent css={cardContentCss}>
-              <Stack>
-                <Stack direction="row" css={cardHeaderCss}>
-                  <Typography variant="h5">{geyser.name}</Typography>
-                  <IconButton onClick={handleDelete}>
-                    <Delete />
-                  </IconButton>
-                </Stack>
-                <div css={descriptionCss}>
-                  <Typography>
-                    Eruption for <strong>{geyser.eruptionDuration}</strong>{' '}
-                    seconds every <strong>{geyser.eruptionEvery}</strong>{' '}
-                    seconds
-                  </Typography>
-                  <Typography>
-                    Active for <strong>{geyser.activeDuration}</strong> cycles
-                    every <strong>{geyser.activeEvery}</strong> cycles
-                  </Typography>
-                </div>
-                <div>
-                  {geyser.outputs.length > 0 &&
-                    geyser.outputs.map((output, i) => {
-                      const imageUrl = `/images/resources/${output.name
-                        .toLowerCase()
-                        .split(' ')
-                        .join('-')}.png`;
-
-                      return (
-                        <Chip
-                          key={i}
-                          css={chipCss}
-                          label={
-                            [output.name, geyser.amount].join(' ') + ' g/s'
-                          }
-                          avatar={
-                            <Avatar>
-                              <div
-                                css={avatarCss}
-                                style={{
-                                  background: `url(${imageUrl}) no-repeat center center`,
-                                  backgroundSize: 'contain',
-                                }}
-                              />
-                            </Avatar>
-                          }
-                        />
-                      );
-                    })}
-                </div>
-              </Stack>
-            </CardContent>
-          </Grid>
+    <Card css={fullHeightCss}>
+      <Grid container css={fullHeightCss}>
+        <Grid item md={3}>
+          <div css={imageWrapperCss}>
+            <div css={[imageCss, backgroundImgCss]} />
+          </div>
         </Grid>
-      </Card>
-    </div>
+        <Grid item md={9}>
+          <CardContent css={cardContentCss}>
+            <Stack>
+              <Stack direction="row" css={cardHeaderCss}>
+                <Typography variant="h5">{geyser.name}</Typography>
+                <IconButton onClick={handleDelete}>
+                  <Delete />
+                </IconButton>
+              </Stack>
+              <div css={descriptionCss}>
+                <Typography>
+                  Eruption for <strong>{geyser.eruptionDuration}</strong>{' '}
+                  seconds every <strong>{geyser.eruptionEvery}</strong> seconds
+                </Typography>
+                <Typography>
+                  Active for <strong>{geyser.activeDuration}</strong> cycles
+                  every <strong>{geyser.activeEvery}</strong> cycles
+                </Typography>
+              </div>
+              <div>
+                {geyser.outputs.length > 0 &&
+                  geyser.outputs.map((output, i) => {
+                    const imageUrl = `/images/resources/${output.name
+                      .toLowerCase()
+                      .split(' ')
+                      .join('-')}.png`;
+
+                    // TODO: Move into a separate component so we can use useMemo
+                    const resourceImgCss = css({
+                      background: `url(${imageUrl}) no-repeat center center`,
+                      backgroundSize: 'contain',
+                    });
+
+                    return (
+                      <Chip
+                        key={i}
+                        css={chipCss}
+                        label={[output.name, geyser.amount].join(' ') + ' g/s'}
+                        avatar={
+                          <Avatar>
+                            <div css={[avatarCss, resourceImgCss]} />
+                          </Avatar>
+                        }
+                      />
+                    );
+                  })}
+              </div>
+            </Stack>
+          </CardContent>
+        </Grid>
+      </Grid>
+    </Card>
   );
 });
 
-const rootCss = css({
+const fullHeightCss = css({
   height: '100%',
 });
 

@@ -14,7 +14,7 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 
 export const Resources: FC = () => {
   const [
@@ -27,21 +27,28 @@ export const Resources: FC = () => {
     { sortResources },
   ] = useContext();
 
-  const handleRequestSort = (id: string) => {
-    sortResources(id);
-  };
+  const handleRequestSort = useCallback(
+    (id: string) => {
+      sortResources(id);
+    },
+    [sortResources],
+  );
 
-  const mapResourceToElement = (resources: IResource[]) => {
-    return resources
-      .filter(
-        (resource) => !hideEmpty || resource.totalInput || resource.totalOutput,
-      )
-      .map((resource, i) => {
-        return <Resource key={i} resource={resource} />;
-      });
-  };
+  const mapResourceToElement = useCallback(
+    (resources: IResource[]) => {
+      return resources
+        .filter(
+          (resource) =>
+            !hideEmpty || resource.totalInput || resource.totalOutput,
+        )
+        .map((resource, i) => {
+          return <Resource key={i} resource={resource} />;
+        });
+    },
+    [hideEmpty],
+  );
 
-  const getTableHeaders = () => {
+  const getTableHeaders = useCallback(() => {
     const tableHeaders = [
       { id: 'name', label: 'Resource', numeric: false },
       { id: 'totalInput', label: 'Input', numeric: true },
@@ -71,7 +78,7 @@ export const Resources: FC = () => {
         </TableRow>
       </TableHead>
     );
-  };
+  }, [resourcesOrderBy, resourcesOrder, handleRequestSort]);
 
   return (
     <Accordion defaultExpanded>

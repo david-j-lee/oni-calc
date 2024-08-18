@@ -13,7 +13,7 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 
 const TABLE_HEADERS = [
   { id: 'name', label: 'Resource', numeric: false },
@@ -31,9 +31,12 @@ export const Plants: FC = () => {
     { sortPlants },
   ] = useContext();
 
-  const handleRequestSort = (id: string) => {
-    sortPlants(id);
-  };
+  const handleRequestSort = useCallback(
+    (id: string) => {
+      sortPlants(id);
+    },
+    [sortPlants],
+  );
 
   return (
     <Accordion defaultExpanded>

@@ -6,7 +6,7 @@ import Popover from '@mui/material/Popover';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import { Theme } from '@mui/material/styles';
-import { FC, memo, useState, useRef } from 'react';
+import { FC, memo, useState, useMemo, useCallback } from 'react';
 
 interface IProps {
   plant: IPlant;
@@ -18,36 +18,41 @@ export const Plant: FC<IProps> = memo(({ plant }) => {
   );
   const [foodAnchorEl, setFoodAnchorEl] = useState<HTMLDivElement | null>(null);
 
-  const imageUrl = useRef(
-    `/images/bio/${plant.name.toLowerCase().split(' ').join('-')}.png`,
+  const backgroundImgCss = useMemo(() => {
+    const imgUrl = `/images/bio/${plant.name.toLowerCase().split(' ').join('-')}.png`;
+    return css({
+      background: `url(${imgUrl}) no-repeat center center`,
+      backgroundSize: 'contain',
+    });
+  }, [plant.name]);
+
+  const handleDetailsPopoverOpen = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      setDetailsAnchorEl(event.currentTarget);
+    },
+    [],
   );
 
-  const handleDetailsPopoverOpen = (
-    event: React.MouseEvent<HTMLDivElement>,
-  ) => {
-    setDetailsAnchorEl(event.currentTarget);
-  };
-
-  const handleDetailsPopoverClose = () => {
+  const handleDetailsPopoverClose = useCallback(() => {
     setDetailsAnchorEl(null);
-  };
+  }, []);
 
-  const handleFoodPopoverOpen = (event: React.MouseEvent<HTMLDivElement>) => {
-    setFoodAnchorEl(event.currentTarget);
-  };
+  const handleFoodPopoverOpen = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      setFoodAnchorEl(event.currentTarget);
+    },
+    [],
+  );
 
-  const handleFoodPopoverClose = () => {
+  const handleFoodPopoverClose = useCallback(() => {
     setFoodAnchorEl(null);
-  };
-
-  const detailsDialogOpen = !!detailsAnchorEl;
-  const foodDialogOpen = !!foodAnchorEl;
+  }, []);
 
   return (
     <TableRow css={tableRowCss}>
       <Popover
         css={popoverCss}
-        open={detailsDialogOpen}
+        open={Boolean(detailsAnchorEl)}
         anchorEl={detailsAnchorEl}
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'left' }}
@@ -58,7 +63,7 @@ export const Plant: FC<IProps> = memo(({ plant }) => {
       </Popover>
       <Popover
         css={popoverCss}
-        open={foodDialogOpen}
+        open={Boolean(foodAnchorEl)}
         anchorEl={foodAnchorEl}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'left' }}
@@ -74,13 +79,7 @@ export const Plant: FC<IProps> = memo(({ plant }) => {
           onMouseOver={handleDetailsPopoverOpen}
           onMouseOut={handleDetailsPopoverClose}
         >
-          <div
-            css={imageCss}
-            style={{
-              background: `url(${imageUrl.current}) no-repeat center center`,
-              backgroundSize: 'contain',
-            }}
-          />
+          <div css={[imageCss, backgroundImgCss]} />
           {plant.name}
         </div>
       </TableCell>
@@ -117,8 +116,6 @@ const imageCss = (theme: Theme) =>
   css({
     height: 20,
     width: 20,
-    backgroundSize: '200%',
-    backgroundPosition: 'center',
     marginRight: theme.spacing(),
   });
 

@@ -4,27 +4,25 @@ import { css } from '@emotion/react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
-import { FC, memo, useRef } from 'react';
+import { FC, memo, useMemo } from 'react';
 
 interface IProps {
   plant: IPlant;
 }
 
 export const PlantDetails: FC<IProps> = memo(({ plant }) => {
-  const imgUrl = useRef(
-    `/images/bio/${plant.name.toLowerCase().split(' ').join('-')}.png`,
-  );
+  const backgroundImgCss = useMemo(() => {
+    const imgUrl = `/images/bio/${plant.name.toLowerCase().split(' ').join('-')}.png`;
+    return css({
+      background: `#3E4357 url(${imgUrl}) no-repeat center center`,
+      backgroundSize: 'contain',
+    });
+  }, [plant.name]);
 
   return (
     <div>
       <div css={headingCss}>
-        <div
-          css={imageCss}
-          style={{
-            background: `#3E4357 url(${imgUrl.current}) no-repeat center center`,
-            backgroundSize: 'contain',
-          }}
-        />
+        <div css={[imageCss, backgroundImgCss]} />
         <div css={headingContentCss}>
           <Typography variant="h6">{plant.name}</Typography>
           <Grid container>

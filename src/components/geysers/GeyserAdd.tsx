@@ -18,7 +18,7 @@ import Chip from '@mui/material/Chip';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import { Theme } from '@mui/material/styles';
-import { FC, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 
 const defaultGeyser = {
   name: '',
@@ -38,46 +38,52 @@ export const GeyserAdd: FC = () => {
   >({ ...defaultGeyser });
   const [isValid, setIsValid] = useState(false);
 
-  const handleSelectChange = (selectedGeyser: IGeyser) => {
-    if (geysers && geysers.listing && selectedGeyser) {
-      if (selectedGeyser?.name === geyser?.name) {
-        setGeyser({ ...defaultGeyser });
-      } else {
-        setGeyser({
-          ...selectedGeyser,
-          amount: 0,
-          eruptionDuration: 0,
-          eruptionEvery: 0,
-          activeDuration: 0,
-          activeEvery: 0,
-        });
+  const handleSelectChange = useCallback(
+    (selectedGeyser: IGeyser) => {
+      if (geysers && geysers.listing && selectedGeyser) {
+        if (selectedGeyser?.name === geyser?.name) {
+          setGeyser({ ...defaultGeyser });
+        } else {
+          setGeyser({
+            ...selectedGeyser,
+            amount: 0,
+            eruptionDuration: 0,
+            eruptionEvery: 0,
+            activeDuration: 0,
+            activeEvery: 0,
+          });
+        }
       }
-    }
-  };
+    },
+    [geysers, geyser?.name],
+  );
 
-  const handleTextFieldChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    prop: string,
-  ) => {
-    const newGeyser: IGeyserInput = {
-      ...geyser,
-      [prop]: event.target.value,
-    } as IGeyserInput;
-    setGeyser(newGeyser);
-    if (
-      newGeyser.amount &&
-      newGeyser.eruptionDuration &&
-      newGeyser.eruptionEvery &&
-      newGeyser.activeDuration &&
-      newGeyser.activeEvery
-    ) {
-      setIsValid(true);
-    } else {
-      setIsValid(false);
-    }
-  };
+  const handleTextFieldChange = useCallback(
+    (
+      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+      prop: string,
+    ) => {
+      const newGeyser: IGeyserInput = {
+        ...geyser,
+        [prop]: event.target.value,
+      } as IGeyserInput;
+      setGeyser(newGeyser);
+      if (
+        newGeyser.amount &&
+        newGeyser.eruptionDuration &&
+        newGeyser.eruptionEvery &&
+        newGeyser.activeDuration &&
+        newGeyser.activeEvery
+      ) {
+        setIsValid(true);
+      } else {
+        setIsValid(false);
+      }
+    },
+    [geyser],
+  );
 
-  const clearInputs = () => {
+  const clearInputs = useCallback(() => {
     setGeyser({
       ...geyser,
       amount: 0,
@@ -87,9 +93,9 @@ export const GeyserAdd: FC = () => {
       activeEvery: 0,
     });
     setIsValid(false);
-  };
+  }, [geyser]);
 
-  const handleAdd = () => {
+  const handleAdd = useCallback(() => {
     addGeyser({
       ...geyser,
       amount: Number(geyser.amount),
@@ -98,7 +104,7 @@ export const GeyserAdd: FC = () => {
       activeDuration: Number(geyser.activeDuration),
       activeEvery: Number(geyser.activeEvery),
     });
-  };
+  }, [geyser, addGeyser]);
 
   return (
     <Card css={cardCss}>
@@ -126,15 +132,18 @@ export const GeyserAdd: FC = () => {
                       output.name.toLowerCase().split(' ').join('-') +
                       '.png';
 
+                    // TODO: Move into separate component so we can use useMemo
+                    const resourceImgCss = css({
+                      background: `url(${imageUrl}) no-repeat center center`,
+                      backgroundSize: 'contain',
+                    });
+
                     return (
                       <Chip
                         key={i}
                         avatar={
                           <Avatar>
-                            <div
-                              css={avatarCss}
-                              style={{ backgroundImage: `url(${imageUrl})` }}
-                            />
+                            <div css={[avatarCss, resourceImgCss]} />
                           </Avatar>
                         }
                         label={output.name}
@@ -163,7 +172,6 @@ export const GeyserAdd: FC = () => {
                         helperText="g/s"
                         type="number"
                         inputProps={{
-                          style: { textAlign: 'right' },
                           'aria-label': 'Geyser Amount Per Eruption',
                         }}
                       />
@@ -180,7 +188,6 @@ export const GeyserAdd: FC = () => {
                         helperText="seconds"
                         type="number"
                         inputProps={{
-                          style: { textAlign: 'right' },
                           'aria-label': 'Geyser Eruption Duration',
                         }}
                       />
@@ -195,7 +202,6 @@ export const GeyserAdd: FC = () => {
                         helperText="seconds"
                         type="number"
                         inputProps={{
-                          style: { textAlign: 'right' },
                           'aria-label': 'Geyser Eruption Every',
                         }}
                       />
@@ -212,7 +218,6 @@ export const GeyserAdd: FC = () => {
                         helperText="cycles"
                         type="number"
                         inputProps={{
-                          style: { textAlign: 'right' },
                           'aria-label': 'Geyser Active Duration',
                         }}
                       />
@@ -227,7 +232,6 @@ export const GeyserAdd: FC = () => {
                         helperText="cycles"
                         type="number"
                         inputProps={{
-                          style: { textAlign: 'right' },
                           'aria-label': 'Geyser Active Every',
                         }}
                       />
@@ -270,7 +274,6 @@ const cardActionsCss = css({
 const avatarCss = css({
   height: '75%',
   width: '75%',
-  backgroundSize: 'contain',
 });
 
 const addTitleCss = (theme: Theme) =>
