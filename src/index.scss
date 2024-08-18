@@ -39,3 +39,8 @@ input[type='number'] {
 input[type='number'] {
   text-align: right;
 }
+
+/* table headers bold */
+th.MuiTableCell-root {
+  font-weight: bold;
+}
