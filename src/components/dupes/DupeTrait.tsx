@@ -12,7 +12,7 @@ import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
-import { FC, useState, useRef, useEffect } from 'react';
+import { FC, useState, useRef, useEffect, useCallback } from 'react';
 
 interface IProps {
   trait: IDupeTrait;
@@ -27,16 +27,16 @@ export const DupeTrait: FC<IProps> = ({ trait }) => {
   const timer = useRef<number | null>(null);
 
   // open dialog
-  const handleClickOpen = () => {
+  const handleClickOpen = useCallback(() => {
     setDialogOpen(true);
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setDialogOpen(false);
-  };
+  }, []);
 
   // change quantities
-  const increment = () => {
+  const increment = useCallback(() => {
     if (quantity < dupes.quantity) {
       setQuantity(quantity + 1);
       if (timer.current) {
@@ -46,9 +46,9 @@ export const DupeTrait: FC<IProps> = ({ trait }) => {
         setDupesTraitQuantity(trait.name, quantity + 1);
       }, 500);
     }
-  };
+  }, [trait.name, dupes.quantity, quantity, setDupesTraitQuantity]);
 
-  const decrement = () => {
+  const decrement = useCallback(() => {
     if (quantity > 0) {
       setQuantity(quantity - 1);
       if (timer.current) {
@@ -58,20 +58,23 @@ export const DupeTrait: FC<IProps> = ({ trait }) => {
         setDupesTraitQuantity(trait.name, quantity - 1);
       }, 500);
     }
-  };
+  }, [trait.name, quantity, setDupesTraitQuantity]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value = Number(event.target.value);
-    if (value < 0) value = 0;
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      let value = Number(event.target.value);
+      if (value < 0) value = 0;
 
-    setQuantity(value);
-    if (timer.current) {
-      clearTimeout(timer.current);
-    }
-    timer.current = setTimeout(() => {
-      setDupesTraitQuantity(trait.name, value);
-    }, 500);
-  };
+      setQuantity(value);
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+      timer.current = setTimeout(() => {
+        setDupesTraitQuantity(trait.name, value);
+      }, 500);
+    },
+    [trait.name, setDupesTraitQuantity],
+  );
 
   useEffect(() => {
     setQuantity(trait.quantity);

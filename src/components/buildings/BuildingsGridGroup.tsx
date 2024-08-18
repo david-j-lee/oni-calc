@@ -9,7 +9,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
-import { FC, memo, useEffect, useState } from 'react';
+import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 interface IProps {
   group: IBuildingsGroupedItem;
@@ -21,9 +21,18 @@ export const BuildingsGridGroup: FC<IProps> = memo(
   ({ group, collapseBuildingPanels, collapseBuildingPanelsTrigger }) => {
     const [expanded, setExpanded] = useState(!collapseBuildingPanels);
 
-    const handleChange = () => {
+    const backgroundImgCss = useMemo(
+      () =>
+        css({
+          background: `url(${group.image}) no-repeat center center`,
+          backgroundSize: 'contain',
+        }),
+      [group.image],
+    );
+
+    const handleChange = useCallback(() => {
       setExpanded(!expanded);
-    };
+    }, [expanded]);
 
     useEffect(() => {
       setExpanded(!collapseBuildingPanels);
@@ -33,10 +42,7 @@ export const BuildingsGridGroup: FC<IProps> = memo(
       <Accordion expanded={expanded} css={accordionCss} onChange={handleChange}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <div css={buildingNameCss}>
-            <div
-              css={imageCss}
-              style={{ backgroundImage: `url(${group.image})` }}
-            />
+            <div css={[imageCss, backgroundImgCss]} />
             <Typography>{group.name}</Typography>
           </div>
         </AccordionSummary>
@@ -91,7 +97,6 @@ const imageCss = (theme: Theme) =>
   css({
     width: 15,
     height: 15,
-    backgroundSize: 'cover',
     marginRight: theme.spacing(),
   });
 

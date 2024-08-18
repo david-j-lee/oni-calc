@@ -14,7 +14,7 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
-import { FC, memo, useState, useRef } from 'react';
+import { FC, memo, useState, useRef, useCallback, useMemo } from 'react';
 
 interface IProps {
   building: IBuilding;
@@ -31,40 +31,64 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
   const timer = useRef<number>();
   const utilizationTimer = useRef<number>();
 
-  // on hover
-  const handlePopoverOpen = (event: React.MouseEvent<HTMLDivElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const categoryBackgroundImgCss = useMemo(
+    () =>
+      css({
+        background: `url(${building.categoryImgUrl}) no-repeat center center`,
+        backgroundSize: 'contain',
+      }),
+    [building.categoryImgUrl],
+  );
 
-  const handlePopoverClose = () => {
+  const buildingBackgroundImgCss = useMemo(
+    () =>
+      css({
+        background: `url(${building.imgUrl}) no-repeat center center`,
+        backgroundSize: 'contain',
+      }),
+    [building.imgUrl],
+  );
+
+  // on hover
+  const handlePopoverOpen = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      setAnchorEl(event.currentTarget);
+    },
+    [],
+  );
+
+  const handlePopoverClose = useCallback(() => {
     setAnchorEl(null);
-  };
+  }, []);
 
   // more info
-  const handleClickOpen = () => {
+  const handleClickOpen = useCallback(() => {
     setDialogOpen(true);
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setDialogOpen(false);
-  };
+  }, []);
 
   // utilization
-  const handleSliderChange = (_event: Event, value: number | number[]) => {
-    if (value instanceof Array) {
-      return;
-    }
-    setUtilization(value);
-    if (utilizationTimer.current) {
-      clearTimeout(utilizationTimer.current);
-    }
-    utilizationTimer.current = setTimeout(() => {
-      setBuildingUtilization(building.name, Math.round(value));
-    }, 500);
-  };
+  const handleSliderChange = useCallback(
+    (_event: Event, value: number | number[]) => {
+      if (value instanceof Array) {
+        return;
+      }
+      setUtilization(value);
+      if (utilizationTimer.current) {
+        clearTimeout(utilizationTimer.current);
+      }
+      utilizationTimer.current = setTimeout(() => {
+        setBuildingUtilization(building.name, Math.round(value));
+      }, 500);
+    },
+    [building.name, setBuildingUtilization],
+  );
 
   // quantities
-  const increment = () => {
+  const increment = useCallback(() => {
     setQuantity(quantity + 1);
     if (timer.current) {
       clearTimeout(timer.current);
@@ -72,9 +96,9 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
     timer.current = setTimeout(() => {
       setBuildingQuantity(building.name, quantity + 1);
     }, 500);
-  };
+  }, [building.name, quantity, setBuildingQuantity]);
 
-  const decrement = () => {
+  const decrement = useCallback(() => {
     if (quantity > 0) {
       setQuantity(quantity - 1);
       if (timer.current) {
@@ -84,29 +108,30 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
         setBuildingQuantity(building.name, quantity - 1);
       }, 500);
     }
-  };
+  }, [building.name, quantity, setBuildingQuantity]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const valueString = event.target.value;
-    let value = Number(valueString);
-    if (value < 0) value = 0;
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const valueString = event.target.value;
+      let value = Number(valueString);
+      if (value < 0) value = 0;
 
-    setQuantity(value);
-    if (timer.current) {
-      clearTimeout(timer.current);
-    }
-    timer.current = setTimeout(() => {
-      setBuildingQuantity(building.name, value);
-    }, 500);
-  };
-
-  const popoverOpen = !!anchorEl;
+      setQuantity(value);
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+      timer.current = setTimeout(() => {
+        setBuildingQuantity(building.name, value);
+      }, 500);
+    },
+    [building.name, setBuildingQuantity],
+  );
 
   return (
     <TableRow>
       <Popover
         css={popoverCss}
-        open={popoverOpen}
+        open={Boolean(anchorEl)}
         anchorEl={anchorEl}
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'left' }}
@@ -137,13 +162,7 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
 
       <TableCell size="small">
         <div css={categoryCss}>
-          <div
-            css={categoryImgCss}
-            style={{
-              background: `url(${building.categoryImgUrl}) no-repeat center center`,
-              backgroundSize: 'contain',
-            }}
-          />
+          <div css={[categoryImgCss, categoryBackgroundImgCss]} />
           {building.category}
         </div>
       </TableCell>
@@ -151,13 +170,9 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
       <TableCell size="small">
         <div css={buildingCss}>
           <div
-            css={buildingImgCss}
+            css={[buildingImgCss, buildingBackgroundImgCss]}
             onMouseOver={handlePopoverOpen}
             onMouseOut={handlePopoverClose}
-            style={{
-              background: `url(${building.imgUrl}) no-repeat center center`,
-              backgroundSize: 'contain',
-            }}
           />
           {building.name}
         </div>

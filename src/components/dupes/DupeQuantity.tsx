@@ -12,7 +12,7 @@ import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
-import { FC, useEffect, useState, useRef } from 'react';
+import { FC, useEffect, useState, useRef, useCallback } from 'react';
 
 export const DupeQuantity: FC = () => {
   const [{ dupes }, { setDupesTotalQuantity }] = useContext();
@@ -23,16 +23,16 @@ export const DupeQuantity: FC = () => {
   const timer = useRef<number | null>(null);
 
   // open dialog
-  const handleClickOpen = () => {
+  const handleClickOpen = useCallback(() => {
     setDialogOpen(true);
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setDialogOpen(false);
-  };
+  }, []);
 
   // change quantities
-  const increment = () => {
+  const increment = useCallback(() => {
     setQuantity(quantity + 1);
     if (timer.current) {
       clearTimeout(timer.current);
@@ -40,9 +40,9 @@ export const DupeQuantity: FC = () => {
     timer.current = setTimeout(() => {
       setDupesTotalQuantity(quantity + 1);
     }, 500);
-  };
+  }, [quantity, setDupesTotalQuantity]);
 
-  const decrement = () => {
+  const decrement = useCallback(() => {
     if (quantity > 0) {
       setQuantity(quantity - 1);
       if (timer.current) {
@@ -52,20 +52,23 @@ export const DupeQuantity: FC = () => {
         setDupesTotalQuantity(quantity - 1);
       }, 500);
     }
-  };
+  }, [quantity, setDupesTotalQuantity]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value = Number(event.target.value);
-    if (value < 0) value = 0;
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      let value = Number(event.target.value);
+      if (value < 0) value = 0;
 
-    setQuantity(value);
-    if (timer.current) {
-      clearTimeout(timer.current);
-    }
-    timer.current = setTimeout(() => {
-      setDupesTotalQuantity(value);
-    }, 500);
-  };
+      setQuantity(value);
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+      timer.current = setTimeout(() => {
+        setDupesTotalQuantity(value);
+      }, 500);
+    },
+    [setDupesTotalQuantity],
+  );
 
   useEffect(() => {
     if (dupes.quantity !== null && dupes.quantity !== undefined) {

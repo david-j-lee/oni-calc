@@ -17,12 +17,12 @@ export const FoodItemDetail: FC<IProps> = memo(({ item, showWiki }) => {
   const imgUrl = useMemo(
     () =>
       `/images/resources/${item.name.toLowerCase().replaceAll(/[ ']/g, '-')}.png`,
-    [item],
+    [item.name],
   );
 
   const wikiUrl = useMemo(
     () => WIKI_LINK_PATH + item.name.split(' ').join('_'),
-    [item],
+    [item.name],
   );
 
   return (
@@ -42,16 +42,19 @@ export const FoodItemDetail: FC<IProps> = memo(({ item, showWiki }) => {
               .split(' ')
               .join('-')}.png`;
 
+            // TODO: Move into a separate component so we can use useMemo
+            const backgroundImgCss = css({
+              background: `url(${reqImgUrl}) no-repeat center center`,
+              backgroundSize: 'contain',
+            });
+
             return (
               <Chip
                 key={i}
                 label={requirement.name}
                 avatar={
                   <Avatar>
-                    <div
-                      css={avatarCss}
-                      style={{ backgroundImage: `url(${reqImgUrl})` }}
-                    />
+                    <div css={[avatarCss, backgroundImgCss]} />
                   </Avatar>
                 }
               />
@@ -71,7 +74,6 @@ export const FoodItemDetail: FC<IProps> = memo(({ item, showWiki }) => {
 const avatarCss = css({
   height: '100%',
   width: '100%',
-  backgroundSize: 'contain',
 });
 
 export default FoodItemDetail;

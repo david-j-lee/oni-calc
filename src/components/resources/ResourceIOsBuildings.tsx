@@ -5,7 +5,40 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { FC, memo } from 'react';
+import { FC, memo, useMemo } from 'react';
+
+const getArray = (resource: IResource, type: string) => {
+  switch (type) {
+    case 'inputs':
+      return getInputs(resource);
+    case 'outputs':
+      return resource.buildingOutputs;
+    case 'both':
+      return getBoth(resource);
+    default:
+      return [];
+  }
+};
+
+const getInputs = (resource: IResource) => {
+  return resource.buildingInputs.map((input) => {
+    return {
+      ...input,
+      valueExtended: input.valueExtended * -1,
+    };
+  });
+};
+
+const getBoth = (resource: IResource) => {
+  return resource.buildingOutputs.concat(
+    resource.buildingInputs.map((input) => {
+      return {
+        ...input,
+        valueExtended: input.valueExtended * -1,
+      };
+    }),
+  );
+};
 
 interface IProps {
   resource: IResource;
@@ -15,40 +48,7 @@ interface IProps {
 
 export const ResourceIOsBuildings: FC<IProps> = memo(
   ({ resource, title, type }) => {
-    const getArray = (resource: IResource, type: string) => {
-      switch (type) {
-        case 'inputs':
-          return getInputs(resource);
-        case 'outputs':
-          return resource.buildingOutputs;
-        case 'both':
-          return getBoth(resource);
-        default:
-          return [];
-      }
-    };
-
-    const getInputs = (resource: IResource) => {
-      return resource.buildingInputs.map((input) => {
-        return {
-          ...input,
-          valueExtended: input.valueExtended * -1,
-        };
-      });
-    };
-
-    const getBoth = (resource: IResource) => {
-      return resource.buildingOutputs.concat(
-        resource.buildingInputs.map((input) => {
-          return {
-            ...input,
-            valueExtended: input.valueExtended * -1,
-          };
-        }),
-      );
-    };
-
-    const array = getArray(resource, type);
+    const array = useMemo(() => getArray(resource, type), [type, resource]);
 
     return (
       <div>

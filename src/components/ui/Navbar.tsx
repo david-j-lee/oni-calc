@@ -14,33 +14,6 @@ import { css, Theme } from '@mui/material/styles';
 import { FC, memo } from 'react';
 import { Routes, Link, Route } from 'react-router-dom';
 
-const rootCss = css({
-  flexGrow: 1,
-});
-
-const titleCss = (theme: Theme) =>
-  css({
-    marginRight: theme.spacing(),
-    fontWeight: 'bold',
-  });
-
-const flexCss = css({
-  flex: 1,
-});
-
-const rightNavCss = css({
-  display: 'flex',
-  flexWrap: 'wrap',
-});
-
-const oniColorCss = css({
-  color: '#FD6B6B',
-});
-
-const onicColorCss = css({
-  color: '#00E3E3',
-});
-
 export const Navbar: FC = memo(() => {
   return (
     <div css={rootCss}>
@@ -85,6 +58,33 @@ export const Navbar: FC = memo(() => {
       </AppBar>
     </div>
   );
+});
+
+const rootCss = css({
+  flexGrow: 1,
+});
+
+const titleCss = (theme: Theme) =>
+  css({
+    marginRight: theme.spacing(),
+    fontWeight: 'bold',
+  });
+
+const flexCss = css({
+  flex: 1,
+});
+
+const rightNavCss = css({
+  display: 'flex',
+  flexWrap: 'wrap',
+});
+
+const oniColorCss = css({
+  color: '#FD6B6B',
+});
+
+const onicColorCss = css({
+  color: '#00E3E3',
 });
 
 export default Navbar;

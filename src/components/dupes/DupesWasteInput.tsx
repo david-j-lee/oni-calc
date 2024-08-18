@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import { Theme } from '@mui/material/styles';
-import { FC, memo, useRef, useState } from 'react';
+import { FC, memo, useCallback, useMemo, useRef, useState } from 'react';
 
 interface IProps {
   prop: {
@@ -24,37 +24,41 @@ export const DupesWasteInput: FC<IProps> = memo(({ prop }) => {
 
   const timer = useRef<number | null>(null);
 
-  const imgUrl = useRef(
-    '/images/resources/' +
+  const backgroundImgCss = useMemo(() => {
+    const imgUrl =
+      '/images/resources/' +
       prop.title.toLowerCase().split(' ').join('-') +
-      '.png',
-  );
+      '.png';
+    return css({
+      background: `url(${imgUrl}) no-repeat center center`,
+      backgroundSize: 'contain',
+    });
+  }, [prop.title]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(event.target.value);
-    setValue(value);
-    if (timer.current) {
-      clearTimeout(timer.current);
-    }
-    timer.current = setTimeout(() => {
-      setDupeWaste(prop.name, Math.round(value));
-    }, 500);
-  };
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = Number(event.target.value);
+      setValue(value);
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+      timer.current = setTimeout(() => {
+        setDupeWaste(prop.name, Math.round(value));
+      }, 500);
+    },
+    [prop.name, setDupeWaste],
+  );
 
   return (
     <Grid css={gridContainerCss} container spacing={1} alignItems="center">
       <Grid item>
-        <div
-          css={imageCss}
-          style={{ backgroundImage: `url(${imgUrl.current})` }}
-        />
+        <div css={[imageCss, backgroundImgCss]} />
       </Grid>
       <Grid item css={gridItemCss}>
         <TextField
           type="number"
           label={prop.title}
           inputProps={{
-            style: { textAlign: 'right' },
             'aria-label': 'Dupe Waste Value',
           }}
           value={value}
@@ -79,9 +83,7 @@ const imageCss = (theme: Theme) =>
   css({
     height: 20,
     width: 20,
-    backgroundSize: 'cover',
     marginRight: theme.spacing(),
-    marginTop: 5,
   });
 
 export default DupesWasteInput;

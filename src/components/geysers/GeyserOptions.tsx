@@ -73,33 +73,34 @@ export const GeyserOptions = ({ selectedGeyserName, select }: Props) => {
       </div>
       <div css={rootCss}>
         <Stack direction="row" spacing={1}>
-          {filteredGeysers.map((geyser) => (
-            <Card key={geyser.name} css={optionCss} variant="outlined">
-              <ButtonBase
-                onClick={() => select(geyser)}
-                css={[
-                  buttonCss,
-                  selectedGeyserName === geyser.name
-                    ? selectedOptionCss
-                    : undefined,
-                ]}
-              >
-                <div css={imgWrapperCss}>
-                  <div
-                    css={imgCss}
-                    style={{
-                      background: `url(/images/geysers/${geyser.name.toLowerCase().replaceAll(/[ ']/g, '-')}.webp) no-repeat center center`,
-                      backgroundSize: 'contain',
-                    }}
-                    title={geyser.name}
-                  />
-                </div>
-                <CardContent>
-                  <Typography variant="h5">{geyser.name}</Typography>
-                </CardContent>
-              </ButtonBase>
-            </Card>
-          ))}
+          {filteredGeysers.map((geyser) => {
+            // TODO: Move into a component so we can use useMemo
+            const backgroundImgCss = css({
+              background: `url(/images/geysers/${geyser.name.toLowerCase().replaceAll(/[ ']/g, '-')}.webp) no-repeat center center`,
+              backgroundSize: 'contain',
+            });
+
+            return (
+              <Card key={geyser.name} css={optionCss} variant="outlined">
+                <ButtonBase
+                  onClick={() => select(geyser)}
+                  css={[
+                    buttonCss,
+                    selectedGeyserName === geyser.name
+                      ? selectedOptionCss
+                      : undefined,
+                  ]}
+                >
+                  <div css={imgWrapperCss}>
+                    <div css={[imgCss, backgroundImgCss]} title={geyser.name} />
+                  </div>
+                  <CardContent>
+                    <Typography variant="h5">{geyser.name}</Typography>
+                  </CardContent>
+                </ButtonBase>
+              </Card>
+            );
+          })}
         </Stack>
       </div>
     </Fragment>
@@ -151,7 +152,6 @@ const imgCss = (theme: Theme) =>
     height: '100%',
     margin: theme.spacing(),
     pointerEvents: 'none',
-    backgroundSize: 'cover',
     backgroundColor: '#3E4357',
     cursor: 'default',
   });

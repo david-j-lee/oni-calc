@@ -7,7 +7,7 @@ import Popover from '@mui/material/Popover';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import { Theme } from '@mui/material/styles';
-import { FC, memo, useState, useMemo } from 'react';
+import { FC, memo, useState, useMemo, useCallback } from 'react';
 
 interface IProps {
   resource: IResource;
@@ -18,38 +18,37 @@ export const Resource: FC<IProps> = memo(({ resource }) => {
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogType, setDialogType] = useState('');
 
-  const imageUrl = useMemo(
-    () =>
-      `/images/resources/${resource.name
-        .toLowerCase()
-        .split(' ')
-        .join('-')}.png`,
-    [resource],
+  const backgroundImgCss = useMemo(() => {
+    const imgUrl = `/images/resources/${resource.name
+      .toLowerCase()
+      .split(' ')
+      .join('-')}.png`;
+    return css({
+      background: `url(${imgUrl}) no-repeat center center`,
+      backgroundSize: 'contain',
+    });
+  }, [resource.name]);
+
+  const handlePopoverOpen = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>, title: string, type: string) => {
+      setAnchorEl(event.currentTarget);
+      setDialogTitle(title);
+      setDialogType(type);
+    },
+    [],
   );
 
-  const handlePopoverOpen = (
-    event: React.MouseEvent<HTMLDivElement>,
-    title: string,
-    type: string,
-  ) => {
-    setAnchorEl(event.currentTarget);
-    setDialogTitle(title);
-    setDialogType(type);
-  };
-
-  const handlePopoverClose = () => {
+  const handlePopoverClose = useCallback(() => {
     setAnchorEl(null);
     setDialogTitle('');
     setDialogType('');
-  };
-
-  const dialogOpen = !!anchorEl;
+  }, []);
 
   return (
     <TableRow css={tableRowCss}>
       <Popover
         css={popoverCss}
-        open={dialogOpen}
+        open={Boolean(anchorEl)}
         anchorEl={anchorEl}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'left' }}
@@ -65,7 +64,7 @@ export const Resource: FC<IProps> = memo(({ resource }) => {
 
       <TableCell css={tableCellCss}>
         <div css={resourceNameCss}>
-          <div css={imageCss} style={{ backgroundImage: `url(${imageUrl})` }} />
+          <div css={[imageCss, backgroundImgCss]} />
           {resource.name}
           {Boolean(resource.unitOfMeasure) && (
             <Chip label={resource.unitOfMeasure} size="small" />
@@ -129,7 +128,6 @@ const imageCss = (theme: Theme) =>
   css({
     height: 15,
     width: 15,
-    backgroundSize: 'cover',
     marginRight: theme.spacing(),
     flexShrink: 0,
   });

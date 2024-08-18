@@ -6,7 +6,7 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 
 const TABLE_HEADERS = [
   { id: 'category', label: 'Category', numeric: false },
@@ -19,9 +19,12 @@ const TABLE_HEADERS = [
 export const BuildingsTable: FC = () => {
   const [{ buildings, buildingsOrderBy }, { sortBuildings }] = useContext();
 
-  const handleRequestSort = (id: string) => {
-    sortBuildings(id);
-  };
+  const handleRequestSort = useCallback(
+    (id: string) => {
+      sortBuildings(id);
+    },
+    [sortBuildings],
+  );
 
   return (
     <Table>
