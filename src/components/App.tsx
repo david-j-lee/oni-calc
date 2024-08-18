@@ -18,9 +18,7 @@ import { FC, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 export const App: FC = () => {
-  const [state, { getTheme }
-    
-  ] = useContext();
+  const [state, { getTheme }] = useContext();
   const { theme } = state;
 
   useEffect(() => {
