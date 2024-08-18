@@ -8,14 +8,16 @@ body,
 
 /* Scrollbar */
 .styled-scrollbar::-webkit-scrollbar {
-  width: 0.2rem;
+  height: 0.4rem;
+  width: 0.4rem;
 }
 
 .styled-scrollbar::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
 }
 
-.styled-scrollbar::-webkit-scrollbar-thumb {
+.styled-scrollbar::-webkit-scrollbar-thumb,
+.styled-scrollbar::-webkit-scrollbar-thumb:horizontal {
   background-color: rgba(125, 125, 125, 0.5);
   outline: 1px solid rgba(125, 125, 125, 0.5);
 }

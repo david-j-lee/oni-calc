@@ -71,7 +71,7 @@ export const GeyserOptions = ({ selectedGeyserName, select }: Props) => {
           }}
         />
       </div>
-      <div css={rootCss}>
+      <div css={rootCss} className="styled-scrollbar">
         <Stack direction="row" spacing={1}>
           {filteredGeysers.map((geyser) => {
             // TODO: Move into a component so we can use useMemo
@@ -107,9 +107,11 @@ export const GeyserOptions = ({ selectedGeyserName, select }: Props) => {
   );
 };
 
-const rootCss = css({
-  overflow: 'auto',
-});
+const rootCss = (theme: Theme) =>
+  css({
+    overflow: 'auto',
+    paddingBottom: theme.spacing(),
+  });
 
 const searchCss = (theme: Theme) =>
   css({
