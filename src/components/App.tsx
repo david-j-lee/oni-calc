@@ -8,6 +8,10 @@ import Food from './food/Food';
 import Geysers from './geysers/Geysers';
 import Settings from './settings/Settings';
 import Navbar from './ui/Navbar';
+import '@fontsource/comfortaa/300.css';
+import '@fontsource/comfortaa/400.css';
+import '@fontsource/comfortaa/500.css';
+import '@fontsource/comfortaa/700.css';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme, css } from '@mui/material/styles';
 import { FC, useEffect } from 'react';
@@ -23,7 +27,9 @@ export const App: FC = () => {
 
   const muiTheme = createTheme({
     ...theme,
-    typography: { fontFamily: ['"Nova Square"', 'sans-serif'].join(', ') },
+    typography: {
+      fontFamily: ['"Comfortaa Variable"', 'sans-serif'].join(', '),
+    },
   });
 
   return (

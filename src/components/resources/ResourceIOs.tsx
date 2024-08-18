@@ -7,7 +7,27 @@ import ResourceIOsPlants from './ResourceIOsPlants';
 import { css } from '@emotion/react';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
-import { FC, Fragment, memo } from 'react';
+import { FC, Fragment, memo, useMemo } from 'react';
+
+const hasInputs = (resource: IResource) => {
+  return (
+    resource.buildingInputs.length > 0 ||
+    resource.dupeInputs.length > 0 ||
+    resource.foodInputs.length > 0 ||
+    resource.geyserInputs.length > 0 ||
+    resource.plantInputs.length > 0
+  );
+};
+
+const hasOutputs = (resource: IResource) => {
+  return (
+    resource.buildingOutputs.length > 0 ||
+    resource.dupeOutputs.length > 0 ||
+    resource.foodOutputs.length > 0 ||
+    resource.geyserOutputs.length > 0 ||
+    resource.plantOutputs.length > 0
+  );
+};
 
 interface IProps {
   title: string;
@@ -16,7 +36,7 @@ interface IProps {
 }
 
 export const ResourceIOs: FC<IProps> = memo(({ title, resource, type }) => {
-  const showTables = (resource: IResource, type: string) => {
+  const showTables = useMemo(() => {
     switch (type) {
       case 'inputs':
         return hasInputs(resource);
@@ -27,42 +47,20 @@ export const ResourceIOs: FC<IProps> = memo(({ title, resource, type }) => {
       default:
         return false;
     }
-  };
+  }, [type, resource]);
 
-  const hasInputs = (resource: IResource) => {
-    return (
-      resource.buildingInputs.length > 0 ||
-      resource.dupeInputs.length > 0 ||
-      resource.foodInputs.length > 0 ||
-      resource.geyserInputs.length > 0 ||
-      resource.plantInputs.length > 0
-    );
-  };
-
-  const hasOutputs = (resource: IResource) => {
-    return (
-      resource.buildingOutputs.length > 0 ||
-      resource.dupeOutputs.length > 0 ||
-      resource.foodOutputs.length > 0 ||
-      resource.geyserOutputs.length > 0 ||
-      resource.plantOutputs.length > 0
-    );
-  };
+  if (resource && type && !showTables) {
+    return <Typography css={noIOsCss}>No {title}</Typography>;
+  }
 
   return (
-    <div>
-      {showTables(resource, type) ? (
-        <Fragment>
-          <ResourceIOsDupes resource={resource} type={type} />
-          <ResourceIOsBuildings resource={resource} type={type} />
-          <ResourceIOsFood resource={resource} type={type} />
-          <ResourceIOsPlants resource={resource} type={type} />
-          <ResourceIOsGeysers resource={resource} type={type} />
-        </Fragment>
-      ) : (
-        <Typography css={noIOsCss}>No {title}</Typography>
-      )}
-    </div>
+    <Fragment>
+      <ResourceIOsDupes resource={resource} type={type} />
+      <ResourceIOsBuildings resource={resource} type={type} />
+      <ResourceIOsFood resource={resource} type={type} />
+      <ResourceIOsPlants resource={resource} type={type} />
+      <ResourceIOsGeysers resource={resource} type={type} />
+    </Fragment>
   );
 });
 

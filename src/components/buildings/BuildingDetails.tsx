@@ -1,8 +1,8 @@
 import IBuilding from '../../interfaces/IBuilding';
 import ResourceChips from '../resources/ResourceChips';
+import DetailsBase from '../ui/DetailsBase';
+import DetailsSection from '../ui/DetailsSection';
 import Number from '../ui/Number';
-import ResourceDetailSection from '../ui/ResourceDetailSection';
-import ResourceDetailsBase from '../ui/ResourceDetailsBase';
 import { css } from '@emotion/react';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
@@ -36,7 +36,7 @@ export const BuildingDetails: FC<IProps> = memo(({ building, showWiki }) => {
   }, [power.generation, power.unit, power.usage]);
 
   return (
-    <ResourceDetailsBase
+    <DetailsBase
       imgUrl={imgUrl}
       preTitle={
         <Fragment>
@@ -55,33 +55,33 @@ export const BuildingDetails: FC<IProps> = memo(({ building, showWiki }) => {
       showWiki={showWiki ?? false}
     >
       {Boolean(netPower) && (
-        <ResourceDetailSection title="Power">
+        <DetailsSection title="Power">
           <Number value={netPower} suffix={powerSuffix} />
-        </ResourceDetailSection>
+        </DetailsSection>
       )}
       {Boolean(capacity.power.value) && (
-        <ResourceDetailSection title="Power Capacity">
+        <DetailsSection title="Power Capacity">
           {capacity.power.value + ' ' + capacity.power.unit}
-        </ResourceDetailSection>
+        </DetailsSection>
       )}
       {Boolean(capacity.resources.value) && (
-        <ResourceDetailSection title="Resource Capacity">
+        <DetailsSection title="Resource Capacity">
           {capacity.resources.value.toLocaleString() +
             ' ' +
             capacity.resources.unit}
-        </ResourceDetailSection>
+        </DetailsSection>
       )}
       {Boolean(inputs.length) && (
-        <ResourceDetailSection title="Inputs">
+        <DetailsSection title="Inputs">
           <ResourceChips ios={inputs} />
-        </ResourceDetailSection>
+        </DetailsSection>
       )}
       {Boolean(outputs.length) && (
-        <ResourceDetailSection title="Outputs">
+        <DetailsSection title="Outputs">
           <ResourceChips ios={outputs} />
-        </ResourceDetailSection>
+        </DetailsSection>
       )}
-    </ResourceDetailsBase>
+    </DetailsBase>
   );
 });
 

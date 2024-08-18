@@ -3,33 +3,41 @@ import { Card, CardContent, Theme, Typography, css } from '@mui/material';
 type Props = {
   title: string;
   children: React.ReactNode;
+  noMargins?: boolean;
 };
 
-export const ResourceDetailSection = ({ title, children }: Props) => {
+export const DetailsSection = ({ title, children, noMargins }: Props) => {
   return (
-    <Card variant="outlined" css={cardCss}>
-      <CardContent css={cardContentCss}>
+    <Card
+      variant="outlined"
+      css={[cardCss, noMargins ? undefined : cardMarginsCss]}
+    >
+      <CardContent>
         <Typography variant="body2" css={titleCss}>
           {title}
         </Typography>
-        {children}
+        <div css={detailCss}>{children}</div>
       </CardContent>
     </Card>
   );
 };
 
-const cardCss = (theme: Theme) =>
+const cardCss = css({
+  flexGrow: 1,
+});
+
+const cardMarginsCss = (theme: Theme) =>
   css({
     margin: theme.spacing(0, 2),
-    flexGrow: 1,
     marginBottom: theme.spacing(2),
   });
 
-const cardContentCss = (theme: Theme) =>
-  css({
-    padding: theme.spacing(1),
-    paddingBottom: `${theme.spacing()} !important`,
-  });
+const detailCss = css({
+  fontSize: '1.2rem',
+  '*': {
+    fontSize: '1.2rem',
+  },
+});
 
 const titleCss = (theme: Theme) =>
   css({
@@ -38,4 +46,4 @@ const titleCss = (theme: Theme) =>
     paddingBottom: theme.spacing(),
   });
 
-export default ResourceDetailSection;
+export default DetailsSection;

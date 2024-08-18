@@ -1,8 +1,8 @@
 import IDupes from '../../interfaces/IDupes';
 import { WIKI_LINK_PATH } from '../../utils/parseUtils';
 import ResourceChips from '../resources/ResourceChips';
-import ResourceDetailSection from '../ui/ResourceDetailSection';
-import ResourceDetailsBase from '../ui/ResourceDetailsBase';
+import DetailsBase from '../ui/DetailsBase';
+import DetailsSection from '../ui/DetailsSection';
 import { FC, memo } from 'react';
 
 interface IProps {
@@ -11,18 +11,18 @@ interface IProps {
 
 export const DupeDetails: FC<IProps> = memo(({ details }) => {
   return (
-    <ResourceDetailsBase
+    <DetailsBase
       title="Dupe Details"
       wikiUrl={`${WIKI_LINK_PATH}Duplicant`}
       showWiki
     >
-      <ResourceDetailSection title="Inputs">
+      <DetailsSection title="Inputs">
         <ResourceChips ios={details.inputs} />
-      </ResourceDetailSection>
-      <ResourceDetailSection title="Outputs">
+      </DetailsSection>
+      <DetailsSection title="Outputs">
         <ResourceChips ios={details.outputs} />
-      </ResourceDetailSection>
-    </ResourceDetailsBase>
+      </DetailsSection>
+    </DetailsBase>
   );
 });
 
