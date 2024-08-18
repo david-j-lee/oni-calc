@@ -32,7 +32,7 @@ export const App: FC = () => {
     typography: {
       fontFamily: ['"Comfortaa Variable"', 'sans-serif'].join(', '),
     },
-  } as any);
+  });
 
   return (
     <ThemeProvider theme={muiTheme}>
