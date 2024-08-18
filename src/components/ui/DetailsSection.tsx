@@ -33,9 +33,9 @@ const cardMarginsCss = (theme: Theme) =>
   });
 
 const detailCss = css({
-  fontSize: '1.25rem',
+  fontSize: '1.2rem',
   '*': {
-    fontSize: '1.25rem',
+    fontSize: '1.2rem',
   },
 });
 
