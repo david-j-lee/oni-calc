@@ -1,18 +1,16 @@
 import { useContext } from '../../context/useContext';
+import DialogCloseIconButton from '../ui/DialogCloseIconButton';
 import NumberInput from '../ui/NumberInput';
 import IBuilding from './../../interfaces/IBuilding';
 import BuildingDetails from './BuildingDetails';
 import { css } from '@emotion/react';
 import MoreHoriz from '@mui/icons-material/MoreHoriz';
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
 import Slider from '@mui/material/Slider';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
 import { FC, memo, useState, useRef, useCallback, useMemo } from 'react';
 
@@ -147,17 +145,8 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
       >
-        <div>
-          <BuildingDetails building={building} />
-          <DialogActions>
-            <Button target="_blank" href={building.wikiUrl}>
-              WIKI
-            </Button>
-            <Button variant="contained" onClick={handleClose} autoFocus>
-              CLOSE
-            </Button>
-          </DialogActions>
-        </div>
+        <DialogCloseIconButton close={handleClose} />
+        <BuildingDetails building={building} showWiki />
       </Dialog>
 
       <TableCell size="small">
@@ -181,10 +170,12 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
       <TableCell size="small">
         {!building.hasConsistentIO && building.quantity > 0 && (
           <span css={sliderCss}>
-            <Slider value={utilization} onChange={handleSliderChange} />
-            <Typography css={sliderLabelCss}>
-              {utilization.toFixed(0) + '%'}
-            </Typography>
+            <Slider
+              value={utilization}
+              onChange={handleSliderChange}
+              valueLabelFormat={(number) => number.toFixed(0) + '%'}
+              valueLabelDisplay="auto"
+            />
           </span>
         )}
       </TableCell>
@@ -256,13 +247,6 @@ const sliderCss = css({
   justifyContent: 'center',
   whiteSpace: 'nowrap',
 });
-
-const sliderLabelCss = (theme: Theme) =>
-  css({
-    paddingLeft: theme.spacing(2),
-    textAlign: 'right',
-    width: 75,
-  });
 
 const popoverCss = css({
   pointerEvents: 'none',

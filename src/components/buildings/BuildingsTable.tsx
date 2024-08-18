@@ -9,11 +9,11 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import { FC, useCallback } from 'react';
 
 const TABLE_HEADERS = [
-  { id: 'category', label: 'Category', numeric: false },
-  { id: 'name', label: 'Building', numeric: false },
-  { id: 'utilization', label: 'Utilization', numeric: true },
-  { id: 'quantity', label: 'Quantity', numeric: true },
-  { id: 'actions', label: '', numeric: false },
+  { id: 'category', label: 'Category' },
+  { id: 'name', label: 'Building' },
+  { id: 'utilization', label: 'Utilization' },
+  { id: 'quantity', label: 'Quantity' },
+  { id: 'actions', label: '' },
 ];
 
 export const BuildingsTable: FC = () => {
@@ -32,10 +32,7 @@ export const BuildingsTable: FC = () => {
         <TableRow>
           {TABLE_HEADERS.map((header) => {
             return (
-              <TableCell
-                key={header.id}
-                align={header.numeric ? 'right' : 'left'}
-              >
+              <TableCell key={header.id}>
                 <TableSortLabel
                   active={buildingsOrderBy === header.id}
                   onClick={() => handleRequestSort(header.id)}
