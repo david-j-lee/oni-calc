@@ -113,12 +113,10 @@ export function getGeyserOutputs(geysers: IGeysers, resourceName: string) {
             value: getExtendedValue(geyser),
             valueExtended: getExtendedValue(geyser),
           }))
-          // TODO: Something seems off here, need to check this.
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          .reduce((a: any, b) => a.concat(b), [])
       );
     })
-    .filter((output) => output) as IIO[];
+    .filter(output => output !== null)
+    .reduce((a, b) => a.concat(b), []) as IIO[];
 }
 
 function getExtendedValue(geyser: IGeyserInput) {
