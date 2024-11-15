@@ -106,16 +106,13 @@ export function getGeyserOutputs(geysers: IGeysers, resourceName: string) {
       );
       if (outputs.length === 0) return null;
 
-      return (
-        outputs
-          .map((output) => ({
-            ...output,
-            value: getExtendedValue(geyser),
-            valueExtended: getExtendedValue(geyser),
-          }))
-      );
+      return outputs.map((output) => ({
+        ...output,
+        value: getExtendedValue(geyser),
+        valueExtended: getExtendedValue(geyser),
+      }));
     })
-    .filter(output => output !== null)
+    .filter((output) => output !== null)
     .reduce((a, b) => a.concat(b), []) as IIO[];
 }
 
