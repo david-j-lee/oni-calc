@@ -13,13 +13,16 @@ Compiling a list of information for dupes that may be useful during development 
 ### Oxygen
 
 - Consumes 100 g/s of oxygen
-- Produces 20 g/s of carbon dioxide
+- Produces 2 g/s of carbon dioxide
 - Mouth breather (100%)
   - Consumes +100 g/s of oxygen
-  - Produces +20 g/s of carbon dioxide.
-- Diver Lungs
+  - Produces +2 g/s of carbon dioxide.
+- Diver's Lungs
   - Consumes -25 g/s of oxygen
-  - Produces -5 g/s of oxygen
+  - Produces -0.5 g/s of oxygen
+- Deep diver's lungs
+  - Consumes -50 g/s of oxygen
+  - Produces -1 g/s of oxygen
 
 ### Food
 
@@ -33,10 +36,13 @@ Compiling a list of information for dupes that may be useful during development 
   - output: 11.7kg polluted water per use
 - Outhouse
   - input: 13kg dirt per use
-  - output: 6.7kg polluted dirt per use
+  - output: 19.7kg polluted dirt per use
 - Shower
-  - input: 1000g water per use
-  - output: 1000g polluted water per use
+  - input: 1Kg water per use
+  - output: 1Kg polluted water per use
+- Wash basin
+  - input: 5kg water per use
+  - output: 5kg polluted water per use
 - Sink
   - input: 5kg water per use
   - output: 5kg polluted water per use
