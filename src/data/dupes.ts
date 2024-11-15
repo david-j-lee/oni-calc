@@ -21,21 +21,28 @@ export const dupes = {
       name: "Diver's Lungs",
       inputs: [{ name: 'Oxygen', value: -25, unit: 'g', rate: 'per second' }],
       outputs: [
-        { name: 'Carbon Dioxide', value: -5, unit: 'g', rate: 'per second' },
+        { name: 'Carbon Dioxide', value: -0.5, unit: 'g', rate: 'per second' },
+      ],
+    },
+    {
+      name: "Deep Diver's Lungs",
+      inputs: [{ name: 'Oxygen', value: -50, unit: 'g', rate: 'per second' }],
+      outputs: [
+        { name: 'Carbon Dioxide', value: -1, unit: 'g', rate: 'per second' },
       ],
     },
     {
       name: 'Flatulent',
       inputs: [],
       outputs: [
-        { name: 'Natural Gas', value: 5, unit: 'g', rate: 'per second' },
+        { name: 'Natural Gas', value: 4, unit: 'g', rate: 'per second' },
       ],
     },
     {
       name: 'Mouth Breather',
       inputs: [{ name: 'Oxygen', value: 100, unit: 'g', rate: 'per second' }],
       outputs: [
-        { name: 'Carbon Dioxide', value: 20, unit: 'g', rate: 'per second' },
+        { name: 'Carbon Dioxide', value: 2, unit: 'g', rate: 'per second' },
       ],
     },
   ],
