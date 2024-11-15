@@ -9,7 +9,7 @@ export const dupes = {
     },
   ],
   outputs: [
-    { name: 'Carbon Dioxide', value: 20, unit: 'g', rate: 'per second' },
+    { name: 'Carbon Dioxide', value: 2, unit: 'g', rate: 'per second' },
   ],
   traits: [
     {
