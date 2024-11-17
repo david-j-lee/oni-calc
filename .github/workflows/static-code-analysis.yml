@@ -6,20 +6,20 @@ on:
       - main
 
 env:
-  NODE_VERSION: 20
+  NODE_VERSION: 22
 
 jobs:
   static_code_analysis:
     name: Static Code Analysis
     runs-on: ubuntu-latest
     steps:
+      - name: Code Checkout
+        uses: actions/checkout@v3
+
       - name: Install NodeJS
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
-
-      - name: Code Checkout
-        uses: actions/checkout@v2
 
       - name: Install Dependencies
         run: npm ci
@@ -28,4 +28,4 @@ jobs:
         run: npm run lint
 
       - name: Code Formatting Check
-        run: npm run format-check
+        run: npm run lint:format
