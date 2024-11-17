@@ -36,7 +36,7 @@ jobs:
 
       - name: Deploy to S3
         run: |
-          aws s3 sync build/ s3://${{ secrets.S3_BUCKET_NAME }} --acl public-read --delete
+          aws s3 sync dist/ s3://${{ secrets.S3_BUCKET_NAME }}
 
       - name: Invalidate CloudFront cache
         run: |
