@@ -1,4 +1,4 @@
-name: deploy
+name: Deploy to AWS - Production
 
 on:
   push:
@@ -11,6 +11,7 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: Production
 
     steps:
       - name: Checkout code
