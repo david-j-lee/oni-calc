@@ -1,4 +1,4 @@
-import IBuilding from '../interfaces/IBuilding';
+import IBuilding, { IBuildingIO } from '../interfaces/IBuilding';
 import IGameModeValue from '../interfaces/IGameModeValue';
 import IBuildingInput from './../interfaces/IBuildingInput';
 import IIO from './../interfaces/IIO';
@@ -43,6 +43,26 @@ export const setBuildingUtilization = (
   utilization: number,
 ) => {
   const newBuildings = updateBuildingUtilization(buildings, name, utilization);
+  const newResources = updateResourcesWithBuildings(resources, newBuildings);
+  return {
+    buildings: newBuildings,
+    resources: newResources,
+    powerGeneration: getBuildingsPowerGeneration(newBuildings),
+    powerUsage: getBuildingsPowerUsage(newBuildings),
+  };
+};
+
+export const setBuildingVariantUtilization = (
+  resources: IResource[],
+  buildings: IBuilding[],
+  name: string,
+  variantUtilizations: number[],
+) => {
+  const newBuildings = updateBuildingVariantUtilization(
+    buildings,
+    name,
+    variantUtilizations,
+  );
   const newResources = updateResourcesWithBuildings(resources, newBuildings);
   return {
     buildings: newBuildings,
@@ -100,7 +120,84 @@ function getBuildingsWithDefaultInputs(buildings: IBuilding[]): IBuilding[] {
     ...building,
     quantity: 0,
     utilization: building.hasConsistentIO ? 0 : 100,
+    variantUtilizations:
+      building.variants?.map((_variant, index) => (index === 0 ? 100 : 0)) ??
+      [],
   }));
+}
+
+function getIOFromVariantUtilizations(
+  building: IBuilding,
+  variantUtilizations?: number[],
+): { inputs: IBuildingIO[]; outputs: IBuildingIO[] } {
+  // Get from the first if there are no variant utilizations
+  if (
+    building.variants &&
+    (!variantUtilizations || variantUtilizations.length === 0)
+  ) {
+    const firstVariant = building.variants[0];
+    return {
+      inputs:
+        firstVariant.inputs?.map((input) => ({
+          ...input,
+          valueExtended: getExtendedValue(
+            building.quantity,
+            building.utilization,
+            100,
+            getStandardIO(input).value,
+          ),
+          utilization: 100,
+        })) ?? [],
+      outputs:
+        firstVariant.outputs?.map((output) => ({
+          ...output,
+          valueExtended: getExtendedValue(
+            building.quantity,
+            building.utilization,
+            100,
+            getStandardIO(output).value,
+          ),
+          utilization: 100,
+        })) ?? [],
+    };
+  }
+
+  // If there are variantUtilizations, construct the inputs and outputs from
+  // them.
+  const inputs: IBuildingIO[] = [];
+  const outputs: IBuildingIO[] = [];
+
+  variantUtilizations?.forEach((utilization, index) => {
+    if (building.variants && utilization > 0) {
+      const variant = building.variants[index];
+      variant.inputs?.forEach((input) =>
+        inputs.push({
+          ...input,
+          valueExtended: getExtendedValue(
+            building.quantity,
+            building.utilization,
+            utilization,
+            getStandardIO(input).value,
+          ),
+          utilization,
+        }),
+      );
+      variant.outputs?.forEach((output) =>
+        outputs.push({
+          ...output,
+          valueExtended: getExtendedValue(
+            building.quantity,
+            building.utilization,
+            utilization,
+            getStandardIO(output).value,
+          ),
+          utilization,
+        }),
+      );
+    }
+  });
+
+  return { inputs, outputs };
 }
 
 function updateBuildingsWithInputs(
@@ -111,21 +208,38 @@ function updateBuildingsWithInputs(
     const input: IBuildingInput | undefined = inputs.find(
       (i) => i.name === building.name,
     );
+
+    const variantUtilizations =
+      input && input.variantUtilizations && input.variantUtilizations.length > 0
+        ? input.variantUtilizations
+        : (building.variants?.map((_variant, index) =>
+            index === 0 ? 100 : 0,
+          ) ?? []);
+
+    const { inputs: variantInputs, outputs: variantOutputs } =
+      getIOFromVariantUtilizations(building, input?.variantUtilizations);
+
     if (input === undefined) {
       return {
         ...building,
         quantity: 0,
         utilization: building.hasConsistentIO ? 0 : 100,
+        variantUtilizations,
+        inputs: variantInputs ?? [],
+        outputs: variantOutputs ?? [],
       };
     } else {
       return {
         ...building,
-        quantity: input.quantity || 0,
+        quantity: input.quantity ?? 0,
         utilization: input.utilization
           ? input.utilization
           : building.hasConsistentIO
             ? 0
             : 100,
+        variantUtilizations,
+        inputs: variantInputs ?? [],
+        outputs: variantOutputs ?? [],
       };
     }
   });
@@ -174,15 +288,16 @@ function getBuildingIOs(
   building: IBuilding,
   type: keyof IBuilding,
   resourceName: string,
-) {
+): IBuildingIO[] {
   if (building[type] === undefined) return [];
 
-  const ios = (building[type] as IIO[]).filter(
+  const ios = (building[type] as IBuildingIO[]).filter(
     (io: IIO) => io.name === resourceName,
   );
+
   if (ios.length === 0) return [];
 
-  return ios.map((io: IIO) => {
+  return ios.map((io) => {
     const standardIO = getStandardIO(io);
     return {
       ...io,
@@ -190,6 +305,7 @@ function getBuildingIOs(
       valueExtended: getExtendedValue(
         building.quantity,
         building.utilization,
+        io.utilization,
         standardIO.value,
       ),
       rate: standardIO.rate,
@@ -200,9 +316,15 @@ function getBuildingIOs(
 function getExtendedValue(
   quantity: number,
   utilization: number,
+  variantUtilization: number,
   value: number | IGameModeValue,
 ) {
-  return (quantity * (value as number) * utilization) / 100;
+  return (
+    quantity *
+    (value as number) *
+    (utilization / 100) *
+    (variantUtilization / 100)
+  );
 }
 
 export function updateBuildingQuantity(
@@ -237,6 +359,25 @@ export function updateBuildingUtilization(
   return newBuildings;
 }
 
+export function updateBuildingVariantUtilization(
+  buildings: IBuilding[],
+  name: string,
+  variantUtilizations: number[],
+) {
+  const newBuildings = buildings.map((building) => {
+    if (building.name !== name) {
+      return building;
+    }
+    const { inputs, outputs } = getIOFromVariantUtilizations(
+      building,
+      variantUtilizations,
+    );
+    return { ...building, inputs, outputs, variantUtilizations };
+  });
+  saveToLocalStorage(newBuildings);
+  return newBuildings;
+}
+
 function saveToLocalStorage(buildings: IBuilding[]) {
   localStorage.setItem(
     'buildings',
@@ -245,6 +386,9 @@ function saveToLocalStorage(buildings: IBuilding[]) {
         name: building.name,
         quantity: building.quantity ? building.quantity : 0,
         utilization: building.utilization ? building.utilization : 100,
+        variantUtilizations: building.variantUtilizations
+          ? building.variantUtilizations
+          : [],
       })),
     ),
   );
