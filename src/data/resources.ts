@@ -5,6 +5,9 @@ export const resources: IResourceBase[] = [
     name: 'Algae',
   },
   {
+    name: 'Brine',
+  },
+  {
     name: 'Carbon Dioxide',
   },
   {
@@ -57,6 +60,18 @@ export const resources: IResourceBase[] = [
   },
   {
     name: 'Polluted Water',
+  },
+  {
+    name: 'Regolith',
+  },
+  {
+    name: 'Rust',
+  },
+  {
+    name: 'Salt',
+  },
+  {
+    name: 'Salt Water',
   },
   {
     name: 'Sand',

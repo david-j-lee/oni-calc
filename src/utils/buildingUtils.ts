@@ -170,6 +170,14 @@ function getIOFromVariantUtilizations(
   variantUtilizations?.forEach((utilization, index) => {
     if (building.variants && utilization > 0) {
       const variant = building.variants[index];
+
+      // If a building has no variants or only one, always use 100. This should
+      // be how the app handles this so this is more of a backup/failsafe.
+      const normalizedUtilization =
+        !building.variants || building.variants?.length === 1
+          ? 100
+          : utilization;
+
       variant.inputs?.forEach((input) =>
         inputs.push({
           ...input,
@@ -179,7 +187,7 @@ function getIOFromVariantUtilizations(
             utilization,
             getStandardIO(input).value,
           ),
-          utilization,
+          utilization: normalizedUtilization,
         }),
       );
       variant.outputs?.forEach((output) =>
@@ -191,7 +199,7 @@ function getIOFromVariantUtilizations(
             utilization,
             getStandardIO(output).value,
           ),
-          utilization,
+          utilization: normalizedUtilization,
         }),
       );
     }

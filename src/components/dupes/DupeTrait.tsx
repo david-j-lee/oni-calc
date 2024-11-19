@@ -82,12 +82,7 @@ export const DupeTrait: FC<IProps> = ({ trait }) => {
 
   return (
     <div css={rootCss}>
-      <Dialog
-        fullScreen={false}
-        open={dialogOpen}
-        onClose={handleClose}
-        aria-labelledby="responsive-dialog-title"
-      >
+      <Dialog fullScreen={false} open={dialogOpen} onClose={handleClose}>
         <DialogCloseIconButton close={handleClose} />
         <DupeTraitDetails trait={trait} />
       </Dialog>

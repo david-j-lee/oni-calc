@@ -78,8 +78,10 @@ export const ResourceIOsBuildings: FC<IProps> = memo(
                       {io.building?.quantity}
                     </TableCell>
                     <TableCell align="right" size="small">
-                      {io.building?.utilization}%{' '}
-                      <small>({(io as IBuildingIO).utilization}%)</small>
+                      {io.building?.utilization}%
+                      {(io as IBuildingIO).utilization !== 100 && (
+                        <small> ({(io as IBuildingIO).utilization}%)</small>
+                      )}
                     </TableCell>
                     <TableCell align="right" size="small">
                       <Number value={io.valueExtended} />

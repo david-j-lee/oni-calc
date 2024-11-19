@@ -110,12 +110,7 @@ export const FoodItem: FC<IProps> = memo(({ item }) => {
 
   return (
     <div css={rootCss}>
-      <Dialog
-        fullScreen={false}
-        open={dialogOpen}
-        onClose={handleClose}
-        aria-labelledby="responsive-dialog-title"
-      >
+      <Dialog fullScreen={false} open={dialogOpen} onClose={handleClose}>
         <DialogCloseIconButton close={handleClose} />
         <FoodItemDetails item={item} showWiki={true} />
       </Dialog>

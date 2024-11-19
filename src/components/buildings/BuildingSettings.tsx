@@ -4,6 +4,7 @@ import { updatePercentagesProportionally } from '../../utils/mathUtils';
 import ResourceChip from '../resources/ResourceChip';
 import { ArrowRightAlt } from '@mui/icons-material';
 import {
+  Alert,
   Card,
   CardContent,
   css,
@@ -72,22 +73,24 @@ export const BuildingSettings = ({ building }: IProps) => {
       <Typography variant="h5">{building.name}</Typography>
       <Typography variant="overline">Settings</Typography>
       {!building.hasConsistentIO && building.quantity > 0 && (
-        <div>
-          <Typography variant="subtitle1">Utilization</Typography>
-          <div css={sliderCss}>
-            <Slider
-              value={utilization}
-              onChange={handleSliderChange}
-              valueLabelFormat={(number) => number.toFixed(0) + '%'}
-              valueLabelDisplay="auto"
-            />
-          </div>
-        </div>
+        <Card css={cardCss}>
+          <CardContent>
+            <Typography variant="subtitle1">Utilization</Typography>
+            <div css={sliderCss}>
+              <Slider
+                value={utilization}
+                onChange={handleSliderChange}
+                valueLabelFormat={(number) => number.toFixed(0) + '%'}
+                valueLabelDisplay="auto"
+              />
+            </div>
+          </CardContent>
+        </Card>
       )}
       {building.variants && building.variants.length > 1 ? (
         building.variants.map((variant, index) => {
           return (
-            <Card key={index} css={variantUtilizationCardCss}>
+            <Card key={index} css={cardCss}>
               <CardContent>
                 <div css={ioInfoInlineCss}>
                   <div css={ioInfoInlineInputsCss}>
@@ -121,7 +124,9 @@ export const BuildingSettings = ({ building }: IProps) => {
           );
         })
       ) : (
-        <Typography>No settings to customize for this building</Typography>
+        <Alert severity="info" variant="outlined">
+          No variants available for this building
+        </Alert>
       )}
     </div>
   );
@@ -143,7 +148,7 @@ const sliderCss = (theme: Theme) =>
     padding: theme.spacing(0, 1.5, 0, 0),
   });
 
-const variantUtilizationCardCss = (theme: Theme) =>
+const cardCss = (theme: Theme) =>
   css({
     '&:not(:last-child)': {
       marginBottom: theme.spacing(),
