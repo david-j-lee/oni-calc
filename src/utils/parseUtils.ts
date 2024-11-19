@@ -2,7 +2,6 @@ import IBuilding, { IBuildingBase } from '../interfaces/IBuilding';
 import IBuildingInput from '../interfaces/IBuildingInput';
 import ICapacity, { ICapacityBase } from '../interfaces/ICapacity';
 import ICapacityItem, { ICapacityItemBase } from '../interfaces/ICapacityItem';
-import IIO, { IIOBase } from '../interfaces/IIO';
 import IPower, { IPowerBase } from '../interfaces/IPower';
 
 const BUILDING_IMG_PATH = '/images/buildings/';
@@ -29,8 +28,10 @@ export function parseBuildings(rawBuildings: IBuildingBase[]): IBuilding[] {
         capacity: parseCapacity(building.capacity),
         hasConsistentIO: building.hasConsistentIO || false,
         power: parsePower(building.power),
-        inputs: parseIOs(building.inputs),
-        outputs: parseIOs(building.outputs),
+        variants: building.variants, // TODO: May need a parse here
+        variantUtilizations: [],
+        inputs: [],
+        outputs: [],
         quantity: 0,
         utilization: 0,
       };
@@ -65,12 +66,13 @@ export function parseBuildingInputs(
 function parseBuildingInput(input: IBuildingInput): IBuildingInput {
   if (input) {
     return {
-      name: input.name || '',
-      quantity: input.quantity || 0,
-      utilization: input.utilization || 0,
+      name: input.name ?? '',
+      quantity: input.quantity ?? 0,
+      utilization: input.utilization ?? 0,
+      variantUtilizations: input.variantUtilizations ?? [],
     };
   } else {
-    return { name: '', quantity: 0, utilization: 0 };
+    return { name: '', quantity: 0, utilization: 0, variantUtilizations: [] };
   }
 }
 
@@ -84,8 +86,8 @@ function parseCapacity(capacity?: ICapacityBase): ICapacity {
 function parseCapacityItem(item?: ICapacityItemBase): ICapacityItem {
   if (item) {
     return {
-      value: item.value || 0,
-      unit: item.unit || '',
+      value: item.value ?? 0,
+      unit: item.unit ?? '',
     };
   } else {
     return { value: 0, unit: '' };
@@ -95,39 +97,12 @@ function parseCapacityItem(item?: ICapacityItemBase): ICapacityItem {
 function parsePower(power?: IPowerBase): IPower {
   if (power) {
     return {
-      usage: power.usage || 0,
-      generation: power.generation || 0,
-      unit: power.unit || '',
-      rate: power.rate || '',
+      usage: power.usage ?? 0,
+      generation: power.generation ?? 0,
+      unit: power.unit ?? '',
+      rate: power.rate ?? '',
     };
   } else {
     return { usage: 0, generation: 0, unit: '', rate: '' };
-  }
-}
-
-function parseIOs(inputs?: IIOBase[]): IIO[] {
-  if (!inputs) {
-    return [];
-  }
-  return inputs.map((input) => parseIO(input));
-}
-
-function parseIO(input?: IIOBase): IIO {
-  if (input) {
-    return {
-      name: input.name || '',
-      value: input.value || 0,
-      valueExtended: typeof input.value === 'number' ? input.value : 0,
-      unit: input.unit || '',
-      rate: input.rate || '',
-    };
-  } else {
-    return {
-      name: '',
-      value: 0,
-      valueExtended: 0,
-      unit: '',
-      rate: '',
-    };
   }
 }

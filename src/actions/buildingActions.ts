@@ -4,6 +4,7 @@ import {
   setBuildingQuantity,
   setBuildingsLayout,
   setBuildingUtilization,
+  setBuildingVariantUtilization,
   sortBuildings,
 } from '../utils/buildingUtils';
 
@@ -56,6 +57,19 @@ export const buildingActions = {
           state.buildings,
           name,
           utilization,
+        ),
+      };
+    };
+  },
+  setBuildingVariantUtilization(name: string, variantUtilizations: number[]) {
+    return (state: IState) => {
+      return {
+        ...state,
+        ...setBuildingVariantUtilization(
+          state.resources,
+          state.buildings,
+          name,
+          variantUtilizations,
         ),
       };
     };

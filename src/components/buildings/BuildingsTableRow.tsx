@@ -3,8 +3,10 @@ import DialogCloseIconButton from '../ui/DialogCloseIconButton';
 import NumberInput from '../ui/NumberInput';
 import IBuilding from './../../interfaces/IBuilding';
 import BuildingDetails from './BuildingDetails';
+import { BuildingSettings } from './BuildingSettings';
 import { css } from '@emotion/react';
 import MoreHoriz from '@mui/icons-material/MoreHoriz';
+import Settings from '@mui/icons-material/Settings';
 import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
@@ -24,6 +26,7 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
   const [quantity, setQuantity] = useState(building.quantity);
   const [utilization, setUtilization] = useState(building.utilization || 0);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
 
   const timer = useRef<number>();
@@ -66,6 +69,15 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
 
   const handleClose = useCallback(() => {
     setDialogOpen(false);
+  }, []);
+
+  // settings
+  const handleClickSettingsOpen = useCallback(() => {
+    setSettingsOpen(true);
+  }, []);
+
+  const handleSettingsClose = useCallback(() => {
+    setSettingsOpen(false);
   }, []);
 
   // utilization
@@ -139,14 +151,14 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
         <BuildingDetails building={building} />
       </Popover>
 
-      <Dialog
-        fullScreen={false}
-        open={dialogOpen}
-        onClose={handleClose}
-        aria-labelledby="responsive-dialog-title"
-      >
+      <Dialog fullScreen={false} open={dialogOpen} onClose={handleClose}>
         <DialogCloseIconButton close={handleClose} />
         <BuildingDetails building={building} showWiki />
+      </Dialog>
+
+      <Dialog open={settingsOpen} onClose={handleSettingsClose}>
+        <DialogCloseIconButton close={handleSettingsClose} />
+        <BuildingSettings building={building} />
       </Dialog>
 
       <TableCell size="small">
@@ -198,6 +210,9 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
       </TableCell>
 
       <TableCell size="small">
+        <IconButton onClick={handleClickSettingsOpen} aria-label="Settings">
+          <Settings />
+        </IconButton>
         <IconButton onClick={handleClickOpen} aria-label="More">
           <MoreHoriz />
         </IconButton>

@@ -3,8 +3,10 @@ import DialogCloseIconButton from '../ui/DialogCloseIconButton';
 import NumberInput from '../ui/NumberInput';
 import IBuilding from './../../interfaces/IBuilding';
 import BuildingDetails from './BuildingDetails';
+import { BuildingSettings } from './BuildingSettings';
 import { css } from '@emotion/react';
 import MoreVert from '@mui/icons-material/MoreVert';
+import Settings from '@mui/icons-material/Settings';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -34,6 +36,7 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
   const [quantity, setQuantity] = useState(building.quantity || 0);
   const [utilization, setUtilization] = useState(building.utilization || 0);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
 
   const timer = useRef<number | null>(null);
@@ -71,6 +74,15 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
 
   const handleClose = useCallback(() => {
     setDialogOpen(false);
+  }, []);
+
+  // open settings
+  const handleClickSettingsOpen = useCallback(() => {
+    setSettingsOpen(true);
+  }, []);
+
+  const handleSettingsClose = useCallback(() => {
+    setSettingsOpen(false);
   }, []);
 
   // utilization
@@ -132,14 +144,13 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
 
   return (
     <div css={rootCss}>
-      <Dialog
-        fullScreen={false}
-        open={dialogOpen}
-        onClose={handleClose}
-        aria-labelledby="responsive-dialog-title"
-      >
+      <Dialog open={dialogOpen} onClose={handleClose}>
         <DialogCloseIconButton close={handleClose} />
         <BuildingDetails building={building} showWiki />
+      </Dialog>
+      <Dialog open={settingsOpen} onClose={handleSettingsClose}>
+        <DialogCloseIconButton close={handleSettingsClose} />
+        <BuildingSettings building={building} />
       </Dialog>
       <Popover
         css={popoverCss}
@@ -162,7 +173,7 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
         </div>
         <div css={detailsCss}>
           <CardContent css={cardContentCss}>
-            <Typography variant="subtitle1" css={cardContentTitleCss}>
+            <Typography variant="h6" css={cardContentTitleCss}>
               {building.name}
             </Typography>
             {/* div is required to prevent button from stretch in height */}
@@ -184,13 +195,18 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
               </div>
             )}
             <div css={quantityCss}>
-              <NumberInput
-                label="Building Quantity"
-                value={quantity}
-                onChange={handleChange}
-                decrement={decrement}
-                increment={increment}
-              />
+              <div css={quantityInputCss}>
+                <NumberInput
+                  label="Building Quantity"
+                  value={quantity}
+                  onChange={handleChange}
+                  decrement={decrement}
+                  increment={increment}
+                />
+              </div>
+              <IconButton onClick={handleClickSettingsOpen} aria-label="More">
+                <Settings />
+              </IconButton>
             </div>
           </CardActions>
         </div>
@@ -212,7 +228,7 @@ const cardCss = css({
 const cardContentCss = (theme: Theme) =>
   css({
     display: 'flex',
-    paddingRight: theme.spacing(2),
+    paddingRight: theme.spacing(),
     flexGrow: 1,
   });
 
@@ -256,13 +272,18 @@ const quantityCss = (theme: Theme) =>
     },
   });
 
+const quantityInputCss = (theme: Theme) =>
+  css({
+    paddingRight: theme.spacing(),
+  });
+
 const sliderCss = (theme: Theme) =>
   css({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
-    padding: theme.spacing(0, 1, 1, 1),
+    justifyContent: 'flex-start',
+    padding: theme.spacing(0, 2.5, 1, 1),
   });
 
 const popoverCss = css({

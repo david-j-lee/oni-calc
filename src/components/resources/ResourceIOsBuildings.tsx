@@ -1,3 +1,4 @@
+import { IBuildingIO } from '../../interfaces/IBuilding';
 import Number from '../ui/Number';
 import IResource from './../../interfaces/IResource';
 import Table from '@mui/material/Table';
@@ -78,6 +79,9 @@ export const ResourceIOsBuildings: FC<IProps> = memo(
                     </TableCell>
                     <TableCell align="right" size="small">
                       {io.building?.utilization}%
+                      {(io as IBuildingIO).utilization !== 100 && (
+                        <small> ({(io as IBuildingIO).utilization}%)</small>
+                      )}
                     </TableCell>
                     <TableCell align="right" size="small">
                       <Number value={io.valueExtended} />

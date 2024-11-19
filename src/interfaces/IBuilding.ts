@@ -1,5 +1,6 @@
 import ICapacity, { ICapacityBase } from './ICapacity';
-import IIO, { IIOBase } from './IIO';
+import IIO from './IIO';
+import IIOVariant from './IIOVariant';
 import IPower, { IPowerBase } from './IPower';
 
 export interface IBuildingBase {
@@ -8,8 +9,7 @@ export interface IBuildingBase {
   capacity?: ICapacityBase;
   hasConsistentIO: boolean;
   power?: IPowerBase;
-  inputs?: IIOBase[];
-  outputs?: IIOBase[];
+  variants?: IIOVariant[];
 }
 
 export default interface IBuilding extends IBuildingBase {
@@ -19,7 +19,12 @@ export default interface IBuilding extends IBuildingBase {
   quantity: number;
   capacity: ICapacity;
   utilization: number;
+  variantUtilizations: number[];
   power: IPower;
-  inputs: IIO[];
-  outputs: IIO[];
+  inputs: IBuildingIO[];
+  outputs: IBuildingIO[];
+}
+
+export interface IBuildingIO extends IIO {
+  utilization: number;
 }

@@ -207,7 +207,7 @@ function getIOForResource(
     .map((plant) =>
       plant[type]
         .filter((io: IIO) => io.name === resourceName)
-        .map((io: IIO) => getExtendedValue(plant, getStandardIO(io))),
+        .map((io: IIO) => getExtendedValue(plant, getStandardIO(io) as IIO)),
     )
     .reduce((a, b) => a.concat(b), []);
 }

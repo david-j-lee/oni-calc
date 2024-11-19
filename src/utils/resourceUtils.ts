@@ -188,8 +188,8 @@ function resourceBuildings(resource: IResourceBase, buildings: IBuilding[]) {
   const totalBuildingOutput = getIOTotal(buildingOutputs);
 
   return {
-    buildingInputs,
-    buildingOutputs,
+    buildingInputs: buildingInputs as IIO[],
+    buildingOutputs: buildingOutputs as IIO[],
     totalBuildingInput,
     totalBuildingOutput,
     totalBuildingIO: totalBuildingOutput - totalBuildingInput,
