@@ -1,19 +1,12 @@
 import IState from '../interfaces/IState';
-import {
-  clearBuildingInputs,
-  setBuildingQuantity,
-  setBuildingsLayout,
-  setBuildingUtilization,
-  setBuildingVariantUtilization,
-  sortBuildings,
-} from '../utils/buildingUtils';
+import IOBuildings from '../services/IOBuildings';
 
 export const buildingActions = {
   setBuildingsLayout() {
     return (state: IState) => {
       return {
         ...state,
-        ...setBuildingsLayout(state.buildingsLayout),
+        ...IOBuildings.setBuildingsLayout(state.buildingsLayout),
       };
     };
   },
@@ -39,9 +32,9 @@ export const buildingActions = {
     return (state: IState) => {
       return {
         ...state,
-        ...setBuildingQuantity(
-          state.resources,
+        ...IOBuildings.setQuantity(
           state.buildings,
+          state.resources,
           name,
           quantity,
         ),
@@ -52,9 +45,9 @@ export const buildingActions = {
     return (state: IState) => {
       return {
         ...state,
-        ...setBuildingUtilization(
-          state.resources,
+        ...IOBuildings.setUtilization(
           state.buildings,
+          state.resources,
           name,
           utilization,
         ),
@@ -65,9 +58,9 @@ export const buildingActions = {
     return (state: IState) => {
       return {
         ...state,
-        ...setBuildingVariantUtilization(
-          state.resources,
+        ...IOBuildings.setVariantUtilization(
           state.buildings,
+          state.resources,
           name,
           variantUtilizations,
         ),
@@ -78,7 +71,7 @@ export const buildingActions = {
     return (state: IState) => {
       return {
         ...state,
-        ...sortBuildings(
+        ...IOBuildings.sort(
           state.buildings,
           state.buildingsOrderBy,
           key,
@@ -91,7 +84,7 @@ export const buildingActions = {
     return (state: IState) => {
       return {
         ...state,
-        ...clearBuildingInputs(state.resources, state.buildings),
+        ...IOBuildings.clearInputs(state.buildings, state.resources),
       };
     };
   },

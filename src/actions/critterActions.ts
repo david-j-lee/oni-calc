@@ -1,12 +1,12 @@
 import IState from '../interfaces/IState';
-import IOPlants from '../services/IOPlants';
+import IOCritters from '../services/IOCritters';
 
-export const plantActions = {
-  setPlantQuantity(name: string, quantity: number) {
+export const critterActions = {
+  setCritterQuantity(name: string, quantity: number) {
     return (state: IState) => {
       return {
         ...state,
-        ...IOPlants.setQuantity(
+        ...IOCritters.setQuantity(
           state.critters,
           state.resources,
           name,
@@ -15,11 +15,11 @@ export const plantActions = {
       };
     };
   },
-  clearPlantInputs() {
+  clearCritterInputs() {
     return (state: IState) => {
       return {
         ...state,
-        ...IOPlants.clearInputs(state.critters, state.resources),
+        ...IOCritters.clearInputs(state.critters, state.resources),
       };
     };
   },

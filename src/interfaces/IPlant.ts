@@ -1,20 +1,17 @@
-import IIO, { IIOBase } from './IIO';
+import IIOEntity, { IIOEntityBase } from './IIOEntity';
+import IIOVariant from './IIOVariant';
 import IPlantRequirement from './IPlantRequirement';
 
-export interface IPlantBase {
-  name: string;
+export interface IPlantBase extends IIOEntityBase {
   yield: number;
   growthRate: IPlantGrowthRate;
-  inputs?: IIOBase[];
+  variants?: IIOVariant[];
 }
 
-export default interface IPlant extends IPlantBase {
-  quantity: number;
+export default interface IPlant extends IIOEntity, IPlantBase {
   growthRate: IPlantGrowthRate;
   rawFood: IPlantRequirement[];
   preparedFood: IPlantRequirement[];
-  inputs: IIO[];
-  outputs: IIO[];
 }
 
 interface IPlantGrowthRate {

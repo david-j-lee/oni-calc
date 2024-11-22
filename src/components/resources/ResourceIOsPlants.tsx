@@ -12,7 +12,7 @@ const getArray = (resource: IResource, type: string) => {
     case 'inputs':
       return getInputs(resource);
     case 'outputs':
-      return resource.plantOutputs;
+      return resource.subtotals.plants.outputs;
     case 'both':
       return getBoth(resource);
     default:
@@ -21,7 +21,7 @@ const getArray = (resource: IResource, type: string) => {
 };
 
 const getInputs = (resource: IResource) => {
-  return resource.plantInputs.map((input) => {
+  return resource.subtotals.plants.inputs.map((input) => {
     return {
       ...input,
       valueExtended: input.valueExtended * -1,
@@ -30,8 +30,8 @@ const getInputs = (resource: IResource) => {
 };
 
 const getBoth = (resource: IResource) => {
-  return resource.plantOutputs.concat(
-    resource.plantInputs.map((input) => {
+  return resource.subtotals.plants.outputs.concat(
+    resource.subtotals.plants.inputs.map((input) => {
       return {
         ...input,
         valueExtended: input.valueExtended * -1,
@@ -69,9 +69,9 @@ export const ResourceIOsPlants: FC<IProps> = memo(
               {array.map((io, index) => {
                 return (
                   <TableRow key={index}>
-                    <TableCell size="small">{io.plant?.name}</TableCell>
+                    <TableCell size="small">{io.record?.name}</TableCell>
                     <TableCell align="right" size="small">
-                      {io.plant?.quantity}
+                      {io.record?.quantity}
                     </TableCell>
                     <TableCell align="right" size="small">
                       <Number value={io.valueExtended} />

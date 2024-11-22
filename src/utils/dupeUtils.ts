@@ -200,6 +200,7 @@ function getWasteIOForResource(
     unit: string;
     rate: string;
     valueExtended: number;
+    utilization: number;
     dupe: { reference: string; quantity: number };
   }[] = [];
 
@@ -220,6 +221,7 @@ function getWasteIOForResource(
         unit: 'g',
         rate: 'per second',
         valueExtended: value * dupes.quantity,
+        utilization: 100,
         dupe: { reference: 'Waste', quantity: dupes.quantity },
       });
     }

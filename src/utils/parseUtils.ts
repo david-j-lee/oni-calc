@@ -1,8 +1,8 @@
 import IBuilding, { IBuildingBase } from '../interfaces/IBuilding';
-import IBuildingInput from '../interfaces/IBuildingInput';
 import ICapacity, { ICapacityBase } from '../interfaces/ICapacity';
 import ICapacityItem, { ICapacityItemBase } from '../interfaces/ICapacityItem';
 import IPower, { IPowerBase } from '../interfaces/IPower';
+import IVariantInput from '../interfaces/IVariantInput';
 
 const BUILDING_IMG_PATH = '/images/buildings/';
 const BUILDING_CATEGORY_PATH = '/images/building-categories/';
@@ -42,9 +42,7 @@ export function parseBuildings(rawBuildings: IBuildingBase[]): IBuilding[] {
   }
 }
 
-export function parseBuildingInputs(
-  rawInputs: string | null,
-): IBuildingInput[] {
+export function parseBuildingInputs(rawInputs: string | null): IVariantInput[] {
   if (rawInputs) {
     let parsedInputs;
 
@@ -55,7 +53,7 @@ export function parseBuildingInputs(
       throw e;
     }
 
-    return (parsedInputs as IBuildingInput[]).map((input) =>
+    return (parsedInputs as IVariantInput[]).map((input) =>
       parseBuildingInput(input),
     );
   } else {
@@ -63,7 +61,7 @@ export function parseBuildingInputs(
   }
 }
 
-function parseBuildingInput(input: IBuildingInput): IBuildingInput {
+function parseBuildingInput(input: IVariantInput): IVariantInput {
   if (input) {
     return {
       name: input.name ?? '',

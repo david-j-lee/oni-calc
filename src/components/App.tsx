@@ -3,9 +3,10 @@ import About from './About';
 import Calculator from './Calculator';
 import PageNotFound from './PageNotFound';
 import Buildings from './buildings/Buildings';
+import Critters from './critters/Critters';
 import Dupes from './dupes/Dupes';
-import Food from './food/Food';
 import Geysers from './geysers/Geysers';
+import Plants from './plants/Plants';
 import Settings from './settings/Settings';
 import Navbar from './ui/Navbar';
 import '@fontsource/comfortaa/300.css';
@@ -42,7 +43,8 @@ export const App: FC = () => {
             <Route index element={<Settings />} />
             <Route path="dupes" element={<Dupes />} />
             <Route path="buildings" element={<Buildings />} />
-            <Route path="food" element={<Food />} />
+            <Route path="critters" element={<Critters />} />
+            <Route path="plants" element={<Plants />} />
             <Route path="geysers" element={<Geysers />} />
           </Route>
           <Route path="about" element={<About />} />

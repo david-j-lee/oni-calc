@@ -1,6 +1,5 @@
 import NavbarBuildings from './NavbarBuildings';
 import NavbarDupes from './NavbarDupes';
-import NavbarFood from './NavbarFood';
 import NavbarGeysers from './NavbarGeysers';
 import ThemePicker from './ThemePicker';
 import HelpIcon from '@mui/icons-material/Help';
@@ -47,7 +46,6 @@ export const Navbar: FC = memo(() => {
           <div css={rightNavCss}>
             <Routes>
               <Route path="/geysers" element={<NavbarGeysers />} />
-              <Route path="/food" element={<NavbarFood />} />
               <Route path="/buildings" element={<NavbarBuildings />} />
               <Route path="/dupes" element={<NavbarDupes />} />
               <Route path="*" element={null} />

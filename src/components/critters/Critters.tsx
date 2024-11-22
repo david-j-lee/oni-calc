@@ -1,14 +1,14 @@
 import { useContext } from '../../context/useContext';
-import Plant from './Plant';
+import Critter from './Critter';
 import { css, Theme } from '@emotion/react';
 import { Grid } from '@mui/material';
 
-export const Plants = () => {
-  const [{ plants }] = useContext();
+export const Critters = () => {
+  const [{ critters }] = useContext();
   return (
     <div css={rootCss}>
       <Grid container>
-        {plants?.map((plant, i) => {
+        {critters?.map((critter, i) => {
           return (
             <Grid
               key={i}
@@ -20,7 +20,7 @@ export const Plants = () => {
               xl={3}
               css={itemCss}
             >
-              <Plant plant={plant} />
+              <Critter critter={critter} />
             </Grid>
           );
         })}
@@ -45,4 +45,4 @@ const itemCss = (theme: Theme) =>
     },
   });
 
-export default Plants;
+export default Critters;

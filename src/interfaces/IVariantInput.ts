@@ -1,4 +1,4 @@
-export default interface IBuildingInput {
+export default interface IVariantInput {
   name: string;
   quantity: number;
   utilization: number;

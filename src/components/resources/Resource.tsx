@@ -94,11 +94,11 @@ export const Resource: FC<IProps> = memo(({ resource }) => {
 
       <TableCell align="right" css={tableCellCss}>
         <div
-          css={resource.totalIO ? ioCss : emptyIoCss}
+          css={resource.total ? ioCss : emptyIoCss}
           onMouseOver={(e) => handlePopoverOpen(e, 'Inputs or Outputs', 'both')}
           onMouseOut={handlePopoverClose}
         >
-          <Number value={Math.round(resource.totalIO)} />
+          <Number value={Math.round(resource.total)} />
         </div>
       </TableCell>
     </TableRow>

@@ -1,8 +1,8 @@
 import { useContext } from '../../context/useContext';
-import IPlant from '../../interfaces/IPlant';
+import IIOEntity from '../../interfaces/IIOEntity';
 import DialogCloseIconButton from '../ui/DialogCloseIconButton';
 import NumberInput from '../ui/NumberInput';
-import PlantDetails from './PlantDetails';
+import CritterDetails from './CritterDetails';
 import { MoreVert, Settings } from '@mui/icons-material';
 import {
   Card,
@@ -18,13 +18,13 @@ import {
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 interface IProps {
-  plant: IPlant;
+  critter: IIOEntity;
 }
 
-export const Plant = ({ plant }: IProps) => {
-  const [, { setPlantQuantity }] = useContext();
+export const Critter = ({ critter }: IProps) => {
+  const [, { setCritterQuantity }] = useContext();
 
-  const [quantity, setQuantity] = useState(plant.quantity || 0);
+  const [quantity, setQuantity] = useState(critter.quantity || 0);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
@@ -34,15 +34,15 @@ export const Plant = ({ plant }: IProps) => {
   const backgroundImgCss = useMemo(
     () =>
       css({
-        background: `url(/images/bio/${plant.name.toLowerCase().split(' ').join('-')}.png) no-repeat center center`,
+        background: `url(${critter.imgUrl}) no-repeat center center`,
         backgroundSize: 'contain',
       }),
-    [plant.name],
+    [critter.imgUrl],
   );
 
   useEffect(() => {
-    setQuantity(plant.quantity);
-  }, [plant.quantity]);
+    setQuantity(critter.quantity);
+  }, [critter.quantity]);
 
   // on hover
   const handlePopoverOpen = useCallback(
@@ -81,9 +81,9 @@ export const Plant = ({ plant }: IProps) => {
       clearTimeout(timer.current);
     }
     timer.current = setTimeout(() => {
-      setPlantQuantity(plant.name, quantity + 1);
+      setCritterQuantity(critter.name, quantity + 1);
     }, 500);
-  }, [plant.name, quantity, setPlantQuantity]);
+  }, [critter.name, quantity, setCritterQuantity]);
 
   const decrement = useCallback(() => {
     if (quantity > 0) {
@@ -92,10 +92,10 @@ export const Plant = ({ plant }: IProps) => {
         clearTimeout(timer.current);
       }
       timer.current = setTimeout(() => {
-        setPlantQuantity(plant.name, quantity - 1);
+        setCritterQuantity(critter.name, quantity - 1);
       }, 500);
     }
-  }, [plant.name, quantity, setPlantQuantity]);
+  }, [critter.name, quantity, setCritterQuantity]);
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,17 +108,17 @@ export const Plant = ({ plant }: IProps) => {
         clearTimeout(timer.current);
       }
       timer.current = setTimeout(() => {
-        setPlantQuantity(plant.name, value);
+        setCritterQuantity(critter.name, value);
       }, 500);
     },
-    [plant.name, setPlantQuantity],
+    [critter.name, setCritterQuantity],
   );
 
   return (
     <div css={rootCss}>
       <Dialog open={dialogOpen} onClose={handleClose}>
         <DialogCloseIconButton close={handleClose} />
-        <PlantDetails plant={plant} />
+        <CritterDetails critter={critter} />
       </Dialog>
       <Dialog open={settingsOpen} onClose={handleSettingsClose}>
         <DialogCloseIconButton close={handleSettingsClose} />
@@ -133,7 +133,7 @@ export const Plant = ({ plant }: IProps) => {
         transformOrigin={{ vertical: 'top', horizontal: 'left' }}
         disableRestoreFocus
       >
-        <PlantDetails plant={plant} />
+        <CritterDetails critter={critter} />
       </Popover>
       <Card css={cardCss}>
         <div
@@ -141,12 +141,12 @@ export const Plant = ({ plant }: IProps) => {
           onMouseOver={handlePopoverOpen}
           onMouseOut={handlePopoverClose}
         >
-          <div css={[imgCss, backgroundImgCss]} title={plant.name} />
+          <div css={[imgCss, backgroundImgCss]} title={critter.name} />
         </div>
         <div css={detailsCss}>
           <CardContent css={cardContentCss}>
             <Typography variant="h6" css={cardContentTitleCss}>
-              {plant.name}
+              {critter.name}
             </Typography>
             {/* div is required to prevent button from stretch in height */}
             <div>
@@ -243,4 +243,4 @@ const popoverCss = css({
   pointerEvents: 'none',
 });
 
-export default Plant;
+export default Critter;

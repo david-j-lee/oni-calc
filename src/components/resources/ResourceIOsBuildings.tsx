@@ -1,4 +1,3 @@
-import { IBuildingIO } from '../../interfaces/IBuilding';
 import Number from '../ui/Number';
 import IResource from './../../interfaces/IResource';
 import Table from '@mui/material/Table';
@@ -13,7 +12,7 @@ const getArray = (resource: IResource, type: string) => {
     case 'inputs':
       return getInputs(resource);
     case 'outputs':
-      return resource.buildingOutputs;
+      return resource.subtotals.buildings.outputs;
     case 'both':
       return getBoth(resource);
     default:
@@ -22,7 +21,7 @@ const getArray = (resource: IResource, type: string) => {
 };
 
 const getInputs = (resource: IResource) => {
-  return resource.buildingInputs.map((input) => {
+  return resource.subtotals.buildings.inputs.map((input) => {
     return {
       ...input,
       valueExtended: input.valueExtended * -1,
@@ -31,8 +30,8 @@ const getInputs = (resource: IResource) => {
 };
 
 const getBoth = (resource: IResource) => {
-  return resource.buildingOutputs.concat(
-    resource.buildingInputs.map((input) => {
+  return resource.subtotals.buildings.outputs.concat(
+    resource.subtotals.buildings.inputs.map((input) => {
       return {
         ...input,
         valueExtended: input.valueExtended * -1,
@@ -71,16 +70,17 @@ export const ResourceIOsBuildings: FC<IProps> = memo(
             </TableHead>
             <TableBody>
               {array.map((io, index) => {
+                console.log(io);
                 return (
                   <TableRow key={index}>
-                    <TableCell size="small">{io.building?.name}</TableCell>
+                    <TableCell size="small">{io.record?.name}</TableCell>
                     <TableCell align="right" size="small">
-                      {io.building?.quantity}
+                      {io.record?.quantity}
                     </TableCell>
                     <TableCell align="right" size="small">
-                      {io.building?.utilization}%
-                      {(io as IBuildingIO).utilization !== 100 && (
-                        <small> ({(io as IBuildingIO).utilization}%)</small>
+                      {io.record?.utilization}%
+                      {io.utilization !== 100 && (
+                        <small> ({io.utilization}%)</small>
                       )}
                     </TableCell>
                     <TableCell align="right" size="small">
