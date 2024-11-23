@@ -27,7 +27,7 @@ export function parseBuildings(rawBuildings: IBuildingBase[]): IBuilding[] {
           building.name.replace(/^(Domesticated|Wild) /, '').replace(' ', '_'),
         capacity: parseCapacity(building.capacity),
         power: parsePower(building.power),
-        variants: building.variants, // TODO: May need a parse here
+        variants: building.variants,
         variantUtilizations: [],
         inputs: [],
         outputs: [],
