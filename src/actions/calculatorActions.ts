@@ -58,11 +58,18 @@ export const calculatorActions = {
         parseBuildingInputs(localStorage.getItem('buildings')),
       );
       const newPlants = IOPlants.getAll<IPlant>(
-        IOPlants.getDefault(plants),
+        IOPlants.getDefault(
+          plants.map((plant) => ({
+            ...plant,
+            imgUrl: `/images/bio/${plant.name.toLowerCase().split(' ').join('-')}.png`,
+          })),
+        ),
         plantInputs,
       );
       const newCritters = IOCritters.getAll<IIOEntity>(
-        IOCritters.getDefault(critters),
+        IOCritters.getDefault(
+          critters.map((critter) => ({ ...critter, imgUrl: '' })),
+        ),
         critterInputs,
       );
       const newGeysers = getGeysers(geysers, geyserInputs);
