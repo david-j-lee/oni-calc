@@ -26,7 +26,6 @@ export function parseBuildings(rawBuildings: IBuildingBase[]): IBuilding[] {
           WIKI_LINK_PATH +
           building.name.replace(/^(Domesticated|Wild) /, '').replace(' ', '_'),
         capacity: parseCapacity(building.capacity),
-        hasConsistentIO: building.hasConsistentIO || false,
         power: parsePower(building.power),
         variants: building.variants, // TODO: May need a parse here
         variantUtilizations: [],

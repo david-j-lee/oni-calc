@@ -16,7 +16,9 @@ interface IProps {
 export const Resource: FC<IProps> = memo(({ resource }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const [dialogTitle, setDialogTitle] = useState('');
-  const [dialogType, setDialogType] = useState('');
+  const [dialogType, setDialogType] = useState<
+    'inputs' | 'outputs' | 'both' | null
+  >(null);
 
   const backgroundImgCss = useMemo(() => {
     const imgUrl = `/images/resources/${resource.name
@@ -30,7 +32,11 @@ export const Resource: FC<IProps> = memo(({ resource }) => {
   }, [resource.name]);
 
   const handlePopoverOpen = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>, title: string, type: string) => {
+    (
+      event: React.MouseEvent<HTMLDivElement>,
+      title: string,
+      type: 'inputs' | 'outputs' | 'both',
+    ) => {
       setAnchorEl(event.currentTarget);
       setDialogTitle(title);
       setDialogType(type);
@@ -41,7 +47,7 @@ export const Resource: FC<IProps> = memo(({ resource }) => {
   const handlePopoverClose = useCallback(() => {
     setAnchorEl(null);
     setDialogTitle('');
-    setDialogType('');
+    setDialogType(null);
   }, []);
 
   return (
@@ -55,11 +61,13 @@ export const Resource: FC<IProps> = memo(({ resource }) => {
         onClose={handlePopoverClose}
         disableRestoreFocus
       >
-        <ResourceIOs
-          resource={resource}
-          title={dialogTitle}
-          type={dialogType}
-        />
+        {dialogType && (
+          <ResourceIOs
+            resource={resource}
+            title={dialogTitle}
+            type={dialogType}
+          />
+        )}
       </Popover>
 
       <TableCell css={tableCellCss}>

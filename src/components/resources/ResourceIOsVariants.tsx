@@ -1,3 +1,4 @@
+import { toTitleCase } from '../../utils/commonUtils';
 import Number from '../ui/Number';
 import IResource from './../../interfaces/IResource';
 import Table from '@mui/material/Table';
@@ -7,48 +8,59 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { FC, memo, useMemo } from 'react';
 
-const getArray = (resource: IResource, type: string) => {
+const getArray = (
+  entity: string,
+  resource: IResource,
+  type: 'inputs' | 'outputs' | 'both',
+) => {
   switch (type) {
     case 'inputs':
-      return getInputs(resource);
+      return getInputs(entity, resource);
     case 'outputs':
-      return resource.subtotals.buildings.outputs;
+      return resource.subtotals[entity as keyof typeof resource.subtotals]
+        .outputs;
     case 'both':
-      return getBoth(resource);
+      return getBoth(entity, resource);
     default:
       return [];
   }
 };
 
-const getInputs = (resource: IResource) => {
-  return resource.subtotals.buildings.inputs.map((input) => {
-    return {
-      ...input,
-      valueExtended: input.valueExtended * -1,
-    };
-  });
+const getInputs = (entity: string, resource: IResource) => {
+  return resource.subtotals[
+    entity as keyof typeof resource.subtotals
+  ].inputs.map((input) => ({
+    ...input,
+    valueExtended: input.valueExtended * -1,
+  }));
 };
 
-const getBoth = (resource: IResource) => {
-  return resource.subtotals.buildings.outputs.concat(
-    resource.subtotals.buildings.inputs.map((input) => {
-      return {
+const getBoth = (entity: string, resource: IResource) => {
+  return resource.subtotals[
+    entity as keyof typeof resource.subtotals
+  ].outputs.concat(
+    resource.subtotals[entity as keyof typeof resource.subtotals].inputs.map(
+      (input) => ({
         ...input,
         valueExtended: input.valueExtended * -1,
-      };
-    }),
+      }),
+    ),
   );
 };
 
 interface IProps {
+  entity: string;
   resource: IResource;
-  title?: string;
-  type: string;
+  type: 'inputs' | 'outputs' | 'both';
 }
 
-export const ResourceIOsBuildings: FC<IProps> = memo(
-  ({ resource, title, type }) => {
-    const array = useMemo(() => getArray(resource, type), [type, resource]);
+export const ResourceIOsVariants: FC<IProps> = memo(
+  ({ resource, entity, type }) => {
+    const array = useMemo(
+      () => getArray(entity, resource, type),
+      [resource, entity, type],
+    );
+    const title = useMemo(() => toTitleCase(entity), [entity]);
 
     return (
       <div>
@@ -56,7 +68,7 @@ export const ResourceIOsBuildings: FC<IProps> = memo(
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell size="small">Buildings</TableCell>
+                <TableCell size="small">{title}</TableCell>
                 <TableCell align="right" size="small">
                   Quantity
                 </TableCell>
@@ -70,20 +82,19 @@ export const ResourceIOsBuildings: FC<IProps> = memo(
             </TableHead>
             <TableBody>
               {array.map((io, index) => {
-                console.log(io);
                 return (
                   <TableRow key={index}>
                     <TableCell size="small">{io.record?.name}</TableCell>
-                    <TableCell align="right" size="small">
+                    <TableCell align="right" size="small" width={'120px'}>
                       {io.record?.quantity}
                     </TableCell>
-                    <TableCell align="right" size="small">
+                    <TableCell align="right" size="small" width={'120px'}>
                       {io.record?.utilization}%
                       {io.utilization !== 100 && (
                         <small> ({io.utilization}%)</small>
                       )}
                     </TableCell>
-                    <TableCell align="right" size="small">
+                    <TableCell align="right" size="small" width={'140px'}>
                       <Number value={io.valueExtended} />
                     </TableCell>
                   </TableRow>
@@ -97,4 +108,4 @@ export const ResourceIOsBuildings: FC<IProps> = memo(
   },
 );
 
-export default ResourceIOsBuildings;
+export default ResourceIOsVariants;

@@ -317,7 +317,10 @@ export default abstract class IOServiceBase {
     return resources.map((resource) => {
       const updatedResource = {
         ...resource,
-        ...this.getResourceData(records, resource),
+        subtotals: {
+          ...resource.subtotals,
+          [this.key]: this.getResourceData(records, resource),
+        },
       };
       updatedResource.totalInput = getTotalInput(updatedResource);
       updatedResource.totalOutput = getTotalOutput(updatedResource);

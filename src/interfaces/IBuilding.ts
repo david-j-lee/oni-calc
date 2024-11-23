@@ -6,7 +6,6 @@ export interface IBuildingBase extends IIOEntityBase {
   category: string;
   capacity?: ICapacityBase;
   power?: IPowerBase;
-  hasConsistentIO: boolean;
 }
 
 export default interface IBuilding extends IIOEntity, IBuildingBase {

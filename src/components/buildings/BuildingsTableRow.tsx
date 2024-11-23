@@ -180,16 +180,18 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
       </TableCell>
 
       <TableCell size="small">
-        {!building.hasConsistentIO && building.quantity > 0 && (
-          <span css={sliderCss}>
-            <Slider
-              value={utilization}
-              onChange={handleSliderChange}
-              valueLabelFormat={(number) => number.toFixed(0) + '%'}
-              valueLabelDisplay="auto"
-            />
-          </span>
-        )}
+        {building.variants &&
+          building.variants.length > 0 &&
+          building.quantity > 0 && (
+            <span css={sliderCss}>
+              <Slider
+                value={utilization}
+                onChange={handleSliderChange}
+                valueLabelFormat={(number) => number.toFixed(0) + '%'}
+                valueLabelDisplay="auto"
+              />
+            </span>
+          )}
       </TableCell>
 
       <TableCell align="right" css={quantityCss} size="small">

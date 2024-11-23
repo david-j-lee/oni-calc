@@ -1,8 +1,7 @@
 import IResource from './../../interfaces/IResource';
-import ResourceIOsBuildings from './ResourceIOsBuildings';
 import ResourceIOsDupes from './ResourceIOsDupes';
 import ResourceIOsGeysers from './ResourceIOsGeysers';
-import ResourceIOsPlants from './ResourceIOsPlants';
+import ResourceIOsVariants from './ResourceIOsVariants';
 import { css } from '@emotion/react';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
@@ -31,7 +30,7 @@ const hasOutputs = (resource: IResource) => {
 interface IProps {
   title: string;
   resource: IResource;
-  type: string;
+  type: 'inputs' | 'outputs' | 'both';
 }
 
 export const ResourceIOs: FC<IProps> = memo(({ title, resource, type }) => {
@@ -55,8 +54,8 @@ export const ResourceIOs: FC<IProps> = memo(({ title, resource, type }) => {
   return (
     <Fragment>
       <ResourceIOsDupes resource={resource} type={type} />
-      <ResourceIOsBuildings resource={resource} type={type} />
-      <ResourceIOsPlants resource={resource} type={type} />
+      <ResourceIOsVariants entity="buildings" resource={resource} type={type} />
+      <ResourceIOsVariants entity="plants" resource={resource} type={type} />
       <ResourceIOsGeysers resource={resource} type={type} />
     </Fragment>
   );

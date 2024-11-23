@@ -23,6 +23,23 @@ export function getGameModeValue(
   return gameModeValue;
 }
 
+export function toTitleCase(word?: string) {
+  if (!word) {
+    return word;
+  }
+  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+}
+
+export function getImgUrl(category: string, name: string) {
+  const nameNormalized = name
+    .toLowerCase()
+    .replaceAll('(', '')
+    .replaceAll(')', '')
+    .split(' ')
+    .join('-');
+  return `/images/${category}/${nameNormalized}.png`;
+}
+
 export function getInputsByName(inputs: IVariantInput[]) {
   return inputs.reduce(
     (accumulator, input) => {

@@ -1,6 +1,7 @@
 import IIOEntity from '../../interfaces/IIOEntity';
 import DialogCloseIconButton from '../ui/DialogCloseIconButton';
 import NumberInput from '../ui/NumberInput';
+import IOGridCardSettings from './IOGridCardSettings';
 import { MoreVert, Settings } from '@mui/icons-material';
 import {
   Card,
@@ -11,6 +12,7 @@ import {
   Grid,
   IconButton,
   Popover,
+  Slider,
   Theme,
   Typography,
 } from '@mui/material';
@@ -30,20 +32,27 @@ export interface IRecordDetailsProps {
 interface IProps {
   record: IIOEntity;
   setQuantity: (name: string, quantity: number) => void;
+  setUtilization: (name: string, value: number) => void;
+  setVariantUtilization: (name: string, values: number[]) => void;
   children: ReactNode;
 }
 
 export const GridCard = ({
   record,
   setQuantity: setRecordQuantity,
+  setUtilization: setRecordUtilization,
+  setVariantUtilization: setRecordVariantUtilization,
   children,
 }: IProps) => {
   const [quantity, setQuantity] = useState(record.quantity || 0);
+  const [utilization, setUtilization] = useState(record.utilization || 0);
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
 
   const timer = useRef<number | null>(null);
+  const utilizationTimer = useRef<number | null>(null);
 
   const backgroundImgCss = useMemo(
     () =>
@@ -87,6 +96,23 @@ export const GridCard = ({
   const handleSettingsClose = useCallback(() => {
     setSettingsOpen(false);
   }, []);
+
+  // utilization
+  const handleSliderChange = useCallback(
+    (_event: Event, value: number | number[]) => {
+      if (value instanceof Array) {
+        return;
+      }
+      setUtilization(value);
+      if (utilizationTimer.current) {
+        clearTimeout(utilizationTimer.current);
+      }
+      utilizationTimer.current = setTimeout(() => {
+        setRecordUtilization(record.name, Math.round(value));
+      }, 500);
+    },
+    [record.name, setRecordUtilization],
+  );
 
   // change quantities
   const increment = useCallback(() => {
@@ -146,7 +172,11 @@ export const GridCard = ({
         </Dialog>
         <Dialog open={settingsOpen} onClose={handleSettingsClose}>
           <DialogCloseIconButton close={handleSettingsClose} />
-          {/* TODO: Add settings here */}
+          <IOGridCardSettings
+            record={record}
+            setUtilization={setRecordUtilization}
+            setVariantUtilization={setRecordVariantUtilization}
+          />
         </Dialog>
         <Popover
           css={popoverCss}
@@ -180,6 +210,18 @@ export const GridCard = ({
               </div>
             </CardContent>
             <CardActions css={actionsCss}>
+              {record.variants &&
+                record.variants.length > 0 &&
+                quantity > 0 && (
+                  <div css={sliderCss}>
+                    <Slider
+                      value={utilization}
+                      onChange={handleSliderChange}
+                      valueLabelFormat={(number) => number.toFixed(0) + '%'}
+                      valueLabelDisplay="auto"
+                    />
+                  </div>
+                )}
               <div css={quantityCss}>
                 <div css={quantityInputCss}>
                   <NumberInput
@@ -267,6 +309,15 @@ const quantityCss = (theme: Theme) =>
         backgroundColor: theme.palette.success[theme.palette.mode] + '14', // 14 = 0.08 opacity from the default bg
       },
     },
+  });
+
+const sliderCss = (theme: Theme) =>
+  css({
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    padding: theme.spacing(0, 2.5, 1, 1),
   });
 
 const quantityInputCss = (theme: Theme) =>

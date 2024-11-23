@@ -17,6 +17,7 @@ import IOBuildings from '../services/IOBuildings';
 import IOCritters from '../services/IOCritters';
 import IOPlants from '../services/IOPlants';
 import { getPowerCapacity, getResourcesCapacity } from '../utils/capacityUtils';
+import { getImgUrl } from '../utils/commonUtils';
 import { getDupes } from '../utils/dupeUtils';
 import { getGeysers } from '../utils/geyserUtils';
 import { parseBuildingInputs, parseBuildings } from '../utils/parseUtils';
@@ -61,14 +62,17 @@ export const calculatorActions = {
         IOPlants.getDefault(
           plants.map((plant) => ({
             ...plant,
-            imgUrl: `/images/bio/${plant.name.toLowerCase().split(' ').join('-')}.png`,
+            imgUrl: getImgUrl('bio', plant.name),
           })),
         ),
         plantInputs,
       );
       const newCritters = IOCritters.getAll<IIOEntity>(
         IOCritters.getDefault(
-          critters.map((critter) => ({ ...critter, imgUrl: '' })),
+          critters.map((critter) => ({
+            ...critter,
+            imgUrl: getImgUrl('critters', critter.name),
+          })),
         ),
         critterInputs,
       );

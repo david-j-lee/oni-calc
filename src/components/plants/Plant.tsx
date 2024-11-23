@@ -8,9 +8,17 @@ interface IProps {
 }
 
 export const Plant = ({ plant }: IProps) => {
-  const [, { setPlantQuantity }] = useContext();
+  const [
+    ,
+    { setPlantQuantity, setPlantUtilization, setPlantVariantUtilization },
+  ] = useContext();
   return (
-    <IOGridCard record={plant} setQuantity={setPlantQuantity}>
+    <IOGridCard
+      record={plant}
+      setQuantity={setPlantQuantity}
+      setUtilization={setPlantUtilization}
+      setVariantUtilization={setPlantVariantUtilization}
+    >
       <PlantDetails plant={plant} />
     </IOGridCard>
   );

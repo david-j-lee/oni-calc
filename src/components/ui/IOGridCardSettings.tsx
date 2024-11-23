@@ -1,5 +1,4 @@
-import { useContext } from '../../context/useContext';
-import IBuilding from '../../interfaces/IBuilding';
+import IIOEntity from '../../interfaces/IIOEntity';
 import { updatePercentagesProportionally } from '../../utils/mathUtils';
 import ResourceChip from '../resources/ResourceChip';
 import { ArrowRightAlt } from '@mui/icons-material';
@@ -15,15 +14,19 @@ import {
 import { useCallback, useRef, useState } from 'react';
 
 interface IProps {
-  building: IBuilding;
+  record: IIOEntity;
+  setUtilization: (name: string, value: number) => void;
+  setVariantUtilization: (name: string, values: number[]) => void;
 }
 
-export const BuildingSettings = ({ building }: IProps) => {
-  const [, { setBuildingUtilization, setBuildingVariantUtilization }] =
-    useContext();
-  const [utilization, setUtilization] = useState(building.utilization ?? 0);
+export const IOGridCardSettings = ({
+  record,
+  setUtilization: setRecordUtilization,
+  setVariantUtilization: setRecordVariantUtilization,
+}: IProps) => {
+  const [utilization, setUtilization] = useState(record.utilization ?? 0);
   const [variantUtilizations, setVariantUtilizations] = useState(
-    building.variantUtilizations ?? [],
+    record.variantUtilizations ?? [],
   );
 
   const utilizationTimer = useRef<number | null>(null);
@@ -39,10 +42,10 @@ export const BuildingSettings = ({ building }: IProps) => {
         clearTimeout(utilizationTimer.current);
       }
       utilizationTimer.current = setTimeout(() => {
-        setBuildingUtilization(building.name, Math.round(value));
+        setRecordUtilization(record.name, Math.round(value));
       }, 500);
     },
-    [building.name, setBuildingUtilization],
+    [record.name, setRecordUtilization],
   );
 
   const handleVariantSliderChange = useCallback(
@@ -62,35 +65,33 @@ export const BuildingSettings = ({ building }: IProps) => {
         clearTimeout(variantUtilizationTimer.current);
       }
       variantUtilizationTimer.current = setTimeout(() => {
-        setBuildingVariantUtilization(building.name, newVariantUtilizations);
+        setRecordVariantUtilization(record.name, newVariantUtilizations);
       }, 500);
     },
-    [building.name, setBuildingVariantUtilization, variantUtilizations],
+    [record.name, setRecordVariantUtilization, variantUtilizations],
   );
 
   return (
     <div css={rootCss}>
-      <Typography variant="h5">{building.name}</Typography>
+      <Typography variant="h5">{record.name}</Typography>
       <Typography variant="overline">Settings</Typography>
-      {building.variants &&
-        building.variants.length > 0 &&
-        building.quantity > 0 && (
-          <Card css={cardCss}>
-            <CardContent>
-              <Typography variant="subtitle1">Utilization</Typography>
-              <div css={sliderCss}>
-                <Slider
-                  value={utilization}
-                  onChange={handleSliderChange}
-                  valueLabelFormat={(number) => number.toFixed(0) + '%'}
-                  valueLabelDisplay="auto"
-                />
-              </div>
-            </CardContent>
-          </Card>
-        )}
-      {building.variants && building.variants.length > 1 ? (
-        building.variants.map((variant, index) => {
+      {record.variants && record.variants.length > 0 && record.quantity > 0 && (
+        <Card css={cardCss}>
+          <CardContent>
+            <Typography variant="subtitle1">Utilization</Typography>
+            <div css={sliderCss}>
+              <Slider
+                value={utilization}
+                onChange={handleSliderChange}
+                valueLabelFormat={(number) => number.toFixed(0) + '%'}
+                valueLabelDisplay="auto"
+              />
+            </div>
+          </CardContent>
+        </Card>
+      )}
+      {record.variants && record.variants.length > 1 ? (
+        record.variants.map((variant, index) => {
           return (
             <Card key={index} css={cardCss}>
               <CardContent>
@@ -189,3 +190,5 @@ const ioInfoArrowCss = (theme: Theme) =>
     display: 'flex',
     alignItems: 'center',
   });
+
+export default IOGridCardSettings;

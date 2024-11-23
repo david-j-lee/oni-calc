@@ -8,9 +8,17 @@ interface IProps {
 }
 
 export const Critter = ({ critter }: IProps) => {
-  const [, { setCritterQuantity }] = useContext();
+  const [
+    ,
+    { setCritterQuantity, setCritterUtilization, setCritterVariantUtilization },
+  ] = useContext();
   return (
-    <IOGridCard record={critter} setQuantity={setCritterQuantity}>
+    <IOGridCard
+      record={critter}
+      setQuantity={setCritterQuantity}
+      setUtilization={setCritterUtilization}
+      setVariantUtilization={setCritterVariantUtilization}
+    >
       <CritterDetails critter={critter} />
     </IOGridCard>
   );
