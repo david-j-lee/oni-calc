@@ -5,9 +5,9 @@ import {
   getBuildingsPowerGeneration,
   getBuildingsPowerUsage,
 } from '../utils/powerUtils';
-import IOServiceBase from './IOServiceBase';
+import IOVariantsBase from './IOVariantsBase';
 
-export default abstract class IOBuildings extends IOServiceBase {
+export default abstract class IOBuildings extends IOVariantsBase {
   public static override key = 'buildings';
 
   public static setBuildingsLayout(layout: 'grid' | 'table') {

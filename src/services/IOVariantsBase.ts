@@ -11,7 +11,7 @@ import {
   getTotalOutput,
 } from '../utils/commonUtils';
 
-export default abstract class IOServiceBase {
+export default abstract class IOVariantsBase {
   constructor() {}
 
   public static key = 'base';

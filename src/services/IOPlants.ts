@@ -1,5 +1,5 @@
-import IOServiceBase from './IOServiceBase';
+import IOVariantsBase from './IOVariantsBase';
 
-export default abstract class IOPlants extends IOServiceBase {
+export default abstract class IOPlants extends IOVariantsBase {
   public static override key = 'plants';
 }
