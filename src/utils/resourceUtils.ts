@@ -94,7 +94,7 @@ export function updateResourcesWithDupes(
     const updatedResource = {
       ...resource,
       ...resourceDupes(resource, dupes),
-    };
+    } as IResource;
     updatedResource.totalInput = getTotalInput(updatedResource);
     updatedResource.totalOutput = getTotalOutput(updatedResource);
 
@@ -127,8 +127,8 @@ export function updateResourcesWithGeysers(
 function resourceDupes(resource: IResourceBase, dupes: IDupes) {
   const dupeInputs = getDupesInputsForResource(dupes, resource.name);
   const dupeOutputs = getDupesOutputsForResource(dupes, resource.name);
-  const totalDupeInput = getIOTotal(dupeInputs);
-  const totalDupeOutput = getIOTotal(dupeOutputs);
+  const totalDupeInput = getIOTotal(dupeInputs as IIO[]);
+  const totalDupeOutput = getIOTotal(dupeOutputs as IIO[]);
 
   return {
     dupeInputs,

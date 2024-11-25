@@ -1,8 +1,14 @@
+import { ResourceName } from '../data/resources';
+import IGameModeValue from './IGameModeValue';
 import IIO from './IIO';
 import IIOTotal from './IIOTotal';
 
+export type ResourceRate = 'per second' | 'per cycle' | 'per item';
+export type ResourceUnit = 'mg' | 'g' | 'kg' | 'each';
+export type ResourceValue = IGameModeValue | number;
+
 export interface IResourceBase {
-  name: string;
+  name: ResourceName;
 }
 
 export default interface IResource extends IResourceBase {

@@ -1,12 +1,13 @@
-import IGameModeValue from './IGameModeValue';
+import { ResourceName } from '../data/resources';
 import IIOEntity from './IIOEntity';
 import IIOReference from './IIOReference';
+import { ResourceRate, ResourceUnit, ResourceValue } from './IResource';
 
 export interface IIOBase {
-  name: string;
-  value: IGameModeValue | number;
-  unit: string;
-  rate: string;
+  name: ResourceName;
+  value: ResourceValue;
+  unit: ResourceUnit;
+  rate?: ResourceRate;
 
   record?: IIOEntity;
 

@@ -56,6 +56,7 @@ export const ResourceIOs: FC<IProps> = memo(({ title, resource, type }) => {
       <ResourceIOsDupes resource={resource} type={type} />
       <ResourceIOsVariants entity="buildings" resource={resource} type={type} />
       <ResourceIOsVariants entity="plants" resource={resource} type={type} />
+      <ResourceIOsVariants entity="critters" resource={resource} type={type} />
       <ResourceIOsGeysers resource={resource} type={type} />
     </Fragment>
   );

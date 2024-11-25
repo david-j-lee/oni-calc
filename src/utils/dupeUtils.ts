@@ -1,9 +1,13 @@
+import { ResourceName } from '../data/resources';
 import IDupesInput from '../interfaces/IDupesInput';
 import { IGameMode } from '../interfaces/IGameMode';
-import IIO from '../interfaces/IIO';
 import IDupeTrait from './../interfaces/IDupeTrait';
 import IDupes from './../interfaces/IDupes';
-import IResource from './../interfaces/IResource';
+import IResource, {
+  ResourceRate,
+  ResourceUnit,
+  ResourceValue,
+} from './../interfaces/IResource';
 import { getGameModeValue } from './commonUtils';
 import { updateResourcesWithDupes } from './resourceUtils';
 
@@ -145,8 +149,8 @@ function getBaseIOForResource(
   resourceName: string,
 ) {
   return dupes[type]
-    .filter((io: IIO) => io.name === resourceName)
-    .map((io: IIO) => ({
+    .filter((io) => io.name === resourceName)
+    .map((io) => ({
       ...io,
       valueExtended: (io.value as number) * dupes.quantity,
       dupe: { reference: 'Base Dupe', quantity: dupes.quantity },
@@ -163,14 +167,14 @@ function getTraitsIOForResource(
 
   return filteredTraits
     .map((trait) =>
-      trait[type].map((io: IIO) => ({
+      trait[type].map((io) => ({
         ...io,
         dupe: { reference: trait.name, quantity: trait.quantity },
         valueExtended: (io.value as number) * trait.quantity,
       })),
     )
     .reduce((a, b) => a.concat(b), [])
-    .filter((io: IIO) => io.name === resourceName);
+    .filter((io) => io.name === resourceName);
 }
 
 export type dupesWastePropNames =
@@ -181,7 +185,7 @@ export type dupesWastePropNames =
 
 export const DUPES_WASTE_PROPS: {
   name: dupesWastePropNames;
-  title: string;
+  title: ResourceName;
 }[] = [
   { name: 'pollutedWaterValue', title: 'Polluted Water' },
   { name: 'pollutedDirtValue', title: 'Polluted Dirt' },
@@ -195,10 +199,10 @@ function getWasteIOForResource(
   resourceName: string,
 ) {
   const arr: {
-    name: string;
-    value: number;
-    unit: string;
-    rate: string;
+    name: ResourceName;
+    value: ResourceValue;
+    unit: ResourceUnit;
+    rate: ResourceRate;
     valueExtended: number;
     utilization: number;
     dupe: { reference: string; quantity: number };

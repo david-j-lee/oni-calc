@@ -213,11 +213,12 @@ export const buildings: IBuildingBase[] = [
     category: 'Power',
     name: 'Manual Generator',
     power: { usage: 0, generation: 400, unit: 'W', rate: 'per second' },
-    variants: [
-      {
-        inputs: [{ name: 'Dupe', value: 1, unit: 'each', rate: '' }],
-      },
-    ],
+    // TODO: Need to add dupe support
+    // variants: [
+    //   {
+    //     inputs: [{ name: 'Dupe', value: 1, unit: 'each' }],
+    //   },
+    // ],
   },
   {
     category: 'Power',
@@ -509,18 +510,19 @@ export const buildings: IBuildingBase[] = [
     category: 'Refinement',
     name: 'Metal Refinery',
     power: { usage: 1200, generation: 0, unit: 'W', rate: 'per second' },
-    variants: [
-      {
-        inputs: [
-          {
-            name: 'Liquid Coolant',
-            value: 400,
-            unit: 'kg',
-            rate: 'per second',
-          },
-        ],
-      },
-    ],
+    // TODO: Break this out into the different variants of Liquid Coolant
+    // variants: [
+    //   {
+    //     inputs: [
+    //       {
+    //         name: 'Liquid Coolant',
+    //         value: 400,
+    //         unit: 'kg',
+    //         rate: 'per second',
+    //       },
+    //     ],
+    //   },
+    // ],
   },
   {
     category: 'Refinement',
