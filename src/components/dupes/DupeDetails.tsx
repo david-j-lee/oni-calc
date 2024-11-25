@@ -1,4 +1,5 @@
 import IDupes from '../../interfaces/IDupes';
+import IIO from '../../interfaces/IIO';
 import { WIKI_LINK_PATH } from '../../utils/parseUtils';
 import ResourceChips from '../resources/ResourceChips';
 import DetailsBase from '../ui/DetailsBase';
@@ -17,10 +18,10 @@ export const DupeDetails: FC<IProps> = memo(({ details }) => {
       showWiki
     >
       <DetailsSection title="Inputs">
-        <ResourceChips ios={details.inputs} />
+        <ResourceChips ios={details.inputs as IIO[]} />
       </DetailsSection>
       <DetailsSection title="Outputs">
-        <ResourceChips ios={details.outputs} />
+        <ResourceChips ios={details.outputs as IIO[]} />
       </DetailsSection>
     </DetailsBase>
   );

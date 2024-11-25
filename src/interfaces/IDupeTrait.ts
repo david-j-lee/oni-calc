@@ -1,8 +1,8 @@
-import IIO from './IIO';
+import { IDupeIO } from './IDupes';
 
 export default interface IDupeTrait {
   name: string;
-  inputs: IIO[];
-  outputs: IIO[];
+  inputs: IDupeIO[];
+  outputs: IDupeIO[];
   quantity: number;
 }

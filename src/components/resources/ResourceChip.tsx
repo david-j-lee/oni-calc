@@ -15,13 +15,7 @@ interface IProps {
 export const ResourceChip: FC<IProps> = ({ io, align = 'left' }) => {
   const [{ settings }] = useContext();
 
-  const imgData = useMemo(() => {
-    let rate = io.rate;
-
-    if (io.unit) {
-      rate = io.rate.replace('per ', '/').replace('second', 's');
-    }
-
+  const backgroundImgCss = useMemo(() => {
     const imgUrl = `/images/resources/${io.name
       .toLowerCase()
       .split(' ')
@@ -32,21 +26,27 @@ export const ResourceChip: FC<IProps> = ({ io, align = 'left' }) => {
       backgroundSize: 'contain',
     });
 
-    return { rate, backgroundImgCss };
+    return backgroundImgCss;
   }, [io]);
+
+  const rate = useMemo(
+    () =>
+      io.unit ? io.rate?.replace('per ', '/').replace('second', 's') : io.rate,
+    [io],
+  );
 
   return (
     <Chip
       css={[chipCss, align === 'left' ? chipLeftCss : chipRightCss]}
       avatar={
         <Avatar>
-          <div css={[avatarCss, imgData.backgroundImgCss]} />
+          <div css={[avatarCss, backgroundImgCss]} />
         </Avatar>
       }
       label={[
         io.name,
         getGameModeValue(settings.gameMode, io.value).toLocaleString(),
-        (io.unit || '') + imgData.rate,
+        (io.unit || '') + rate,
       ].join(' ')}
     />
   );

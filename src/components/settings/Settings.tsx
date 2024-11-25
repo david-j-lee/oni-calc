@@ -93,7 +93,9 @@ export const Settings: FC = () => {
                   />
                   <span>Hide empty values</span>
                 </Typography>
-                Hide unused resources and plants from the results sidebar
+                <Typography css={descriptionCss} variant="subtitle2">
+                  Hide unused resources and plants from the results sidebar
+                </Typography>
               </CardContent>
             </ButtonBase>
           </Card>
@@ -125,5 +127,10 @@ const titleCss = css({
   display: 'flex',
   alignItems: 'center',
 });
+
+const descriptionCss = (theme: Theme) =>
+  css({
+    padding: theme.spacing(0, 2),
+  });
 
 export default Settings;

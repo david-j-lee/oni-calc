@@ -2,24 +2,24 @@ import IBuilding from '../interfaces/IBuilding';
 import IFood from '../interfaces/IFood';
 import IGeysers from '../interfaces/IGeysers';
 import IIO from '../interfaces/IIO';
+import IIOEntity from '../interfaces/IIOEntity';
+import IOBuildings from '../services/IOBuildings';
+import IOCritters from '../services/IOCritters';
+import IOPlants from '../services/IOPlants';
 import IDupes from './../interfaces/IDupes';
 import IPlant from './../interfaces/IPlant';
 import IResource, { IResourceBase } from './../interfaces/IResource';
 import {
-  getBuildingsInputsForResource,
-  getBuildingsOutputsForResource,
-} from './buildingUtils';
-import { getIOTotal, getSortedArray } from './commonUtils';
+  getIOTotal,
+  getSortedArray,
+  getTotalInput,
+  getTotalOutput,
+} from './commonUtils';
 import {
   getDupesInputsForResource,
   getDupesOutputsForResource,
 } from './dupeUtils';
-import { getFoodInputsForResource } from './foodUtils';
 import { getGeyserOutputs } from './geyserUtils';
-import {
-  getPlantsInputsForResource,
-  getPlantsOutputsForResource,
-} from './plantUtils';
 
 export const sortResources = (
   resources: IResource[],
@@ -42,7 +42,7 @@ export function getClearedResources(resources: IResource[]) {
   return resources.map((resource) => {
     resource.totalInput = 0;
     resource.totalOutput = 0;
-    resource.totalIO = 0;
+    resource.total = 0;
     return resource;
   });
 }
@@ -52,13 +52,14 @@ export function updateResources({
   plants,
   dupes,
   buildings,
-  food,
+  critters,
   geysers,
 }: {
   resources: IResourceBase[];
   plants: IPlant[];
   dupes: IDupes;
   buildings: IBuilding[];
+  critters: IIOEntity[];
   food: IFood[];
   geysers: IGeysers;
 }) {
@@ -66,37 +67,21 @@ export function updateResources({
     const updatedResource = {
       ...resource,
       ...resourceDupes(resource, dupes),
-      ...resourceBuildings(resource, buildings),
-      ...resourceFood(resource, food),
-      ...resourcePlants(resource, plants),
       ...resourceGeysers(resource, geysers),
+      subtotals: {
+        buildings: IOBuildings.getResourceData(buildings, resource),
+        plants: IOPlants.getResourceData(plants, resource),
+        critters: IOCritters.getResourceData(critters, resource),
+      },
     } as IResource;
+
     updatedResource.totalInput = getTotalInput(updatedResource);
     updatedResource.totalOutput = getTotalOutput(updatedResource);
 
     return {
       ...updatedResource,
-      totalIO: updatedResource.totalOutput - updatedResource.totalInput,
+      total: updatedResource.totalOutput - updatedResource.totalInput,
       unitOfMeasure: 'g/s',
-    };
-  });
-}
-
-export function updateResourcesWithBuildings(
-  resources: IResource[],
-  buildings: IBuilding[],
-) {
-  return resources.map((resource) => {
-    const updatedResource = {
-      ...resource,
-      ...resourceBuildings(resource, buildings),
-    };
-    updatedResource.totalInput = getTotalInput(updatedResource);
-    updatedResource.totalOutput = getTotalOutput(updatedResource);
-
-    return {
-      ...updatedResource,
-      totalIO: updatedResource.totalOutput - updatedResource.totalInput,
     };
   });
 }
@@ -109,28 +94,7 @@ export function updateResourcesWithDupes(
     const updatedResource = {
       ...resource,
       ...resourceDupes(resource, dupes),
-    };
-    updatedResource.totalInput = getTotalInput(updatedResource);
-    updatedResource.totalOutput = getTotalOutput(updatedResource);
-
-    return {
-      ...updatedResource,
-      totalIO: updatedResource.totalOutput - updatedResource.totalInput,
-    };
-  });
-}
-
-export function updateResourcesWithFoodAndPlants(
-  resources: IResource[],
-  plants: IPlant[],
-  food: IFood[],
-) {
-  return resources.map((resource) => {
-    const updatedResource = {
-      ...resource,
-      ...resourceFood(resource, food),
-      ...resourcePlants(resource, plants),
-    };
+    } as IResource;
     updatedResource.totalInput = getTotalInput(updatedResource);
     updatedResource.totalOutput = getTotalOutput(updatedResource);
 
@@ -163,8 +127,8 @@ export function updateResourcesWithGeysers(
 function resourceDupes(resource: IResourceBase, dupes: IDupes) {
   const dupeInputs = getDupesInputsForResource(dupes, resource.name);
   const dupeOutputs = getDupesOutputsForResource(dupes, resource.name);
-  const totalDupeInput = getIOTotal(dupeInputs);
-  const totalDupeOutput = getIOTotal(dupeOutputs);
+  const totalDupeInput = getIOTotal(dupeInputs as IIO[]);
+  const totalDupeOutput = getIOTotal(dupeOutputs as IIO[]);
 
   return {
     dupeInputs,
@@ -172,57 +136,6 @@ function resourceDupes(resource: IResourceBase, dupes: IDupes) {
     totalDupeInput,
     totalDupeOutput,
     totalDupeIO: totalDupeOutput - totalDupeInput,
-  };
-}
-
-function resourceBuildings(resource: IResourceBase, buildings: IBuilding[]) {
-  const buildingInputs = getBuildingsInputsForResource(
-    buildings,
-    resource.name,
-  );
-  const buildingOutputs = getBuildingsOutputsForResource(
-    buildings,
-    resource.name,
-  );
-  const totalBuildingInput = getIOTotal(buildingInputs);
-  const totalBuildingOutput = getIOTotal(buildingOutputs);
-
-  return {
-    buildingInputs: buildingInputs as IIO[],
-    buildingOutputs: buildingOutputs as IIO[],
-    totalBuildingInput,
-    totalBuildingOutput,
-    totalBuildingIO: totalBuildingOutput - totalBuildingInput,
-  };
-}
-
-function resourceFood(resource: IResourceBase, food: IFood[]) {
-  const foodInputs = getFoodInputsForResource(food, resource.name);
-  const foodOutputs: IIO[] = [];
-  const totalFoodInput = getIOTotal(foodInputs);
-  const totalFoodOutput = getIOTotal(foodOutputs);
-
-  return {
-    foodInputs,
-    foodOutputs,
-    totalFoodInput,
-    totalFoodOutput,
-    totalFoodIO: totalFoodOutput - totalFoodInput,
-  };
-}
-
-function resourcePlants(resource: IResourceBase, plants: IPlant[]) {
-  const plantInputs = getPlantsInputsForResource(plants, resource.name);
-  const plantOutputs = getPlantsOutputsForResource(plants, resource.name);
-  const totalPlantInput = getIOTotal(plantInputs);
-  const totalPlantOutput = getIOTotal(plantOutputs);
-
-  return {
-    plantInputs,
-    plantOutputs,
-    totalPlantInput,
-    totalPlantOutput,
-    totalPlantIO: totalPlantOutput - totalPlantInput,
   };
 }
 
@@ -239,24 +152,4 @@ function resourceGeysers(resource: IResourceBase, geysers: IGeysers) {
     totalGeyserOutput,
     totalGeyserIO: totalGeyserOutput - totalGeyserInput,
   };
-}
-
-function getTotalInput(resource: IResource) {
-  return (
-    resource.totalDupeInput +
-    resource.totalBuildingInput +
-    resource.totalPlantInput +
-    resource.totalFoodInput +
-    resource.totalGeyserInput
-  );
-}
-
-function getTotalOutput(resource: IResource) {
-  return (
-    resource.totalDupeOutput +
-    resource.totalBuildingOutput +
-    resource.totalPlantOutput +
-    resource.totalFoodOutput +
-    resource.totalGeyserOutput
-  );
 }

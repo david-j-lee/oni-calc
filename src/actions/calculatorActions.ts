@@ -1,22 +1,26 @@
 import { initialState } from '../context/initialState';
 import { buildings } from '../data/buildings';
+import { critters } from '../data/critters';
 import { dupes } from '../data/dupes';
-import { food } from '../data/food';
 import { geysers } from '../data/geysers';
 import { plants } from '../data/plants';
 import { resources } from '../data/resources';
+import IBuilding from '../interfaces/IBuilding';
 import IDupeInput from '../interfaces/IDupeInput';
 import IDupes from '../interfaces/IDupes';
-import IFoodInput from '../interfaces/IFoodInput';
 import IGeyserInput from '../interfaces/IGeyserInput';
+import IIOEntity from '../interfaces/IIOEntity';
+import IPlant from '../interfaces/IPlant';
 import ISettings from '../interfaces/ISettings';
-import { getBuildings } from '../utils/buildingUtils';
+import IVariantInput from '../interfaces/IVariantInput';
+import IOBuildings from '../services/IOBuildings';
+import IOCritters from '../services/IOCritters';
+import IOPlants from '../services/IOPlants';
 import { getPowerCapacity, getResourcesCapacity } from '../utils/capacityUtils';
+import { getImgUrl } from '../utils/commonUtils';
 import { getDupes } from '../utils/dupeUtils';
-import { getFood } from '../utils/foodUtils';
 import { getGeysers } from '../utils/geyserUtils';
 import { parseBuildingInputs, parseBuildings } from '../utils/parseUtils';
-import { updatePlants } from '../utils/plantUtils';
 import {
   getBuildingsPowerGeneration,
   getBuildingsPowerUsage,
@@ -29,7 +33,9 @@ export const calculatorActions = {
   getData() {
     return (state: IState) => {
       const dupeInputs = getJsonFromLocalStorage<IDupeInput>('dupes');
-      const foodInputs = getJsonFromLocalStorage<IFoodInput[]>('food');
+      const plantInputs = getJsonFromLocalStorage<IVariantInput[]>('plants');
+      const critterInputs =
+        getJsonFromLocalStorage<IVariantInput[]>('critters');
       const geyserInputs = getJsonFromLocalStorage<IGeyserInput[]>('geysers');
       const settings = getJsonFromLocalStorage<ISettings>('settings');
       let layout = localStorage.getItem('layout');
@@ -48,19 +54,36 @@ export const calculatorActions = {
         dupes as IDupes,
         dupeInputs,
       );
-      const newBuildings = getBuildings(
+      const newBuildings = IOBuildings.getAll<IBuilding>(
         parseBuildings(buildings),
         parseBuildingInputs(localStorage.getItem('buildings')),
       );
-      const newFood = getFood(food, foodInputs);
+      const newPlants = IOPlants.getAll<IPlant>(
+        IOPlants.getDefault(
+          plants.map((plant) => ({
+            ...plant,
+            imgUrl: getImgUrl('bio', plant.name),
+          })),
+        ),
+        plantInputs,
+      );
+      const newCritters = IOCritters.getAll<IIOEntity>(
+        IOCritters.getDefault(
+          critters.map((critter) => ({
+            ...critter,
+            imgUrl: getImgUrl('critters', critter.name),
+          })),
+        ),
+        critterInputs,
+      );
       const newGeysers = getGeysers(geysers, geyserInputs);
-      const newPlants = updatePlants(plants, newFood);
       const newResources = updateResources({
         resources,
         plants: newPlants,
         dupes: newDupes,
         buildings: newBuildings,
-        food: newFood,
+        critters: newCritters,
+        food: [],
         geysers: newGeysers,
       });
 
@@ -69,10 +92,11 @@ export const calculatorActions = {
         settings: newSettings,
         buildingsLayout: layout,
         resources: newResources,
+        buildings: newBuildings,
+        critters: newCritters,
         plants: newPlants,
         dupes: newDupes,
-        buildings: newBuildings,
-        food: newFood,
+        food: [],
         geysers: newGeysers,
         powerGeneration: getBuildingsPowerGeneration(newBuildings),
         powerUsage: getBuildingsPowerUsage(newBuildings),

@@ -4,25 +4,21 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Base',
     name: 'Automatic Dispenser',
-    hasConsistentIO: false,
     power: { usage: 60, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Base',
     name: 'Bunker Door',
-    hasConsistentIO: false,
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Base',
     name: 'Mechanized Airlock',
-    hasConsistentIO: false,
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Base',
     name: 'Smart Storage Bin',
-    hasConsistentIO: false,
     capacity: {
       resources: { value: 20000, unit: 'kg' },
     },
@@ -31,7 +27,6 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Base',
     name: 'Storage Bin',
-    hasConsistentIO: true,
     capacity: {
       resources: { value: 20000, unit: 'kg' },
     },
@@ -39,13 +34,11 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Base',
     name: 'Transit Tube Access',
-    hasConsistentIO: false,
     power: { usage: 960, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Oxygen',
     name: 'Algae Terrarium',
-    hasConsistentIO: false,
     variants: [
       {
         inputs: [
@@ -73,7 +66,6 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Oxygen',
     name: 'Carbon Skimmer',
-    hasConsistentIO: false,
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
     variants: [
       {
@@ -90,7 +82,6 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Oxygen',
     name: 'Deodorizer',
-    hasConsistentIO: false,
     variants: [
       {
         inputs: [
@@ -137,7 +128,6 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Oxygen',
     name: 'Electrolyzer',
-    hasConsistentIO: false,
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
     variants: [
       {
@@ -152,7 +142,6 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Oxygen',
     name: 'Oxygen Diffuser',
-    hasConsistentIO: false,
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
     variants: [
       {
@@ -166,7 +155,6 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Oxygen',
     name: 'Rust Deoxidizer',
-    hasConsistentIO: false,
     power: { usage: 60, generation: 0, unit: 'W', rate: 'per second' },
     variants: [
       {
@@ -182,90 +170,9 @@ export const buildings: IBuildingBase[] = [
       },
     ],
   },
-  // TODO: Move this section to plants.
-  {
-    category: 'Industrial Farm',
-    name: 'Wild Oxyfern',
-    hasConsistentIO: false,
-    // TODO: What to do with this requirement?
-    // requirements: [{ type: 'Plant', name: 'Oxyfern' }],
-    variants: [
-      {
-        inputs: [
-          {
-            name: 'Carbon Dioxide',
-            value: 0.15625,
-            unit: 'g',
-            rate: 'per second',
-          },
-        ],
-        outputs: [
-          { name: 'Oxygen', value: 7.8, unit: 'g', rate: 'per second' },
-        ],
-      },
-    ],
-  },
-  {
-    category: 'Industrial Farm',
-    name: 'Domesticated Oxyfern',
-    hasConsistentIO: false,
-    // TODO: What to do with this requirement?
-    // requirements: [{ type: 'Plant', name: 'Oxyfern' }],
-    variants: [
-      {
-        inputs: [
-          { name: 'Dirt', value: 4, unit: 'kg', rate: 'per cycle' },
-          { name: 'Water', value: 19, unit: 'kg', rate: 'per cycle' },
-          {
-            name: 'Carbon Dioxide',
-            value: 0.625,
-            unit: 'g',
-            rate: 'per second',
-          },
-        ],
-        outputs: [
-          { name: 'Oxygen', value: 31.3, unit: 'g', rate: 'per second' },
-        ],
-      },
-    ],
-  },
-  {
-    category: 'Industrial Farm',
-    name: 'Wild Arbor Tree',
-    hasConsistentIO: false,
-    // TODO: What to do with this requirement?
-    // requirements: [{ type: 'Plant', name: 'Arbor Tree' }],
-    variants: [
-      {
-        outputs: [
-          { name: 'Lumber', value: 138.88, unit: 'g', rate: 'per second' },
-        ],
-      },
-    ],
-  },
-  {
-    category: 'Industrial Farm',
-    name: 'Domesticated Arbor Tree',
-    hasConsistentIO: false,
-    // TODO: What to do with this requirement?
-    // requirements: [{ type: 'Plant', name: 'Arbor Tree' }],
-    variants: [
-      {
-        inputs: [
-          { name: 'Dirt', value: 10, unit: 'kg', rate: 'per cycle' },
-          { name: 'Polluted Water', value: 70, unit: 'kg', rate: 'per cycle' },
-        ],
-        outputs: [
-          { name: 'Lumber', value: 555.55, unit: 'g', rate: 'per second' },
-        ],
-      },
-    ],
-  },
-  // End of section to move
   {
     category: 'Power',
     name: 'Battery',
-    hasConsistentIO: true,
     capacity: {
       power: { value: 10, unit: 'kJ' },
     },
@@ -273,7 +180,6 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Power',
     name: 'Coal Generator',
-    hasConsistentIO: false,
     power: { usage: 0, generation: 600, unit: 'W', rate: 'per second' },
     variants: [
       {
@@ -287,7 +193,6 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Power',
     name: 'Hydrogen Generator',
-    hasConsistentIO: false,
     power: { usage: 0, generation: 800, unit: 'W', rate: 'per second' },
     variants: [
       {
@@ -300,7 +205,6 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Power',
     name: 'Jumbo Battery',
-    hasConsistentIO: true,
     capacity: {
       power: { value: 40, unit: 'kJ' },
     },
@@ -308,18 +212,17 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Power',
     name: 'Manual Generator',
-    hasConsistentIO: false,
     power: { usage: 0, generation: 400, unit: 'W', rate: 'per second' },
-    variants: [
-      {
-        inputs: [{ name: 'Dupe', value: 1, unit: 'each', rate: '' }],
-      },
-    ],
+    // TODO: Need to add dupe support
+    // variants: [
+    //   {
+    //     inputs: [{ name: 'Dupe', value: 1, unit: 'each' }],
+    //   },
+    // ],
   },
   {
     category: 'Power',
     name: 'Natural Gas Generator',
-    hasConsistentIO: false,
     power: { usage: 0, generation: 800, unit: 'W', rate: 'per second' },
     variants: [
       {
@@ -346,7 +249,6 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Power',
     name: 'Petroleum Generator',
-    hasConsistentIO: false,
     capacity: {
       resources: { value: 20, unit: 'kg' },
     },
@@ -373,7 +275,6 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Power',
     name: 'Ethanol Generator',
-    hasConsistentIO: false,
     capacity: {
       resources: { value: 20, unit: 'kg' },
     },
@@ -391,7 +292,6 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Power',
     name: 'Smart Battery',
-    hasConsistentIO: false,
     capacity: {
       power: { value: 20, unit: 'kJ' },
     },
@@ -399,13 +299,11 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Power',
     name: 'Solar Panel',
-    hasConsistentIO: false,
     power: { usage: 0, generation: 380, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Power',
     name: 'Steam Turbine',
-    hasConsistentIO: false,
     // TODO: Need to setup system to handle different power for different temps
     power: { usage: 0, generation: 850, unit: 'W', rate: 'per second' },
     variants: [
@@ -417,7 +315,6 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Power',
     name: 'Wood Burner',
-    hasConsistentIO: false,
     power: { usage: 0, generation: 300, unit: 'W', rate: 'per second' },
     variants: [
       {
@@ -433,13 +330,11 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Food',
     name: 'Electric Grill',
-    hasConsistentIO: false,
     power: { usage: 60, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Food',
     name: 'Gas Range',
-    hasConsistentIO: false,
     power: { usage: 240, generation: 0, unit: 'W', rate: 'per second' },
     variants: [
       {
@@ -455,73 +350,61 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Food',
     name: 'Incubator',
-    hasConsistentIO: false,
     power: { usage: 240, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Food',
     name: 'Microbe Musher',
-    hasConsistentIO: false,
     power: { usage: 240, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Food',
     name: 'Refrigerator',
-    hasConsistentIO: false,
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Plumbing',
     name: 'Liquid Filter',
-    hasConsistentIO: false,
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Plumbing',
     name: 'Liquid Pump',
-    hasConsistentIO: false,
     power: { usage: 240, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Plumbing',
     name: 'Liquid Shutoff',
-    hasConsistentIO: false,
     power: { usage: 10, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Plumbing',
     name: 'Mini Liquid Pump',
-    hasConsistentIO: false,
     power: { usage: 60, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Ventilation',
     name: 'Gas Filter',
-    hasConsistentIO: false,
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Ventilation',
     name: 'Gas Pump',
-    hasConsistentIO: false,
     power: { usage: 240, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Ventilation',
     name: 'Gas Shutoff',
-    hasConsistentIO: false,
     power: { usage: 10, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Ventilation',
     name: 'Mini Gas Pump',
-    hasConsistentIO: false,
     power: { usage: 60, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Refinement',
     name: 'Algae Distiller',
-    hasConsistentIO: false,
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
     variants: [
       {
@@ -536,7 +419,6 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Refinement',
     name: 'Compost',
-    hasConsistentIO: false,
     variants: [
       {
         inputs: [
@@ -549,7 +431,6 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Refinement',
     name: 'Desalinator',
-    hasConsistentIO: false,
     variants: [
       {
         inputs: [
@@ -572,7 +453,6 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Refinement',
     name: 'Ethanol Distiller',
-    hasConsistentIO: false,
     power: { usage: 240, generation: 0, unit: 'W', rate: 'per second' },
     variants: [
       {
@@ -598,7 +478,6 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Refinement',
     name: 'Fertilizer Synthesizer',
-    hasConsistentIO: false,
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
     variants: [
       {
@@ -617,7 +496,6 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Refinement',
     name: 'Glass Forge',
-    hasConsistentIO: false,
     power: { usage: 1200, generation: 0, unit: 'W', rate: 'per second' },
     variants: [
       {
@@ -631,32 +509,30 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Refinement',
     name: 'Metal Refinery',
-    hasConsistentIO: false,
     power: { usage: 1200, generation: 0, unit: 'W', rate: 'per second' },
-    variants: [
-      {
-        inputs: [
-          {
-            name: 'Liquid Coolant',
-            value: 400,
-            unit: 'kg',
-            rate: 'per second',
-          },
-        ],
-      },
-    ],
+    // TODO: Break this out into the different variants of Liquid Coolant
+    // variants: [
+    //   {
+    //     inputs: [
+    //       {
+    //         name: 'Liquid Coolant',
+    //         value: 400,
+    //         unit: 'kg',
+    //         rate: 'per second',
+    //       },
+    //     ],
+    //   },
+    // ],
   },
   {
     category: 'Refinement',
     name: 'Molecular Forge',
-    hasConsistentIO: false,
     power: { usage: 1200, generation: 0, unit: 'W', rate: 'per second' },
     // TODO: need to handle different inputs and outputs
   },
   {
     category: 'Refinement',
     name: 'Oil Refinery',
-    hasConsistentIO: false,
     power: { usage: 480, generation: 0, unit: 'W', rate: 'per second' },
     variants: [
       {
@@ -673,7 +549,6 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Refinement',
     name: 'Oxylite Refinery',
-    hasConsistentIO: false,
     power: { usage: 1200, generation: 0, unit: 'W', rate: 'per second' },
     variants: [
       {
@@ -690,7 +565,6 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Refinement',
     name: 'Polymer Press',
-    hasConsistentIO: false,
     power: { usage: 240, generation: 0, unit: 'W', rate: 'per second' },
     variants: [
       {
@@ -713,13 +587,11 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Refinement',
     name: 'Rock Crusher',
-    hasConsistentIO: false,
     power: { usage: 240, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Refinement',
     name: 'Water Sieve',
-    hasConsistentIO: false,
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
     variants: [
       {
@@ -757,69 +629,59 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Medicine',
     name: 'Disease Clinic',
-    hasConsistentIO: false,
     power: { usage: 240, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Medicine',
     name: 'Massage Table',
-    hasConsistentIO: false,
     power: { usage: 240, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Furniture',
     name: 'Arcade Cabinet',
-    hasConsistentIO: false,
     power: { usage: 1200, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Furniture',
     name: 'Ceiling Light',
-    hasConsistentIO: false,
     power: { usage: 10, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Furniture',
     name: 'Espresso Machine',
-    hasConsistentIO: false,
     power: { usage: 480, generation: 0, unit: 'W', rate: 'per second' },
     // TODO: need input and output once per user is an option
   },
   {
     category: 'Furniture',
     name: 'Jukebot',
-    hasConsistentIO: false,
     power: { usage: 960, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Furniture',
     name: 'Lamp',
-    hasConsistentIO: false,
     power: { usage: 8, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Stations',
     name: 'Atmo Suit Dock',
-    hasConsistentIO: false,
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Stations',
     name: 'Exosuit Forge',
-    hasConsistentIO: false,
     power: { usage: 480, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Stations',
     name: 'Jet Suit Dock',
-    hasConsistentIO: false,
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
   },
   // TODO: need to support per use
   // {
   //   category: 'Stations',
   //   name: 'Farm Station',
-  //   hasConsistentIO: false,
+
   //
   //   inputs: [
   //     { name: 'Fertilizer', value: 5, unit: 'kg', rate: 'per use' }
@@ -829,7 +691,7 @@ export const buildings: IBuildingBase[] = [
   // {
   //   category: 'Stations',
   //   name: 'Power Control Station',
-  //   hasConsistentIO: false,
+
   //
   //   inputs: [
   //     { name: 'Refined Metal', value: 5, unit: 'kg', rate: 'per use' }
@@ -839,7 +701,6 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Stations',
     name: 'Research Station',
-    hasConsistentIO: false,
     power: { usage: 60, generation: 0, unit: 'W', rate: 'per second' },
     // TODO: Need to support per use
     // inputs: [
@@ -849,13 +710,11 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Stations',
     name: 'Skill Scrubber',
-    hasConsistentIO: false,
     power: { usage: 480, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Stations',
     name: 'Super Computer',
-    hasConsistentIO: false,
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
     // TODO: Need to support per user
     // inputs: [
@@ -865,25 +724,21 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Stations',
     name: 'Telescope',
-    hasConsistentIO: false,
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Stations',
     name: 'Textile Loom',
-    hasConsistentIO: false,
     power: { usage: 240, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Stations',
     name: 'Virtual Planetarium',
-    hasConsistentIO: false,
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Utilities',
     name: 'Ice Maker',
-    hasConsistentIO: false,
     power: { usage: 60, generation: 0, unit: 'W', rate: 'per second' },
     // TODO: per user
     // inputs: [
@@ -893,13 +748,11 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Utilities',
     name: 'Liquid Tepidizer',
-    hasConsistentIO: false,
     power: { usage: 960, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Utilities',
     name: 'Oil Well',
-    hasConsistentIO: false,
     power: { usage: 240, generation: 0, unit: 'W', rate: 'per second' },
     variants: [
       {
@@ -914,61 +767,51 @@ export const buildings: IBuildingBase[] = [
   {
     category: 'Utilities',
     name: 'Space Heater',
-    hasConsistentIO: false,
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Utilities',
     name: 'Thermo Aquatuner',
-    hasConsistentIO: false,
     power: { usage: 1200, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Utilities',
     name: 'Thermo Regulator',
-    hasConsistentIO: false,
     power: { usage: 240, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Automation',
     name: 'Duplicant Checkpoint',
-    hasConsistentIO: false,
     power: { usage: 10, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Automation',
     name: 'Space Scanner',
-    hasConsistentIO: false,
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Shipping',
     name: 'Auto-Sweeper',
-    hasConsistentIO: false,
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Shipping',
     name: 'Conveyor Loader',
-    hasConsistentIO: false,
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Shipping',
     name: 'Conveyor Shutoff',
-    hasConsistentIO: false,
     power: { usage: 10, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Shipping',
     name: 'Robo-Miner',
-    hasConsistentIO: false,
     power: { usage: 120, generation: 0, unit: 'W', rate: 'per second' },
   },
   {
     category: 'Rocketry',
     name: 'Gantry',
-    hasConsistentIO: false,
     power: { usage: 1200, generation: 0, unit: 'W', rate: 'per second' },
   },
 ];

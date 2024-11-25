@@ -72,21 +72,23 @@ export const BuildingSettings = ({ building }: IProps) => {
     <div css={rootCss}>
       <Typography variant="h5">{building.name}</Typography>
       <Typography variant="overline">Settings</Typography>
-      {!building.hasConsistentIO && building.quantity > 0 && (
-        <Card css={cardCss}>
-          <CardContent>
-            <Typography variant="subtitle1">Utilization</Typography>
-            <div css={sliderCss}>
-              <Slider
-                value={utilization}
-                onChange={handleSliderChange}
-                valueLabelFormat={(number) => number.toFixed(0) + '%'}
-                valueLabelDisplay="auto"
-              />
-            </div>
-          </CardContent>
-        </Card>
-      )}
+      {building.variants &&
+        building.variants.length > 0 &&
+        building.quantity > 0 && (
+          <Card css={cardCss}>
+            <CardContent>
+              <Typography variant="subtitle1">Utilization</Typography>
+              <div css={sliderCss}>
+                <Slider
+                  value={utilization}
+                  onChange={handleSliderChange}
+                  valueLabelFormat={(number) => number.toFixed(0) + '%'}
+                  valueLabelDisplay="auto"
+                />
+              </div>
+            </CardContent>
+          </Card>
+        )}
       {building.variants && building.variants.length > 1 ? (
         building.variants.map((variant, index) => {
           return (

@@ -1,4 +1,5 @@
 import IDupeTrait from '../../interfaces/IDupeTrait';
+import IIO from '../../interfaces/IIO';
 import { WIKI_LINK_PATH } from '../../utils/parseUtils';
 import ResourceChips from '../resources/ResourceChips';
 import DetailsBase from '../ui/DetailsBase';
@@ -18,12 +19,12 @@ export const DupeTraitDetails: FC<IProps> = memo(({ trait }) => {
     >
       {Boolean(trait.inputs.length) && (
         <DetailsSection title="Inputs">
-          <ResourceChips ios={trait.inputs} />
+          <ResourceChips ios={trait.inputs as IIO[]} />
         </DetailsSection>
       )}
       {Boolean(trait.outputs.length) && (
         <DetailsSection title="Outputs">
-          <ResourceChips ios={trait.outputs} />
+          <ResourceChips ios={trait.outputs as IIO[]} />
         </DetailsSection>
       )}
     </DetailsBase>

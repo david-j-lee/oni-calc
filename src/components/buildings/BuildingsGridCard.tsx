@@ -35,6 +35,7 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
 
   const [quantity, setQuantity] = useState(building.quantity || 0);
   const [utilization, setUtilization] = useState(building.utilization || 0);
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
@@ -184,16 +185,18 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
             </div>
           </CardContent>
           <CardActions css={actionsCss}>
-            {!building.hasConsistentIO && quantity > 0 && (
-              <div css={sliderCss}>
-                <Slider
-                  value={utilization}
-                  onChange={handleSliderChange}
-                  valueLabelFormat={(number) => number.toFixed(0) + '%'}
-                  valueLabelDisplay="auto"
-                />
-              </div>
-            )}
+            {building.variants &&
+              building.variants.length > 0 &&
+              quantity > 0 && (
+                <div css={sliderCss}>
+                  <Slider
+                    value={utilization}
+                    onChange={handleSliderChange}
+                    valueLabelFormat={(number) => number.toFixed(0) + '%'}
+                    valueLabelDisplay="auto"
+                  />
+                </div>
+              )}
             <div css={quantityCss}>
               <div css={quantityInputCss}>
                 <NumberInput

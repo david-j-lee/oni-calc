@@ -9,46 +9,38 @@ import {
 
 export const dupeActions = {
   setDupesTotalQuantity(quantity: number) {
-    return (state: IState) => {
-      return {
-        ...state,
-        ...setDupesQuantity(
-          state.settings.gameMode,
-          state.resources,
-          state.dupes,
-          quantity,
-        ),
-      };
-    };
+    return (state: IState) => ({
+      ...state,
+      ...setDupesQuantity(
+        state.settings.gameMode,
+        state.resources,
+        state.dupes,
+        quantity,
+      ),
+    });
   },
   setDupesTraitQuantity(name: string, quantity: number) {
-    return (state: IState) => {
-      return {
-        ...state,
-        ...setDupeTraitQuantity(
-          state.settings.gameMode,
-          state.resources,
-          state.dupes,
-          name,
-          quantity,
-        ),
-      };
-    };
+    return (state: IState) => ({
+      ...state,
+      ...setDupeTraitQuantity(
+        state.settings.gameMode,
+        state.resources,
+        state.dupes,
+        name,
+        quantity,
+      ),
+    });
   },
   setDupeWaste(prop: dupesWastePropNames, value: number) {
-    return (state: IState) => {
-      return {
-        ...state,
-        ...setDupeWaste(state.resources, state.dupes, prop, value),
-      };
-    };
+    return (state: IState) => ({
+      ...state,
+      ...setDupeWaste(state.resources, state.dupes, prop, value),
+    });
   },
   clearDupeInputs() {
-    return (state: IState) => {
-      return {
-        ...state,
-        ...clearDupeInputs(state.resources, state.dupes),
-      };
-    };
+    return (state: IState) => ({
+      ...state,
+      ...clearDupeInputs(state.resources, state.dupes),
+    });
   },
 };

@@ -5,18 +5,17 @@ export const initialState: IState = {
   settings: { gameMode: 'survival', hideEmpty: false },
   collapseBuildingPanels: false,
   collapseBuildingPanelsTrigger: -1,
-  buildings: [],
-  buildingsLayout: 'grid',
-  buildingsOrderBy: '',
-  buildingsOrder: 'desc',
+  theme: null,
+
   resources: [],
   resourcesOrderBy: 'name',
   resourcesOrder: 'asc',
-  theme: null,
+  resourcesCapacity: { buildings: [], value: 0 },
+
   powerUsage: { buildings: [], value: 0 },
   powerGeneration: { buildings: [], value: 0 },
   powerCapacity: { buildings: [], value: 0 },
-  resourcesCapacity: { buildings: [], value: 0 },
+
   dupes: {
     inputs: [],
     outputs: [],
@@ -28,9 +27,14 @@ export const initialState: IState = {
     dirtValue: 0,
     pollutedDirtValue: 0,
   },
-  food: [],
+
+  buildings: [],
+  buildingsLayout: 'grid',
+  buildingsOrderBy: '',
+  buildingsOrder: 'desc',
+
+  critters: [],
   plants: [],
-  plantsOrder: 'desc',
-  plantsOrderBy: 'name',
+
   geysers: { listing: [], inputted: [] },
 };

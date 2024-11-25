@@ -1,9 +1,7 @@
 import IResource from './../../interfaces/IResource';
-import ResourceIOsBuildings from './ResourceIOsBuildings';
 import ResourceIOsDupes from './ResourceIOsDupes';
-import ResourceIOsFood from './ResourceIOsFood';
 import ResourceIOsGeysers from './ResourceIOsGeysers';
-import ResourceIOsPlants from './ResourceIOsPlants';
+import ResourceIOsVariants from './ResourceIOsVariants';
 import { css } from '@emotion/react';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
@@ -11,28 +9,28 @@ import { FC, Fragment, memo, useMemo } from 'react';
 
 const hasInputs = (resource: IResource) => {
   return (
-    resource.buildingInputs.length > 0 ||
+    Object.values(resource.subtotals).some(
+      (subtotal) => subtotal.inputs.length > 0,
+    ) ||
     resource.dupeInputs.length > 0 ||
-    resource.foodInputs.length > 0 ||
-    resource.geyserInputs.length > 0 ||
-    resource.plantInputs.length > 0
+    resource.geyserInputs.length > 0
   );
 };
 
 const hasOutputs = (resource: IResource) => {
   return (
-    resource.buildingOutputs.length > 0 ||
+    Object.values(resource.subtotals).some(
+      (subtotal) => subtotal.outputs.length > 0,
+    ) ||
     resource.dupeOutputs.length > 0 ||
-    resource.foodOutputs.length > 0 ||
-    resource.geyserOutputs.length > 0 ||
-    resource.plantOutputs.length > 0
+    resource.geyserOutputs.length > 0
   );
 };
 
 interface IProps {
   title: string;
   resource: IResource;
-  type: string;
+  type: 'inputs' | 'outputs' | 'both';
 }
 
 export const ResourceIOs: FC<IProps> = memo(({ title, resource, type }) => {
@@ -56,9 +54,9 @@ export const ResourceIOs: FC<IProps> = memo(({ title, resource, type }) => {
   return (
     <Fragment>
       <ResourceIOsDupes resource={resource} type={type} />
-      <ResourceIOsBuildings resource={resource} type={type} />
-      <ResourceIOsFood resource={resource} type={type} />
-      <ResourceIOsPlants resource={resource} type={type} />
+      <ResourceIOsVariants entity="buildings" resource={resource} type={type} />
+      <ResourceIOsVariants entity="plants" resource={resource} type={type} />
+      <ResourceIOsVariants entity="critters" resource={resource} type={type} />
       <ResourceIOsGeysers resource={resource} type={type} />
     </Fragment>
   );

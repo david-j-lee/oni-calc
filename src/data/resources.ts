@@ -1,88 +1,61 @@
 import { IResourceBase } from '../interfaces/IResource';
 
-export const resources: IResourceBase[] = [
-  {
-    name: 'Algae',
-  },
-  {
-    name: 'Brine',
-  },
-  {
-    name: 'Carbon Dioxide',
-  },
-  {
-    name: 'Chlorine',
-  },
-  {
-    name: 'Clay',
-  },
-  {
-    name: 'Coal',
-  },
-  {
-    name: 'Crude Oil',
-  },
-  {
-    name: 'Dirt',
-  },
-  {
-    name: 'Ethanol',
-  },
-  {
-    name: 'Fertilizer',
-  },
-  {
-    name: 'Hydrogen',
-  },
-  {
-    name: 'Lumber',
-  },
-  {
-    name: 'Magma',
-  },
-  {
-    name: 'Natural Gas',
-  },
-  {
-    name: 'Oxygen',
-  },
-  {
-    name: 'Petroleum',
-  },
-  {
-    name: 'Phosphorite',
-  },
-  {
-    name: 'Polluted Dirt',
-  },
-  {
-    name: 'Polluted Oxygen',
-  },
-  {
-    name: 'Polluted Water',
-  },
-  {
-    name: 'Regolith',
-  },
-  {
-    name: 'Rust',
-  },
-  {
-    name: 'Salt',
-  },
-  {
-    name: 'Salt Water',
-  },
-  {
-    name: 'Sand',
-  },
-  {
-    name: 'Slime',
-  },
-  {
-    name: 'Steam',
-  },
-  {
-    name: 'Water',
-  },
-];
+const resourcesInputted = [
+  { name: 'Algae' },
+  { name: 'Bleach Stone' },
+  { name: 'Brine' },
+  { name: 'Bristle Berry' },
+  { name: 'Carbon Dioxide' },
+  { name: 'Ceramic' },
+  { name: 'Chlorine' },
+  { name: 'Clay' },
+  { name: 'Coal' },
+  { name: 'Crude Oil' },
+  { name: 'Dirt' },
+  { name: 'Ethanol' },
+  { name: 'Fertilizer' },
+  { name: 'Fossil' },
+  { name: 'Gas Grass' },
+  { name: 'Gold' },
+  { name: 'Granite' },
+  { name: 'Gristle Berry' },
+  { name: 'Hydrogen' },
+  { name: 'Igneous Rock' },
+  { name: 'Iron Ore' },
+  { name: 'Lettuce' },
+  { name: 'Lumber' },
+  { name: 'Mafic Rock' },
+  { name: 'Magma' },
+  { name: 'Meal Lice' },
+  { name: 'Molten Glass' },
+  { name: 'Mushroom' },
+  { name: 'Natural Gas' },
+  { name: 'Nosh Bean' },
+  { name: 'Obsidian' },
+  { name: 'Oxygen' },
+  { name: 'Oxylite' },
+  { name: 'Petroleum' },
+  { name: 'Phosphorite' },
+  { name: 'Pincha Peppernut' },
+  { name: 'Plastic' },
+  { name: 'Polluted Dirt' },
+  { name: 'Polluted Oxygen' },
+  { name: 'Polluted Water' },
+  { name: 'Reed Fiber' },
+  { name: 'Regolith' },
+  { name: 'Rot Pile' },
+  { name: 'Rust' },
+  { name: 'Salt Water' },
+  { name: 'Salt' },
+  { name: 'Sand' },
+  { name: 'Sandstone' },
+  { name: 'Sedimentary Rock' },
+  { name: 'Sleet Wheat Grain' },
+  { name: 'Slime' },
+  { name: 'Steam' },
+  { name: 'Water' },
+] as const;
+
+export const resources = [...resourcesInputted] as IResourceBase[];
+
+export type ResourceName = (typeof resourcesInputted)[number]['name'];

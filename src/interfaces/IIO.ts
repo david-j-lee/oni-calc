@@ -1,21 +1,21 @@
-import IBuilding from './IBuilding';
-import IFood from './IFood';
-import IGameModeValue from './IGameModeValue';
+import { ResourceName } from '../data/resources';
+import IIOEntity from './IIOEntity';
 import IIOReference from './IIOReference';
-import IPlant from './IPlant';
+import { ResourceRate, ResourceUnit, ResourceValue } from './IResource';
 
 export interface IIOBase {
-  name: string;
-  value: IGameModeValue | number;
-  unit: string;
-  rate: string;
+  name: ResourceName;
+  value: ResourceValue;
+  unit: ResourceUnit;
+  rate?: ResourceRate;
 
-  building?: IBuilding;
+  record?: IIOEntity;
+
+  // TODO: Convert to something else?
   dupe?: IIOReference;
-  food?: IFood;
-  plant?: IPlant;
 }
 
 export default interface IIO extends IIOBase {
   valueExtended: number;
+  utilization: number;
 }

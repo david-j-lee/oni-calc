@@ -1,21 +1,30 @@
+import { ResourceName } from '../data/resources';
+import IGameModeValue from './IGameModeValue';
 import IIO from './IIO';
+import IIOTotal from './IIOTotal';
+
+export type ResourceRate = 'per second' | 'per cycle' | 'per item';
+export type ResourceUnit = 'mg' | 'g' | 'kg' | 'each';
+export type ResourceValue = IGameModeValue | number;
 
 export interface IResourceBase {
-  name: string;
+  name: ResourceName;
 }
 
 export default interface IResource extends IResourceBase {
   unitOfMeasure: string;
 
-  totalIO: number;
+  subtotals: {
+    buildings: IIOTotal;
+    plants: IIOTotal;
+    critters: IIOTotal;
+  };
+
+  total: number;
   totalInput: number;
   totalOutput: number;
 
-  totalBuildingIO: number;
-  totalBuildingInput: number;
-  totalBuildingOutput: number;
-  buildingInputs: IIO[];
-  buildingOutputs: IIO[];
+  // TODO: Remove props below
 
   totalDupeIO: number;
   totalDupeInput: number;
@@ -23,21 +32,9 @@ export default interface IResource extends IResourceBase {
   dupeInputs: IIO[];
   dupeOutputs: IIO[];
 
-  totalFoodIO: number;
-  totalFoodInput: number;
-  totalFoodOutput: number;
-  foodInputs: IIO[];
-  foodOutputs: IIO[];
-
   totalGeyserIO: number;
   totalGeyserInput: number;
   totalGeyserOutput: number;
   geyserInputs: IIO[];
   geyserOutputs: IIO[];
-
-  totalPlantIO: number;
-  totalPlantInput: number;
-  totalPlantOutput: number;
-  plantInputs: IIO[];
-  plantOutputs: IIO[];
 }

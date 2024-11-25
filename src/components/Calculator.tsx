@@ -1,6 +1,5 @@
 import { useContext } from '../context/useContext';
 import Capacity from './capacity/Capacity';
-import Plants from './plants/Plants';
 import Power from './power/Power';
 import Resources from './resources/Resources';
 import { css } from '@emotion/react';
@@ -15,8 +14,9 @@ const tabIndexMap = {
   '/': 0,
   '/dupes': 1,
   '/buildings': 2,
-  '/food': 3,
-  '/geysers': 4,
+  '/plants': 3,
+  '/critters': 4,
+  '/geysers': 5,
 };
 
 export const Calculator = () => {
@@ -50,7 +50,6 @@ export const Calculator = () => {
       >
         <Power />
         <Resources />
-        <Plants />
         <Capacity />
       </Grid>
       <Grid item sm={6} md={7} lg={8} css={rightSectionCss}>
@@ -63,7 +62,8 @@ export const Calculator = () => {
           <Tab label="Settings" component={Link} to="/" />
           <Tab label="Dupes" component={Link} to="/dupes" />
           <Tab label="Buildings" component={Link} to="/buildings" />
-          <Tab label="Food" component={Link} to="/food" />
+          <Tab label="Plants" component={Link} to="/plants" />
+          <Tab label="Critters" component={Link} to="/critters" />
           <Tab label="Geysers" component={Link} to="/geysers" />
         </Tabs>
         <div css={contentCss} className="styled-scrollbar">

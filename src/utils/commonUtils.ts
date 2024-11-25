@@ -1,6 +1,8 @@
 import { IGameMode } from '../interfaces/IGameMode';
 import IGameModeValue from '../interfaces/IGameModeValue';
 import IIO, { IIOBase } from '../interfaces/IIO';
+import IResource from '../interfaces/IResource';
+import IVariantInput from '../interfaces/IVariantInput';
 
 export function getGameModeValue(
   gameMode: IGameMode,
@@ -19,6 +21,55 @@ export function getGameModeValue(
     }
   }
   return gameModeValue;
+}
+
+export function toTitleCase(word?: string) {
+  if (!word) {
+    return word;
+  }
+  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+}
+
+export function getImgUrl(category: string, name: string) {
+  const nameNormalized = name
+    .toLowerCase()
+    .replaceAll('(', '')
+    .replaceAll(')', '')
+    .split(' ')
+    .join('-');
+  return `/images/${category}/${nameNormalized}.png`;
+}
+
+export function getInputsByName(inputs: IVariantInput[]) {
+  return inputs.reduce(
+    (accumulator, input) => {
+      accumulator[input.name] = input;
+      return accumulator;
+    },
+    {} as { [key: string]: IVariantInput },
+  );
+}
+
+export function getTotalInput(resource: IResource) {
+  return (
+    Object.values(resource.subtotals).reduce(
+      (accumulator, input) => accumulator + input.totalInput,
+      0,
+    ) +
+    resource.totalDupeInput +
+    resource.totalGeyserInput
+  );
+}
+
+export function getTotalOutput(resource: IResource) {
+  return (
+    Object.values(resource.subtotals).reduce(
+      (accumulator, input) => accumulator + input.totalOutput,
+      0,
+    ) +
+    resource.totalDupeOutput +
+    resource.totalGeyserOutput
+  );
 }
 
 export function getIOTotal(ios: IIO[]) {
