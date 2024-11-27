@@ -1,5 +1,4 @@
 import IBuilding from '../interfaces/IBuilding';
-import IFood from '../interfaces/IFood';
 import IGeysers from '../interfaces/IGeysers';
 import IIO from '../interfaces/IIO';
 import IIOEntity from '../interfaces/IIOEntity';
@@ -24,13 +23,13 @@ import { getGeyserOutputs } from './geyserUtils';
 export const sortResources = (
   resources: IResource[],
   currentOrderBy: string,
-  orderBy: string,
+  orderBy: keyof IResource,
   order: string,
 ) => {
   const newOrder =
     currentOrderBy === orderBy && order === 'desc' ? 'asc' : 'desc';
   return {
-    resources: getSortedArray(resources, orderBy, newOrder),
+    resources: getSortedArray<IResource>(resources, orderBy, newOrder),
     resourcesOrderBy: orderBy,
     resourcesOrder: newOrder,
   };
@@ -60,7 +59,6 @@ export function updateResources({
   dupes: IDupes;
   buildings: IBuilding[];
   critters: IIOEntity[];
-  food: IFood[];
   geysers: IGeysers;
 }) {
   return resources.map((resource: IResourceBase) => {

@@ -15,7 +15,7 @@ interface IProps {
   geyser: IGeyserInput;
 }
 
-export const Geyser: FC<IProps> = memo(({ geyser }) => {
+export const Geyser: FC<IProps> = memo(({ geyser }: IProps) => {
   const [, { deleteGeyser }] = useContext();
 
   const backgroundImgCss = useMemo(() => {
@@ -92,6 +92,8 @@ export const Geyser: FC<IProps> = memo(({ geyser }) => {
     </Card>
   );
 });
+
+Geyser.displayName = 'Geyser';
 
 const fullHeightCss = css({
   height: '100%',

@@ -1,5 +1,5 @@
 import IState from '../interfaces/IState';
-import { Context } from './ContextProvider';
+import { Context } from './Context';
 import { actionsContract } from './actions';
 import React from 'react';
 

@@ -110,8 +110,11 @@ export function getStandardIO(io: IIO | IIOBase): IIO | IIOBase {
   return { ...io, value, unit: standardUnit, rate: standardRate };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function getSortedArray(array: any[], orderBy: string, order: string) {
+export function getSortedArray<T>(
+  array: T[],
+  orderBy: keyof T,
+  order: 'asc' | 'desc',
+): T[] {
   return order === 'desc'
     ? [...array].sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
     : [...array].sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));

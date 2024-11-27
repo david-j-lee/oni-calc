@@ -13,7 +13,7 @@ interface IProps {
   resource: IResource;
 }
 
-export const Resource: FC<IProps> = memo(({ resource }) => {
+export const Resource: FC<IProps> = memo(({ resource }: IProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogType, setDialogType] = useState<
@@ -112,6 +112,8 @@ export const Resource: FC<IProps> = memo(({ resource }) => {
     </TableRow>
   );
 });
+
+Resource.displayName = 'Resource';
 
 const tableRowCss = css({
   height: 'inherit',

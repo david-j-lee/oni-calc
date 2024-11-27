@@ -47,7 +47,7 @@ interface IProps {
 }
 
 export const ResourceIOsDupes: FC<IProps> = memo(
-  ({ resource, title, type }) => {
+  ({ resource, title, type }: IProps) => {
     const array = useMemo(() => getArray(resource, type), [type, resource]);
 
     return (
@@ -86,5 +86,7 @@ export const ResourceIOsDupes: FC<IProps> = memo(
     );
   },
 );
+
+ResourceIOsDupes.displayName = 'ResourceIOsDupes';
 
 export default ResourceIOsDupes;

@@ -2,7 +2,7 @@ import IState from '../interfaces/IState';
 import IOCritters from '../services/IOCritters';
 
 export const critterActions = {
-  setCritterQuantity(name: string, quantity: number) {
+  setCritterQuantity: (name: string, quantity: number) => {
     return (state: IState) => ({
       ...state,
       ...IOCritters.setQuantity(
@@ -13,7 +13,7 @@ export const critterActions = {
       ),
     });
   },
-  setCritterUtilization(name: string, utilization: number) {
+  setCritterUtilization: (name: string, utilization: number) => {
     return (state: IState) => ({
       ...state,
       ...IOCritters.setUtilization(
@@ -24,7 +24,10 @@ export const critterActions = {
       ),
     });
   },
-  setCritterVariantUtilization(name: string, variantUtilizations: number[]) {
+  setCritterVariantUtilization: (
+    name: string,
+    variantUtilizations: number[],
+  ) => {
     return (state: IState) => ({
       ...state,
       ...IOCritters.setVariantUtilization(
@@ -35,7 +38,7 @@ export const critterActions = {
       ),
     });
   },
-  clearCritterInputs() {
+  clearCritterInputs: () => {
     return (state: IState) => ({
       ...state,
       ...IOCritters.clearInputs(state.critters, state.resources),

@@ -1,8 +1,9 @@
+import IResource from '../interfaces/IResource';
 import IState from '../interfaces/IState';
 import { sortResources } from '../utils/resourceUtils';
 
 export const resourceActions = {
-  sortResources(key: string) {
+  sortResources: (key: keyof IResource) => {
     return (state: IState) => ({
       ...state,
       ...sortResources(

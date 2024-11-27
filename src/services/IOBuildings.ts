@@ -21,13 +21,13 @@ export default abstract class IOBuildings extends IOVariantsBase {
   public static sort(
     entities: IBuilding[],
     currentOrderBy: string,
-    orderBy: string,
+    orderBy: keyof IBuilding,
     order: string,
   ) {
     const newOrder =
       currentOrderBy === orderBy && order === 'desc' ? 'asc' : 'desc';
     return {
-      buildings: getSortedArray(entities, orderBy, newOrder),
+      buildings: getSortedArray<IBuilding>(entities, orderBy, newOrder),
       buildingsOrderBy: orderBy,
       buildingsOrder: newOrder,
     };

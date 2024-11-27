@@ -1,6 +1,5 @@
 import IIOEntity, { IIOEntityBase } from './IIOEntity';
 import IIOVariant from './IIOVariant';
-import IPlantRequirement from './IPlantRequirement';
 
 export interface IPlantBase extends IIOEntityBase {
   yield: number;
@@ -10,8 +9,6 @@ export interface IPlantBase extends IIOEntityBase {
 
 export default interface IPlant extends IIOEntity, IPlantBase {
   growthRate: IPlantGrowthRate;
-  rawFood: IPlantRequirement[];
-  preparedFood: IPlantRequirement[];
 }
 
 interface IPlantGrowthRate {

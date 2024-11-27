@@ -17,7 +17,7 @@ interface IProps {
   };
 }
 
-export const DupesWasteInput: FC<IProps> = memo(({ prop }) => {
+export const DupesWasteInput: FC<IProps> = memo(({ prop }: IProps) => {
   const [, { setDupeWaste }] = useContext();
 
   const [value, setValue] = useState(prop.value);
@@ -70,6 +70,8 @@ export const DupesWasteInput: FC<IProps> = memo(({ prop }) => {
     </Grid>
   );
 });
+
+DupesWasteInput.displayName = 'DupesWasteInput';
 
 const gridContainerCss = css({
   flexWrap: 'nowrap',

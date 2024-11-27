@@ -28,7 +28,7 @@ interface IProps {
   building: IBuilding;
 }
 
-export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
+export const BuildingsGridCard: FC<IProps> = memo(({ building }: IProps) => {
   const [
     ,
     {
@@ -221,6 +221,8 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
     </div>
   );
 });
+
+BuildingsGridCard.displayName = 'BuildingsGridCard';
 
 const rootCss = css({
   height: '100%',

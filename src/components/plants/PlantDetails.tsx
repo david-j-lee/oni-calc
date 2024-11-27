@@ -13,7 +13,7 @@ export const PlantDetails: FC<IEntityDetailsProps> = memo(
     setQuantity,
     setUtilization,
     setVariantUtilization,
-  }) => {
+  }: IEntityDetailsProps) => {
     const plant = entity as IPlant;
     return (
       <DetailsBase title={plant.name} imgUrl={plant.imgUrl}>
@@ -38,5 +38,7 @@ export const PlantDetails: FC<IEntityDetailsProps> = memo(
     );
   },
 );
+
+PlantDetails.displayName = 'PlantDetails';
 
 export default PlantDetails;

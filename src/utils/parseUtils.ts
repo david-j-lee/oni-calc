@@ -41,20 +41,20 @@ export function parseBuildings(rawBuildings: IBuildingBase[]): IBuilding[] {
   }
 }
 
-export function parseBuildingInputs(rawInputs: string | null): IVariantInput[] {
+export function parseBuildingInputs(
+  rawInputs?: string | null,
+): IVariantInput[] {
   if (rawInputs) {
-    let parsedInputs;
+    let parsedInputs: IVariantInput[];
 
     try {
-      parsedInputs = JSON.parse(rawInputs as string);
+      parsedInputs = JSON.parse(rawInputs) as IVariantInput[];
     } catch (e) {
       localStorage.removeItem('buildings');
       throw e;
     }
 
-    return (parsedInputs as IVariantInput[]).map((input) =>
-      parseBuildingInput(input),
-    );
+    return parsedInputs.map((input) => parseBuildingInput(input));
   } else {
     return [];
   }

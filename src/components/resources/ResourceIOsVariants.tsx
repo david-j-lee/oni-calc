@@ -55,7 +55,7 @@ interface IProps {
 }
 
 export const ResourceIOsVariants: FC<IProps> = memo(
-  ({ resource, entity, type }) => {
+  ({ resource, entity, type }: IProps) => {
     const array = useMemo(
       () => getArray(entity, resource, type),
       [resource, entity, type],
@@ -107,5 +107,7 @@ export const ResourceIOsVariants: FC<IProps> = memo(
     );
   },
 );
+
+ResourceIOsVariants.displayName = 'ResourceIOsVariants';
 
 export default ResourceIOsVariants;

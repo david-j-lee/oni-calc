@@ -25,4 +25,6 @@ export const CritterDetails: FC<IEntityDetailsProps> = memo(
   },
 );
 
+CritterDetails.displayName = 'CritterDetails';
+
 export default CritterDetails;

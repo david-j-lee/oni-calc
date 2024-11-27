@@ -150,7 +150,7 @@ export default abstract class IOVariantsBase {
   ): IIOEntity[] {
     return entities.map((entity) => {
       const inputsByName = getInputsByName(inputs);
-      const input = inputsByName[entity.name] as IVariantInput;
+      const input = inputsByName[entity.name];
 
       const variantUtilizations =
         input &&
