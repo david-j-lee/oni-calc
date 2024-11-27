@@ -35,7 +35,6 @@ describe('updateResources', () => {
         dupes: {} as IDupes,
         buildings: [],
         critters: [],
-        food: [],
         geysers: {} as IGeysers,
       };
       const result = [];
@@ -82,7 +81,7 @@ describe('sortResources', () => {
     it('should return empty array', () => {
       const resources = [];
       const currentOrderBy = '';
-      const orderBy = '';
+      const orderBy = 'name';
       const order = '';
       const result = {
         resources: [],
