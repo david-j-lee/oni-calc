@@ -1,10 +1,10 @@
-import IIO from './../../interfaces/IIO';
+import IIO, { IIOBase } from './../../interfaces/IIO';
 import ResourceChip from './ResourceChip';
 import Typography from '@mui/material/Typography';
 import { FC } from 'react';
 
 interface IProps {
-  ios: IIO[];
+  ios: IIO[] | IIOBase[];
 }
 
 export const ResourceChips: FC<IProps> = ({ ios }) => {

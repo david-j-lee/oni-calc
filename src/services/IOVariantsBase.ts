@@ -115,10 +115,10 @@ export default abstract class IOVariantsBase {
       if (building.name !== name) {
         return building;
       }
-      const { inputs, outputs } = this.getIOFromVariantUtilizations(
-        building,
+      const { inputs, outputs } = this.getIOFromVariantUtilizations({
+        ...building,
         variantUtilizations,
-      );
+      });
       return { ...building, inputs, outputs, variantUtilizations };
     });
 
@@ -156,14 +156,18 @@ export default abstract class IOVariantsBase {
               index === 0 ? 100 : 0,
             ) ?? []);
 
-      const { inputs: variantInputs, outputs: variantOutputs } =
-        this.getIOFromVariantUtilizations(record, input?.variantUtilizations);
-
-      return {
+      const updatedRecord = {
         ...record,
         quantity: input?.quantity ?? 0,
         utilization: input?.utilization ? input.utilization : 100,
         variantUtilizations,
+      };
+
+      const { inputs: variantInputs, outputs: variantOutputs } =
+        this.getIOFromVariantUtilizations(updatedRecord);
+
+      return {
+        ...updatedRecord,
         inputs: variantInputs ?? [],
         outputs: variantOutputs ?? [],
       };
@@ -236,21 +240,21 @@ export default abstract class IOVariantsBase {
     return clearedRecords;
   }
 
-  private static getIOFromVariantUtilizations(
-    building: IIOEntity,
-    variantUtilizations?: number[],
-  ): { inputs: IIO[]; outputs: IIO[] } {
+  private static getIOFromVariantUtilizations(entity: IIOEntity): {
+    inputs: IIO[];
+    outputs: IIO[];
+  } {
     // Get from the first if there are no variant utilizations
     if (
-      building.variants &&
-      (!variantUtilizations || variantUtilizations.length === 0)
+      entity.variants &&
+      (!entity.variantUtilizations || entity.variantUtilizations.length === 0)
     ) {
-      const firstVariant = building.variants[0];
+      const firstVariant = entity.variants[0];
       return {
         inputs:
           firstVariant.inputs?.map((input) => ({
             ...input,
-            valueExtended: this.getExtendedValue(building, {
+            valueExtended: this.getExtendedValue(entity, {
               ...(getStandardIO(input) as IIO),
               utilization: 100,
             }),
@@ -259,7 +263,7 @@ export default abstract class IOVariantsBase {
         outputs:
           firstVariant.outputs?.map((output) => ({
             ...output,
-            valueExtended: this.getExtendedValue(building, {
+            valueExtended: this.getExtendedValue(entity, {
               ...(getStandardIO(output) as IIO),
               utilization: 100,
             }),
@@ -273,21 +277,19 @@ export default abstract class IOVariantsBase {
     const inputs: IIO[] = [];
     const outputs: IIO[] = [];
 
-    variantUtilizations?.forEach((utilization, index) => {
-      if (building.variants && utilization > 0) {
-        const variant = building.variants[index];
+    entity.variantUtilizations?.forEach((utilization, index) => {
+      if (entity.variants && utilization > 0) {
+        const variant = entity.variants[index];
 
         // If a building has no variants or only one, always use 100. This should
         // be how the app handles this so this is more of a backup/failsafe.
         const normalizedUtilization =
-          !building.variants || building.variants?.length === 1
-            ? 100
-            : utilization;
+          !entity.variants || entity.variants?.length === 1 ? 100 : utilization;
 
         variant.inputs?.forEach((input) =>
           inputs.push({
             ...input,
-            valueExtended: this.getExtendedValue(building, {
+            valueExtended: this.getExtendedValue(entity, {
               ...(getStandardIO(input) as IIO),
               utilization,
             }),
@@ -297,7 +299,7 @@ export default abstract class IOVariantsBase {
         variant.outputs?.forEach((output) =>
           outputs.push({
             ...output,
-            valueExtended: this.getExtendedValue(building, {
+            valueExtended: this.getExtendedValue(entity, {
               ...(getStandardIO(output) as IIO),
               utilization,
             }),

@@ -16,17 +16,11 @@ import {
   Theme,
   Typography,
 } from '@mui/material';
-import {
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-export interface IRecordDetailsProps {
-  critter: IIOEntity;
+export interface IEntityDetailsProps {
+  entity: IIOEntity;
+  showAllVariants?: boolean;
 }
 
 interface IProps {
@@ -34,7 +28,7 @@ interface IProps {
   setQuantity: (name: string, quantity: number) => void;
   setUtilization: (name: string, value: number) => void;
   setVariantUtilization: (name: string, values: number[]) => void;
-  children: ReactNode;
+  RecordDetails: FC<IEntityDetailsProps>;
 }
 
 export const GridCard = ({
@@ -42,7 +36,7 @@ export const GridCard = ({
   setQuantity: setRecordQuantity,
   setUtilization: setRecordUtilization,
   setVariantUtilization: setRecordVariantUtilization,
-  children,
+  RecordDetails,
 }: IProps) => {
   const [quantity, setQuantity] = useState(record.quantity || 0);
   const [utilization, setUtilization] = useState(record.utilization || 0);
@@ -166,9 +160,9 @@ export const GridCard = ({
       css={itemCss}
     >
       <div css={rootCss}>
-        <Dialog open={dialogOpen} onClose={handleClose}>
+        <Dialog open={dialogOpen} onClose={handleClose} fullWidth maxWidth="lg">
           <DialogCloseIconButton close={handleClose} />
-          {children}
+          <RecordDetails entity={record} showAllVariants />
         </Dialog>
         <Dialog open={settingsOpen} onClose={handleSettingsClose}>
           <DialogCloseIconButton close={handleSettingsClose} />
@@ -187,7 +181,7 @@ export const GridCard = ({
           transformOrigin={{ vertical: 'top', horizontal: 'left' }}
           disableRestoreFocus
         >
-          {children}
+          <RecordDetails entity={record} />
         </Popover>
         <Card css={cardCss}>
           <div

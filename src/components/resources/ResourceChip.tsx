@@ -45,7 +45,10 @@ export const ResourceChip: FC<IProps> = ({ io, align = 'left' }) => {
       }
       label={[
         io.name,
-        getGameModeValue(settings.gameMode, io.value).toLocaleString(),
+        getGameModeValue(
+          settings.gameMode,
+          'valueExtended' in io ? io.valueExtended : io.value,
+        ).toLocaleString(),
         (io.unit || '') + rate,
       ].join(' ')}
     />

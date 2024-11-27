@@ -7,7 +7,7 @@ export const Critters = () => {
   return (
     <IOGrid>
       {critters?.map((critter) => (
-        <Critter key={critter.name} critter={critter} />
+        <Critter key={critter.name} entity={critter} />
       ))}
     </IOGrid>
   );

@@ -67,7 +67,6 @@ export const DetailsBase = ({
 
 const rootCss = css({
   minWidth: 400,
-  maxWidth: 600,
 });
 
 const imageWrapperCss = (theme: Theme) =>
@@ -87,7 +86,7 @@ const imageCss = css({
 
 const headingCss = (theme: Theme) =>
   css({
-    padding: theme.spacing(2),
+    padding: theme.spacing(2, 8, 2, 2),
   });
 
 const preTitleCss = css({
