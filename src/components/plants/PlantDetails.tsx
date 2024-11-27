@@ -7,7 +7,13 @@ import { Grid } from '@mui/material';
 import { FC, memo } from 'react';
 
 export const PlantDetails: FC<IEntityDetailsProps> = memo(
-  ({ entity, showAllVariants }) => {
+  ({
+    entity,
+    showAllVariants,
+    setQuantity,
+    setUtilization,
+    setVariantUtilization,
+  }) => {
     const plant = entity as IPlant;
     return (
       <DetailsBase title={plant.name} imgUrl={plant.imgUrl}>
@@ -24,6 +30,9 @@ export const PlantDetails: FC<IEntityDetailsProps> = memo(
         <ResourceVariantEntityDetails
           entity={entity}
           showAllVariants={showAllVariants}
+          setQuantity={setQuantity}
+          setUtilization={setUtilization}
+          setVariantUtilization={setVariantUtilization}
         />
       </DetailsBase>
     );

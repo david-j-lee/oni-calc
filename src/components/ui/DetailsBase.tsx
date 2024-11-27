@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { Button, Grid, Stack } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { Theme } from '@mui/material/styles';
 import { useMemo } from 'react';
@@ -32,41 +32,33 @@ export const DetailsBase = ({
 
   return (
     <div css={rootCss}>
-      <Grid container>
-        {Boolean(imgUrl) && (
-          <Grid item md={3}>
-            <div css={imageWrapperCss}>
-              <div css={[imageCss, backgroundImgCss]} />
-            </div>
-          </Grid>
-        )}
-        <Grid item md={imgUrl ? 9 : 12}>
-          <Stack>
-            <div css={headingCss}>
-              {Boolean(preTitle) && <div css={preTitleCss}>{preTitle}</div>}
-              <Typography
-                variant="h4"
-                id="responsive-dialog-title"
-                css={titleCss}
-              >
-                {title}
-              </Typography>
-              {wikiUrl && showWiki && (
-                <Button variant="outlined" target="_blank" href={wikiUrl}>
-                  WIKI
-                </Button>
-              )}
-            </div>
-            {children}
-          </Stack>
+      {Boolean(imgUrl) && (
+        <Grid item md={3}>
+          <div css={imageWrapperCss}>
+            <div css={[imageCss, backgroundImgCss]} />
+          </div>
         </Grid>
+      )}
+      <Grid item md={imgUrl ? 9 : 12} css={contentCss}>
+        <div css={headingCss}>
+          {Boolean(preTitle) && <div css={preTitleCss}>{preTitle}</div>}
+          <Typography variant="h4">{title}</Typography>
+          {wikiUrl && showWiki && (
+            <Button variant="outlined" target="_blank" href={wikiUrl}>
+              WIKI
+            </Button>
+          )}
+        </div>
+        <div css={childrenCss}>{children}</div>
       </Grid>
     </div>
   );
 };
 
 const rootCss = css({
-  minWidth: 400,
+  display: 'flex',
+  maxHeight: '100%',
+  overflowY: 'hidden',
 });
 
 const imageWrapperCss = (theme: Theme) =>
@@ -84,9 +76,14 @@ const imageCss = css({
   height: 160,
 });
 
+const contentCss = css({
+  display: 'flex',
+  flexDirection: 'column',
+});
+
 const headingCss = (theme: Theme) =>
   css({
-    padding: theme.spacing(2, 8, 2, 2),
+    padding: theme.spacing(2),
   });
 
 const preTitleCss = css({
@@ -94,9 +91,9 @@ const preTitleCss = css({
   alignItems: 'center',
 });
 
-const titleCss = (theme: Theme) =>
-  css({
-    paddingBottom: theme.spacing(),
-  });
+const childrenCss = css({
+  width: '100%',
+  overflowY: 'auto',
+});
 
 export default DetailsBase;

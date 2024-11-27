@@ -56,6 +56,7 @@ export const NumberInput = ({
           ...(props?.InputProps?.inputProps ?? {}),
         },
       }}
+      fullWidth
     >
       {value}
     </TextField>

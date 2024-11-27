@@ -3,9 +3,7 @@ import DialogCloseIconButton from '../ui/DialogCloseIconButton';
 import NumberInput from '../ui/NumberInput';
 import IBuilding from './../../interfaces/IBuilding';
 import BuildingDetails from './BuildingDetails';
-import { BuildingSettings } from './BuildingSettings';
 import { css } from '@emotion/react';
-import MoreVert from '@mui/icons-material/MoreVert';
 import Settings from '@mui/icons-material/Settings';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -31,13 +29,19 @@ interface IProps {
 }
 
 export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
-  const [, { setBuildingQuantity, setBuildingUtilization }] = useContext();
+  const [
+    ,
+    {
+      setBuildingQuantity,
+      setBuildingUtilization,
+      setBuildingVariantUtilization,
+    },
+  ] = useContext();
 
   const [quantity, setQuantity] = useState(building.quantity || 0);
   const [utilization, setUtilization] = useState(building.utilization || 0);
 
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
 
   const timer = useRef<number | null>(null);
@@ -75,15 +79,6 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
 
   const handleClose = useCallback(() => {
     setDialogOpen(false);
-  }, []);
-
-  // open settings
-  const handleClickSettingsOpen = useCallback(() => {
-    setSettingsOpen(true);
-  }, []);
-
-  const handleSettingsClose = useCallback(() => {
-    setSettingsOpen(false);
   }, []);
 
   // utilization
@@ -145,13 +140,23 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
 
   return (
     <div css={rootCss}>
-      <Dialog open={dialogOpen} onClose={handleClose} fullWidth maxWidth="lg">
+      <Dialog
+        open={dialogOpen}
+        onClose={handleClose}
+        fullWidth
+        maxWidth={
+          building.variants && building.variants.length > 0 ? 'lg' : 'sm'
+        }
+      >
         <DialogCloseIconButton close={handleClose} />
-        <BuildingDetails building={building} showWiki showAllVariants />
-      </Dialog>
-      <Dialog open={settingsOpen} onClose={handleSettingsClose}>
-        <DialogCloseIconButton close={handleSettingsClose} />
-        <BuildingSettings building={building} />
+        <BuildingDetails
+          building={building}
+          setQuantity={setBuildingQuantity}
+          setUtilization={setBuildingUtilization}
+          setVariantUtilization={setBuildingVariantUtilization}
+          showWiki
+          showAllVariants
+        />
       </Dialog>
       <Popover
         css={popoverCss}
@@ -162,7 +167,12 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
         transformOrigin={{ vertical: 'top', horizontal: 'left' }}
         disableRestoreFocus
       >
-        <BuildingDetails building={building} />
+        <BuildingDetails
+          building={building}
+          setQuantity={setBuildingQuantity}
+          setUtilization={setBuildingUtilization}
+          setVariantUtilization={setBuildingVariantUtilization}
+        />
       </Popover>
       <Card css={cardCss}>
         <div
@@ -177,12 +187,6 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
             <Typography variant="h6" css={cardContentTitleCss}>
               {building.name}
             </Typography>
-            {/* div is required to prevent button from stretch in height */}
-            <div>
-              <IconButton onClick={handleClickOpen} aria-label="More">
-                <MoreVert />
-              </IconButton>
-            </div>
           </CardContent>
           <CardActions css={actionsCss}>
             {building.variants &&
@@ -207,7 +211,7 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
                   increment={increment}
                 />
               </div>
-              <IconButton onClick={handleClickSettingsOpen} aria-label="More">
+              <IconButton onClick={handleClickOpen} aria-label="More">
                 <Settings />
               </IconButton>
             </div>

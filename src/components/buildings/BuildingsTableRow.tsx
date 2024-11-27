@@ -3,9 +3,7 @@ import DialogCloseIconButton from '../ui/DialogCloseIconButton';
 import NumberInput from '../ui/NumberInput';
 import IBuilding from './../../interfaces/IBuilding';
 import BuildingDetails from './BuildingDetails';
-import { BuildingSettings } from './BuildingSettings';
 import { css } from '@emotion/react';
-import MoreHoriz from '@mui/icons-material/MoreHoriz';
 import Settings from '@mui/icons-material/Settings';
 import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
@@ -21,12 +19,18 @@ interface IProps {
 }
 
 export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
-  const [, { setBuildingUtilization, setBuildingQuantity }] = useContext();
+  const [
+    ,
+    {
+      setBuildingQuantity,
+      setBuildingUtilization,
+      setBuildingVariantUtilization,
+    },
+  ] = useContext();
 
   const [quantity, setQuantity] = useState(building.quantity);
   const [utilization, setUtilization] = useState(building.utilization || 0);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
 
   const timer = useRef<number>();
@@ -69,15 +73,6 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
 
   const handleClose = useCallback(() => {
     setDialogOpen(false);
-  }, []);
-
-  // settings
-  const handleClickSettingsOpen = useCallback(() => {
-    setSettingsOpen(true);
-  }, []);
-
-  const handleSettingsClose = useCallback(() => {
-    setSettingsOpen(false);
   }, []);
 
   // utilization
@@ -139,6 +134,25 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
 
   return (
     <TableRow>
+      <Dialog
+        open={dialogOpen}
+        onClose={handleClose}
+        fullWidth
+        maxWidth={
+          building.variants && building.variants.length > 0 ? 'lg' : 'sm'
+        }
+      >
+        <DialogCloseIconButton close={handleClose} />
+        <BuildingDetails
+          building={building}
+          setQuantity={setBuildingQuantity}
+          setUtilization={setBuildingUtilization}
+          setVariantUtilization={setBuildingVariantUtilization}
+          showWiki
+          showAllVariants
+        />
+      </Dialog>
+
       <Popover
         css={popoverCss}
         open={Boolean(anchorEl)}
@@ -148,18 +162,13 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
         onClose={handlePopoverClose}
         disableRestoreFocus
       >
-        <BuildingDetails building={building} />
+        <BuildingDetails
+          building={building}
+          setQuantity={setBuildingQuantity}
+          setUtilization={setBuildingUtilization}
+          setVariantUtilization={setBuildingVariantUtilization}
+        />
       </Popover>
-
-      <Dialog open={dialogOpen} onClose={handleClose} fullWidth maxWidth="lg">
-        <DialogCloseIconButton close={handleClose} />
-        <BuildingDetails building={building} showWiki showAllVariants />
-      </Dialog>
-
-      <Dialog open={settingsOpen} onClose={handleSettingsClose}>
-        <DialogCloseIconButton close={handleSettingsClose} />
-        <BuildingSettings building={building} />
-      </Dialog>
 
       <TableCell size="small">
         <div css={categoryCss}>
@@ -212,11 +221,8 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
       </TableCell>
 
       <TableCell size="small">
-        <IconButton onClick={handleClickSettingsOpen} aria-label="Settings">
+        <IconButton onClick={handleClickOpen} aria-label="Settings">
           <Settings />
-        </IconButton>
-        <IconButton onClick={handleClickOpen} aria-label="More">
-          <MoreHoriz />
         </IconButton>
       </TableCell>
     </TableRow>

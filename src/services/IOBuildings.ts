@@ -19,7 +19,7 @@ export default abstract class IOBuildings extends IOVariantsBase {
   }
 
   public static sort(
-    buildings: IBuilding[],
+    entities: IBuilding[],
     currentOrderBy: string,
     orderBy: string,
     order: string,
@@ -27,20 +27,20 @@ export default abstract class IOBuildings extends IOVariantsBase {
     const newOrder =
       currentOrderBy === orderBy && order === 'desc' ? 'asc' : 'desc';
     return {
-      buildings: getSortedArray(buildings, orderBy, newOrder),
+      buildings: getSortedArray(entities, orderBy, newOrder),
       buildingsOrderBy: orderBy,
       buildingsOrder: newOrder,
     };
   }
 
   public static override setUtilization(
-    buildings: IBuilding[],
+    entities: IBuilding[],
     resources: IResource[],
     name: string,
     utilization: number,
   ) {
     const results = super.setUtilization(
-      buildings,
+      entities,
       resources,
       name,
       utilization,

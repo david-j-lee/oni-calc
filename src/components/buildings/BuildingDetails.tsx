@@ -12,10 +12,20 @@ interface IProps {
   building: IBuilding;
   showWiki?: boolean;
   showAllVariants?: boolean;
+  setQuantity: (name: string, value: number) => void;
+  setUtilization: (name: string, value: number) => void;
+  setVariantUtilization: (name: string, values: number[]) => void;
 }
 
 export const BuildingDetails: FC<IProps> = memo(
-  ({ building, showWiki, showAllVariants }) => {
+  ({
+    building,
+    showWiki,
+    showAllVariants,
+    setQuantity,
+    setUtilization,
+    setVariantUtilization,
+  }) => {
     const { category, categoryImgUrl, name, imgUrl, power, capacity } =
       building;
 
@@ -71,6 +81,9 @@ export const BuildingDetails: FC<IProps> = memo(
         <ResourceVariantEntityDetails
           entity={building}
           showAllVariants={showAllVariants}
+          setQuantity={setQuantity}
+          setUtilization={setUtilization}
+          setVariantUtilization={setVariantUtilization}
         />
       </DetailsBase>
     );
