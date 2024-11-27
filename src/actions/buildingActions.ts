@@ -1,28 +1,29 @@
+import IBuilding from '../interfaces/IBuilding';
 import IState from '../interfaces/IState';
 import IOBuildings from '../services/IOBuildings';
 
 export const buildingActions = {
-  setBuildingsLayout() {
+  setBuildingsLayout: () => {
     return (state: IState) => ({
       ...state,
       ...IOBuildings.setBuildingsLayout(state.buildingsLayout),
     });
   },
-  collapseBuildingPanels() {
+  collapseBuildingPanels: () => {
     return (state: IState) => ({
       ...state,
       collapseBuildingPanels: true,
       collapseBuildingPanelsTrigger: state.collapseBuildingPanelsTrigger + 1,
     });
   },
-  expandBuildingPanels() {
+  expandBuildingPanels: () => {
     return (state: IState) => ({
       ...state,
       collapseBuildingPanels: false,
       collapseBuildingPanelsTrigger: state.collapseBuildingPanelsTrigger - 1,
     });
   },
-  setBuildingQuantity(name: string, quantity: number) {
+  setBuildingQuantity: (name: string, quantity: number) => {
     return (state: IState) => ({
       ...state,
       ...IOBuildings.setQuantity(
@@ -33,7 +34,7 @@ export const buildingActions = {
       ),
     });
   },
-  setBuildingUtilization(name: string, utilization: number) {
+  setBuildingUtilization: (name: string, utilization: number) => {
     return (state: IState) => ({
       ...state,
       ...IOBuildings.setUtilization(
@@ -44,7 +45,10 @@ export const buildingActions = {
       ),
     });
   },
-  setBuildingVariantUtilization(name: string, variantUtilizations: number[]) {
+  setBuildingVariantUtilization: (
+    name: string,
+    variantUtilizations: number[],
+  ) => {
     return (state: IState) => ({
       ...state,
       ...IOBuildings.setVariantUtilization(
@@ -55,7 +59,7 @@ export const buildingActions = {
       ),
     });
   },
-  sortBuildings(key: string) {
+  sortBuildings: (key: keyof IBuilding) => {
     return (state: IState) => ({
       ...state,
       ...IOBuildings.sort(
@@ -66,7 +70,7 @@ export const buildingActions = {
       ),
     });
   },
-  clearBuildingInputs() {
+  clearBuildingInputs: () => {
     return (state: IState) => ({
       ...state,
       ...IOBuildings.clearInputs(state.buildings, state.resources),

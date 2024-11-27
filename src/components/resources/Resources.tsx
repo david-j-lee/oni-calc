@@ -28,7 +28,7 @@ export const Resources: FC = () => {
   ] = useContext();
 
   const handleRequestSort = useCallback(
-    (id: string) => {
+    (id: keyof IResource) => {
       sortResources(id);
     },
     [sortResources],
@@ -50,10 +50,10 @@ export const Resources: FC = () => {
 
   const getTableHeaders = useCallback(() => {
     const tableHeaders = [
-      { id: 'name', label: 'Resource', numeric: false },
-      { id: 'totalInput', label: 'Input', numeric: true },
-      { id: 'totalOutput', label: 'Output', numeric: true },
-      { id: 'totalIO', label: 'Net', numeric: true },
+      { id: 'name' as keyof IResource, label: 'Resource', numeric: false },
+      { id: 'totalInput' as keyof IResource, label: 'Input', numeric: true },
+      { id: 'totalOutput' as keyof IResource, label: 'Output', numeric: true },
+      { id: 'total' as keyof IResource, label: 'Net', numeric: true },
     ];
     return (
       <TableHead>

@@ -1,4 +1,5 @@
 import { useContext } from '../../context/useContext';
+import IBuilding from '../../interfaces/IBuilding';
 import BuildingsTableRow from './BuildingsTableRow';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,18 +10,18 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import { FC, useCallback } from 'react';
 
 const TABLE_HEADERS = [
-  { id: 'category', label: 'Category' },
-  { id: 'name', label: 'Building' },
-  { id: 'utilization', label: 'Utilization' },
-  { id: 'quantity', label: 'Quantity' },
-  { id: 'actions', label: '' },
+  { id: 'category' as keyof IBuilding, label: 'Category' },
+  { id: 'name' as keyof IBuilding, label: 'Building' },
+  { id: 'utilization' as keyof IBuilding, label: 'Utilization' },
+  { id: 'quantity' as keyof IBuilding, label: 'Quantity' },
+  { id: 'actions' as keyof IBuilding, label: '' },
 ];
 
 export const BuildingsTable: FC = () => {
   const [{ buildings, buildingsOrderBy }, { sortBuildings }] = useContext();
 
   const handleRequestSort = useCallback(
-    (id: string) => {
+    (id: keyof IBuilding) => {
       sortBuildings(id);
     },
     [sortBuildings],

@@ -79,12 +79,7 @@ export const DupeQuantity: FC = () => {
   return (
     <Grid container>
       <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
-        <Dialog
-          fullScreen={false}
-          open={dialogOpen}
-          onClose={handleClose}
-          aria-labelledby="responsive-dialog-title"
-        >
+        <Dialog fullScreen={false} open={dialogOpen} onClose={handleClose}>
           <DialogCloseIconButton close={handleClose} />
           <DupeDetails details={dupes} />
         </Dialog>

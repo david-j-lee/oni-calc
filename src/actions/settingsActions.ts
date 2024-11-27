@@ -3,7 +3,7 @@ import IState from '../interfaces/IState';
 import { getCaloriesRequired } from '../utils/dupeUtils';
 
 export const settingsActions = {
-  toggleHideEmpty() {
+  toggleHideEmpty: () => {
     return (state: IState) => {
       const settings = {
         ...state.settings,
@@ -13,7 +13,7 @@ export const settingsActions = {
       return { ...state, settings };
     };
   },
-  setGameMode(gameMode: IGameMode) {
+  setGameMode: (gameMode: IGameMode) => {
     return (state: IState) => {
       const settings = {
         ...state.settings,

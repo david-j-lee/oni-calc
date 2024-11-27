@@ -30,7 +30,7 @@ import IState from './../interfaces/IState';
 
 // TODO: Refactor
 export const calculatorActions = {
-  getData() {
+  getData: () => {
     return (state: IState) => {
       const dupeInputs = getJsonFromLocalStorage<IDupeInput>('dupes');
       const plantInputs = getJsonFromLocalStorage<IVariantInput[]>('plants');
@@ -83,7 +83,6 @@ export const calculatorActions = {
         dupes: newDupes,
         buildings: newBuildings,
         critters: newCritters,
-        food: [],
         geysers: newGeysers,
       });
 
@@ -96,7 +95,6 @@ export const calculatorActions = {
         critters: newCritters,
         plants: newPlants,
         dupes: newDupes,
-        food: [],
         geysers: newGeysers,
         powerGeneration: getBuildingsPowerGeneration(newBuildings),
         powerUsage: getBuildingsPowerUsage(newBuildings),
@@ -115,7 +113,7 @@ function getJsonFromLocalStorage<Type>(key: string): Type | undefined {
   }
 
   try {
-    return JSON.parse(jsonString);
+    return JSON.parse(jsonString) as Type;
   } catch (e) {
     localStorage.removeItem(key);
     throw e;

@@ -10,7 +10,7 @@ interface IProps {
   details: IDupes;
 }
 
-export const DupeDetails: FC<IProps> = memo(({ details }) => {
+export const DupeDetails: FC<IProps> = memo(({ details }: IProps) => {
   return (
     <DetailsBase
       title="Dupe Details"
@@ -26,5 +26,7 @@ export const DupeDetails: FC<IProps> = memo(({ details }) => {
     </DetailsBase>
   );
 });
+
+DupeDetails.displayName = 'DupeDetails';
 
 export default DupeDetails;

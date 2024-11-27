@@ -25,7 +25,7 @@ export const BuildingDetails: FC<IProps> = memo(
     setQuantity,
     setUtilization,
     setVariantUtilization,
-  }) => {
+  }: IProps) => {
     const { category, categoryImgUrl, name, imgUrl, power, capacity } =
       building;
 
@@ -89,6 +89,8 @@ export const BuildingDetails: FC<IProps> = memo(
     );
   },
 );
+
+BuildingDetails.displayName = 'BuildingDetails';
 
 const categoryImageCss = (theme: Theme) =>
   css({

@@ -4,7 +4,7 @@ import indigo from '@mui/material/colors/indigo';
 import red from '@mui/material/colors/red';
 
 export const uiActions = {
-  getTheme() {
+  getTheme: () => {
     return (state: IState) => {
       let theme: IThemeSaved = {
         palette: {
@@ -18,14 +18,7 @@ export const uiActions = {
       const strTheme = localStorage.getItem('theme');
       if (strTheme) {
         try {
-          const savedTheme = JSON.parse(strTheme);
-          if (!savedTheme && !savedTheme.palette && !savedTheme.palette.type) {
-            throw new Error('using old settings');
-          }
-          if (savedTheme.palette?.type) {
-            savedTheme.palette.mode = savedTheme.palette.type;
-          }
-          theme = savedTheme;
+          theme = JSON.parse(strTheme) as IThemeSaved;
         } catch {
           localStorage.setItem('theme', JSON.stringify(theme));
         }
@@ -36,7 +29,7 @@ export const uiActions = {
       };
     };
   },
-  setTheme(theme: IThemeSaved) {
+  setTheme: (theme: IThemeSaved) => {
     return (state: IState) => {
       localStorage.setItem('theme', JSON.stringify(theme));
       return {

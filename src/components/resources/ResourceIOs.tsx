@@ -33,34 +33,46 @@ interface IProps {
   type: 'inputs' | 'outputs' | 'both';
 }
 
-export const ResourceIOs: FC<IProps> = memo(({ title, resource, type }) => {
-  const showTables = useMemo(() => {
-    switch (type) {
-      case 'inputs':
-        return hasInputs(resource);
-      case 'outputs':
-        return hasOutputs(resource);
-      case 'both':
-        return hasInputs(resource) || hasOutputs(resource);
-      default:
-        return false;
+export const ResourceIOs: FC<IProps> = memo(
+  ({ title, resource, type }: IProps) => {
+    const showTables = useMemo(() => {
+      switch (type) {
+        case 'inputs':
+          return hasInputs(resource);
+        case 'outputs':
+          return hasOutputs(resource);
+        case 'both':
+          return hasInputs(resource) || hasOutputs(resource);
+        default:
+          return false;
+      }
+    }, [type, resource]);
+
+    if (resource && type && !showTables) {
+      return <Typography css={noIOsCss}>No {title}</Typography>;
     }
-  }, [type, resource]);
 
-  if (resource && type && !showTables) {
-    return <Typography css={noIOsCss}>No {title}</Typography>;
-  }
+    return (
+      <Fragment>
+        <ResourceIOsDupes resource={resource} type={type} />
+        <ResourceIOsVariants
+          entity="buildings"
+          resource={resource}
+          type={type}
+        />
+        <ResourceIOsVariants entity="plants" resource={resource} type={type} />
+        <ResourceIOsVariants
+          entity="critters"
+          resource={resource}
+          type={type}
+        />
+        <ResourceIOsGeysers resource={resource} type={type} />
+      </Fragment>
+    );
+  },
+);
 
-  return (
-    <Fragment>
-      <ResourceIOsDupes resource={resource} type={type} />
-      <ResourceIOsVariants entity="buildings" resource={resource} type={type} />
-      <ResourceIOsVariants entity="plants" resource={resource} type={type} />
-      <ResourceIOsVariants entity="critters" resource={resource} type={type} />
-      <ResourceIOsGeysers resource={resource} type={type} />
-    </Fragment>
-  );
-});
+ResourceIOs.displayName = 'ResourceIOs';
 
 const noIOsCss = (theme: Theme) =>
   css({

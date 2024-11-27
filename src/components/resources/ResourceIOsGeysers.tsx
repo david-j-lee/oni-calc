@@ -47,7 +47,7 @@ interface IProps {
 }
 
 export const ResourceIOsGeysers: FC<IProps> = memo(
-  ({ resource, title, type }) => {
+  ({ resource, title, type }: IProps) => {
     const array = useMemo(() => getArray(resource, type), [type, resource]);
 
     return (
@@ -80,5 +80,7 @@ export const ResourceIOsGeysers: FC<IProps> = memo(
     );
   },
 );
+
+ResourceIOsGeysers.displayName = 'ResourceIOsGeysers';
 
 export default ResourceIOsGeysers;

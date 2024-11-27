@@ -16,10 +16,10 @@ describe('getClearedResources', () => {
   describe('when given array of resources', () => {
     it('should return set each resource to default values', () => {
       const resources = [
-        { name: 'Testing1', totalInput: 100, totalOutput: 50, totalIO: 50 },
-      ] as IResource[];
+        { name: 'Testing1', totalInput: 100, totalOutput: 50, total: 50 },
+      ] as unknown as IResource[];
       const result = [
-        { name: 'Testing1', totalInput: 0, totalOutput: 0, totalIO: 0 },
+        { name: 'Testing1', totalInput: 0, totalOutput: 0, total: 0 },
       ];
       expect(resourceUtils.getClearedResources(resources)).toEqual(result);
     });
@@ -34,24 +34,12 @@ describe('updateResources', () => {
         plants: [],
         dupes: {} as IDupes,
         buildings: [],
+        critters: [],
         food: [],
         geysers: {} as IGeysers,
       };
       const result = [];
       expect(resourceUtils.updateResources(param)).toEqual(result);
-    });
-  });
-});
-
-describe('updateResourcesWithBuildings', () => {
-  describe('when given empty array of resources', () => {
-    it('should return empty array', () => {
-      const resources = [];
-      const buildings = [];
-      const result = [];
-      expect(
-        resourceUtils.updateResourcesWithBuildings(resources, buildings),
-      ).toEqual(result);
     });
   });
 });
@@ -72,20 +60,6 @@ describe('updateResourcesWithDupes', () => {
       expect(resourceUtils.updateResourcesWithDupes(resources, dupes)).toEqual(
         result,
       );
-    });
-  });
-});
-
-describe('updateResourcesWithFoodAndPlants', () => {
-  describe('when given empty array of resources', () => {
-    it('should return empty array', () => {
-      const resources = [];
-      const plants = [];
-      const food = [];
-      const result = [];
-      expect(
-        resourceUtils.updateResourcesWithFoodAndPlants(resources, plants, food),
-      ).toEqual(result);
     });
   });
 });
@@ -127,7 +101,7 @@ describe('sortResources', () => {
         { name: 'Testing3' },
         { name: 'Testing1' },
         { name: 'Testing2' },
-      ] as IResource[];
+      ] as unknown as IResource[];
       const currentOrderBy = 'name';
       const orderBy = 'name';
       const order = 'desc';
@@ -152,7 +126,7 @@ describe('sortResources', () => {
         { name: 'Testing3' },
         { name: 'Testing1' },
         { name: 'Testing2' },
-      ] as IResource[];
+      ] as unknown as IResource[];
       const currentOrderBy = 'name';
       const orderBy = 'name';
       const order = 'asc';
@@ -177,7 +151,7 @@ describe('sortResources', () => {
         { name: 'Testing3' },
         { name: 'Testing1' },
         { name: 'Testing2' },
-      ] as IResource[];
+      ] as unknown as IResource[];
       const currentOrderBy = '';
       const orderBy = 'name';
       const order = 'asc';
@@ -202,7 +176,7 @@ describe('sortResources', () => {
         { name: 'Testing3' },
         { name: 'Testing1' },
         { name: 'Testing2' },
-      ] as IResource[];
+      ] as unknown as IResource[];
       const currentOrderBy = '';
       const orderBy = 'name';
       const order = 'desc';

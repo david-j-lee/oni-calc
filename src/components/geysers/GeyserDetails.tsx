@@ -6,12 +6,14 @@ interface IProps {
   geyser: IGeyser;
 }
 
-export const GeyserDetails: FC<IProps> = memo(({ geyser }) => {
+export const GeyserDetails: FC<IProps> = memo(({ geyser }: IProps) => {
   return (
     <div>
       <Typography>{geyser.name}</Typography>
     </div>
   );
 });
+
+GeyserDetails.displayName = 'GeyserDetails';
 
 export default GeyserDetails;

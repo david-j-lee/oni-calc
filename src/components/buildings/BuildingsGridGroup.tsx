@@ -18,7 +18,11 @@ interface IProps {
 }
 
 export const BuildingsGridGroup: FC<IProps> = memo(
-  ({ group, collapseBuildingPanels, collapseBuildingPanelsTrigger }) => {
+  ({
+    group,
+    collapseBuildingPanels,
+    collapseBuildingPanelsTrigger,
+  }: IProps) => {
     const [expanded, setExpanded] = useState(!collapseBuildingPanels);
 
     const backgroundImgCss = useMemo(
@@ -69,6 +73,8 @@ export const BuildingsGridGroup: FC<IProps> = memo(
     );
   },
 );
+
+BuildingsGridGroup.displayName = 'BuildingsGridGroup';
 
 const accordionCss = (theme: Theme) =>
   css({

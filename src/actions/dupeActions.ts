@@ -8,7 +8,7 @@ import {
 } from '../utils/dupeUtils';
 
 export const dupeActions = {
-  setDupesTotalQuantity(quantity: number) {
+  setDupesTotalQuantity: (quantity: number) => {
     return (state: IState) => ({
       ...state,
       ...setDupesQuantity(
@@ -19,7 +19,7 @@ export const dupeActions = {
       ),
     });
   },
-  setDupesTraitQuantity(name: string, quantity: number) {
+  setDupesTraitQuantity: (name: string, quantity: number) => {
     return (state: IState) => ({
       ...state,
       ...setDupeTraitQuantity(
@@ -31,13 +31,13 @@ export const dupeActions = {
       ),
     });
   },
-  setDupeWaste(prop: dupesWastePropNames, value: number) {
+  setDupeWaste: (prop: dupesWastePropNames, value: number) => {
     return (state: IState) => ({
       ...state,
       ...setDupeWaste(state.resources, state.dupes, prop, value),
     });
   },
-  clearDupeInputs() {
+  clearDupeInputs: () => {
     return (state: IState) => ({
       ...state,
       ...clearDupeInputs(state.resources, state.dupes),

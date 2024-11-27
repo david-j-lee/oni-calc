@@ -18,7 +18,7 @@ interface IProps {
   building: IBuilding;
 }
 
-export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
+export const BuildingsTableRow: FC<IProps> = memo(({ building }: IProps) => {
   const [
     ,
     {
@@ -228,6 +228,8 @@ export const BuildingsTableRow: FC<IProps> = memo(({ building }) => {
     </TableRow>
   );
 });
+
+BuildingsTableRow.displayName = 'BuildingsTableRow';
 
 const categoryImgCss = (theme: Theme) =>
   css({

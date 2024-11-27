@@ -58,6 +58,8 @@ export const Navbar: FC = memo(() => {
   );
 });
 
+Navbar.displayName = 'Navbar';
+
 const rootCss = css({
   flexGrow: 1,
 });

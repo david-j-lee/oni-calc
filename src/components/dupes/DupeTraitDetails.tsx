@@ -10,7 +10,7 @@ interface IProps {
   trait: IDupeTrait;
 }
 
-export const DupeTraitDetails: FC<IProps> = memo(({ trait }) => {
+export const DupeTraitDetails: FC<IProps> = memo(({ trait }: IProps) => {
   return (
     <DetailsBase
       title={trait.name}
@@ -30,5 +30,7 @@ export const DupeTraitDetails: FC<IProps> = memo(({ trait }) => {
     </DetailsBase>
   );
 });
+
+DupeTraitDetails.displayName = 'DupeTraitDetails';
 
 export default DupeTraitDetails;
