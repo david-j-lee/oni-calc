@@ -145,9 +145,9 @@ export const BuildingsGridCard: FC<IProps> = memo(({ building }) => {
 
   return (
     <div css={rootCss}>
-      <Dialog open={dialogOpen} onClose={handleClose}>
+      <Dialog open={dialogOpen} onClose={handleClose} fullWidth maxWidth="lg">
         <DialogCloseIconButton close={handleClose} />
-        <BuildingDetails building={building} showWiki />
+        <BuildingDetails building={building} showWiki showAllVariants />
       </Dialog>
       <Dialog open={settingsOpen} onClose={handleSettingsClose}>
         <DialogCloseIconButton close={handleSettingsClose} />
