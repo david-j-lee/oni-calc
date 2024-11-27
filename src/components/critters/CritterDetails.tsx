@@ -1,17 +1,19 @@
-import ResourceChips from '../resources/ResourceChips';
+import { ResourceVariantEntityDetails } from '../resources/ResourceVariantEntityDetails';
 import DetailsBase from '../ui/DetailsBase';
-import DetailsSection from '../ui/DetailsSection';
-import { IRecordDetailsProps } from '../ui/IOGridCard';
+import { IEntityDetailsProps } from '../ui/IOGridCard';
 import { FC, memo } from 'react';
 
-export const CritterDetails: FC<IRecordDetailsProps> = memo(({ critter }) => {
-  return (
-    <DetailsBase title={critter.name} imgUrl={critter.imgUrl}>
-      <DetailsSection title="Inputs">
-        <ResourceChips ios={critter.inputs} />
-      </DetailsSection>
-    </DetailsBase>
-  );
-});
+export const CritterDetails: FC<IEntityDetailsProps> = memo(
+  ({ entity, showAllVariants }: IEntityDetailsProps) => {
+    return (
+      <DetailsBase title={entity.name} imgUrl={entity.imgUrl}>
+        <ResourceVariantEntityDetails
+          entity={entity}
+          showAllVariants={showAllVariants}
+        />
+      </DetailsBase>
+    );
+  },
+);
 
 export default CritterDetails;

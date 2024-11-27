@@ -6,7 +6,7 @@ export const Plants = () => {
   const [{ plants }] = useContext();
   return (
     <IOGrid>
-      {plants?.map((plant) => <Plant key={plant.name} plant={plant} />)}
+      {plants?.map((plant) => <Plant key={plant.name} entity={plant} />)}
     </IOGrid>
   );
 };
