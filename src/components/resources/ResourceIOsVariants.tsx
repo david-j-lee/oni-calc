@@ -84,12 +84,12 @@ export const ResourceIOsVariants: FC<IProps> = memo(
               {array.map((io, index) => {
                 return (
                   <TableRow key={index}>
-                    <TableCell size="small">{io.record?.name}</TableCell>
+                    <TableCell size="small">{io.entity?.name}</TableCell>
                     <TableCell align="right" size="small" width={'120px'}>
-                      {io.record?.quantity}
+                      {io.entity?.quantity}
                     </TableCell>
                     <TableCell align="right" size="small" width={'120px'}>
-                      {io.record?.utilization}%
+                      {io.entity?.utilization}%
                       {io.utilization !== 100 && (
                         <small> ({io.utilization}%)</small>
                       )}

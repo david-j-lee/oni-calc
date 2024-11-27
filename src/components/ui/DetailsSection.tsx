@@ -4,9 +4,15 @@ type Props = {
   title?: string;
   children: React.ReactNode;
   noMargins?: boolean;
+  center?: boolean;
 };
 
-export const DetailsSection = ({ title, children, noMargins }: Props) => {
+export const DetailsSection = ({
+  title,
+  children,
+  noMargins,
+  center,
+}: Props) => {
   return (
     <Card
       variant="outlined"
@@ -18,7 +24,7 @@ export const DetailsSection = ({ title, children, noMargins }: Props) => {
             {title}
           </Typography>
         )}
-        <div css={detailCss}>{children}</div>
+        <div css={[detailCss, center ? centeredCss : null]}>{children}</div>
       </div>
     </Card>
   );
@@ -31,6 +37,9 @@ const cardCss = css({
 const cardContentCss = (theme: Theme) =>
   css({
     padding: theme.spacing(),
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
   });
 
 const cardMarginsCss = (theme: Theme) =>
@@ -44,6 +53,13 @@ const detailCss = css({
   '*': {
     fontSize: '1.2rem',
   },
+});
+
+const centeredCss = css({
+  flexGrow: 1,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 });
 
 const titleCss = (theme: Theme) =>

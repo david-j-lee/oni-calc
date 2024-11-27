@@ -9,7 +9,7 @@ export interface IIOBase {
   unit: ResourceUnit;
   rate?: ResourceRate;
 
-  record?: IIOEntity;
+  entity?: IIOEntity;
 
   // TODO: Convert to something else?
   dupe?: IIOReference;

@@ -1,19 +1,19 @@
 import { useContext } from '../../context/useContext';
-import IOGridCard, { IEntityDetailsProps } from '../ui/IOGridCard';
+import IOGridCard, { IEntityProps } from '../ui/IOGridCard';
 import CritterDetails from './CritterDetails';
 
-export const Critter = ({ entity }: IEntityDetailsProps) => {
+export const Critter = ({ entity }: IEntityProps) => {
   const [
     ,
     { setCritterQuantity, setCritterUtilization, setCritterVariantUtilization },
   ] = useContext();
   return (
     <IOGridCard
-      record={entity}
+      entity={entity}
       setQuantity={setCritterQuantity}
       setUtilization={setCritterUtilization}
       setVariantUtilization={setCritterVariantUtilization}
-      RecordDetails={CritterDetails}
+      EntityDetails={CritterDetails}
     />
   );
 };

@@ -2,6 +2,7 @@ import IIO from '../interfaces/IIO';
 import IIOEntity, { IIOEntityBase } from '../interfaces/IIOEntity';
 import IIOTotal from '../interfaces/IIOTotal';
 import IResource, { IResourceBase } from '../interfaces/IResource';
+import IState from '../interfaces/IState';
 import IVariantInput from '../interfaces/IVariantInput';
 import {
   getInputsByName,
@@ -17,23 +18,23 @@ export default abstract class IOVariantsBase {
   public static key = 'base';
 
   public static getAll<T extends IIOEntity>(
-    records: IIOEntity[],
+    entities: IIOEntity[],
     inputs?: IVariantInput[],
   ): T[] {
     if (inputs) {
-      return this.getWithInputs(records, inputs) as T[];
+      return this.getWithInputs(entities, inputs) as T[];
     } else {
-      return this.getDefault(records) as T[];
+      return this.getDefault(entities) as T[];
     }
   }
 
-  public static getDefault(records: IIOEntityBase[]): IIOEntity[] {
-    return records.map((record) => ({
-      ...record,
+  public static getDefault(entities: IIOEntityBase[]): IIOEntity[] {
+    return entities.map((entity) => ({
+      ...entity,
       quantity: 0,
       utilization: 100,
       variantUtilizations:
-        record.variants?.map((_variant, index) => (index === 0 ? 100 : 0)) ??
+        entity.variants?.map((_variant, index) => (index === 0 ? 100 : 0)) ??
         [],
       inputs: [],
       outputs: [],
@@ -41,11 +42,11 @@ export default abstract class IOVariantsBase {
   }
 
   public static getResourceData(
-    records: IIOEntity[],
+    entities: IIOEntity[],
     resource: IResourceBase,
   ): IIOTotal {
-    const inputs = this.getIOsForResource(records, 'inputs', resource.name);
-    const outputs = this.getIOsForResource(records, 'outputs', resource.name);
+    const inputs = this.getIOsForResource(entities, 'inputs', resource.name);
+    const outputs = this.getIOsForResource(entities, 'outputs', resource.name);
     const totalInput = getIOTotal(inputs);
     const totalOutput = getIOTotal(outputs);
 
@@ -59,141 +60,145 @@ export default abstract class IOVariantsBase {
   }
 
   public static setQuantity(
-    records: IIOEntity[],
+    entities: IIOEntity[],
     resources: IResource[],
     name: string,
     quantity: number,
   ) {
-    const newRecords = records.map((record) =>
-      record.name === name
-        ? {
-            ...record,
-            quantity,
-          }
-        : record,
-    );
+    const newEntities = entities.map((entity) => {
+      if (entity.name !== name) {
+        return entity;
+      }
+      const { inputs, outputs } = this.getIOFromVariantUtilizations({
+        ...entity,
+        quantity,
+      });
+      return { ...entity, inputs, outputs, quantity };
+    });
 
-    this.saveToLocalStorage(newRecords);
+    this.saveToLocalStorage(newEntities);
 
     return {
-      resources: this.updateResources(newRecords, resources),
-      [this.key]: newRecords,
+      resources: this.updateResources(newEntities, resources),
+      [this.key]: newEntities,
     };
   }
 
   public static setUtilization(
-    buildings: IIOEntity[],
+    entities: IIOEntity[],
     resources: IResource[],
     name: string,
     utilization: number,
   ) {
-    const newRecords = buildings.map((record) =>
-      record.name === name
-        ? {
-            ...record,
-            utilization: utilization,
-          }
-        : record,
-    );
+    const newEntities = entities.map((entity) => {
+      if (entity.name !== name) {
+        return entity;
+      }
+      const { inputs, outputs } = this.getIOFromVariantUtilizations({
+        ...entity,
+        utilization,
+      });
+      return { ...entity, inputs, outputs, utilization };
+    });
 
-    this.saveToLocalStorage(newRecords);
+    this.saveToLocalStorage(newEntities);
 
-    const newResources = this.updateResources(newRecords, resources);
+    const newResources = this.updateResources(newEntities, resources);
     return {
-      buildings: newRecords,
       resources: newResources,
-    };
+      [this.key]: newEntities,
+    } as Partial<IState>;
   }
 
   public static setVariantUtilization(
-    buildings: IIOEntity[],
+    entities: IIOEntity[],
     resources: IResource[],
     name: string,
     variantUtilizations: number[],
   ) {
-    const newRecords = buildings.map((building) => {
-      if (building.name !== name) {
-        return building;
+    const newEntities = entities.map((entity) => {
+      if (entity.name !== name) {
+        return entity;
       }
       const { inputs, outputs } = this.getIOFromVariantUtilizations({
-        ...building,
+        ...entity,
         variantUtilizations,
       });
-      return { ...building, inputs, outputs, variantUtilizations };
+      return { ...entity, inputs, outputs, variantUtilizations };
     });
 
-    this.saveToLocalStorage(newRecords);
+    this.saveToLocalStorage(newEntities);
 
-    const newResources = this.updateResources(newRecords, resources);
+    const newResources = this.updateResources(newEntities, resources);
     return {
-      buildings: newRecords,
       resources: newResources,
-    };
+      [this.key]: newEntities,
+    } as Partial<IState>;
   }
 
-  public static clearInputs(records: IIOEntity[], resources: IResource[]) {
-    const newRecords = this.getWithClearedInputs(records);
+  public static clearInputs(entities: IIOEntity[], resources: IResource[]) {
+    const newEntities = this.getWithClearedInputs(entities);
     return {
-      resources: this.updateResources(records, resources),
-      [this.key]: newRecords,
-    };
+      resources: this.updateResources(entities, resources),
+      [this.key]: newEntities,
+    } as Partial<IState>;
   }
 
   protected static getWithInputs(
-    records: IIOEntity[],
+    entities: IIOEntity[],
     inputs: IVariantInput[],
   ): IIOEntity[] {
-    return records.map((record) => {
+    return entities.map((entity) => {
       const inputsByName = getInputsByName(inputs);
-      const input = inputsByName[record.name] as IVariantInput;
+      const input = inputsByName[entity.name] as IVariantInput;
 
       const variantUtilizations =
         input &&
         input.variantUtilizations &&
         input.variantUtilizations.length > 0
           ? input.variantUtilizations
-          : (record.variants?.map((_variant, index) =>
+          : (entity.variants?.map((_variant, index) =>
               index === 0 ? 100 : 0,
             ) ?? []);
 
-      const updatedRecord = {
-        ...record,
+      const updatedEntity = {
+        ...entity,
         quantity: input?.quantity ?? 0,
         utilization: input?.utilization ? input.utilization : 100,
         variantUtilizations,
       };
 
       const { inputs: variantInputs, outputs: variantOutputs } =
-        this.getIOFromVariantUtilizations(updatedRecord);
+        this.getIOFromVariantUtilizations(updatedEntity);
 
       return {
-        ...updatedRecord,
+        ...updatedEntity,
         inputs: variantInputs ?? [],
         outputs: variantOutputs ?? [],
       };
     });
   }
 
-  protected static getSavableRecords(records: IIOEntity[]): object[] {
-    return records.map((record) => ({
-      name: record.name,
-      quantity: record.quantity ?? 0,
-      utilization: record.utilization ?? 100,
-      variantUtilizations: record.variantUtilizations ?? [],
+  protected static getSavableEntities(entities: IIOEntity[]): object[] {
+    return entities.map((entity) => ({
+      name: entity.name,
+      quantity: entity.quantity ?? 0,
+      utilization: entity.utilization ?? 100,
+      variantUtilizations: entity.variantUtilizations ?? [],
     }));
   }
 
-  protected static getExtendedValue(record: IIOEntity, io: IIO) {
+  protected static getExtendedValue(entity: IIOEntity, io: IIO) {
     return (
-      record.quantity *
+      entity.quantity *
       (io.value as number) *
-      (record.utilization / 100) *
+      (entity.utilization / 100) *
       (io.utilization / 100)
     );
   }
 
   private static getIOsForResource(
-    records: IIOEntity[],
+    entities: IIOEntity[],
     type: 'inputs' | 'outputs',
     resourceName: string,
   ): IIO[] {
@@ -201,23 +206,23 @@ export default abstract class IOVariantsBase {
       throw new Error('Type must be inputs or outputs');
     }
 
-    const newRecords = records.filter((record) => record.quantity > 0);
+    const newEntities = entities.filter((entity) => entity.quantity > 0);
 
-    if (newRecords.length === 0) return [];
+    if (newEntities.length === 0) return [];
 
-    return newRecords
-      .map((record) => this.getIOs(record, type, resourceName))
+    return newEntities
+      .map((entity) => this.getIOs(entity, type, resourceName))
       .reduce((a, b) => a.concat(b), []);
   }
 
   private static getIOs(
-    record: IIOEntity,
+    entity: IIOEntity,
     type: keyof IIOEntity,
     resourceName: string,
   ): IIO[] {
-    if (record[type] === undefined) return [];
+    if (entity[type] === undefined) return [];
 
-    const ios = (record[type] as IIO[]).filter(
+    const ios = (entity[type] as IIO[]).filter(
       (io: IIO) => io.name === resourceName,
     );
 
@@ -227,17 +232,17 @@ export default abstract class IOVariantsBase {
       const standardIO = getStandardIO(io) as IIO;
       return {
         ...io,
-        record,
-        valueExtended: this.getExtendedValue(record, standardIO),
+        entity,
+        valueExtended: this.getExtendedValue(entity, standardIO),
         rate: standardIO.rate,
       };
     });
   }
 
-  private static getWithClearedInputs(records: IIOEntity[]) {
-    const clearedRecords = this.getDefault(records);
-    this.saveToLocalStorage(clearedRecords);
-    return clearedRecords;
+  private static getWithClearedInputs(entities: IIOEntity[]) {
+    const clearedEntities = this.getDefault(entities);
+    this.saveToLocalStorage(clearedEntities);
+    return clearedEntities;
   }
 
   private static getIOFromVariantUtilizations(entity: IIOEntity): {
@@ -281,7 +286,7 @@ export default abstract class IOVariantsBase {
       if (entity.variants && utilization > 0) {
         const variant = entity.variants[index];
 
-        // If a building has no variants or only one, always use 100. This should
+        // If a entity has no variants or only one, always use 100. This should
         // be how the app handles this so this is more of a backup/failsafe.
         const normalizedUtilization =
           !entity.variants || entity.variants?.length === 1 ? 100 : utilization;
@@ -313,7 +318,7 @@ export default abstract class IOVariantsBase {
   }
 
   protected static updateResources(
-    records: IIOEntity[],
+    entities: IIOEntity[],
     resources: IResource[],
   ) {
     return resources.map((resource) => {
@@ -321,7 +326,7 @@ export default abstract class IOVariantsBase {
         ...resource,
         subtotals: {
           ...resource.subtotals,
-          [this.key]: this.getResourceData(records, resource),
+          [this.key]: this.getResourceData(entities, resource),
         },
       };
       updatedResource.totalInput = getTotalInput(updatedResource);
@@ -334,10 +339,10 @@ export default abstract class IOVariantsBase {
     });
   }
 
-  protected static saveToLocalStorage(records: IIOEntity[]) {
+  protected static saveToLocalStorage(entities: IIOEntity[]) {
     localStorage.setItem(
       this.key,
-      JSON.stringify(this.getSavableRecords(records)),
+      JSON.stringify(this.getSavableEntities(entities)),
     );
   }
 }

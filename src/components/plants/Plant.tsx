@@ -1,19 +1,19 @@
 import { useContext } from '../../context/useContext';
-import IOGridCard, { IEntityDetailsProps } from '../ui/IOGridCard';
+import IOGridCard, { IEntityProps } from '../ui/IOGridCard';
 import PlantDetails from './PlantDetails';
 
-export const Plant = ({ entity }: IEntityDetailsProps) => {
+export const Plant = ({ entity }: IEntityProps) => {
   const [
     ,
     { setPlantQuantity, setPlantUtilization, setPlantVariantUtilization },
   ] = useContext();
   return (
     <IOGridCard
-      record={entity}
+      entity={entity}
       setQuantity={setPlantQuantity}
       setUtilization={setPlantUtilization}
       setVariantUtilization={setPlantVariantUtilization}
-      RecordDetails={PlantDetails}
+      EntityDetails={PlantDetails}
     />
   );
 };

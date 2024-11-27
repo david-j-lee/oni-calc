@@ -1,8 +1,7 @@
 import IIOEntity from '../../interfaces/IIOEntity';
 import DialogCloseIconButton from '../ui/DialogCloseIconButton';
 import NumberInput from '../ui/NumberInput';
-import IOGridCardSettings from './IOGridCardSettings';
-import { MoreVert, Settings } from '@mui/icons-material';
+import { Settings } from '@mui/icons-material';
 import {
   Card,
   CardActions,
@@ -18,31 +17,36 @@ import {
 } from '@mui/material';
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-export interface IEntityDetailsProps {
+export interface IEntityProps {
   entity: IIOEntity;
   showAllVariants?: boolean;
 }
 
+export interface IEntityDetailsProps extends IEntityProps {
+  setQuantity: (name: string, value: number) => void;
+  setUtilization: (name: string, value: number) => void;
+  setVariantUtilization: (name: string, values: number[]) => void;
+}
+
 interface IProps {
-  record: IIOEntity;
+  entity: IIOEntity;
   setQuantity: (name: string, quantity: number) => void;
   setUtilization: (name: string, value: number) => void;
   setVariantUtilization: (name: string, values: number[]) => void;
-  RecordDetails: FC<IEntityDetailsProps>;
+  EntityDetails: FC<IEntityDetailsProps>;
 }
 
 export const GridCard = ({
-  record,
-  setQuantity: setRecordQuantity,
-  setUtilization: setRecordUtilization,
-  setVariantUtilization: setRecordVariantUtilization,
-  RecordDetails,
+  entity,
+  setQuantity: setEntityQuantity,
+  setUtilization: setEntityUtilization,
+  setVariantUtilization: setEntityVariantUtilization,
+  EntityDetails,
 }: IProps) => {
-  const [quantity, setQuantity] = useState(record.quantity || 0);
-  const [utilization, setUtilization] = useState(record.utilization || 0);
+  const [quantity, setQuantity] = useState(entity.quantity || 0);
+  const [utilization, setUtilization] = useState(entity.utilization || 0);
 
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
 
   const timer = useRef<number | null>(null);
@@ -51,15 +55,15 @@ export const GridCard = ({
   const backgroundImgCss = useMemo(
     () =>
       css({
-        background: `url(${record.imgUrl}) no-repeat center center`,
+        background: `url(${entity.imgUrl}) no-repeat center center`,
         backgroundSize: 'contain',
       }),
-    [record.imgUrl],
+    [entity.imgUrl],
   );
 
   useEffect(() => {
-    setQuantity(record.quantity);
-  }, [record.quantity]);
+    setQuantity(entity.quantity);
+  }, [entity.quantity]);
 
   // on hover
   const handlePopoverOpen = useCallback(
@@ -82,15 +86,6 @@ export const GridCard = ({
     setDialogOpen(false);
   }, []);
 
-  // open settings
-  const handleClickSettingsOpen = useCallback(() => {
-    setSettingsOpen(true);
-  }, []);
-
-  const handleSettingsClose = useCallback(() => {
-    setSettingsOpen(false);
-  }, []);
-
   // utilization
   const handleSliderChange = useCallback(
     (_event: Event, value: number | number[]) => {
@@ -102,10 +97,10 @@ export const GridCard = ({
         clearTimeout(utilizationTimer.current);
       }
       utilizationTimer.current = setTimeout(() => {
-        setRecordUtilization(record.name, Math.round(value));
+        setEntityUtilization(entity.name, Math.round(value));
       }, 500);
     },
-    [record.name, setRecordUtilization],
+    [entity.name, setEntityUtilization],
   );
 
   // change quantities
@@ -115,9 +110,9 @@ export const GridCard = ({
       clearTimeout(timer.current);
     }
     timer.current = setTimeout(() => {
-      setRecordQuantity(record.name, quantity + 1);
+      setEntityQuantity(entity.name, quantity + 1);
     }, 500);
-  }, [record.name, quantity, setRecordQuantity]);
+  }, [entity.name, quantity, setEntityQuantity]);
 
   const decrement = useCallback(() => {
     if (quantity > 0) {
@@ -126,10 +121,10 @@ export const GridCard = ({
         clearTimeout(timer.current);
       }
       timer.current = setTimeout(() => {
-        setRecordQuantity(record.name, quantity - 1);
+        setEntityQuantity(entity.name, quantity - 1);
       }, 500);
     }
-  }, [record.name, quantity, setRecordQuantity]);
+  }, [entity.name, quantity, setEntityQuantity]);
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -142,15 +137,15 @@ export const GridCard = ({
         clearTimeout(timer.current);
       }
       timer.current = setTimeout(() => {
-        setRecordQuantity(record.name, value);
+        setEntityQuantity(entity.name, value);
       }, 500);
     },
-    [record.name, setRecordQuantity],
+    [entity.name, setEntityQuantity],
   );
 
   return (
     <Grid
-      key={record.name}
+      key={entity.name}
       item
       xs={12}
       sm={12}
@@ -159,81 +154,79 @@ export const GridCard = ({
       xl={3}
       css={itemCss}
     >
-      <div css={rootCss}>
-        <Dialog open={dialogOpen} onClose={handleClose} fullWidth maxWidth="lg">
-          <DialogCloseIconButton close={handleClose} />
-          <RecordDetails entity={record} showAllVariants />
-        </Dialog>
-        <Dialog open={settingsOpen} onClose={handleSettingsClose}>
-          <DialogCloseIconButton close={handleSettingsClose} />
-          <IOGridCardSettings
-            record={record}
-            setUtilization={setRecordUtilization}
-            setVariantUtilization={setRecordVariantUtilization}
-          />
-        </Dialog>
-        <Popover
-          css={popoverCss}
-          open={Boolean(anchorEl)}
-          onClose={handlePopoverClose}
-          anchorEl={anchorEl}
-          anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-          transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-          disableRestoreFocus
+      <Dialog
+        open={dialogOpen}
+        onClose={handleClose}
+        fullWidth
+        maxWidth={entity.variants && entity.variants.length > 0 ? 'lg' : 'sm'}
+      >
+        <DialogCloseIconButton close={handleClose} />
+        <EntityDetails
+          entity={entity}
+          setQuantity={setEntityQuantity}
+          setUtilization={setEntityUtilization}
+          setVariantUtilization={setEntityVariantUtilization}
+          showAllVariants
+        />
+      </Dialog>
+      <Popover
+        css={popoverCss}
+        open={Boolean(anchorEl)}
+        onClose={handlePopoverClose}
+        anchorEl={anchorEl}
+        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+        disableRestoreFocus
+      >
+        <EntityDetails
+          entity={entity}
+          setQuantity={setEntityQuantity}
+          setUtilization={setEntityUtilization}
+          setVariantUtilization={setEntityVariantUtilization}
+        />
+      </Popover>
+      <Card css={cardCss}>
+        <div
+          css={imgWrapperCss}
+          onMouseOver={handlePopoverOpen}
+          onMouseOut={handlePopoverClose}
         >
-          <RecordDetails entity={record} />
-        </Popover>
-        <Card css={cardCss}>
-          <div
-            css={imgWrapperCss}
-            onMouseOver={handlePopoverOpen}
-            onMouseOut={handlePopoverClose}
-          >
-            <div css={[imgCss, backgroundImgCss]} title={record.name} />
-          </div>
-          <div css={detailsCss}>
-            <CardContent css={cardContentCss}>
-              <Typography variant="h6" css={cardContentTitleCss}>
-                {record.name}
-              </Typography>
-              {/* div is required to prevent button from stretch in height */}
-              <div>
-                <IconButton onClick={handleClickOpen} aria-label="More">
-                  <MoreVert />
-                </IconButton>
+          <div css={[imgCss, backgroundImgCss]} title={entity.name} />
+        </div>
+        <div css={detailsCss}>
+          <CardContent css={cardContentCss}>
+            <Typography variant="h6" css={cardContentTitleCss}>
+              {entity.name}
+            </Typography>
+          </CardContent>
+          <CardActions css={actionsCss}>
+            {entity.variants && entity.variants.length > 0 && quantity > 0 && (
+              <div css={sliderCss}>
+                <Slider
+                  value={utilization}
+                  onChange={handleSliderChange}
+                  valueLabelFormat={(number) => number.toFixed(0) + '%'}
+                  valueLabelDisplay="auto"
+                />
               </div>
-            </CardContent>
-            <CardActions css={actionsCss}>
-              {record.variants &&
-                record.variants.length > 0 &&
-                quantity > 0 && (
-                  <div css={sliderCss}>
-                    <Slider
-                      value={utilization}
-                      onChange={handleSliderChange}
-                      valueLabelFormat={(number) => number.toFixed(0) + '%'}
-                      valueLabelDisplay="auto"
-                    />
-                  </div>
-                )}
-              <div css={quantityCss}>
-                <div css={quantityInputCss}>
-                  <NumberInput
-                    label="Quantity"
-                    value={quantity}
-                    onChange={handleChange}
-                    decrement={decrement}
-                    increment={increment}
-                  />
-                </div>
-                <IconButton onClick={handleClickSettingsOpen} aria-label="More">
-                  <Settings />
-                </IconButton>
+            )}
+            <div css={quantityCss}>
+              <div css={quantityInputCss}>
+                <NumberInput
+                  label="Quantity"
+                  value={quantity}
+                  onChange={handleChange}
+                  decrement={decrement}
+                  increment={increment}
+                />
               </div>
-            </CardActions>
-          </div>
-        </Card>
-      </div>
+              <IconButton onClick={handleClickOpen} aria-label="More">
+                <Settings />
+              </IconButton>
+            </div>
+          </CardActions>
+        </div>
+      </Card>
     </Grid>
   );
 };
@@ -248,10 +241,6 @@ const itemCss = (theme: Theme) =>
     },
   });
 
-const rootCss = css({
-  height: '100%',
-});
-
 const cardCss = css({
   display: 'flex',
   width: '100%',
@@ -262,6 +251,7 @@ const cardContentCss = (theme: Theme) =>
   css({
     display: 'flex',
     paddingRight: theme.spacing(),
+    paddingBottom: 0,
     flexGrow: 1,
   });
 
@@ -295,6 +285,7 @@ const actionsCss = css({
 
 const quantityCss = (theme: Theme) =>
   css({
+    paddingTop: theme.spacing(),
     display: 'flex',
     alignItems: 'center',
     '& .MuiIconButton-colorPrimary': {
