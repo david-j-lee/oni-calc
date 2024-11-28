@@ -37,7 +37,7 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
       'react/no-unknown-property': ['error', { ignore: ['css'] }],
-      'no-console': 'error',
+      'no-console': ['error', { allow: ['warn', 'error'] }],
     },
   },
   eslintConfigPrettier,

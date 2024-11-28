@@ -1,3 +1,4 @@
+import './sentry.ts';
 import App from './components/App.tsx';
 import ContextProvider from './context/ContextProvider';
 import './index.scss';
