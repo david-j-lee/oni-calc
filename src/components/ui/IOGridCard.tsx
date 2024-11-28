@@ -288,12 +288,6 @@ const quantityCss = (theme: Theme) =>
     paddingTop: theme.spacing(),
     display: 'flex',
     alignItems: 'center',
-    '& .MuiIconButton-colorPrimary': {
-      color: theme.palette.success[theme.palette.mode],
-      '&:hover': {
-        backgroundColor: theme.palette.success[theme.palette.mode] + '14', // 14 = 0.08 opacity from the default bg
-      },
-    },
   });
 
 const sliderCss = (theme: Theme) =>

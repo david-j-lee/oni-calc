@@ -110,12 +110,6 @@ export const DupeQuantity: FC = () => {
 const cardCss = (theme: Theme) =>
   css({
     margin: theme.spacing(),
-    '& .MuiIconButton-colorPrimary': {
-      color: theme.palette.success[theme.palette.mode],
-      '&:hover': {
-        backgroundColor: theme.palette.success[theme.palette.mode] + '14', // 14 = 0.08 opacity from the default bg
-      },
-    },
   });
 
 const cardContentCss = (theme: Theme) =>

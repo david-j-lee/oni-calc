@@ -269,17 +269,10 @@ const actionsCss = css({
   flexDirection: 'column',
 });
 
-const quantityCss = (theme: Theme) =>
-  css({
-    display: 'flex',
-    alignItems: 'center',
-    '& .MuiIconButton-colorPrimary': {
-      color: theme.palette.success[theme.palette.mode],
-      '&:hover': {
-        backgroundColor: theme.palette.success[theme.palette.mode] + '14', // 14 = 0.08 opacity from the default bg
-      },
-    },
-  });
+const quantityCss = css({
+  display: 'flex',
+  alignItems: 'center',
+});
 
 const quantityInputCss = (theme: Theme) =>
   css({
