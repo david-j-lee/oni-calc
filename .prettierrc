@@ -1,5 +1,6 @@
 {
   "trailingComma": "all",
   "singleQuote": true,
-  "plugins": ["@trivago/prettier-plugin-sort-imports"]
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "importOrder": ["./sentry.ts", "^[./]", "<THIRD_PARTY_MODULES>"]
 }
