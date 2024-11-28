@@ -109,16 +109,9 @@ export const DupeTrait: FC<IProps> = ({ trait }) => {
   );
 };
 
-const rootCss = (theme: Theme) =>
-  css({
-    height: '100%',
-    '& .MuiIconButton-colorPrimary': {
-      color: theme.palette.success[theme.palette.mode],
-      '&:hover': {
-        backgroundColor: theme.palette.success[theme.palette.mode] + '14', // 14 = 0.08 opacity from the default bg
-      },
-    },
-  });
+const rootCss = css({
+  height: '100%',
+});
 
 const cardContentCss = (theme: Theme) =>
   css({
