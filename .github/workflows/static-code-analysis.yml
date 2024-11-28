@@ -29,3 +29,6 @@ jobs:
 
       - name: Code Formatting Check
         run: npm run lint:format
+
+      - name: Build It
+        run: npm run build

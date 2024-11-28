@@ -16,8 +16,8 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@emotion/react": "^11.13.0",
-    "@emotion/styled": "^11.13.0",
+    "@emotion/react": "11.13.0",
+    "@emotion/styled": "11.13.0",
     "@fontsource/comfortaa": "^5.0.20",
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.7",
