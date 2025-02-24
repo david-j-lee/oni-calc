@@ -18,6 +18,12 @@ export const geysers = [
     outputs: [{ name: 'Chlorine' }],
   },
   {
+    name: 'Cool Salt Slush Geyser',
+    temp: { value: -10, unit: 'C' },
+    maxPressure: { value: 500, unit: 'kg' },
+    outputs: [{ name: 'Brine' }],
+  },
+  {
     name: 'Cool Slush Geyser',
     temp: { value: -10, unit: 'C' },
     maxPressure: { value: 500, unit: 'kg' },
@@ -88,6 +94,12 @@ export const geysers = [
     temp: { value: 30, unit: 'C' },
     maxPressure: { value: 500, unit: 'kg' },
     outputs: [{ name: 'Polluted Water' }],
+  },
+  {
+    name: 'Salt Water Geyser',
+    temp: { value: 95, unit: 'C' },
+    maxPressure: { value: 500, unit: 'kg' },
+    outputs: [{ name: 'Salt Water' }],
   },
   {
     name: 'Steam Vent',
