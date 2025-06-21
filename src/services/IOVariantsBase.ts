@@ -334,7 +334,7 @@ export default abstract class IOVariantsBase {
 
       return {
         ...updatedResource,
-        totalIO: updatedResource.totalOutput - updatedResource.totalInput,
+        total: updatedResource.totalOutput - updatedResource.totalInput,
       };
     });
   }
