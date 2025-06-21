@@ -98,7 +98,7 @@ export function updateResourcesWithDupes(
 
     return {
       ...updatedResource,
-      totalIO: updatedResource.totalOutput - updatedResource.totalInput,
+      total: updatedResource.totalOutput - updatedResource.totalInput,
     };
   });
 }
@@ -117,7 +117,7 @@ export function updateResourcesWithGeysers(
 
     return {
       ...updatedResource,
-      totalIO: updatedResource.totalOutput - updatedResource.totalInput,
+      total: updatedResource.totalOutput - updatedResource.totalInput,
     };
   });
 }
