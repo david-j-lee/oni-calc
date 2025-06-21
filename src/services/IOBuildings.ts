@@ -5,6 +5,10 @@ import {
   getBuildingsPowerGeneration,
   getBuildingsPowerUsage,
 } from '../utils/powerUtils';
+import {
+  getPowerCapacity,
+  getResourcesCapacity,
+} from '../utils/capacityUtils';
 import IOVariantsBase from './IOVariantsBase';
 
 export default abstract class IOBuildings extends IOVariantsBase {
@@ -45,12 +49,13 @@ export default abstract class IOBuildings extends IOVariantsBase {
       name,
       utilization,
     );
+    const buildings = results.buildings as IBuilding[];
     return {
       ...results,
-      powerGeneration: getBuildingsPowerGeneration(
-        results.buildings as IBuilding[],
-      ),
-      powerUsage: getBuildingsPowerUsage(results.buildings as IBuilding[]),
+      powerGeneration: getBuildingsPowerGeneration(buildings),
+      powerUsage: getBuildingsPowerUsage(buildings),
+      powerCapacity: getPowerCapacity(buildings),
+      resourcesCapacity: getResourcesCapacity(buildings),
     };
   }
 
@@ -66,12 +71,30 @@ export default abstract class IOBuildings extends IOVariantsBase {
       name,
       variantUtilizations,
     );
+    const updatedBuildings = results.buildings as IBuilding[];
     return {
       ...results,
-      powerGeneration: getBuildingsPowerGeneration(
-        results.buildings as IBuilding[],
-      ),
-      powerUsage: getBuildingsPowerUsage(results.buildings as IBuilding[]),
+      powerGeneration: getBuildingsPowerGeneration(updatedBuildings),
+      powerUsage: getBuildingsPowerUsage(updatedBuildings),
+      powerCapacity: getPowerCapacity(updatedBuildings),
+      resourcesCapacity: getResourcesCapacity(updatedBuildings),
+    };
+  }
+
+  public static override setQuantity(
+    entities: IBuilding[],
+    resources: IResource[],
+    name: string,
+    quantity: number,
+  ) {
+    const results = super.setQuantity(entities, resources, name, quantity);
+    const buildings = results.buildings as IBuilding[];
+    return {
+      ...results,
+      powerGeneration: getBuildingsPowerGeneration(buildings),
+      powerUsage: getBuildingsPowerUsage(buildings),
+      powerCapacity: getPowerCapacity(buildings),
+      resourcesCapacity: getResourcesCapacity(buildings),
     };
   }
 }
