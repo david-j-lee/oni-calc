@@ -41,7 +41,7 @@ describe('getStandardIO', () => {
     it('should return the same value', () => {
       const io = { value: 100, unit: 'g', rate: 'per second' } as IIO;
       const result = { value: 100, unit: 'g', rate: 'per second' };
-      expect(commonUtils.getStandardIO(io)).toEqual(result);
+      expect(commonUtils.getStandardIO('survival', io)).toEqual(result);
     });
   });
 
@@ -49,7 +49,7 @@ describe('getStandardIO', () => {
     it('should return the value in grams', () => {
       const io = { value: 1, unit: 'kg', rate: 'per second' } as IIO;
       const result = { value: 1000, unit: 'g', rate: 'per second' };
-      expect(commonUtils.getStandardIO(io)).toEqual(result);
+      expect(commonUtils.getStandardIO('survival', io)).toEqual(result);
     });
   });
 
@@ -57,7 +57,7 @@ describe('getStandardIO', () => {
     it('should return the value in grams', () => {
       const io = { value: 1000, unit: 'mg', rate: 'per second' } as IIO;
       const result = { value: 1, unit: 'g', rate: 'per second' };
-      expect(commonUtils.getStandardIO(io)).toEqual(result);
+      expect(commonUtils.getStandardIO('survival', io)).toEqual(result);
     });
   });
 
@@ -65,7 +65,7 @@ describe('getStandardIO', () => {
     it('should return the value in seconds', () => {
       const io = { value: 600, unit: 'g', rate: 'per cycle' } as IIO;
       const result = { value: 1, unit: 'g', rate: 'per second' };
-      expect(commonUtils.getStandardIO(io)).toEqual(result);
+      expect(commonUtils.getStandardIO('survival', io)).toEqual(result);
     });
   });
 
@@ -73,7 +73,7 @@ describe('getStandardIO', () => {
     it('should return the value grams per seconds', () => {
       const io = { value: 600, unit: 'kg', rate: 'per cycle' } as IIO;
       const result = { value: 1000, unit: 'g', rate: 'per second' };
-      expect(commonUtils.getStandardIO(io)).toEqual(result);
+      expect(commonUtils.getStandardIO('survival', io)).toEqual(result);
     });
   });
 
@@ -81,7 +81,7 @@ describe('getStandardIO', () => {
     it('should return a value of 0', () => {
       const io = { value: 600, unit: 'NA', rate: 'per second' } as IIO;
       const result = { value: 0, unit: 'g', rate: 'per second' };
-      expect(commonUtils.getStandardIO(io)).toEqual(result);
+      expect(commonUtils.getStandardIO('survival', io)).toEqual(result);
     });
   });
 
@@ -89,7 +89,7 @@ describe('getStandardIO', () => {
     it('should return a value of 0', () => {
       const io = { value: 600, unit: 'kg', rate: 'NA' } as IIO;
       const result = { value: 0, unit: 'g', rate: 'per second' };
-      expect(commonUtils.getStandardIO(io)).toEqual(result);
+      expect(commonUtils.getStandardIO('survival', io)).toEqual(result);
     });
   });
 });
