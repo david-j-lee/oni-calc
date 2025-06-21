@@ -10,6 +10,7 @@ import {
   getResourcesCapacity,
 } from '../utils/capacityUtils';
 import IOVariantsBase from './IOVariantsBase';
+import { IGameMode } from '../interfaces/IGameMode';
 
 export default abstract class IOBuildings extends IOVariantsBase {
   public static override key = 'buildings';
@@ -38,12 +39,14 @@ export default abstract class IOBuildings extends IOVariantsBase {
   }
 
   public static override setUtilization(
+    gameMode: IGameMode,
     entities: IBuilding[],
     resources: IResource[],
     name: string,
     utilization: number,
   ) {
     const results = super.setUtilization(
+      gameMode,
       entities,
       resources,
       name,
@@ -60,12 +63,14 @@ export default abstract class IOBuildings extends IOVariantsBase {
   }
 
   public static override setVariantUtilization(
+    gameMode: IGameMode,
     buildings: IBuilding[],
     resources: IResource[],
     name: string,
     variantUtilizations: number[],
   ) {
     const results = super.setVariantUtilization(
+      gameMode,
       buildings,
       resources,
       name,
@@ -82,12 +87,13 @@ export default abstract class IOBuildings extends IOVariantsBase {
   }
 
   public static override setQuantity(
+    gameMode: IGameMode,
     entities: IBuilding[],
     resources: IResource[],
     name: string,
     quantity: number,
   ) {
-    const results = super.setQuantity(entities, resources, name, quantity);
+    const results = super.setQuantity(gameMode, entities, resources, name, quantity);
     const buildings = results.buildings as IBuilding[];
     return {
       ...results,

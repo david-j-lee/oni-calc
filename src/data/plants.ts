@@ -76,7 +76,7 @@ export const plants: IPlantBase[] = [
       {
         inputs: [{ name: 'Dirt', value: 10, unit: 'kg', rate: 'per cycle' }],
         outputs: [
-          { name: 'Meal Lice', value: 1 / 3, unit: 'each', rate: 'per cycle' },
+          { name: 'Food', value: 1 / 3 * 600, unit: 'kcal', rate: 'per cycle' },
         ],
       },
     ],

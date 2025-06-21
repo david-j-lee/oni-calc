@@ -1,3 +1,5 @@
+import IIOVariant from "../interfaces/IIOVariant";
+
 export const dupes = {
   inputs: [
     { name: 'Oxygen', value: 100, unit: 'g', rate: 'per second' },
@@ -46,4 +48,4 @@ export const dupes = {
       ],
     },
   ],
-};
+} as IIOVariant;

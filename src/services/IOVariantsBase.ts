@@ -1,3 +1,4 @@
+import { IGameMode } from '../interfaces/IGameMode';
 import IIO from '../interfaces/IIO';
 import IIOEntity, { IIOEntityBase } from '../interfaces/IIOEntity';
 import IIOTotal from '../interfaces/IIOTotal';
@@ -5,6 +6,7 @@ import IResource, { IResourceBase } from '../interfaces/IResource';
 import IState from '../interfaces/IState';
 import IVariantInput from '../interfaces/IVariantInput';
 import {
+  getGameModeValue,
   getInputsByName,
   getIOTotal,
   getStandardIO,
@@ -18,11 +20,12 @@ export default abstract class IOVariantsBase {
   public static key = 'base';
 
   public static getAll<T extends IIOEntity>(
+    gameMode: IGameMode,
     entities: IIOEntity[],
     inputs?: IVariantInput[],
   ): T[] {
     if (inputs) {
-      return this.getWithInputs(entities, inputs) as T[];
+      return this.getWithInputs(gameMode, entities, inputs) as T[];
     } else {
       return this.getDefault(entities) as T[];
     }
@@ -42,11 +45,12 @@ export default abstract class IOVariantsBase {
   }
 
   public static getResourceData(
+    gameMode: IGameMode,
     entities: IIOEntity[],
     resource: IResourceBase,
   ): IIOTotal {
-    const inputs = this.getIOsForResource(entities, 'inputs', resource.name);
-    const outputs = this.getIOsForResource(entities, 'outputs', resource.name);
+    const inputs = this.getIOsForResource(gameMode, entities, 'inputs', resource.name);
+    const outputs = this.getIOsForResource(gameMode, entities, 'outputs', resource.name);
     const totalInput = getIOTotal(inputs);
     const totalOutput = getIOTotal(outputs);
 
@@ -60,6 +64,7 @@ export default abstract class IOVariantsBase {
   }
 
   public static setQuantity(
+    gameMode: IGameMode,
     entities: IIOEntity[],
     resources: IResource[],
     name: string,
@@ -69,7 +74,7 @@ export default abstract class IOVariantsBase {
       if (entity.name !== name) {
         return entity;
       }
-      const { inputs, outputs } = this.getIOFromVariantUtilizations({
+      const { inputs, outputs } = this.getIOFromVariantUtilizations(gameMode, {
         ...entity,
         quantity,
       });
@@ -79,12 +84,13 @@ export default abstract class IOVariantsBase {
     this.saveToLocalStorage(newEntities);
 
     return {
-      resources: this.updateResources(newEntities, resources),
+      resources: this.updateResources(gameMode, newEntities, resources),
       [this.key]: newEntities,
     };
   }
 
   public static setUtilization(
+    gameMode: IGameMode,
     entities: IIOEntity[],
     resources: IResource[],
     name: string,
@@ -94,7 +100,7 @@ export default abstract class IOVariantsBase {
       if (entity.name !== name) {
         return entity;
       }
-      const { inputs, outputs } = this.getIOFromVariantUtilizations({
+      const { inputs, outputs } = this.getIOFromVariantUtilizations(gameMode, {
         ...entity,
         utilization,
       });
@@ -103,7 +109,7 @@ export default abstract class IOVariantsBase {
 
     this.saveToLocalStorage(newEntities);
 
-    const newResources = this.updateResources(newEntities, resources);
+    const newResources = this.updateResources(gameMode, newEntities, resources);
     return {
       resources: newResources,
       [this.key]: newEntities,
@@ -111,6 +117,7 @@ export default abstract class IOVariantsBase {
   }
 
   public static setVariantUtilization(
+    gameMode: IGameMode,
     entities: IIOEntity[],
     resources: IResource[],
     name: string,
@@ -120,7 +127,7 @@ export default abstract class IOVariantsBase {
       if (entity.name !== name) {
         return entity;
       }
-      const { inputs, outputs } = this.getIOFromVariantUtilizations({
+      const { inputs, outputs } = this.getIOFromVariantUtilizations(gameMode, {
         ...entity,
         variantUtilizations,
       });
@@ -129,22 +136,27 @@ export default abstract class IOVariantsBase {
 
     this.saveToLocalStorage(newEntities);
 
-    const newResources = this.updateResources(newEntities, resources);
+    const newResources = this.updateResources(gameMode, newEntities, resources);
     return {
       resources: newResources,
       [this.key]: newEntities,
     } as Partial<IState>;
   }
 
-  public static clearInputs(entities: IIOEntity[], resources: IResource[]) {
+  public static clearInputs(
+    gameMode: IGameMode,
+    entities: IIOEntity[],
+    resources: IResource[],
+  ) {
     const newEntities = this.getWithClearedInputs(entities);
     return {
-      resources: this.updateResources(entities, resources),
+      resources: this.updateResources(gameMode, entities, resources),
       [this.key]: newEntities,
     } as Partial<IState>;
   }
 
   protected static getWithInputs(
+    gameMode: IGameMode,
     entities: IIOEntity[],
     inputs: IVariantInput[],
   ): IIOEntity[] {
@@ -169,7 +181,7 @@ export default abstract class IOVariantsBase {
       };
 
       const { inputs: variantInputs, outputs: variantOutputs } =
-        this.getIOFromVariantUtilizations(updatedEntity);
+        this.getIOFromVariantUtilizations(gameMode, updatedEntity);
 
       return {
         ...updatedEntity,
@@ -188,16 +200,21 @@ export default abstract class IOVariantsBase {
     }));
   }
 
-  protected static getExtendedValue(entity: IIOEntity, io: IIO) {
+  protected static getExtendedValue(
+    gameMode: IGameMode,
+    entity: IIOEntity,
+    io: IIO,
+  ) {
     return (
       entity.quantity *
-      (io.value as number) *
+      getGameModeValue(gameMode, io.value) *
       (entity.utilization / 100) *
       (io.utilization / 100)
     );
   }
 
   private static getIOsForResource(
+    gameMode: IGameMode,
     entities: IIOEntity[],
     type: 'inputs' | 'outputs',
     resourceName: string,
@@ -211,11 +228,12 @@ export default abstract class IOVariantsBase {
     if (newEntities.length === 0) return [];
 
     return newEntities
-      .map((entity) => this.getIOs(entity, type, resourceName))
+      .map((entity) => this.getIOs(gameMode, entity, type, resourceName))
       .reduce((a, b) => a.concat(b), []);
   }
 
   private static getIOs(
+    gameMode: IGameMode,
     entity: IIOEntity,
     type: keyof IIOEntity,
     resourceName: string,
@@ -229,11 +247,11 @@ export default abstract class IOVariantsBase {
     if (ios.length === 0) return [];
 
     return ios.map((io) => {
-      const standardIO = getStandardIO(io) as IIO;
+      const standardIO = getStandardIO(gameMode, io) as IIO;
       return {
         ...io,
         entity,
-        valueExtended: this.getExtendedValue(entity, standardIO),
+        valueExtended: this.getExtendedValue(gameMode, entity, standardIO),
         rate: standardIO.rate,
       };
     });
@@ -245,7 +263,10 @@ export default abstract class IOVariantsBase {
     return clearedEntities;
   }
 
-  private static getIOFromVariantUtilizations(entity: IIOEntity): {
+  private static getIOFromVariantUtilizations(
+    gameMode: IGameMode,
+    entity: IIOEntity,
+  ): {
     inputs: IIO[];
     outputs: IIO[];
   } {
@@ -259,8 +280,8 @@ export default abstract class IOVariantsBase {
         inputs:
           firstVariant.inputs?.map((input) => ({
             ...input,
-            valueExtended: this.getExtendedValue(entity, {
-              ...(getStandardIO(input) as IIO),
+            valueExtended: this.getExtendedValue(gameMode, entity, {
+              ...(getStandardIO(gameMode, input) as IIO),
               utilization: 100,
             }),
             utilization: 100,
@@ -268,8 +289,8 @@ export default abstract class IOVariantsBase {
         outputs:
           firstVariant.outputs?.map((output) => ({
             ...output,
-            valueExtended: this.getExtendedValue(entity, {
-              ...(getStandardIO(output) as IIO),
+            valueExtended: this.getExtendedValue(gameMode, entity, {
+              ...(getStandardIO(gameMode, output) as IIO),
               utilization: 100,
             }),
             utilization: 100,
@@ -294,8 +315,8 @@ export default abstract class IOVariantsBase {
         variant.inputs?.forEach((input) =>
           inputs.push({
             ...input,
-            valueExtended: this.getExtendedValue(entity, {
-              ...(getStandardIO(input) as IIO),
+            valueExtended: this.getExtendedValue(gameMode, entity, {
+              ...(getStandardIO(gameMode, input) as IIO),
               utilization,
             }),
             utilization: normalizedUtilization,
@@ -304,8 +325,8 @@ export default abstract class IOVariantsBase {
         variant.outputs?.forEach((output) =>
           outputs.push({
             ...output,
-            valueExtended: this.getExtendedValue(entity, {
-              ...(getStandardIO(output) as IIO),
+            valueExtended: this.getExtendedValue(gameMode, entity, {
+              ...(getStandardIO(gameMode, output) as IIO),
               utilization,
             }),
             utilization: normalizedUtilization,
@@ -318,6 +339,7 @@ export default abstract class IOVariantsBase {
   }
 
   protected static updateResources(
+    gameMode: IGameMode,
     entities: IIOEntity[],
     resources: IResource[],
   ) {
@@ -326,7 +348,7 @@ export default abstract class IOVariantsBase {
         ...resource,
         subtotals: {
           ...resource.subtotals,
-          [this.key]: this.getResourceData(entities, resource),
+          [this.key]: this.getResourceData(gameMode, entities, resource),
         },
       };
       updatedResource.totalInput = getTotalInput(updatedResource);

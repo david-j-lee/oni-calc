@@ -34,13 +34,13 @@ export const dupeActions = {
   setDupeWaste: (prop: dupesWastePropNames, value: number) => {
     return (state: IState) => ({
       ...state,
-      ...setDupeWaste(state.resources, state.dupes, prop, value),
+      ...setDupeWaste( state.settings.gameMode, state.resources, state.dupes, prop, value),
     });
   },
   clearDupeInputs: () => {
     return (state: IState) => ({
       ...state,
-      ...clearDupeInputs(state.resources, state.dupes),
+      ...clearDupeInputs(state.settings.gameMode, state.resources, state.dupes),
     });
   },
 };

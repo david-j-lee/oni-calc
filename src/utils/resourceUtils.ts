@@ -1,4 +1,5 @@
 import IBuilding from '../interfaces/IBuilding';
+import { IGameMode } from '../interfaces/IGameMode';
 import IGeysers from '../interfaces/IGeysers';
 import IIO from '../interfaces/IIO';
 import IIOEntity from '../interfaces/IIOEntity';
@@ -47,6 +48,7 @@ export function getClearedResources(resources: IResource[]) {
 }
 
 export function updateResources({
+  gameMode,
   resources,
   plants,
   dupes,
@@ -54,6 +56,7 @@ export function updateResources({
   critters,
   geysers,
 }: {
+  gameMode: IGameMode;
   resources: IResourceBase[];
   plants: IPlant[];
   dupes: IDupes;
@@ -64,12 +67,12 @@ export function updateResources({
   return resources.map((resource: IResourceBase) => {
     const updatedResource = {
       ...resource,
-      ...resourceDupes(resource, dupes),
+      ...resourceDupes(gameMode, resource, dupes),
       ...resourceGeysers(resource, geysers),
       subtotals: {
-        buildings: IOBuildings.getResourceData(buildings, resource),
-        plants: IOPlants.getResourceData(plants, resource),
-        critters: IOCritters.getResourceData(critters, resource),
+        buildings: IOBuildings.getResourceData(gameMode, buildings, resource),
+        plants: IOPlants.getResourceData(gameMode, plants, resource),
+        critters: IOCritters.getResourceData(gameMode, critters, resource),
       },
     } as IResource;
 
@@ -79,19 +82,19 @@ export function updateResources({
     return {
       ...updatedResource,
       total: updatedResource.totalOutput - updatedResource.totalInput,
-      unitOfMeasure: 'g/s',
     };
   });
 }
 
 export function updateResourcesWithDupes(
+  gameMode: IGameMode,
   resources: IResource[],
   dupes: IDupes,
 ) {
   return resources.map((resource) => {
     const updatedResource = {
       ...resource,
-      ...resourceDupes(resource, dupes),
+      ...resourceDupes(gameMode, resource, dupes),
     } as IResource;
     updatedResource.totalInput = getTotalInput(updatedResource);
     updatedResource.totalOutput = getTotalOutput(updatedResource);
@@ -122,9 +125,13 @@ export function updateResourcesWithGeysers(
   });
 }
 
-function resourceDupes(resource: IResourceBase, dupes: IDupes) {
-  const dupeInputs = getDupesInputsForResource(dupes, resource.name);
-  const dupeOutputs = getDupesOutputsForResource(dupes, resource.name);
+function resourceDupes(
+  gameMode: IGameMode,
+  resource: IResourceBase,
+  dupes: IDupes,
+) {
+  const dupeInputs = getDupesInputsForResource(gameMode, dupes, resource.name);
+  const dupeOutputs = getDupesOutputsForResource(gameMode, dupes, resource.name);
   const totalDupeInput = getIOTotal(dupeInputs as IIO[]);
   const totalDupeOutput = getIOTotal(dupeOutputs as IIO[]);
 

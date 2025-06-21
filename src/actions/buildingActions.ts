@@ -27,6 +27,7 @@ export const buildingActions = {
     return (state: IState) => ({
       ...state,
       ...IOBuildings.setQuantity(
+        state.settings.gameMode,
         state.buildings,
         state.resources,
         name,
@@ -38,6 +39,7 @@ export const buildingActions = {
     return (state: IState) => ({
       ...state,
       ...IOBuildings.setUtilization(
+        state.settings.gameMode,
         state.buildings,
         state.resources,
         name,
@@ -52,6 +54,7 @@ export const buildingActions = {
     return (state: IState) => ({
       ...state,
       ...IOBuildings.setVariantUtilization(
+        state.settings.gameMode,
         state.buildings,
         state.resources,
         name,
@@ -73,7 +76,7 @@ export const buildingActions = {
   clearBuildingInputs: () => {
     return (state: IState) => ({
       ...state,
-      ...IOBuildings.clearInputs(state.buildings, state.resources),
+      ...IOBuildings.clearInputs(state.settings.gameMode, state.buildings, state.resources),
     });
   },
 };

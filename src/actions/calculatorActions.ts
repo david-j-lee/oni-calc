@@ -49,16 +49,19 @@ export const calculatorActions = {
       }
 
       const newSettings = settings ? settings : initialState.settings;
+      const gameMode = newSettings.gameMode;
       const newDupes = getDupes(
         newSettings.gameMode,
         dupes as IDupes,
         dupeInputs,
       );
       const newBuildings = IOBuildings.getAll<IBuilding>(
+        gameMode,
         parseBuildings(buildings),
         parseBuildingInputs(localStorage.getItem('buildings')),
       );
       const newPlants = IOPlants.getAll<IPlant>(
+        gameMode,
         IOPlants.getDefault(
           plants.map((plant) => ({
             ...plant,
@@ -68,6 +71,7 @@ export const calculatorActions = {
         plantInputs,
       );
       const newCritters = IOCritters.getAll<IIOEntity>(
+        gameMode,
         IOCritters.getDefault(
           critters.map((critter) => ({
             ...critter,
@@ -78,6 +82,7 @@ export const calculatorActions = {
       );
       const newGeysers = getGeysers(geysers, geyserInputs);
       const newResources = updateResources({
+        gameMode,
         resources,
         plants: newPlants,
         dupes: newDupes,

@@ -54,6 +54,7 @@ const resourcesInputted = [
   { name: 'Slime' },
   { name: 'Steam' },
   { name: 'Water' },
+  { name: 'Food', unitOfMeasure: 'kcal/s' },
 ] as const;
 
 export const resources = [...resourcesInputted] as IResourceBase[];

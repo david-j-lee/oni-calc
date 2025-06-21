@@ -78,21 +78,23 @@ export function getIOTotal(ios: IIO[]) {
   return ios.map((io) => io.valueExtended || 0).reduce((a, b) => a + b, 0);
 }
 
-export function getStandardIO(io: IIO | IIOBase): IIO | IIOBase {
+export function getStandardIO(gameMode: IGameMode, io: IIO | IIOBase): IIO | IIOBase {
   const standardUnit = 'g';
   const standardRate = 'per second';
 
-  let value = io.value;
+  let value = getGameModeValue(gameMode, io.value);
   switch (io.unit) {
     case 'g':
+    case 'kcal':
       break;
     case 'mg':
-      value = (value as number) * 0.001;
+      value = value * 0.001;
       break;
     case 'kg':
-      value = (value as number) * 1000.0;
+      value = value * 1000.0;
       break;
     default:
+      console.error('Unknown unit', io.unit);
       value = 0.0;
       break;
   }
@@ -101,9 +103,10 @@ export function getStandardIO(io: IIO | IIOBase): IIO | IIOBase {
     case 'per second':
       break;
     case 'per cycle':
-      value = (value as number) / 600;
+      value = value / 600;
       break;
     default:
+      console.error('Unknown rate', io.rate);
       value = 0.0;
       break;
   }
