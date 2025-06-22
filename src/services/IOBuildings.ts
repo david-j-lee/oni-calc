@@ -1,16 +1,13 @@
 import IBuilding from '../interfaces/IBuilding';
+import { IGameMode } from '../interfaces/IGameMode';
 import IResource from '../interfaces/IResource';
+import { getPowerCapacity, getResourcesCapacity } from '../utils/capacityUtils';
 import { getSortedArray } from '../utils/commonUtils';
 import {
   getBuildingsPowerGeneration,
   getBuildingsPowerUsage,
 } from '../utils/powerUtils';
-import {
-  getPowerCapacity,
-  getResourcesCapacity,
-} from '../utils/capacityUtils';
 import IOVariantsBase from './IOVariantsBase';
-import { IGameMode } from '../interfaces/IGameMode';
 
 export default abstract class IOBuildings extends IOVariantsBase {
   public static override key = 'buildings';
@@ -93,7 +90,13 @@ export default abstract class IOBuildings extends IOVariantsBase {
     name: string,
     quantity: number,
   ) {
-    const results = super.setQuantity(gameMode, entities, resources, name, quantity);
+    const results = super.setQuantity(
+      gameMode,
+      entities,
+      resources,
+      name,
+      quantity,
+    );
     const buildings = results.buildings as IBuilding[];
     return {
       ...results,

@@ -49,8 +49,18 @@ export default abstract class IOVariantsBase {
     entities: IIOEntity[],
     resource: IResourceBase,
   ): IIOTotal {
-    const inputs = this.getIOsForResource(gameMode, entities, 'inputs', resource.name);
-    const outputs = this.getIOsForResource(gameMode, entities, 'outputs', resource.name);
+    const inputs = this.getIOsForResource(
+      gameMode,
+      entities,
+      'inputs',
+      resource.name,
+    );
+    const outputs = this.getIOsForResource(
+      gameMode,
+      entities,
+      'outputs',
+      resource.name,
+    );
     const totalInput = getIOTotal(inputs);
     const totalOutput = getIOTotal(outputs);
 
@@ -69,7 +79,7 @@ export default abstract class IOVariantsBase {
     resources: IResource[],
     name: string,
     quantity: number,
-  ) {
+  ): Partial<IState> {
     const newEntities = entities.map((entity) => {
       if (entity.name !== name) {
         return entity;

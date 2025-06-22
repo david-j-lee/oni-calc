@@ -76,7 +76,11 @@ export const buildingActions = {
   clearBuildingInputs: () => {
     return (state: IState) => ({
       ...state,
-      ...IOBuildings.clearInputs(state.settings.gameMode, state.buildings, state.resources),
+      ...IOBuildings.clearInputs(
+        state.settings.gameMode,
+        state.buildings,
+        state.resources,
+      ),
     });
   },
 };

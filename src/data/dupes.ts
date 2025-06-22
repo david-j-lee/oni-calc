@@ -1,4 +1,4 @@
-import IIOVariant from "../interfaces/IIOVariant";
+import IIOVariant from '../interfaces/IIOVariant';
 
 export const dupes = {
   inputs: [

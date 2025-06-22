@@ -31,7 +31,7 @@ describe('updateResources', () => {
   describe('when given empty array of resources', () => {
     it('should return empty array', () => {
       const param = {
-        gameMode: 'survival' as IGameMode, 
+        gameMode: 'survival' as IGameMode,
         resources: [],
         plants: [],
         dupes: {} as IDupes,
@@ -58,9 +58,9 @@ describe('updateResourcesWithDupes', () => {
         waterValue: 500,
       } as IDupes;
       const result = [];
-      expect(resourceUtils.updateResourcesWithDupes('survival', resources, dupes)).toEqual(
-        result,
-      );
+      expect(
+        resourceUtils.updateResourcesWithDupes('survival', resources, dupes),
+      ).toEqual(result);
     });
   });
 });

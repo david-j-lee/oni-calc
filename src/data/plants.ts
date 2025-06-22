@@ -65,7 +65,12 @@ export const plants: IPlantBase[] = [
       {
         inputs: [{ name: 'Dirt', value: 10, unit: 'kg', rate: 'per cycle' }],
         outputs: [
-          { name: 'Food', value: 1 / 3 * 600, unit: 'kcal', rate: 'per cycle' },
+          {
+            name: 'Food',
+            value: (1 / 3) * 600,
+            unit: 'kcal',
+            rate: 'per cycle',
+          },
         ],
       },
     ],
@@ -128,7 +133,8 @@ export const plants: IPlantBase[] = [
         outputs: [
           { name: 'Oxygen', value: 31.3, unit: 'g', rate: 'per second' },
         ],
-      }],
+      },
+    ],
   },
   {
     name: 'Pincha Pepperplant',

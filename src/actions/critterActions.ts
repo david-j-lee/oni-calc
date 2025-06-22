@@ -44,7 +44,11 @@ export const critterActions = {
   clearCritterInputs: () => {
     return (state: IState) => ({
       ...state,
-      ...IOCritters.clearInputs(state.settings.gameMode, state.critters, state.resources),
+      ...IOCritters.clearInputs(
+        state.settings.gameMode,
+        state.critters,
+        state.resources,
+      ),
     });
   },
 };

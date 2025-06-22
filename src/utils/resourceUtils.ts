@@ -131,7 +131,11 @@ function resourceDupes(
   dupes: IDupes,
 ) {
   const dupeInputs = getDupesInputsForResource(gameMode, dupes, resource.name);
-  const dupeOutputs = getDupesOutputsForResource(gameMode, dupes, resource.name);
+  const dupeOutputs = getDupesOutputsForResource(
+    gameMode,
+    dupes,
+    resource.name,
+  );
   const totalDupeInput = getIOTotal(dupeInputs as IIO[]);
   const totalDupeOutput = getIOTotal(dupeOutputs as IIO[]);
 

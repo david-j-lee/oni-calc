@@ -21,7 +21,11 @@ export const ResourceVariantEntityDetails = ({
   const [variantUtilizations, setVariantUtilizations] = useState(
     entity.variantUtilizations ?? [],
   );
-  const [{ settings: { gameMode } }] = useContext();
+  const [
+    {
+      settings: { gameMode },
+    },
+  ] = useContext();
 
   const timer = useRef<number | null>(null);
   const utilizationTimer = useRef<number | null>(null);
@@ -178,14 +182,22 @@ export const ResourceVariantEntityDetails = ({
               entity.inputs &&
               entity.inputs.length > 0 && (
                 <DetailsSection title="Inputs">
-                  <ResourceChips ios={entity.inputs.map(input => getStandardIO(gameMode, input))} />
+                  <ResourceChips
+                    ios={entity.inputs.map((input) =>
+                      getStandardIO(gameMode, input),
+                    )}
+                  />
                 </DetailsSection>
               )}
             {entity.quantity > 0 &&
               entity.outputs &&
               entity.outputs.length > 0 && (
                 <DetailsSection title="Outputs">
-                  <ResourceChips ios={entity.outputs.map(output => getStandardIO(gameMode, output))} />
+                  <ResourceChips
+                    ios={entity.outputs.map((output) =>
+                      getStandardIO(gameMode, output),
+                    )}
+                  />
                 </DetailsSection>
               )}
           </Grid>
