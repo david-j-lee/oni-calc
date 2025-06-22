@@ -14,7 +14,8 @@
     "publish": "npm run build && aws s3 sync dist/ s3://onicalc.com",
     "image-cache": "aws s3 cp s3://onicalc.com/images/ s3://onicalc.com/images/ --recursive --metadata-directive REPLACE --expires 2028-01-01T00:00:00Z --acl public-read --cache-control max-age=31536000,s-maxage=31536000,public",
     "static-cache": "aws s3 cp s3://onicalc.com/static/ s3://onicalc.com/static/ --recursive --metadata-directive REPLACE --expires 2028-01-01T00:00:00Z --acl public-read --cache-control max-age=31536000,s-maxage=31536000,public",
-    "test": "vitest"
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@emotion/react": "11.13.0",
@@ -34,6 +35,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "@vitest/coverage-v8": "^2.1.6",
     "eslint": "^9.15.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.37.2",

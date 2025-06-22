@@ -30,5 +30,8 @@ jobs:
       - name: Code Formatting Check
         run: npm run lint:format
 
+      - name: Code Unit Tests
+        run: npm run test
+
       - name: Build It
         run: npm run build

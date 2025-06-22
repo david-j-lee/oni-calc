@@ -5,7 +5,7 @@ import { describe, it, expect } from 'vitest';
 describe('getBuildingsPowerUsage', () => {
   describe('when given an empty array of buildings', () => {
     it('should return an object whose value is 0', () => {
-      const buildings = [];
+      const buildings: IBuilding[] = [];
       const result = { value: 0, buildings: [] };
       expect(powerUtils.getBuildingsPowerUsage(buildings)).toEqual(result);
     });
@@ -30,7 +30,7 @@ describe('getBuildingsPowerUsage', () => {
 describe('getBuildingsPowerGeneration', () => {
   describe('when given an empty array of buildings', () => {
     it('should return an object whose value is 0', () => {
-      const buildings = [];
+      const buildings: IBuilding[] = [];
       const result = { value: 0, buildings: [] };
       expect(powerUtils.getBuildingsPowerGeneration(buildings)).toEqual(result);
     });

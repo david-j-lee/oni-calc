@@ -15,5 +15,8 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: './tests/setUpTests.js',
+    coverage: {
+      reportsDirectory: './tests/coverage',
+    },
   },
 });

@@ -8,8 +8,8 @@ import { describe, it, expect } from 'vitest';
 describe('getClearedResources', () => {
   describe('when given an empty array of resources', () => {
     it('should return an empty array', () => {
-      const resources = [];
-      const result = [];
+      const resources: IResource[] = [];
+      const result: IResource[] = [];
       expect(resourceUtils.getClearedResources(resources)).toEqual(result);
     });
   });
@@ -39,7 +39,7 @@ describe('updateResources', () => {
         critters: [],
         geysers: {} as IGeysers,
       };
-      const result = [];
+      const result: IResource[] = [];
       expect(resourceUtils.updateResources(param)).toEqual(result);
     });
   });
@@ -48,7 +48,7 @@ describe('updateResources', () => {
 describe('updateResourcesWithDupes', () => {
   describe('when given empty array of resources', () => {
     it('should return empty array', () => {
-      const resources = [];
+      const resources: IResource[] = [];
       const dupes = {
         dirtValue: 100,
         pollutedDirtValue: 200,
@@ -57,7 +57,7 @@ describe('updateResourcesWithDupes', () => {
         traits: [{ name: 'Test', quantity: 5 }],
         waterValue: 500,
       } as IDupes;
-      const result = [];
+      const result: IResource[] = [];
       expect(
         resourceUtils.updateResourcesWithDupes('survival', resources, dupes),
       ).toEqual(result);
@@ -68,9 +68,9 @@ describe('updateResourcesWithDupes', () => {
 describe('updateResourcesWithGeysers', () => {
   describe('when given empty array of resources', () => {
     it('should return empty array', () => {
-      const resources = [];
+      const resources: IResource[] = [];
       const geysers = {} as IGeysers;
-      const result = [];
+      const result: IResource[] = [];
       expect(
         resourceUtils.updateResourcesWithGeysers(resources, geysers),
       ).toEqual(result);
@@ -81,7 +81,7 @@ describe('updateResourcesWithGeysers', () => {
 describe('sortResources', () => {
   describe('when given no resources', () => {
     it('should return empty array', () => {
-      const resources = [];
+      const resources: IResource[] = [];
       const currentOrderBy = '';
       const orderBy = 'name';
       const order = '';
