@@ -1,5 +1,6 @@
 import IDupes from '../../src/interfaces/IDupes';
 import IDupesInput from '../../src/interfaces/IDupesInput';
+import IResource from '../../src/interfaces/IResource';
 import * as dupeUtils from '../../src/utils/dupeUtils';
 import { describe, it, expect } from 'vitest';
 
@@ -27,7 +28,7 @@ describe('getDupes', () => {
           { name: 'Test1', inputs: [] },
           { name: 'Test2', inputs: [] },
         ],
-      } as IDupes;
+      } as unknown as IDupes;
       const inputs = {
         total: 2,
         traits: [
@@ -116,7 +117,7 @@ describe('getDupesWithClearedInputs', () => {
 describe('setDupesQuantity', () => {
   describe('when given empty list of resources', () => {
     it('should return empty array of resources', () => {
-      const resources = [];
+      const resources: IResource[] = [];
       const dupes = { traits: [] } as unknown as IDupes;
       const quantity = 0;
       const result = {
@@ -135,7 +136,7 @@ describe('setDupesQuantity', () => {
 
   describe('when given quantity to update dupes', () => {
     it('should return updated dupes and resources', () => {
-      const resources = [];
+      const resources: IResource[] = [];
       const dupes = { traits: [] } as unknown as IDupes;
       const quantity = 10;
       const result = {
@@ -156,7 +157,7 @@ describe('setDupesQuantity', () => {
 describe('setDupeTraitQuantity', () => {
   describe('when given empty array of resources', () => {
     it('should return empty array of resources', () => {
-      const resources = [];
+      const resources: IResource[] = [];
       const dupes = { traits: [] } as unknown as IDupes;
       const name = '';
       const quantity = 0;
@@ -181,8 +182,10 @@ describe('setDupeTraitQuantity', () => {
 
   describe('when given dupes and name and quantity', () => {
     it('should return updated resources and dupes', () => {
-      const resources = [];
-      const dupes = { traits: [{ name: 'Testing1', inputs: [] }] } as IDupes;
+      const resources: IResource[] = [];
+      const dupes = {
+        traits: [{ name: 'Testing1', inputs: [] }],
+      } as unknown as IDupes;
       const name = 'Testing1';
       const quantity = 100;
       const result = {
@@ -208,7 +211,7 @@ describe('setDupeTraitQuantity', () => {
 describe('setDupeWaste', () => {
   describe('when given empty array of resources', () => {
     it('should return an empty array of resources', () => {
-      const resources = [];
+      const resources: IResource[] = [];
       const dupes = { traits: [] } as unknown as IDupes;
       const prop = 'pollutedWaterValue';
       const value = 100;
@@ -227,7 +230,7 @@ describe('setDupeWaste', () => {
 
   describe('when given a prop to update', () => {
     it('should update the prop', () => {
-      const resources = [];
+      const resources: IResource[] = [];
       const dupes = { traits: [] } as unknown as IDupes;
       const prop = 'pollutedWaterValue';
       const value = 100;
@@ -248,7 +251,7 @@ describe('setDupeWaste', () => {
 describe('clearDupeInputs', () => {
   describe('when given empty array of resources', () => {
     it('should return empty array of resources', () => {
-      const resources = [];
+      const resources: IResource[] = [];
       const dupes = { traits: [] } as unknown as IDupes;
       const result = {
         resources: [],
@@ -269,7 +272,7 @@ describe('clearDupeInputs', () => {
 
   describe('when given dupes with values', () => {
     it('should return dupes with default values', () => {
-      const resources = [];
+      const resources: IResource[] = [];
       const dupes = {
         dirtValue: 1,
         pollutedDirtValue: 2,

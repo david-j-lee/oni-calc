@@ -1,14 +1,16 @@
 import IGeyser from '../../src/interfaces/IGeyser';
 import IGeyserInput from '../../src/interfaces/IGeyserInput';
 import IGeysers from '../../src/interfaces/IGeysers';
+import IIO from '../../src/interfaces/IIO';
+import IResource from '../../src/interfaces/IResource';
 import * as geyserUtils from '../../src/utils/geyserUtils';
 import { describe, it, expect } from 'vitest';
 
 describe('getGeysers', () => {
   describe('when given an empty array of geysers', () => {
     it('should return an empty array', () => {
-      const geysers = [];
-      const inputs = [];
+      const geysers: IGeyser[] = [];
+      const inputs: IGeyserInput[] | undefined = [];
       const result = { inputted: [], listing: [] };
       expect(geyserUtils.getGeysers(geysers, inputs)).toEqual(result);
     });
@@ -17,7 +19,7 @@ describe('getGeysers', () => {
   describe('when given geysers with empty array of inputs', () => {
     it('should return object of geysers and inputs', () => {
       const geysers = [{ name: 'Testing1' }] as IGeyser[];
-      const inputs = [];
+      const inputs: IGeyserInput[] | undefined = [];
       const result = { listing: geysers, inputted: inputs };
       expect(geyserUtils.getGeysers(geysers, inputs)).toEqual(result);
     });
@@ -26,7 +28,9 @@ describe('getGeysers', () => {
   describe('when given geysers with inputs', () => {
     it('should return object of geysers and inputs', () => {
       const geysers = [{ name: 'Testing1' }] as IGeyser[];
-      const inputs = [{ name: 'Testing1', outputs: [] }] as IGeyserInput[];
+      const inputs = [
+        { name: 'Testing1', outputs: [] },
+      ] as unknown as IGeyserInput[];
       const result = { listing: geysers, inputted: inputs };
       expect(geyserUtils.getGeysers(geysers, inputs)).toEqual(result);
     });
@@ -91,7 +95,7 @@ describe('getGeyserOutputs', () => {
     it('should return an empty array', () => {
       const geysers = { listing: [], inputted: [] } as IGeysers;
       const resourceName = '';
-      const result = [];
+      const result: IIO[] = [];
       expect(geyserUtils.getGeyserOutputs(geysers, resourceName)).toEqual(
         result,
       );
@@ -165,7 +169,7 @@ describe('getGeyserOutputs', () => {
 describe('addGeyser', () => {
   describe('when given an empty array of resources', () => {
     it('should return an empty array of resources', () => {
-      const resources = [];
+      const resources: IResource[] = [];
       const geysers = { inputted: [], listing: [] };
       const geyser = {} as IGeyserInput;
       const result = {
@@ -180,7 +184,7 @@ describe('addGeyser', () => {
 describe('deleteGeyser', () => {
   describe('when given an empty array of resources', () => {
     it('should return an empty array of resources', () => {
-      const resources = [];
+      const resources: IResource[] = [];
       const geysers = { inputted: [], listing: [] };
       const geyser = {} as IGeyserInput;
       const result = { resources: [], geysers: { inputted: [], listing: [] } };
@@ -194,7 +198,7 @@ describe('deleteGeyser', () => {
 describe('clearGeyserInputs', () => {
   describe('when given empty array of resources', () => {
     it('should return an empty array of resources', () => {
-      const resources = [];
+      const resources: IResource[] = [];
       const geysers = { inputted: [], listing: [] };
       const result = { resources: [], geysers: { inputted: [], listing: [] } };
       expect(geyserUtils.clearGeyserInputs(resources, geysers)).toEqual(result);

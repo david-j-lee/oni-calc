@@ -5,7 +5,7 @@ import { describe, it, expect } from 'vitest';
 describe('getIOTotal', () => {
   describe('when given empty array', () => {
     it('should return a 0', () => {
-      const ios = [];
+      const ios: IIO[] = [];
       const result = 0;
       expect(commonUtils.getIOTotal(ios)).toEqual(result);
     });
@@ -17,7 +17,7 @@ describe('getIOTotal', () => {
         { name: 'Test1', valueExtended: 25 },
         { name: 'Test2', valueExtended: 25 },
         { name: 'Test3', valueExtended: 50 },
-      ] as IIO[];
+      ] as unknown as IIO[];
       const result = 100;
       expect(commonUtils.getIOTotal(ios)).toEqual(result);
     });
@@ -29,7 +29,7 @@ describe('getIOTotal', () => {
         { name: 'Test1' },
         { name: 'Test2' },
         { name: 'Test3' },
-      ] as IIO[];
+      ] as unknown as IIO[];
       const result = 0;
       expect(commonUtils.getIOTotal(ios)).toEqual(result);
     });
@@ -79,7 +79,11 @@ describe('getStandardIO', () => {
 
   describe('when given unit of NA', () => {
     it('should return a value of 0', () => {
-      const io = { value: 600, unit: 'NA', rate: 'per second' } as IIO;
+      const io = {
+        value: 600,
+        unit: 'NA',
+        rate: 'per second',
+      } as unknown as IIO;
       const result = { value: 0, unit: 'g', rate: 'per second' };
       expect(commonUtils.getStandardIO('survival', io)).toEqual(result);
     });
@@ -87,7 +91,7 @@ describe('getStandardIO', () => {
 
   describe('when given rate of NA', () => {
     it('should return a value of 0', () => {
-      const io = { value: 600, unit: 'kg', rate: 'NA' } as IIO;
+      const io = { value: 600, unit: 'kg', rate: 'NA' } as unknown as IIO;
       const result = { value: 0, unit: 'g', rate: 'per second' };
       expect(commonUtils.getStandardIO('survival', io)).toEqual(result);
     });
@@ -97,10 +101,10 @@ describe('getStandardIO', () => {
 describe('getSortedArray', () => {
   describe('when given empty array', () => {
     it('should return an empty array', () => {
-      const array = [];
+      const array: any[] = [];
       const orderBy = '';
-      const order = '';
-      const result = [];
+      const order = 'desc';
+      const result: any[] = [];
       expect(commonUtils.getSortedArray(array, orderBy, order)).toEqual(result);
     });
   });
@@ -113,7 +117,7 @@ describe('getSortedArray', () => {
         { name: 'Testing3' },
       ];
       const orderBy = 'name';
-      const order = 'ASC';
+      const order = 'asc';
       const result = [
         { name: 'Testing1' },
         { name: 'Testing2' },
