@@ -20,15 +20,19 @@ export const settingsActions = {
         ...state.settings,
         gameMode,
       };
-    const newDupes = {
-      ...state.dupes,
-      caloriesRequired: getCaloriesRequired(gameMode, state.dupes),
-    }
+      const newDupes = {
+        ...state.dupes,
+        caloriesRequired: getCaloriesRequired(gameMode, state.dupes),
+      };
       localStorage.setItem('settings', JSON.stringify(settings));
       return {
         ...state,
         settings,
-        resources: updateResourcesWithDupes(gameMode, state.resources, newDupes),
+        resources: updateResourcesWithDupes(
+          gameMode,
+          state.resources,
+          newDupes,
+        ),
         dupes: newDupes,
       };
     };

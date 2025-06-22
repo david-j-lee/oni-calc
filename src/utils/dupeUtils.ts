@@ -163,7 +163,8 @@ function getBaseIOForResource(
     .filter((io) => io.name === resourceName)
     .map((io) => ({
       ...io,
-      valueExtended: (getStandardIO(gameMode, io).value as number) * dupes.quantity,
+      valueExtended:
+        (getStandardIO(gameMode, io).value as number) * dupes.quantity,
       dupe: { reference: 'Base Dupe', quantity: dupes.quantity },
     }));
 }

@@ -74,7 +74,7 @@ export const Resource: FC<IProps> = memo(({ resource }: IProps) => {
         <div css={resourceNameCss}>
           <div css={[imageCss, backgroundImgCss]} />
           {resource.name}
-        <Chip label={resource.unitOfMeasure ?? 'g/s'} size="small" />
+          <Chip label={resource.unitOfMeasure ?? 'g/s'} size="small" />
         </div>
       </TableCell>
 

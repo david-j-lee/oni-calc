@@ -78,7 +78,10 @@ export function getIOTotal(ios: IIO[]) {
   return ios.map((io) => io.valueExtended || 0).reduce((a, b) => a + b, 0);
 }
 
-export function getStandardIO(gameMode: IGameMode, io: IIO | IIOBase): IIO | IIOBase {
+export function getStandardIO(
+  gameMode: IGameMode,
+  io: IIO | IIOBase,
+): IIO | IIOBase {
   const standardUnit = 'g';
   const standardRate = 'per second';
 

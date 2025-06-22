@@ -5,10 +5,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "lint:ts": "tsc --noEmit -p tsconfig.app.json",
+    "lint:es": "eslint .",
     "lint:format": "prettier --check \"**/*.{tsx,ts,json,html}\"",
+    "lint": "npm run lint:ts && npm run lint:es && npm run lint:format",
     "format": "prettier --write \"**/*.{tsx,ts,json,html}\"",
-    "check": "npm run lint:format && npm run lint",
     "preview": "vite preview",
     "publish": "npm run build && aws s3 sync dist/ s3://onicalc.com",
     "image-cache": "aws s3 cp s3://onicalc.com/images/ s3://onicalc.com/images/ --recursive --metadata-directive REPLACE --expires 2028-01-01T00:00:00Z --acl public-read --cache-control max-age=31536000,s-maxage=31536000,public",

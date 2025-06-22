@@ -23,7 +23,10 @@ describe('getDupes', () => {
   describe('when given dupes with inputs', () => {
     it('should return dupes with updated trait quantities', () => {
       const dupes = {
-        traits: [{ name: 'Test1', inputs: [] }, { name: 'Test2', inputs: [] }],
+        traits: [
+          { name: 'Test1', inputs: [] },
+          { name: 'Test2', inputs: [] },
+        ],
       } as IDupes;
       const inputs = {
         total: 2,
@@ -213,12 +216,12 @@ describe('setDupeWaste', () => {
         resources: [],
         dupes: {
           traits: [],
-          "pollutedWaterValue": 100,
+          pollutedWaterValue: 100,
         },
       };
-      expect(dupeUtils.setDupeWaste('survival', resources, dupes, prop, value)).toEqual(
-        result,
-      );
+      expect(
+        dupeUtils.setDupeWaste('survival', resources, dupes, prop, value),
+      ).toEqual(result);
     });
   });
 
@@ -235,9 +238,9 @@ describe('setDupeWaste', () => {
           traits: [],
         },
       };
-      expect(dupeUtils.setDupeWaste('survival', resources, dupes, prop, value)).toEqual(
-        result,
-      );
+      expect(
+        dupeUtils.setDupeWaste('survival', resources, dupes, prop, value),
+      ).toEqual(result);
     });
   });
 });
@@ -258,7 +261,9 @@ describe('clearDupeInputs', () => {
           waterValue: 0,
         },
       };
-      expect(dupeUtils.clearDupeInputs('survival', resources, dupes)).toEqual(result);
+      expect(dupeUtils.clearDupeInputs('survival', resources, dupes)).toEqual(
+        result,
+      );
     });
   });
 
@@ -284,7 +289,9 @@ describe('clearDupeInputs', () => {
           waterValue: 0,
         },
       };
-      expect(dupeUtils.clearDupeInputs('no-sweat', resources, dupes)).toEqual(result);
+      expect(dupeUtils.clearDupeInputs('no-sweat', resources, dupes)).toEqual(
+        result,
+      );
     });
   });
 });

@@ -26,7 +26,7 @@ describe('getGeysers', () => {
   describe('when given geysers with inputs', () => {
     it('should return object of geysers and inputs', () => {
       const geysers = [{ name: 'Testing1' }] as IGeyser[];
-      const inputs = [{ name: 'Testing1', 'outputs': [] }] as IGeyserInput[];
+      const inputs = [{ name: 'Testing1', outputs: [] }] as IGeyserInput[];
       const result = { listing: geysers, inputted: inputs };
       expect(geyserUtils.getGeysers(geysers, inputs)).toEqual(result);
     });
@@ -54,7 +54,7 @@ describe('addGeyserToGeysers', () => {
     it('should add empty object to inputted property', () => {
       const geysers = { listing: [], inputted: [] } as IGeysers;
       const geyser = { name: 'Testing' } as IGeyserInput;
-      const result = { inputted: [{ name: 'Testing' }], 'listing': [] };
+      const result = { inputted: [{ name: 'Testing' }], listing: [] };
       expect(geyserUtils.addGeyserToGeysers(geysers, geyser)).toEqual(result);
     });
   });
@@ -65,7 +65,7 @@ describe('deleteGeyserFromGeysers', () => {
     it('should return an empty array', () => {
       const geysers = { listing: [], inputted: [] } as IGeysers;
       const geyser = {} as IGeyserInput;
-      const result = { inputted: [], 'listing': [] };
+      const result = { inputted: [], listing: [] };
       expect(geyserUtils.deleteGeyserFromGeysers(geysers, geyser)).toEqual(
         result,
       );
