@@ -18,7 +18,7 @@ React, Material UI, and lots of oxygen.
 
 ## Running this application
 
-- Requires node v20+
+- Requires node v22
 
 ---
 
