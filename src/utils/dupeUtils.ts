@@ -8,7 +8,7 @@ import IResource, {
   ResourceUnit,
   ResourceValue,
 } from './../interfaces/IResource';
-import { getGameModeValue } from './commonUtils';
+import { getGameModeValue, getStandardIO } from './commonUtils';
 import { updateResourcesWithDupes } from './resourceUtils';
 
 export const setDupesQuantity = (
@@ -19,7 +19,7 @@ export const setDupesQuantity = (
 ) => {
   const newDupes = updateDupeQuantity(gameMode, dupes, quantity);
   return {
-    resources: updateResourcesWithDupes(resources, newDupes),
+    resources: updateResourcesWithDupes(gameMode, resources, newDupes),
     dupes: newDupes,
   };
 };
@@ -33,12 +33,13 @@ export const setDupeTraitQuantity = (
 ) => {
   const newDupes = updateDupeTraitQuantity(gameMode, dupes, name, quantity);
   return {
-    resources: updateResourcesWithDupes(resources, newDupes),
+    resources: updateResourcesWithDupes(gameMode, resources, newDupes),
     dupes: newDupes,
   };
 };
 
 export const setDupeWaste = (
+  gameMode: IGameMode,
   resources: IResource[],
   dupes: IDupes,
   prop: dupesWastePropNames,
@@ -46,15 +47,19 @@ export const setDupeWaste = (
 ) => {
   const newDupes = getDupeWaste(dupes, prop, value);
   return {
-    resources: updateResourcesWithDupes(resources, newDupes),
+    resources: updateResourcesWithDupes(gameMode, resources, newDupes),
     dupes: newDupes,
   };
 };
 
-export const clearDupeInputs = (resources: IResource[], dupes: IDupes) => {
+export const clearDupeInputs = (
+  gameMode: IGameMode,
+  resources: IResource[],
+  dupes: IDupes,
+) => {
   const newDupes = getDupesWithClearedInputs(dupes);
   return {
-    resources: updateResourcesWithDupes(resources, newDupes),
+    resources: updateResourcesWithDupes(gameMode, resources, newDupes),
     dupes: newDupes,
   };
 };
@@ -126,24 +131,30 @@ export function getDupesWithClearedInputs(dupes: IDupes) {
   return newDupes;
 }
 
-export function getDupesInputsForResource(dupes: IDupes, resourceName: string) {
-  const base = getBaseIOForResource(dupes, 'inputs', resourceName);
+export function getDupesInputsForResource(
+  gameMode: IGameMode,
+  dupes: IDupes,
+  resourceName: string,
+) {
+  const base = getBaseIOForResource(gameMode, dupes, 'inputs', resourceName);
   const traits = getTraitsIOForResource(dupes.traits, 'inputs', resourceName);
   const waste = getWasteIOForResource(dupes, 'inputs', resourceName);
   return base.concat(traits).concat(waste);
 }
 
 export function getDupesOutputsForResource(
+  gameMode: IGameMode,
   dupes: IDupes,
   resourceName: string,
 ) {
-  const base = getBaseIOForResource(dupes, 'outputs', resourceName);
+  const base = getBaseIOForResource(gameMode, dupes, 'outputs', resourceName);
   const traits = getTraitsIOForResource(dupes.traits, 'outputs', resourceName);
   const waste = getWasteIOForResource(dupes, 'outputs', resourceName);
   return base.concat(traits).concat(waste);
 }
 
 function getBaseIOForResource(
+  gameMode: IGameMode,
   dupes: IDupes,
   type: 'inputs' | 'outputs',
   resourceName: string,
@@ -152,7 +163,7 @@ function getBaseIOForResource(
     .filter((io) => io.name === resourceName)
     .map((io) => ({
       ...io,
-      valueExtended: (io.value as number) * dupes.quantity,
+      valueExtended: (getStandardIO(gameMode, io).value as number) * dupes.quantity,
       dupe: { reference: 'Base Dupe', quantity: dupes.quantity },
     }));
 }

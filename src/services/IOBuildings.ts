@@ -5,7 +5,12 @@ import {
   getBuildingsPowerGeneration,
   getBuildingsPowerUsage,
 } from '../utils/powerUtils';
+import {
+  getPowerCapacity,
+  getResourcesCapacity,
+} from '../utils/capacityUtils';
 import IOVariantsBase from './IOVariantsBase';
+import { IGameMode } from '../interfaces/IGameMode';
 
 export default abstract class IOBuildings extends IOVariantsBase {
   public static override key = 'buildings';
@@ -34,44 +39,68 @@ export default abstract class IOBuildings extends IOVariantsBase {
   }
 
   public static override setUtilization(
+    gameMode: IGameMode,
     entities: IBuilding[],
     resources: IResource[],
     name: string,
     utilization: number,
   ) {
     const results = super.setUtilization(
+      gameMode,
       entities,
       resources,
       name,
       utilization,
     );
+    const buildings = results.buildings as IBuilding[];
     return {
       ...results,
-      powerGeneration: getBuildingsPowerGeneration(
-        results.buildings as IBuilding[],
-      ),
-      powerUsage: getBuildingsPowerUsage(results.buildings as IBuilding[]),
+      powerGeneration: getBuildingsPowerGeneration(buildings),
+      powerUsage: getBuildingsPowerUsage(buildings),
+      powerCapacity: getPowerCapacity(buildings),
+      resourcesCapacity: getResourcesCapacity(buildings),
     };
   }
 
   public static override setVariantUtilization(
+    gameMode: IGameMode,
     buildings: IBuilding[],
     resources: IResource[],
     name: string,
     variantUtilizations: number[],
   ) {
     const results = super.setVariantUtilization(
+      gameMode,
       buildings,
       resources,
       name,
       variantUtilizations,
     );
+    const updatedBuildings = results.buildings as IBuilding[];
     return {
       ...results,
-      powerGeneration: getBuildingsPowerGeneration(
-        results.buildings as IBuilding[],
-      ),
-      powerUsage: getBuildingsPowerUsage(results.buildings as IBuilding[]),
+      powerGeneration: getBuildingsPowerGeneration(updatedBuildings),
+      powerUsage: getBuildingsPowerUsage(updatedBuildings),
+      powerCapacity: getPowerCapacity(updatedBuildings),
+      resourcesCapacity: getResourcesCapacity(updatedBuildings),
+    };
+  }
+
+  public static override setQuantity(
+    gameMode: IGameMode,
+    entities: IBuilding[],
+    resources: IResource[],
+    name: string,
+    quantity: number,
+  ) {
+    const results = super.setQuantity(gameMode, entities, resources, name, quantity);
+    const buildings = results.buildings as IBuilding[];
+    return {
+      ...results,
+      powerGeneration: getBuildingsPowerGeneration(buildings),
+      powerUsage: getBuildingsPowerUsage(buildings),
+      powerCapacity: getPowerCapacity(buildings),
+      resourcesCapacity: getResourcesCapacity(buildings),
     };
   }
 }

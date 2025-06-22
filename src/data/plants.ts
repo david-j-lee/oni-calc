@@ -2,26 +2,15 @@ import { IPlantBase } from '../interfaces/IPlant';
 
 export const plants: IPlantBase[] = [
   {
-    name: 'Arbor Tree (Wild)',
+    name: 'Arbor Tree',
     growthRate: { value: 4.5, rate: 'cycle' },
     yield: 1500,
-    // TODO: What to do with this requirement?
-    // requirements: [{ type: 'Plant', name: 'Arbor Tree' }],
     variants: [
       {
         outputs: [
           { name: 'Lumber', value: 138.88, unit: 'g', rate: 'per second' },
         ],
       },
-    ],
-  },
-  {
-    name: 'Arbor Tree (Domesticated)',
-    growthRate: { value: 4.5, rate: 'cycle' },
-    yield: 1500,
-    // TODO: What to do with this requirement?
-    // requirements: [{ type: 'Plant', name: 'Arbor Tree' }],
-    variants: [
       {
         inputs: [
           { name: 'Dirt', value: 10, unit: 'kg', rate: 'per cycle' },
@@ -76,7 +65,7 @@ export const plants: IPlantBase[] = [
       {
         inputs: [{ name: 'Dirt', value: 10, unit: 'kg', rate: 'per cycle' }],
         outputs: [
-          { name: 'Meal Lice', value: 1 / 3, unit: 'each', rate: 'per cycle' },
+          { name: 'Food', value: 1 / 3 * 600, unit: 'kcal', rate: 'per cycle' },
         ],
       },
     ],
@@ -106,7 +95,7 @@ export const plants: IPlantBase[] = [
     ],
   },
   {
-    name: 'Oxyfern (Wild)',
+    name: 'Oxyfern',
     yield: 0,
     growthRate: { value: 0, rate: 'cycle' },
     // TODO: What to do with this requirement?
@@ -125,15 +114,6 @@ export const plants: IPlantBase[] = [
           { name: 'Oxygen', value: 7.8, unit: 'g', rate: 'per second' },
         ],
       },
-    ],
-  },
-  {
-    name: 'Oxyfern (Domesticated)',
-    yield: 0,
-    growthRate: { value: 0, rate: 'cycle' },
-    // TODO: What to do with this requirement?
-    // requirements: [{ type: 'Plant', name: 'Oxyfern' }],
-    variants: [
       {
         inputs: [
           { name: 'Dirt', value: 4, unit: 'kg', rate: 'per cycle' },
@@ -148,8 +128,7 @@ export const plants: IPlantBase[] = [
         outputs: [
           { name: 'Oxygen', value: 31.3, unit: 'g', rate: 'per second' },
         ],
-      },
-    ],
+      }],
   },
   {
     name: 'Pincha Pepperplant',

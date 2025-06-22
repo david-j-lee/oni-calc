@@ -5,13 +5,14 @@ export const plantActions = {
   setPlantQuantity: (name: string, quantity: number) => {
     return (state: IState) => ({
       ...state,
-      ...IOPlants.setQuantity(state.plants, state.resources, name, quantity),
+      ...IOPlants.setQuantity(state.settings.gameMode, state.plants, state.resources, name, quantity),
     });
   },
   setPlantUtilization: (name: string, utilization: number) => {
     return (state: IState) => ({
       ...state,
       ...IOPlants.setUtilization(
+        state.settings.gameMode,
         state.plants,
         state.resources,
         name,
@@ -23,6 +24,7 @@ export const plantActions = {
     return (state: IState) => ({
       ...state,
       ...IOPlants.setVariantUtilization(
+        state.settings.gameMode,
         state.plants,
         state.resources,
         name,
@@ -33,7 +35,7 @@ export const plantActions = {
   clearPlantInputs: () => {
     return (state: IState) => ({
       ...state,
-      ...IOPlants.clearInputs(state.plants, state.resources),
+      ...IOPlants.clearInputs(state.settings.gameMode, state.plants, state.resources),
     });
   },
 };

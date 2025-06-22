@@ -1,4 +1,5 @@
 import IDupes from '../../src/interfaces/IDupes';
+import { IGameMode } from '../../src/interfaces/IGameMode';
 import IGeysers from '../../src/interfaces/IGeysers';
 import IResource from '../../src/interfaces/IResource';
 import * as resourceUtils from '../../src/utils/resourceUtils';
@@ -30,6 +31,7 @@ describe('updateResources', () => {
   describe('when given empty array of resources', () => {
     it('should return empty array', () => {
       const param = {
+        gameMode: 'survival' as IGameMode, 
         resources: [],
         plants: [],
         dupes: {} as IDupes,
@@ -56,7 +58,7 @@ describe('updateResourcesWithDupes', () => {
         waterValue: 500,
       } as IDupes;
       const result = [];
-      expect(resourceUtils.updateResourcesWithDupes(resources, dupes)).toEqual(
+      expect(resourceUtils.updateResourcesWithDupes('survival', resources, dupes)).toEqual(
         result,
       );
     });
@@ -86,7 +88,7 @@ describe('sortResources', () => {
       const result = {
         resources: [],
         resourcesOrder: 'desc',
-        resourcesOrderBy: '',
+        resourcesOrderBy: 'name',
       };
       expect(
         resourceUtils.sortResources(resources, currentOrderBy, orderBy, order),

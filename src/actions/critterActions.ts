@@ -6,6 +6,7 @@ export const critterActions = {
     return (state: IState) => ({
       ...state,
       ...IOCritters.setQuantity(
+        state.settings.gameMode,
         state.critters,
         state.resources,
         name,
@@ -17,6 +18,7 @@ export const critterActions = {
     return (state: IState) => ({
       ...state,
       ...IOCritters.setUtilization(
+        state.settings.gameMode,
         state.critters,
         state.resources,
         name,
@@ -31,6 +33,7 @@ export const critterActions = {
     return (state: IState) => ({
       ...state,
       ...IOCritters.setVariantUtilization(
+        state.settings.gameMode,
         state.critters,
         state.resources,
         name,
@@ -41,7 +44,7 @@ export const critterActions = {
   clearCritterInputs: () => {
     return (state: IState) => ({
       ...state,
-      ...IOCritters.clearInputs(state.critters, state.resources),
+      ...IOCritters.clearInputs(state.settings.gameMode, state.critters, state.resources),
     });
   },
 };

@@ -1,6 +1,7 @@
 import { IGameMode } from '../interfaces/IGameMode';
 import IState from '../interfaces/IState';
 import { getCaloriesRequired } from '../utils/dupeUtils';
+import { updateResourcesWithDupes } from '../utils/resourceUtils';
 
 export const settingsActions = {
   toggleHideEmpty: () => {
@@ -19,14 +20,16 @@ export const settingsActions = {
         ...state.settings,
         gameMode,
       };
+    const newDupes = {
+      ...state.dupes,
+      caloriesRequired: getCaloriesRequired(gameMode, state.dupes),
+    }
       localStorage.setItem('settings', JSON.stringify(settings));
       return {
         ...state,
         settings,
-        dupes: {
-          ...state.dupes,
-          caloriesRequired: getCaloriesRequired(gameMode, state.dupes),
-        },
+        resources: updateResourcesWithDupes(gameMode, state.resources, newDupes),
+        dupes: newDupes,
       };
     };
   },
