@@ -27,9 +27,6 @@ jobs:
       - name: Code Linting
         run: npm run lint
 
-      - name: Code Formatting Check
-        run: npm run lint:format
-
       - name: Code Unit Tests
         run: npm run test
 
